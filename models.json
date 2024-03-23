@@ -1,0 +1,26 @@
+MainTests_parameters = {
+
+    "name":"name",
+    "unit":"unit",
+    "normal_range":"normal_range",
+    "result":"result_valu1",
+    "remarks":"remarks"
+    
+}
+
+#MainTests_reference_range = {
+    "Adults:" : "Less than 18 " 
+}
+
+
+user_address = {
+    "address type home/shop":{
+        "contact1":"contact1",
+        "contact2":"contact2",
+        "city":"city",
+        "address":"address",
+        "landmark":"landmark",
+        "district":"district",
+        "zip":"zip",
+    }
+}

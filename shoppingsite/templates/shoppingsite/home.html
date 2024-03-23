@@ -1,0 +1,142 @@
+{% extends 'shoppingsite/base.html' %}
+{% load static %}
+{% block title %}
+    Home
+{% endblock title %}
+
+{% block main-content %}
+    <section class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-12 d-flex align-items-center justify-content-center bg-warning text-white p-5">
+                <div>
+                    <h1>Discover the Future With Audiobooks!</h1>
+                    <p class="mb-4"><em>Reality doesn’t always give us the life that we desire, but we can always find what we desire between the pages of books.<br>Books are a uniquely portable magic.</em></p>
+                    <a href="products.html" class="btn btn-light btn-lg">Shop Now &#10142;</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-12 px-0 py-0">
+                <img class="img-fluid w-100 h-100" src="{% static 'shopingsite/banner1.jpg' %}" alt="">
+            </div>
+        </div>
+    </section>
+
+    <!--- Featured Products -->
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Featured Products</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <div class="col">
+                <div class="card h-100">
+                    <img src="img/product-1.jpg" class="card-img-top" alt="Product">
+                    <div class="card-body">
+                        <h5 class="card-title">Virtual Reality Glasses</h5>
+                        <p class="card-text">$299.00</p>
+                        <form action="cart.html" method="GET">
+                            <input type="hidden" name="product" value="Virtual Reality Glasses">
+                            <input type="hidden" name="price" value="299.00">
+                            <input type="hidden" name="quantity" value="1">
+                            <input type="submit" class="btn btn-warning" value="Add to Cart">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="img/product-2.jpg" class="card-img-top" alt="Product">
+                    <div class="card-body">
+                        <h5 class="card-title">Facial Recognition Home Hub</h5>
+                        <p class="card-text">$149.00</p>
+                        <form action="cart.html" method="GET">
+                            <input type="hidden" name="product" value="Facial Recognition Home Hub">
+                            <input type="hidden" name="price" value="149.00">
+                            <input type="hidden" name="quantity" value="1">
+                            <input type="submit" class="btn btn-warning" value="Add to Cart">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="img/product-3.jpg" class="card-img-top" alt="Product">
+                    <div class="card-body">
+                        <h5 class="card-title">3D Printing Pen</h5>
+                        <p class="card-text">$45.00</p>
+                        <form action="cart.html" method="GET">
+                            <input type="hidden" name="product" value="3D Printing Pen">
+                            <input type="hidden" name="price" value="$45.00">
+                            <input type="hidden" name="quantity" value="1">
+                            <input type="submit" class="btn btn-warning" value="Add to Cart">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="img/product-4.jpg" class="card-img-top" alt="Product">
+                    <div class="card-body">
+                        <h5 class="card-title">Delivery Drone</h5>
+                        <p class="card-text">$199.00</p>
+                        <form action="cart.html" method="GET">
+                            <input type="hidden" name="product" value="Facial Recognition Home Hub">
+                            <input type="hidden" name="price" value="$199.00">
+                            <input type="hidden" name="quantity" value="1">
+                            <input type="submit" class="btn btn-warning" value="Add to Cart">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <!--- New Product -->
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <img src="img/new-product.jpg" class="img-fluid" alt="New Product">
+            </div>
+            <div class="col-md-6 d-flex align-items-center">
+                <div>
+                    <p>Our Newest Product Offer</p>
+                    <h1>Smart Ring</h1>
+                    <small>Track your fitness journey effortlessly with the Smart Ring, a sleek wearable that combines style and health monitoring right on your fingertip.</small>
+                    <br>
+                    <form action="cart.html" method="GET">
+                        <input type="hidden" name="product" value="Smart Ring">
+                        <input type="hidden" name="price" value="199.00">
+                        <input type="hidden" name="quantity" value="1">
+                        <input type="submit" class="btn btn-warning" value="Add to Cart">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <!-- Contact Us Section -->
+    <section id="contact" class="container my-5">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <h2 class="text-center">Contact Us</h2>
+            </div>
+            <div class="col-md-8 mx-auto border rounded p-4 shadow-sm">
+                <!-- Assuming you might want a form for the users to fill out -->
+                <form>
+                    <div class="mb-3">
+                        <label for="contactName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="contactName" placeholder="Enter your name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="contactEmail" placeholder="Enter your email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactMessage" class="form-label">Message</label>
+                        <textarea class="form-control" id="contactMessage" rows="3" placeholder="Your message"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Submit</button>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock main-content %}
+    

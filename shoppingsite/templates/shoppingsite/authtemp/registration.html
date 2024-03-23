@@ -1,0 +1,66 @@
+{% extends 'app_common/authentication/master.html' %}
+{% load static %}
+{% block content %}
+
+<body>
+    <div>
+        <div class="px-5 py-5 p-lg-0 min-h-screen bg-surface-secondary d-flex flex-column justify-content-center">
+            <div class="d-flex justify-content-center">
+                <div class="col-12 col-md-9 col-lg-7 offset-lg-3 border-left-lg min-h-screen d-flex flex-column justify-content-center position-relative">
+                    <div class="py-lg-16 px-lg-20">
+                        <div class="row">
+                            <div class="col-lg-10 col-md-9 col-xl-6 mx-auto ms-xl-0">
+                                <div class="mt-10 mt-lg-5 mb-6 d-lg-block">
+                                    <h1 class="ls-tight font-bolder h2">Sign Up Here.</h1>
+                                </div>
+                                
+                                <form method="post" action="">
+                                    {% csrf_token %}
+                                    <div class="mb-5">
+                                        <label class="form-label text-white" for="fullname">Full Name</label>
+                                        <input type="text" name="fullname" class="form-control" id="fullname" required>
+                                    </div>
+                                    <div class="mb-5">
+                                        <label class="form-label text-white" for="email">Email address</label>
+                                        <input type="email" name="email" class="form-control" id="email" required>
+                                    </div>
+                                    <div class="mb-5">
+                                        <label class="form-label text-white" for="contact">Contact</label>
+                                        <input type="text" name="contact" class="form-control" id="contact" required>
+                                    </div>
+                                    <div class="mb-5">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div>
+                                                <label class="form-label text-white" for="password">Password</label>
+                                            </div>
+                                            <!-- <div class="mb-2">
+                                                <a href="#"
+                                                    class="text-sm text-muted text-primary-hover text-underline">Forgot
+                                                    password?</a>
+                                            </div> -->
+                                        </div>
+                                        <input type="password" class="form-control" id="password"
+                                            autocomplete="current-password" name="password" required>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-primary w-full" type="submit">Sign Up</button>
+                                    </div>
+                                    <div class="form-group mt-2">
+                                        {% include 'snippets/alert.html' %}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="position-lg-absolute bottom-0 end-0 my-8 mx-12 text-center text-lg-end">
+                        <small>Already have an account?</small>
+                        <a href="{% url 'shoppingsite:login' %}" class="text-warning text-sm font-semibold">Log In</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'app_common/js/main.js'%}"></script>
+   
+</body>
+{% endblock content %}

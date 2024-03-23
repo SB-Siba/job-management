@@ -1,0 +1,143 @@
+{% extends 'shoppingsite/base.html' %}
+{% load static %}
+{% block title %}
+    Products {{product_obj.name}}
+{% endblock title %}
+
+{% block main-content %}
+<section>
+    <div class="container mb-3">
+        <div class="row flex justify-content-center-between">
+            <div class="img2 col-lg-5 mt-1">
+                <img src="{{ product_obj.audiobook_image.url }}"
+                    class="image col-xs-6 col-sm-12 col-lg-12 mt-3 text-sm-center w-80 h-75" alt="">
+            </div>
+            <div class="col-lg-7 mt-2">
+                <h1 style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 30px;">
+                    {{ product_obj.title }}
+                </h1>
+                <p class="mb-0">by <span class="fw-medium text-decoration-underline">&nbsp;{{product_obj.author}}</span></p>
+                <p class="mb-0">Narrated by <span class="fw-medium text-decoration-underline">&nbsp;{{product_obj.narrated_by}}</span></p>
+
+                <h5 class="fw-bold border-top">&#8377;&nbsp;{{ product_obj.book_discount_price }}</h5>
+                <small class="fw-bold text-decoration-line-through text-danger">&#8377;&nbsp;{{product_obj.book_max_price}}</small>
+                <br>
+                <h4>Product Description</h4>
+                <ul class="" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">
+                    <li>{{product_obj.description}}</li>
+                </ul>
+                {% if user.is_authenticated %}
+                    {% if wishlist %}
+                    <a pid='{{product.id}}' id="minus-wishlist" class="btn btn-block btn-danger fw-bold text-black text-decoration-none mb-2">
+                        <i class="fas fa-heart fa-lg"></i>
+                    </a>
+                    {% else %}
+                    <a pid='{{product.id}}' id="plus-wishlist" class="btn btn-block btn-success fw-bold text-black text-decoration-none mb-2">
+                        <i class="fas fa-heart fa-lg"></i>
+                    </a>
+                    {% endif %}
+                {% endif %}
+
+                <ul class="" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">
+                    <li>Sample Audio :  &nbsp;
+                        </li>
+                            <audio controls><source src="{% url 'shoppingsite:play_audio_demo' audio_id=product_obj.id %}" type="audio/mp3">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </li>
+                    </li>
+                </ul>
+                
+                <!-- <div class="d-flex justify-content-between mb-2">
+                    <div class="badge text-wrap mt-1" style="width: 5rem;  height: 2rem; font-size: medium; background-color: grey;">
+                        <div>
+                            <i class="fa fa-star fw-bold mt-1" style="color: gold;"></i><span class="mx-1">{{product.avg_rating}}</span>
+                        </div>
+                    </div>
+                    
+                    <small class="fw-bold mt-2"><a href="">Total {{product.total_ratings_count}} reviews.</a></small>
+                </div>
+                <div class="my-2">
+                    <small class="fw-bold">Best Reviews - </small>
+                    {% for review in top_five_reviews %}
+                        <li>{{review.review_user_name}}&nbsp;({{review.rating}}):&nbsp;{{review.review_text}}</li>
+                    {% endfor %}
+                </div> -->
+                
+                <div class="buttons row flex" style="font-family: 'Lucida Sans', 'Lucida Sans Regula';">
+                    <!-- {% if user.is_authenticated %} -->
+                        <form action="{% url 'shoppingsite:addtocart' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="{{product_obj.id}}">
+                            <input type="submit" class="btn btn-warning btn-block btn-lg w-100  fs-3 fw-bold mt-2" value="Add to Cart">
+                        </form>
+                        <a href="" class="fw-bold fs-2 text-black text-decoration-none">
+                            <button type="submit" class="btn btn-info btn-block btn-lg w-100  fs-3 fw-bold mt-2">
+                                <div class="d-flex justify-content-center">
+                                    Buy Now
+                                </div>
+                            </button>
+                        </a>
+                    <!-- {% else %}
+                    <a href="{% url 'login' %}" class="fw-bold text-black text-decoration-none">
+                        <button type="submit" class="btn btn-warning btn-block btn-lg w-100 fs-2 fw-bold">
+                            <div class="d-flex justify-content-evenly">
+                                <span>&#8377; &nbsp;{{ product.discounted_price }}</span>
+                                <small class="fw-bold pt-1">Add To Cart</small> <svg xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                    <path
+                                        d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                                </svg>
+                            </div>
+                        </button>
+                    </a>
+                    <a href="{% url 'login' %}" class="fw-bold fs-2 text-black text-decoration-none">
+                        <button type="submit" class="btn btn-info btn-block btn-lg w-100  fs-3 fw-bold mt-2">
+                            <div class="d-flex justify-content-center">
+                                Buy Now
+                            </div>
+                        </button>
+                    </a>
+                    {% endif %} -->
+                </div>
+            </div>
+    
+        </div>
+    </div>
+</section>
+
+<!-- <script>
+    $(document).ready(function () {
+        $('#plus-wishlist').click(function () {
+            var id = $(this).attr("pid").toString();
+            $.ajax({
+                type: "GET",
+                url: "/pluswishlist",
+                data: {
+                    prod_id: id
+                },
+                success: function (data) {
+                    window.location.reload();
+                }
+            });
+        });
+
+
+        $('#minus-wishlist').click(function () {
+            var id = $(this).attr("pid").toString();
+            $.ajax({
+                type: "GET",
+                url: "/minuswishlist",
+                data: {
+                    prod_id: id
+                },
+                success: function (data) {
+                    window.location.reload();
+                }
+            });
+        });
+
+    });
+
+</script> -->
+{% endblock main-content %}

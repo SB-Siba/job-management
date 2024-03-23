@@ -1,0 +1,24 @@
+section{
+    margin-top: 3% !important;
+}
+
+
+
+.cart-item {
+    margin-bottom: 1rem;
+}
+
+
+
+/* Feature Products Card */
+.card-title a {
+    color: #333; 
+    text-decoration: none; 
+}
+
+/* Media queries for responsive adjustments */
+@media (max-width: 768px) {
+    .banner-image {
+        min-height: 300px; /* Adjust banner image for smaller devices */
+    }
+}

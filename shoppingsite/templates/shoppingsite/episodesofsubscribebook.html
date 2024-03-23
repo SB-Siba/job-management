@@ -1,0 +1,20 @@
+{% extends 'shoppingsite/base.html' %}
+{% load static %}
+{% block title %}
+    Profile Update
+{% endblock title %}
+
+{% block main-content %}
+<ul class="list-group">
+    {% for i in episodes %}
+        <li class="list-group-item">
+            {{i.title}} <span>
+                <audio controls><source src="{% url 'shoppingsite:play_audio_episodes' audio_id=i.id %}" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </span>
+            
+        </li>
+    {% endfor %}
+</ul>
+{% endblock main-content %}
