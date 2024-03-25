@@ -51,3 +51,11 @@ def paginate(request,data_list,number):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return page_obj
+
+
+def dict_filter(data_dict, filters):
+    result = {}
+    for key, value in data_dict.items():
+        if key in filters:
+            result[key] = value
+    return result

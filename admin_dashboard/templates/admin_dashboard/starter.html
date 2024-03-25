@@ -28,18 +28,18 @@
       <div class="container-fluid"><button class="navbar-toggler ms-n2" type="button" data-bs-toggle="collapse"
           data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false"
           aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button><a
-          class="navbar-brand d-inline-block py-lg-2 mb-lg-5 px-lg-6 me-0" href=""><img
-            src="{% static 'app_common/img/logos/admin_logo.png'%}" alt="..."></a>
+          class="navbar-brand d-inline-block py-lg-2 mb-lg-1 px-lg-6 me-0" href=""><img
+            style="width: 200px;" src="{% static 'app_common/img/logos/admin_new_logo.png'%}" alt="..."></a>
         <div class="navbar-user d-lg-none">
           <div class="dropdown"><a href="#" id="sidebarAvatar" role="button" data-bs-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
-              <div class="avatar-parent-child"><img alt="..." src="{% static 'app_common/img/people/img-profile.jpg'%}"
+              <div class=""><img alt="..." src="{% static 'app_common/img/people/img-profile.jpg'%}"
                   class="avatar avatar- rounded-circle"><span class="avatar-child avatar-badge bg-success"></span></div>
             </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sidebarAvatar"><a href="#"
                 class="dropdown-item">Profile</a><a href="#" class="dropdown-item">Settings</a><a href="#"
                 class="dropdown-item">Billing</a>
-              <hr class="dropdown-divider"><a href="{% url 'app_common:logout' %}" class="dropdown-item">Logout</a>
+              <hr class="dropdown-divider"><a href="{% url 'shoppingsite:logout' %}" class="dropdown-item">Logout</a>
             </div>
           </div>
         </div> {% include 'admin_dashboard/menu.html' %}

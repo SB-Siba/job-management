@@ -17,6 +17,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="{% static 'css/homestyle.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pricing.css' %}">
+
     <style>
         .pointer{
             cursor: pointer;
@@ -30,9 +32,9 @@
     {% if user.is_authenticated %}
         <nav class="navbar navbar-expand-lg navbar-light fixed-top d-block"
             data-navbar-on-scroll="data-navbar-on-scroll">
-            <div class="container"><a class="navbar-brand d-inline-flex" href="{% url 'shoppingsite:home' %}"><img class="d-inline-block"
-                        src="" alt="Avatar" style="height: 25px; width: 30px; margin-right: 15px;" /><span
-                        class="text-1000 fs-0 fw-bold">Audio Book World</span></a>
+            <div class="container"><a class="navbar-brand d-inline-flex" href="{% url 'shoppingsite:home' %}"><span
+                        class="text-1000 fs-0 fw-bold"><img class="d-inline-block"
+                        src="{% static 'app_common/img/logos/admin_new_logo.png'%}" alt="Avatar" style="height: 40px; width: 80px;" /></span></a>
                 <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation"><span
@@ -67,7 +69,7 @@
                         </a>
                     </li>
                         <li class="nav-item px-2">
-                            <a class="nav-link fw-medium" href="">
+                            <a class="nav-link fw-medium" href="{% url 'shoppingsite:showcart' %}">
                                 <svg class="feather feather-shopping-cart me-3" xmlns="http://www.w3.org/2000/svg"
                                     width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -90,12 +92,13 @@
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
                                 <li><a class="dropdown-item" href="{% url 'shoppingsite:profile' %}">Profile</a></li>
                                 <li><a class="dropdown-item" href="">Orders</a></li>
+                                <li><a class="dropdown-item" href="{% url 'shoppingsite:pricing' %}">Subscription Plans</a></li>
                                 <li><a class="dropdown-item" href="{% url 'shoppingsite:subscriptionaudiobooks' %}">Subscribe Books</a></li>
                                 {% if user.is_superuser %}
                                     <li><a class="dropdown-item" href="">Add Products</a></li>
                                     <li><a class="dropdown-item" href="">View Products</a></li>
                                 {% endif %}
-                                <li><a class="dropdown-item" href="">Change Password</a></li>
+                                <li><a class="dropdown-item" href="{% url 'shoppingsite:passwordchange' %}">Change Password</a></li>
                                 <li>
                                     <button class="form-control btn btn-link text-decoration-none text-black"><a href="{% url 'shoppingsite:logout' %}" class="form-control btn btn-link text-decoration-none text-black">Logout</a></button>
                                 </li>
@@ -120,9 +123,9 @@
     {% elif not user.is_authenticated %}
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block"
             data-navbar-on-scroll="data-navbar-on-scroll">
-            <div class="container"><a class="navbar-brand d-inline-flex" href="{% url 'shoppingsite:home' %}"><img class="d-inline-block"
-                        src="" alt="Avatar" style="height: 25px; width: 30px; margin-right: 15px;" /><span
-                        class="text-1000 fs-0 fw-bold ms-2">Audio Book World</span></a>
+            <div class="container"><a class="navbar-brand d-inline-flex" href="{% url 'shoppingsite:home' %}"><span
+                class="text-1000 fs-0 fw-bold"><img class="d-inline-block"
+                src="{% static 'app_common/img/logos/admin_new_logo.png'%}" alt="Avatar" style="height: 40px; width: 80px;" /></span></a>
                 <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation"><span
@@ -132,8 +135,9 @@
                         <li class="nav-item dropdown px-2">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Collections</a>
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
-                                <li><a class="dropdown-item" href="">Category-1</a></li>
-                                <li><a class="dropdown-item" href="">Category-2</a></li>
+                                {% for i in category_obj %}
+                                    <li><a class="dropdown-item" href="{% url 'shoppingsite:productsofcategory' i.title %}">{{i.title}}</a></li>
+                                {% endfor %}
                             </ul>
                         </li>
                         <li class="nav-item">

@@ -41,7 +41,7 @@
                 <ul class="" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">
                     <li>Sample Audio :  &nbsp;
                         </li>
-                            <audio controls><source src="{% url 'shoppingsite:play_audio_demo' audio_id=product_obj.id %}" type="audio/mp3">
+                            <audio controls id="audioPlayer1"><source src="{% url 'shoppingsite:play_audio_demo' audio_id=product_obj.id %}" type="audio/mp3">
                                 Your browser does not support the audio element.
                             </audio>
                         </li>
@@ -66,11 +66,13 @@
                 
                 <div class="buttons row flex" style="font-family: 'Lucida Sans', 'Lucida Sans Regula';">
                     <!-- {% if user.is_authenticated %} -->
-                        <form action="{% url 'shoppingsite:addtocart' %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="product_id" value="{{product_obj.id}}">
-                            <input type="submit" class="btn btn-warning btn-block btn-lg w-100  fs-3 fw-bold mt-2" value="Add to Cart">
-                        </form>
+                    <a href="{% url 'shoppingsite:addtocart' product_obj.id %}" class="fw-bold fs-2 text-black text-decoration-none">
+                        <button type="submit" class="btn btn-info btn-block btn-lg w-100  fs-3 fw-bold mt-2">
+                            <div class="d-flex justify-content-center">
+                                add to cart
+                            </div>
+                        </button>
+                    </a>
                         <a href="" class="fw-bold fs-2 text-black text-decoration-none">
                             <button type="submit" class="btn btn-info btn-block btn-lg w-100  fs-3 fw-bold mt-2">
                                 <div class="d-flex justify-content-center">
@@ -106,6 +108,20 @@
     </div>
 </section>
 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const audio = document.getElementById('audioPlayer1');
+        const s_user = "{{subscription_user}}";
+        if (s_user == null){
+            audio.addEventListener('play', function() {
+                setTimeout(function() {
+                    window.location.href = '/pricingpage';
+                }, 10000);
+            });
+        };
+    });
+</script>
 <!-- <script>
     $(document).ready(function () {
         $('#plus-wishlist').click(function () {

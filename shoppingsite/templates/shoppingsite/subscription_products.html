@@ -9,7 +9,7 @@
 
     <div class="container my-5">
         <h2 class="text-center mb-4">Our Products</h2>
-        {% if product_obj %}
+        {% if subsc_user_obj %}
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3  row-cols-xl-3">
             {% for i in product_obj %}
                 <div class="col">
@@ -41,7 +41,7 @@
 
         </div>
         {% else %}
-            <h1>No products found!</h1>
+        <p class="lead text-center">Please Take Subscription to see our products.</p>
         {% endif %}
     </div>
 {% endblock main-content %}

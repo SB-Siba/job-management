@@ -153,3 +153,4 @@ class ApiAbountUs(APIView):
             'status':200,
             "data": privacy_t_and_c.about_us or None
         })
+    

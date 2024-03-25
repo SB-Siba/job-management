@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 from .credentials import credential
-from .manage_product import catagory, product, coupon,episodes
+from .manage_product import catagory, product, coupon,episodes,subscription
 from .order import order
 from .contact_messages import messages
 app_name = 'admin_dashboard'
@@ -25,6 +25,22 @@ urlpatterns = [
     path("episode/episode_update/<str:episode_id>", episodes.EpisodeUpdate.as_view(), name="episode_update"),
     path("episode/episode_delete/<str:episode_id>", episodes.EpisodeDelete.as_view(), name="episode_delete"),
 
+
+    #Subscription Plan
+    path("subscriptionplan/subscriptionplan_list", subscription.SubscriptionPlanList.as_view(), name="subscriptionplan_list"),
+    path("subscriptionplan/subscriptionplan_add", subscription.SubscriptionPlanAdd.as_view(), name="subscriptionplan_add"),
+    path("subscriptionplan/subscriptionplan_update/<str:subscriptionplan_id>", subscription.SubscriptionPlanUpdate.as_view(), name="subscriptionplan_update"),
+    path("subscriptionplan/subscriptionplan_delete/<str:subscriptionplan_id>", subscription.SubscriptionPlanDelete.as_view(), name="subscriptionplan_delete"),
+    path("subscriptionplan/subscriptionuserlist", subscription.SubscriptionUserList.as_view(), name="subscriptionuserlist"),
+
+
+
+    #SUbscription Feature
+    path("subscriptionfeature/subscriptionfeature_list", subscription.SubscriptionFeatureList.as_view(), name="subscriptionfeature_list"),
+    path("subscriptionfeature/subscriptionfeature_add", subscription.SubscriptionFeatureAdd.as_view(), name="subscriptionfeature_add"),
+    path("subscriptionfeature/subscriptionfeature_search", subscription.SubscriptionFeatureSearch.as_view(), name="subscriptionfeature_search"),
+    path("subscriptionfeature/subscriptionfeature_update/<str:subscriptionfeature_id>", subscription.SubscriptionFeatureUpdate.as_view(), name="subscriptionfeature_update"),
+    path("subscriptionfeature/subscriptionfeature_delete/<str:subscriptionfeature_id>", subscription.SubscriptionFeatureDelete.as_view(), name="subscriptionfeature_delete"),
     # path("coupon/catagory_update/<str:coupon_id>", coupon.CuponUpdate.as_view(), name="coupon_update"),
     # path("coupon/coupon_delete/<str:coupon_id>", coupon.CouponDelete.as_view(), name="coupon_delete"),
 

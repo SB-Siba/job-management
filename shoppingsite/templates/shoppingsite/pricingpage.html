@@ -1,0 +1,28 @@
+{% extends 'shoppingsite/base.html' %}
+{% load static %}
+{% block title %}
+    Pricing Page
+{% endblock title %}
+
+{% block main-content %}
+<div class="container mb-2"> 
+    <h2 class="text-center">Select Your Plan</h2> 
+    <div class="price-row"> 
+        {% for key,value in features.items %}
+            <div class="price-col"> 
+                <p class="fw-bold">{{key.title}}</p> 
+                <hr> 
+                <h4> ₹ {{key.price}}/<span>{{key.days}} days</span></h4> 
+                <ul> 
+                    {% for i in value %}
+                        <li>{{i.feature}}</li> 
+                    {% endfor %}
+                </ul> 
+                <a href="{% url 'shoppingsite:usertakesubscription' key.id %}" class="btn border border-2">Buy Now</a> 
+            </div>
+        {% endfor %} 
+    </div> 
+</div> 
+{% include 'snippets/alert.html' %}
+
+{% endblock main-content %}

@@ -6,7 +6,9 @@ import uuid
 from django.core.files import File
 from django.core.files.base import ContentFile
 from helpers import utils
-
+import datetime
+from datetime import timedelta
+from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
 from .manager import MyAccountManager
@@ -196,9 +198,10 @@ class Episode(models.Model):
 class Cart(models.Model):
     uid=models.CharField(max_length=255, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    products = models.ForeignKey(AudioBook,on_delete = models.CASCADE,null=True, blank=True)
-    coupon = models.CharField(max_length=255, null=True, blank=True)
+    products = models.JSONField(default=dict, null=True, blank=True)
+    # coupon = models.CharField(max_length=255, null=True, blank=True)
     quantity = models.IntegerField(default=1)
+    total_price = models.IntegerField(default=0)
 
     def __str__(self):
         return self.uid
@@ -285,12 +288,28 @@ class ContactMessage(models.Model):
 #     escription = models.TextField(null=True, blank= True)
         
 class SubscriptionPlan(models.Model):
-    name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    features = models.CharField(max_length = 250,null = True,blank = True)
+    days = models.IntegerField(default=30)
 
-class Subscription(models.Model):
+    def __str__(self):
+        return f"{self.title}\t{self.days} days"
+    
+class SubscriptionFeatures(models.Model):
+    sub_plan = models.ForeignKey(SubscriptionPlan,on_delete = models.CASCADE)
+    feature = models.CharField(max_length=250)
+
+    def __str__(self):
+        return f"{self.feature}"
+
+class UserSubscription(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateField(default=timezone.now)
+
+    def calculate_end_date(self):
+        return self.start_date + timedelta(days=self.plan.days)
+
+    @property
+    def end_date(self):
+        return self.calculate_end_date()
