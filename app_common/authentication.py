@@ -97,7 +97,7 @@ class Login(APIView):
 class LogOut(APIView):
 
     permission_classes = [api_permission.is_authenticated]
-    model= common_model.AudioBook
+    model= common_model.User
 
     @swagger_auto_schema(
         tags=["authentication"],

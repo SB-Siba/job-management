@@ -1,20 +1,90 @@
 {% extends 'shoppingsite/base.html' %}
 {% load static %}
 {% block title %}
-    Profile Update
+    Episodes
 {% endblock title %}
 
 {% block main-content %}
-<ul class="list-group">
-    {% for i in episodes %}
-        <li class="list-group-item">
-            {{i.title}} <span>
-                <audio controls><source src="{% url 'shoppingsite:play_audio_episodes' audio_id=i.id %}" type="audio/mp3">
-                    Your browser does not support the audio element.
-                </audio>
-            </span>
-            
-        </li>
-    {% endfor %}
-</ul>
+
+<div class="container mt-3">
+    <ul class="list-group">
+        {% for i in episodes %}
+            <li class="list-group-item">
+                <div class="episode-info">
+                    <h3>{{ i.title }}</h3>
+                    <p>{{ i.description }}</p>
+                </div>
+                <div class="audio-container">
+                    <audio class="audioPlayer" preload="auto" id="audioPlayer{{ i.id }}" controls
+                        src="{{ i.audio_file.url }}" data-audio-url = "{{ i.audio_file.url }}" type="audio/mp3"></audio>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="form-group mt-2">
+    {% include 'snippets/alert.html' %}
+</div>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var audioPlayers = document.querySelectorAll('.audioPlayer');
+
+        audioPlayers.forEach(function(audio) {
+            audio.addEventListener('play', function() {
+                audioPlayers.forEach(function(otherAudio) {
+                    if (otherAudio !== audio && !otherAudio.paused) {
+                        otherAudio.pause();
+                    }
+                    audio.addEventListener('ended', function() {
+                        const audioUrl = this.getAttribute('data-audio-url');
+                        removeAudio(audioUrl);
+                    });
+                });
+            });
+        });
+    });
+
+    function removeAudio(audioUrl) {
+        $.ajax({
+            type: "POST",
+            url: "http://127.0.0.1:8000/removeaudio",
+            data: {
+                "audioPath": audioUrl,
+            },
+            success: function (result) {
+                console.log(result);
+            },
+            dataType: "json"
+        });
+    }
+
+
+    function setStartTime(audioId, time) {
+        var player = document.getElementById(audioId);
+        player.src = player.src.split('#')[0] + '#t=' + time;
+    }
+
+    function storePauseTime(audioId, time) {
+        localStorage.setItem(audioId + '-pauseTime', time);
+    }
+    var audioElements = document.querySelectorAll('.audioPlayer');
+    audioElements.forEach(function(audio) {
+        var audioId = audio.id;
+        var storedTime = localStorage.getItem(audioId + '-pauseTime');
+        var time = storedTime
+        setStartTime(audioId, time);
+
+        audio.addEventListener('pause', function() {
+            storePauseTime(audioId, audio.currentTime);
+        });
+    });
+    var audioPlayers = document.querySelectorAll('.audioPlayer');
+    window.addEventListener('beforeunload', function() {
+        audioPlayers.forEach(function(audio) {
+            storePauseTime(audio.id, audio.currentTime);
+       });
+    });
+</script>
 {% endblock main-content %}

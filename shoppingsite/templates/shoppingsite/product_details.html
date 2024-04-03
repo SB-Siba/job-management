@@ -41,9 +41,8 @@
                 <ul class="" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">
                     <li>Sample Audio :  &nbsp;
                         </li>
-                            <audio controls id="audioPlayer1"><source src="{% url 'shoppingsite:play_audio_demo' audio_id=product_obj.id %}" type="audio/mp3">
-                                Your browser does not support the audio element.
-                            </audio>
+                            <audio class="audioPlayer" style="height: 30px; width: 100%;" preload="auto" id="audioPlayer{{ product_obj.id }}" controls
+                            source src="{{product_obj.demo_audio_file.url}}" type="audio/mp3"></audio>
                         </li>
                     </li>
                 </ul>
@@ -66,14 +65,13 @@
                 
                 <div class="buttons row flex" style="font-family: 'Lucida Sans', 'Lucida Sans Regula';">
                     <!-- {% if user.is_authenticated %} -->
-                    <a href="{% url 'shoppingsite:addtocart' product_obj.id %}" class="fw-bold fs-2 text-black text-decoration-none">
-                        <button type="submit" class="btn btn-info btn-block btn-lg w-100  fs-3 fw-bold mt-2">
-                            <div class="d-flex justify-content-center">
-                                add to cart
-                            </div>
-                        </button>
-                    </a>
-                        <a href="" class="fw-bold fs-2 text-black text-decoration-none">
+                        <form action="{% url 'shoppingsite:addtocart' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="{{product_obj.id}}">
+                            <input type="hidden" name="quantity" value="1">
+                            <input type="submit" class="btn btn-warning btn-block btn-lg w-100  fs-3 fw-bold mt-2" value="Add to Cart">
+                        </form>
+                        <a href="{% url 'shoppingsite:directbuy' product_obj.id %}" class="fw-bold fs-2 text-black text-decoration-none">
                             <button type="submit" class="btn btn-info btn-block btn-lg w-100  fs-3 fw-bold mt-2">
                                 <div class="d-flex justify-content-center">
                                     Buy Now
@@ -110,50 +108,30 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const audio = document.getElementById('audioPlayer1');
-        const s_user = "{{subscription_user}}";
-        if (s_user == null){
-            audio.addEventListener('play', function() {
-                setTimeout(function() {
-                    window.location.href = '/pricingpage';
-                }, 10000);
+        document.addEventListener('DOMContentLoaded', function() {
+            var audioPlayers = document.querySelectorAll('.audioPlayer');
+            var s_user_length = "{{ s_user_length }}";
+
+            if (parseInt(s_user_length) === 0) {
+                console.log("s_user is empty");
+                audioPlayers.forEach(function(audio) {
+                    audio.addEventListener('play', function() {
+                        setTimeout(function() {
+                            window.location.href = '/pricingpage';
+                        }, 10000);
+                    });
+                });
+            }
+
+            audioPlayers.forEach(function(audio) {
+                audio.addEventListener('play', function() {
+                    audioPlayers.forEach(function(otherAudio) {
+                        if (otherAudio !== audio && !otherAudio.paused) {
+                            otherAudio.pause();
+                        }
+                    });
+                });
             });
-        };
-    });
+        });
 </script>
-<!-- <script>
-    $(document).ready(function () {
-        $('#plus-wishlist').click(function () {
-            var id = $(this).attr("pid").toString();
-            $.ajax({
-                type: "GET",
-                url: "/pluswishlist",
-                data: {
-                    prod_id: id
-                },
-                success: function (data) {
-                    window.location.reload();
-                }
-            });
-        });
-
-
-        $('#minus-wishlist').click(function () {
-            var id = $(this).attr("pid").toString();
-            $.ajax({
-                type: "GET",
-                url: "/minuswishlist",
-                data: {
-                    prod_id: id
-                },
-                success: function (data) {
-                    window.location.reload();
-                }
-            });
-        });
-
-    });
-
-</script> -->
 {% endblock main-content %}

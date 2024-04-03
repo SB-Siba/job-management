@@ -120,7 +120,7 @@ class AudioBook(models.Model):
     display_as_bestseller = models.CharField(max_length= 255, choices= YESNO ,default="no")
     hide = models.CharField(max_length= 255, choices= YESNO ,default="no")
     audiobook_image = models.ImageField(upload_to="audiobook_image/", null=True, blank=True)
-    rating = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    rating = models.DecimalField(max_digits=5, decimal_places=1, default=0.0)
     num_ratings = models.PositiveIntegerField(default=0)
 
     def __str__(self):
@@ -234,14 +234,22 @@ class Order(models.Model):
         ("PENDING","PENDING"),
     )
 
+    PaymentType=(
+        ("CREDITCARD","CREDITCARD"),
+        ("DEBITCARD","DEBITCARD"),
+        ("PAYPAL","PAYPAL"),
+        ("COD","COD"),
+    )
+
     uid=models.CharField(max_length=255, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     products = models.JSONField(default=dict, null=True, blank=True)
     coupon = models.CharField(max_length=255, null=True, blank=True)
     order_value = models.FloatField(default=0.0)
-    order_meta_data = models.JSONField(default=dict, null=True, blank=True)
+    # order_meta_data = models.JSONField(default=dict, null=True, blank=True)
     order_status = models.CharField(max_length=255, choices= ORDER_STATUS, default="Placed")
     payment_method = models.CharField(max_length=255, choices= PaymentMode, default="PENDING")
+    payment_type = models.CharField(max_length=255,choices= PaymentType, default="CREDITCARD")
     payment_status = models.CharField(max_length=255, choices= PaymentStatus, default="Paid")
 
     address = models.JSONField(default=dict, null=True, blank=True)

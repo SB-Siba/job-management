@@ -33,11 +33,11 @@ class Registration(View):
                 new_user.set_password(password)
                 new_user.save()
                 messages.success(request,'Registration Successfull !!!')
-                return render(request,self.template)
+                return redirect('shoppingsite:login')
             except Exception as e:
                 print(e)
                 messages.error(request,'Something went wrong while registering your account.\nPlease try again later.')
-                return render(request,self.template)
+        return render(request,self.template)
             
 class Login(View):
     model=models.User

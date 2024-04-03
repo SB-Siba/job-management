@@ -15,7 +15,8 @@ from app_common.models import (
     Episode,
     SubscriptionFeatures,
     SubscriptionPlan,
-    UserSubscription
+    UserSubscription,
+    Order
 )
 
 from helpers.utils import dict_filter  # Import dict_filter function
@@ -131,6 +132,7 @@ class showProductsViews(View):
     def get(self,request,c_name):
         user = request.user
         subscription_user = UserSubscription.objects.filter(user = user)
+        s_user_length = subscription_user.count()
         category_obj = Category.objects.all()
         products_for_this_category = AudioBook.objects.filter(category__title = c_name)
         return render(request,self.template,locals())
@@ -146,18 +148,11 @@ class ProductDetailsView(View):
         product_obj = self.model.objects.get(id = p_id)
         episodes = Episode.objects.filter(audiobook=product_obj).order_by('e_id')
         subscription_user = UserSubscription.objects.filter(user = user)
+        s_user_length = subscription_user.count()
 
 
         return render(request,self.template,locals())
     
-
-def play_audio_demo(request, audio_id):
-    audio_file = get_object_or_404(AudioBook, pk=audio_id)
-    return FileResponse(audio_file.demo_audio_file, content_type='audio/mp3')
-
-def play_audio_episodes(request, audio_id):
-    audio_file = get_object_or_404(Episode, pk=audio_id)
-    return FileResponse(audio_file.audio_file, content_type='audio/mp3')
     
 
 class ShowCart(View):
@@ -167,144 +162,66 @@ class ShowCart(View):
         if not user.is_authenticated:
             context={'cartItems':[]} 
         else :
-            cartItems = Cart.objects.filter(user=user)
-            cart_product_names = [i.products['product'] for i in cartItems]
-            cart_product_objs = [AudioBook.objects.get(title=j) for j in cart_product_names]
-            cart_prod =  [i.products for i in cartItems]
+            try:
+                cartItems = Cart.objects.get(user=user)
+                products = {}
+                totaloriginalprice = 0
+                totalPrice = 0
+                for key,value in cartItems.products.items():
+                    prd_obj = AudioBook.objects.get(title = str(key))
+                    totaloriginalprice += (prd_obj.book_max_price)*value
+                    totalPrice += (prd_obj.book_discount_price)*value
+                    products[prd_obj] = value
+                discount_price = totaloriginalprice-totalPrice
+                # taxprice = totalPrice*(3/100)
+                # aftertaxprice = totalPrice+taxprice
+                
+                cartItems.total_price = totalPrice
+                cartItems.save()
+                
+            except Exception:
+                products = {}
             
-            totaloriginalprice = sum([float(m.book_max_price) for m in cart_product_objs]) 
-            totalPrice = sum([float(m.products['price'])*int(m.quantity) for m in cartItems])
-            discount_price = totaloriginalprice-totalPrice
-            taxprice = totalPrice*(3/100)
-            aftertaxprice = totalPrice+taxprice
-
-            context={
-                'cartItems':cartItems,
-                'category_obj':category_obj,
-                "totalPrice":totalPrice,
-                "aftertaxprice":aftertaxprice,
-                "totaloriginalprice":totaloriginalprice,
-                "discount_price":discount_price,
-
-                }
-            
-        return render(request,"shoppingsite/cartpage.html",context)
+        return render(request,"shoppingsite/cartpage.html",locals())
 
 
 class AddToCartView(View):
-    def get(self, request, product_id):
-        try:
-            # Get 9the product by ID
-            product = AudioBook.objects.get(id=product_id)
-            print (product)
-            
-            # Check if the product exists
-            if product:
-                # Filter the product attributes for the cart
-                product_dict = dict_filter(product.__dict__, ['title', 'book_max_price', 'book_discount_price','audiobook_image'])
-                product_dict['book_discount_price'] = str(product_dict['book_discount_price'])
-                product_dict['quantity'] = 1
-                
-                # Get the user's cart or create a new one if it doesn't exist
-                cart, created = Cart.objects.get_or_create(user=request.user)
-                
-                if created:
-                    # Create a new cart and add the product
-                    cart.products = json.dumps({str(product_id): product_dict})
-                    cart.total_price = product.book_discount_price
-                    cart.quantity = 1
-                    cart.save()
-                    messages.success(request, "Product added to cart successfully")
-                else:
-                    # Update existing cart with the new product
-                    cart_items_dict = json.loads(cart.products)
-                    
-                    if str(product_id) in cart_items_dict:
-                        cart_items_dict[str(product_id)]['quantity'] += 1
-                    else:
-                        cart_items_dict[str(product_id)] = product_dict
-                        
-                    cart.product_list = json.dumps(cart_items_dict)
-                    cart.total_price += product.price
-                    cart.quantity += 1
-                    cart.save()
-                    messages.success(request, "Product added to cart successfully")
-                    
-                return redirect('shoppingsite:showcart')
-            else:
-                messages.error(request, "Product not found")
-                return redirect('shoppingsite:home')
-        except AudioBook.DoesNotExist:
-            messages.error(request, "Product not found")
-            return redirect('shoppingsite:showcart')
-        except Exception as e:
-            print(e)
-            messages.error(request, f"Failed to add product to cart: {str(e)}")
-            # You can customize this further based on your error handling requirements
-            return render(request, 'error.html', {'error_message': str(e)})
+    def post(self, request, *args, **kwargs):
+        product_id = request.POST.get('product_id')
+        quantity = int(request.POST.get('quantity', 1))
+        product_obj = AudioBook.objects.get(id = product_id)
+        product_name = ''
+        cart, created = Cart.objects.get_or_create(user=request.user)
 
+    
+        products = cart.products or {}
+        products[str(product_obj.title)] = products.get(str(product_obj.title), 0) + quantity
+        cart.products = products
 
-# class AddToCart(View):
-#     def post(self,request):
-#         category_obj = Category.objects.all()
-#         user = request.user
-#         product_id = request.POST.get("product_id")
-#         try:
-#             product_obj = AudioBook.objects.get(id = product_id)
-#             cartobj = Cart.objects.filter(user=user)
-#             if cartobj:
-                
-#                     v = Cart.products
-#                     if v["product"] == product_obj.title:
-#                         quantity = int(v["quantity"]) + 1
-#                         print(quantity,i)
-#                         new_data = {
-#                             "id":product_obj.id,
-#                             "product" : product_obj.title ,
-#                             "price" : product_obj.book_discount_price,
-#                             "quantity" : quantity,
-#                         }
+       
+        total_price = sum(AudioBook.objects.get(title=name).book_discount_price * qty for name, qty in products.items())
+        cart.total_price = total_price
 
-#                         products.update(new_data)
-#                         i.save()    
-#                         return redirect("shoppingsite:showcart")
-#                     else:
-#                         # data = {
-#                         #     "id":product_obj.id,
-#                         #     "product" : product_obj.title ,
-#                         #     "price" : product_obj.book_discount_price,
-#                         #     "quantity" : 1,
-#                         # }
-#                         # products.(data)
-#                         # i.save()
-#                         # print(i)
-#                         # return redirect("shoppingsite:showcart")
-#             else:
-#                 prodc = {
-#                     'product':product_obj.title,
-#                     'price':product_obj.book_discount_price,
-#                     'quantity':1,
-#                 }
-                
-#                 adtocartobj = Cart.objects.create(uid = user.id,user = user,products = prodc,quantity = 1)
-#                 adtocartobj.save()
-#                 messages.success(request,"Product Added To Cart Successfully")
-#                 return redirect("shoppingsite:showcart")
-#         except Exception as e:
-#             print(e)
-#             product_obj = AudioBook.objects.get(id = product_id)
-#             messages.error(request,'Product Not Found')
-#             return redirect("shoppingsite:productdetails",product_id)
+        cart.save()
+
+        return redirect("shoppingsite:showcart")
+
+    def get(self, request, *args, **kwargs):
+        return redirect('home')
+
         
-def RemoveFromCart(request,rp_id):
-    cartItemObj = Cart.objects.filter(pk=rp_id)
-    for i in cartItemObj:
-        if i.quantity > 1:
-            i.quantity -= 1
-            i.save()
+def RemoveFromCart(request,cart_id,rp_name):
+    cart = get_object_or_404(Cart, id=cart_id)
+    if str(rp_name) in cart.products:
+        if cart.products[str(rp_name)] > 1:
+            cart.products[str(rp_name)] -= 1
+            cart.save()
         else:
-            i.delete()
+            del cart.products[str(rp_name)]
+            cart.save()
+
     return redirect('shoppingsite:showcart')
+
 
 class PricingPageView(View):
     template = app + "pricingpage.html"
@@ -357,3 +274,134 @@ def UserTakeSubscription(request,plan_id):
     except:
         messages.error(request,"Error while Taking Subscription")
         return redirect('shoppingsite:pricing')
+    
+
+class Checkout(View):
+    template = app + "checkout.html"
+    def get(self,request,cart_id):
+        user = request.user
+        cart = Cart.objects.get(id=cart_id)
+        total_price = cart.total_price
+        
+        return render(request,self.template,locals())
+
+    def post(self,request,cart_id):
+        user = request.user
+        cart = Cart.objects.get(id=cart_id)
+        user_obj = User.objects.get(id = user.id)
+
+        fullName = request.POST['fullName']
+        email = request.POST['email']
+        #Address
+        address = request.POST['address']
+        address2 = request.POST['address2']
+        city = request.POST['city']
+        state = request.POST['state']
+        zipcode = request.POST['zip']
+        country = request.POST['country']
+        phone = request.POST['phone']
+        #card values
+        paymentMethod = request.POST['paymentMethod']
+        cc_name = request.POST['cc-name']
+        cc_number = request.POST['cc-number']
+        cc_expiration = request.POST['cc-expiration']
+        cc_cvv = request.POST['cc-cvv']
+
+        order_address = {
+            "main_address":address,
+            "sub_address":address2,
+            "city":city,
+            "state":state,
+            "zipcode":zipcode,
+            "country":country,
+            "phone":phone,
+        }
+        
+        try:
+            order = Order(user=request.user,products = cart.products,order_value=cart.total_price,payment_type = paymentMethod,address = order_address)
+            order.save()
+            messages.success(request,"Order Successful!")
+            cart.delete()
+            return redirect('shoppingsite:home')
+        except Exception:
+            messages.error(request,"Error while placing Order.")
+            return redirect('shoppingsite:checkout',cart_id)
+        
+    
+class DirectBuy(View):
+    template = app + "checkout.html"
+    def get(self,request,p_id):
+        user = request.user
+        product_obj = AudioBook.objects.get(id=p_id)
+        total_price = product_obj.book_discount_price
+        return render(request,self.template,locals())
+
+    def post(self,request,p_id):
+        user = request.user
+        product_obj = AudioBook.objects.get(id=p_id)
+        user_obj = User.objects.get(id = user.id)
+
+        fullName = request.POST['fullName']
+        email = request.POST['email']
+        #Address
+        address = request.POST['address']
+        address2 = request.POST['address2']
+        city = request.POST['city']
+        state = request.POST['state']
+        zipcode = request.POST['zip']
+        country = request.POST['country']
+        phone = request.POST['phone']
+        #card values
+        paymentMethod = request.POST['paymentMethod']
+        cc_name = request.POST['cc-name']
+        cc_number = request.POST['cc-number']
+        cc_expiration = request.POST['cc-expiration']
+        cc_cvv = request.POST['cc-cvv']
+
+        order_address = {
+            "main_address":address,
+            "sub_address":address2,
+            "city":city,
+            "state":state,
+            "zipcode":zipcode,
+            "country":country,
+            "phone":phone,
+        }
+
+        product_dict = {
+            product_obj.title:1
+        }
+        
+        try:
+            order = Order(user=request.user,products = product_dict,order_value=product_obj.book_discount_price,payment_type = paymentMethod,address = order_address)
+            order.save()
+            messages.success(request,"Order Successful!")
+            return redirect('shoppingsite:home')
+        except Exception:
+            messages.error(request,"Error while placing Order.")
+            return redirect('shoppingsite:productdetails',p_id)
+
+
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
+def remove_audio(request):
+    if request.method == 'POST':
+        audio_path = request.POST.get('audioPath')
+        # Perform validation on audio_path if needed
+        # Remove the audio file
+        import os
+        print(audio_path)
+        try:
+            audio_obj = Episode.objects.filter(audio_file = audio_path)
+            print(audio_obj)
+            if os.path.exists(audio_path):
+                print("before")
+                os.remove(audio_path)
+                print("after")
+                messages.success(request,{'message': 'Audio file removed successfully'})
+            else:
+                messages.error(request,{'error': 'Audio file not found'})
+        except Exception as e:
+            messages.error(request,{'error': str(e)})
+    else:
+        messages.error(request,{'error': 'Method not allowed'})
