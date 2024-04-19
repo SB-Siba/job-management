@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 from .credentials import credential
-from .manage_product import catagory, product, coupon,episodes,subscription
+from .manage_product import catagory, product, coupon,episodes,subscription,user
 from .order import order
 from .contact_messages import messages
 app_name = 'admin_dashboard'
@@ -17,6 +17,11 @@ urlpatterns = [
     path('privacy_policy_api', views.ApiPrivacyPolicy.as_view(),),
     path('terms_and_conditions', views.ApiTermsCondition.as_view(),),
     path('about_us', views.ApiAbountUs.as_view(),),
+
+    # Userlist
+    path("user/userslist", user.UserList.as_view(), name="userslist"),
+    path("user/deleteuser/<int:id>", user.delete_user, name="deleteuser"),
+
 
     #Episodes
     path("episode/episode_list", episodes.EpisodeList.as_view(), name="episode_list"),

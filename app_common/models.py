@@ -10,6 +10,8 @@ import datetime
 from datetime import timedelta
 from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from .manager import MyAccountManager
 
@@ -321,3 +323,15 @@ class UserSubscription(models.Model):
     @property
     def end_date(self):
         return self.calculate_end_date()
+    
+    def days_left(self):
+        today = timezone.now().date()
+        end_date = self.end_date
+        days_left = (end_date - today).days
+        return max(days_left, 0)
+    
+@receiver(post_save, sender=UserSubscription)
+def delete_subscription_on_end(sender, instance, created, **kwargs):
+    if not created:
+        if instance.end_date <= timezone.now().date():
+            instance.delete()

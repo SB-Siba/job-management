@@ -29,6 +29,7 @@ class HomeView(View):
     template = app + "home.html"
     def get(self,request):
         category_obj = Category.objects.all()
+        audioBooks = AudioBook.objects.all().order_by("-id")[:10]
         return render(request,self.template,locals())
     
 class ProfileView(View):
@@ -147,7 +148,7 @@ class ProductDetailsView(View):
         category_obj = Category.objects.all()
         product_obj = self.model.objects.get(id = p_id)
         episodes = Episode.objects.filter(audiobook=product_obj).order_by('e_id')
-        subscription_user = UserSubscription.objects.filter(user = user)
+        subscription_user = UserSubscription.objects.filter(user__id = user.id)
         s_user_length = subscription_user.count()
 
 
@@ -250,6 +251,7 @@ class SubscriptionAudioBooks(View):
 class SubscribeBooksEpisode(View):
     template = app + "episodesofsubscribebook.html"
     def get(self,request,book_id):
+        userId = request.user.id
         category_obj = Category.objects.all()
         book_obj = AudioBook.objects.get(id=book_id)
         episodes = Episode.objects.filter(audiobook__in=[book_obj])

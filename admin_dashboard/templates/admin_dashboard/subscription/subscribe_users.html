@@ -50,11 +50,12 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">User</th>
+                                <th scope="col">Email</th>
                                 <th scope="col">Plan</th>
                                 <th scope="col">Days</th>
                                 <th scope="col">start_date</th>
                                 <th scope="col">end_date</th>
-                                <!-- <th scope="col">Action</th> -->
+                                <th scope="col">Days Left</th>
                             </tr>
                         </thead>
                         <form method="post" action="">
@@ -69,10 +70,12 @@
                                         </a>
                                     </td>
                                     <td>{{subsc_user.user.full_name}}</td>
+                                    <td>{{subsc_user.user.email}}</td>
                                     <td>{{subsc_user.plan.title}}</td>
                                     <td>{{subsc_user.plan.days}}</td>
                                     <td>{{subsc_user.start_date}}</td>
                                     <td>{{subsc_user.end_date}}</td>
+                                    <td>{{subsc_user.days_left}}</td>
                                 </tr>
                                 {% endfor %}
     
