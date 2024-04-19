@@ -1,0 +1,101 @@
+{% extends 'admin_dashboard/starter.html' %}
+{% load static %}
+{% block content %}
+
+<center>
+    {% include 'snippets/alert.html' %}
+</center>
+<header>
+    <div class="container-fluid">
+        <div class="border-bottom pt-6">
+            <div class="row align-items-center">
+                <div class="col-sm col-12">
+                    <h1 class="h2 ls-tight">Subscribe User List</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="py-6 bg-surface-secondary">
+
+
+    <div class="container-fluid">
+        <div class="vstack gap-4">
+            <div class="d-flex justify-content-between flex-column flex-sm-row gap-3">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="hstack gap-2">
+                        <select style="width: 6rem;" name="filter_by" class="form-select"
+                            aria-label="Default select example">
+                            <option selected value="uid">id</option>
+                            <option value="name">Name</option>
+                        </select>
+
+                        <input type="text" name="query" placeholder="Serch Here" class="form-control" required />
+
+                        <button type="submit" class="btn btn-sm btn-neutral">
+                            <i class="fa-solid fa-magnifying-glass fa-beat-fade" style="color: #8c00ff;"></i>
+                        </button>
+
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                {% if subscription_user %}
+                <div class="table-responsive">
+                    <table class="table table-hover table-nowrap">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">User</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Plan</th>
+                                <th scope="col">Days</th>
+                                <th scope="col">start_date</th>
+                                <th scope="col">end_date</th>
+                                <th scope="col">Days Left</th>
+                            </tr>
+                        </thead>
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            <tbody id="test_table_tbody">
+                                {% for subsc_user in subscription_user %}
+                                <tr {% if product.stock <= 10 %} style="background: #f6a4a4;" {% endif %}>
+                                    <td>
+                                        <a class="text-heading text-primary-hover font-semibold"
+                                            href="">
+                                            {{subsc_user.id}}
+                                        </a>
+                                    </td>
+                                    <td>{{subsc_user.user.full_name}}</td>
+                                    <td>{{subsc_user.user.email}}</td>
+                                    <td>{{subsc_user.plan.title}}</td>
+                                    <td>{{subsc_user.plan.days}}</td>
+                                    <td>{{subsc_user.start_date}}</td>
+                                    <td>{{subsc_user.end_date}}</td>
+                                    <td>{{subsc_user.days_left}}</td>
+                                </tr>
+                                {% endfor %}
+    
+                            </tbody>
+                        </form>
+
+                    </table>
+
+                </div>
+                {% else %}
+                    <h1 class="text-center">No Subscription User Found !!!</h1>
+                {% endif %}
+                
+                <div class="card-footer">
+                    {% include 'snippets/pagination.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+{% endblock content %}

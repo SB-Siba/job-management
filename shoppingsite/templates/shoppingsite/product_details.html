@@ -1,0 +1,103 @@
+{% extends 'shoppingsite/base.html' %}
+{% load static %}
+{% block title %}
+    Products {{product_obj.name}}
+{% endblock title %}
+
+{% block main-content %}
+<section>
+    <div class="container mb-3">
+        <div class="row flex justify-content-center-between">
+            <div class="img2 col-lg-5 mt-1">
+                <img src="{{ product_obj.audiobook_image.url }}"
+                    class="image col-xs-6 col-sm-12 col-lg-12 mt-3 text-sm-center w-80 h-75" alt="">
+            </div>
+            <div class="col-lg-7 mt-2">
+                <h1 style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 30px;">
+                    {{ product_obj.title }}
+                </h1>
+                <p class="mb-0">by <span class="fw-medium text-decoration-underline">&nbsp;{{product_obj.author}}</span></p>
+                <p class="mb-0">Narrated by <span class="fw-medium text-decoration-underline">&nbsp;{{product_obj.narrated_by}}</span></p>
+
+                <h5 class="fw-bold border-top">&#8377;&nbsp;{{ product_obj.book_discount_price }}</h5>
+                <small class="fw-bold text-decoration-line-through text-danger">&#8377;&nbsp;{{product_obj.book_max_price}}</small>
+                <br>
+                <h4>Product Description</h4>
+                <ul class="" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">
+                    <li>{{product_obj.description}}</li>
+                </ul>
+                {% if user.is_authenticated %}
+                    {% if wishlist %}
+                    <a pid='{{product.id}}' id="minus-wishlist" class="btn btn-block btn-danger fw-bold text-black text-decoration-none mb-2">
+                        <i class="fas fa-heart fa-lg"></i>
+                    </a>
+                    {% else %}
+                    <a pid='{{product.id}}' id="plus-wishlist" class="btn btn-block btn-success fw-bold text-black text-decoration-none mb-2">
+                        <i class="fas fa-heart fa-lg"></i>
+                    </a>
+                    {% endif %}
+                {% endif %}
+
+                <ul class="" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">
+                    <li>Sample Audio :  &nbsp;
+                        </li>
+                            <audio class="audioPlayer" style="height: 30px; width: 100%;" preload="auto" id="audioPlayer{{ product_obj.id }}" controls controlsList="nodownload nodisplayrate"
+                            source src="{{product_obj.demo_audio_file.url}}" type="audio/mp3"></audio>
+                        </li>
+                    </li>
+                </ul>
+                
+                <div class="buttons row flex" style="font-family: 'Lucida Sans', 'Lucida Sans Regula';">
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'shoppingsite:addtocart' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="{{product_obj.id}}">
+                            <input type="hidden" name="quantity" value="1">
+                            <input type="submit" class="btn btn-warning btn-block btn-lg w-100  fs-3 fw-bold mt-2" value="Add to Cart">
+                        </form>
+                        <a href="{% url 'shoppingsite:directbuy' product_obj.id %}" class="fw-bold fs-2 text-black text-decoration-none">
+                            <button type="submit" class="btn btn-info btn-block btn-lg w-100  fs-3 fw-bold mt-2">
+                                <div class="d-flex justify-content-center">
+                                    Buy Now
+                                </div>
+                            </button>
+                        </a>
+                    {% else %}
+                        <h4 class="text-danger">Please Login to buy the book!</h4>
+                    {% endif %}
+                </div>
+            </div>
+    
+        </div>
+    </div>
+</section>
+
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var audioPlayers = document.querySelectorAll('.audioPlayer');
+            var s_user_length = "{{ s_user_length }}";
+
+            if (parseInt(s_user_length) === 0) {
+                console.log("s_user is empty");
+                audioPlayers.forEach(function(audio) {
+                    audio.addEventListener('play', function() {
+                        setTimeout(function() {
+                            window.location.href = '/pricingpage';
+                        }, 10000);
+                    });
+                });
+            }
+
+            audioPlayers.forEach(function(audio) {
+                audio.addEventListener('play', function() {
+                    audioPlayers.forEach(function(otherAudio) {
+                        if (otherAudio !== audio && !otherAudio.paused) {
+                            otherAudio.pause();
+                        }
+                    });
+                });
+            });
+        });
+</script>
+{% endblock main-content %}
