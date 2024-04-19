@@ -1,0 +1,11 @@
+{% extends 'shoppingsite/base.html' %}
+{% load static %}
+{% block title %}
+    Home
+{% endblock title %}
+
+{% block main-content %}
+    {% for i in category_obj %}
+        <button><a href="{% url 'shoppingsite:productsofcategory' i.title %}">{{i.title}}</a></button>
+    {% endfor %}
+{% endblock main-content %}

@@ -1,0 +1,264 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="{% static 'css/homestyle.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pricing.css' %}">
+    <link rel="stylesheet" href="{% static 'css/audiobtn.css' %}">
+    <link rel="stylesheet" href="{% static 'css/homeproducts.css' %}">
+    
+
+    <style>
+        .pointer{
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    {% if user.is_authenticated %}
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top d-block"
+            data-navbar-on-scroll="data-navbar-on-scroll">
+            <div class="container"><a class="navbar-brand d-inline-flex" href="{% url 'shoppingsite:home' %}"><span
+                        class="text-1000 fs-0 fw-bold"><img class="d-inline-block"
+                        src="{% static 'app_common/img/logos/admin_new_logo.png'%}" alt="Avatar" style="height: 40px; width: 80px;" /></span></a>
+                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation"><span
+                        class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse mt-4 mt-lg-0" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+                                {% for i in category_obj %}
+                                    <li><a class="dropdown-item" href="{% url 'shoppingsite:productsofcategory' i.title %}">{{i.title}}</a></li>
+                                {% endfor %}                  
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <form action="" method="post" class="input-group input-group-rounded">
+                                {% csrf_token %}
+                                <input name="search-box" type="search" class="form-control rounded border-1 border-primary opacity-50" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
+                                <span><button type="submit" id="" class="btn btn-outline-primary">Search</button></span>
+                            </form>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item px-2"><a class="nav-link fw-medium active" aria-current="page" href="">
+                            <svg class="feather feather-phone me-3" xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                            </path>
+                            </svg>
+                        </a>
+                    </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link fw-medium" href="{% url 'shoppingsite:showcart' %}">
+                                <svg class="feather feather-shopping-cart me-3" xmlns="http://www.w3.org/2000/svg"
+                                    width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="9" cy="21" r="1"></circle>
+                                    <circle cx="20" cy="21" r="1"></circle>
+                                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown px-2">
+                            <a class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <small class="fw-medium" style="font-size: 15px;">{{request.user.full_name}}</small>
+                                <svg class="feather feather-user" xmlns="http://www.w3.org/2000/svg" width="16"
+                                    height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+                                <li><a class="dropdown-item" href="{% url 'shoppingsite:profile' %}">Profile</a></li>
+                                <li><a class="dropdown-item" href="">Orders</a></li>
+                                <li><a class="dropdown-item" href="{% url 'shoppingsite:pricing' %}">Subscription Plans</a></li>
+                                <li><a class="dropdown-item" href="{% url 'shoppingsite:subscriptionaudiobooks' %}">Subscribe Books</a></li>
+                                {% if user.is_superuser %}
+                                    <li><a class="dropdown-item" href="">Add Products</a></li>
+                                    <li><a class="dropdown-item" href="">View Products</a></li>
+                                {% endif %}
+                                <li><a class="dropdown-item" href="{% url 'shoppingsite:passwordchange' %}">Change Password</a></li>
+                                <li>
+                                    <button class="form-control btn btn-link text-decoration-none text-black"><a href="{% url 'shoppingsite:logout' %}" class="form-control btn btn-link text-decoration-none text-black">Logout</a></button>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <li class="nav-item px-2">
+                            <a class="nav-link fw-medium" href="">
+                                <svg class="feather feather-heart me-3" xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                </path>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    {% elif not user.is_authenticated %}
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block"
+            data-navbar-on-scroll="data-navbar-on-scroll">
+            <div class="container"><a class="navbar-brand d-inline-flex" href="{% url 'shoppingsite:home' %}"><span
+                class="text-1000 fs-0 fw-bold"><img class="d-inline-block"
+                src="{% static 'app_common/img/logos/admin_new_logo.png'%}" alt="Avatar" style="height: 40px; width: 80px;" /></span></a>
+                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation"><span
+                        class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse mt-4 mt-lg-0" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown px-2">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Collections</a>
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+                                {% for i in category_obj %}
+                                    <li><a class="dropdown-item" href="{% url 'shoppingsite:productsofcategory' i.title %}">{{i.title}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <li class="nav-item">
+                                <form action="" method="post" class="input-group input-group-rounded">
+                                    {% csrf_token %}
+                                    <input name="search-box" type="search" class="form-control rounded border-1 border-primary" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
+                                    <span><button type="submit" id="search-btn" class="btn btn-outline-primary">Search</button></span>
+                                </form>
+                            </li>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-3">
+                        <li class="nav-item px-2"><a class="nav-link fw-medium active" aria-current="page" href="{% url 'shoppingsite:login' %}">
+                            <svg class="feather feather-phone me-3" xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                            </path>
+                            </svg>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-medium" href="{% url 'shoppingsite:login' %}">
+                                <svg class="feather feather-shopping-cart me-3" xmlns="http://www.w3.org/2000/svg"
+                                    width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="9" cy="21" r="1"></circle>
+                                    <circle cx="20" cy="21" r="1"></circle>
+                                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <small class="fw-medium" style="font-size: 15px;">Not Loggedin.</small>
+                                <svg class="feather feather-user" xmlns="http://www.w3.org/2000/svg" width="16"
+                                    height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+                                <li class="nav-item"><a class="nav-link fw-medium" href="{% url 'shoppingsite:login' %}">Log In</a></li>
+                                <li class="nav-item"><a class="nav-link fw-medium" href="{% url 'shoppingsite:signup' %}">Sign Up</a></li>
+                            </ul>
+                        </li>
+                       
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    {% endif %}
+    <br>
+    <br>
+
+    {% block main-content %}
+            
+    {% endblock main-content %}
+
+
+    
+    <!-- FOOTER -->
+    <footer class="bg-dark text-light py-4 mt-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="img/logo.png" alt="CoolGadgets Logo" class="mb-2" width="100">
+                    <p>Discover the Future <br> With CoolGadgets!</p>
+                </div>
+                <div class="col-md-3">
+                    <h3>Navigation</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="/" class="text-decoration-none text-light">Home</a></li>
+                        <li><a href="products.html" class="text-decoration-none text-light">Products</a></li>
+                        <li><a href="#contact" class="text-decoration-none text-light">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h3>Useful Links</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none text-light">Coupons</a></li>
+                        <li><a href="#" class="text-decoration-none text-light">Blog Post</a></li>
+                        <li><a href="#" class="text-decoration-none text-light">Return Policy</a></li>
+                        <li><a href="#" class="text-decoration-none text-light">Join Affiliate</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h3>Follow Us</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none text-light">Facebook</a></li>
+                        <li><a href="#" class="text-decoration-none text-light">Twitter</a></li>
+                        <li><a href="#" class="text-decoration-none text-light">Instagram</a></li>
+                        <li><a href="#" class="text-decoration-none text-light">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">&copy; Copyright 2023 - CoolGadgets Store</div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.7/mediaelement-and-player.min.js">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet">
+</body>
+
+</html>
