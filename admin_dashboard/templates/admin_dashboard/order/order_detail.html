@@ -24,9 +24,9 @@
 
       <div class="card order_details">
           <div class="row">
-            <div class="col-md-5 col-12 col-sm-12">
+            <div class="col-md-12 col-12 col-sm-12">
 
-              <table class="table">
+              <table class="table w-100">
                 <thead>
                   <tr>
                     <th scope="col">ID</th>
@@ -36,14 +36,14 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {% for product in product_list %}
+                  {% for product, quantity in zipproduct %}
                     <tr>
                       <th scope="row">{{product.uid}}</th>
                       <td>
-                        <img src="{{product.image}}"/>
+                        <img src="{{product.audiobook_image.url}}" style="height: 50px; width: 50px;"/>
                       </td>
-                      <td>{{product.name}}</td>
-                      <td>{{product.quantity}}</td>
+                      <td>{{product.title}}</td>
+                      <td>{{quantity}}</td>
                     </tr>
                   {% endfor %}
                   <tr>
@@ -58,7 +58,7 @@
 
             </div>
 
-            <div class="col-md-7 col-12 col-sm-12">
+            <div class="col-md-12 col-12 col-sm-12">
 
               <div class="order_info">
                 <h5>User Details</h5>
@@ -69,13 +69,12 @@
                 <hr>
 
                 <h5>Shipping Address</h5>
-                <p>Address : <span class="value">{{address.address}}</span></p>
-                <p>LandMark : <span class="value">{{address.landmark}}</span></p>
-                <p>Zip : <span class="value">{{address.zip}}</span></p>
-                <p>District : <span class="value">{{address.district}}</span></p>
-                <p>Address Type: <span class="value">{{address.address_title}}</span></p>
-                <p>Contact 1 : <span class="value">{{address.contact1}}</span></p>
-                <p>Contact 2 : <span class="value">{{address.contact2}}</span></p>
+                <p>LandMark1 : <span class="value">{{address.landmark1}}</span></p>
+                <p>LandMark2 : <span class="value">{{address.landmark2}}</span></p>
+                <p>State : <span class="value">{{address.state}}</span></p>
+                <p>City: <span class="value">{{address.city}}</span></p>
+                <p>Zip : <span class="value">{{address.zipcode}}</span></p>
+                <p>Country : <span class="value">{{address.country}}</span></p>
 
 
                 <h5>Order Update</h5>
