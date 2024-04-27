@@ -1,7 +1,7 @@
 {% extends 'shoppingsite/base.html' %}
 {% load static %}
 {% block title %}
-    Profile Update
+    Add Address
 {% endblock title %}
 
 {% block main-content %}
@@ -10,7 +10,7 @@
         {% csrf_token %}
         {{form.as_p}}
         <div>
-            <button class="btn btn-primary w-full" type="submit">Update</button>
+            <button class="btn btn-primary w-full" type="submit">Add</button>
         </div>
     </form>
 </div>

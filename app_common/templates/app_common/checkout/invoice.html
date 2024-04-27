@@ -44,7 +44,7 @@
                                                     <td class="content-block"
                                                         style="display: flex;box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;border-bottom: 1px solid #dedede;justify-content: space-between;"
                                                         valign="top">
-                                                        <p style="font-size: 2rem;">Lakshmi Mart</p>
+                                                        <p style="font-size: 2rem;">AudioBook</p>
                                                         <div style="margin-left: auto;">
                                                             <h3
                                                                 style="color: #0c2f54;font-size: 1.5rem;font-weight: 600;text-align: end;">
@@ -67,15 +67,15 @@
                                                         <div>
                                                             <h4 style="margin-bottom: -9px;">Invoiced To:</h4>
                                                             <p style="margin-bottom: -9px;">{{order.user.full_name}}</p>
-                                                            <p style="margin-bottom: -9px;">{{address.address}},{{address.zip}}
+                                                            <p style="margin-bottom: -9px;">{{address.landmark1}},{{address.city}},{{address.zipcode}}
                                                             </p>
                                                             <p style="margin-bottom: -9px;">{{order.user.email}}</p>
                                                             <p style="margin-bottom: -9px;">{{order.user.contact}}</p>
                                                         </div>
                                                         <div style="margin-left: auto;">
                                                             <h4 style="margin-bottom: -9px;">Pay To:</h4>
-                                                            <p style="margin-bottom: -9px;">Lakshmi Mart</p>
-                                                            <p style="margin-bottom: -9px;">lakshmimart.tapas@gmail.com</p>
+                                                            <p style="margin-bottom: -9px;">Audiobook</p>
+                                                            <p style="margin-bottom: -9px;">audiobook.pvt@gmail.com</p>
                                                             <p style="margin-bottom: -9px;">+91 82502-20098</p>
                                                             <p style="margin-bottom: -9px;">address</p>
                                                         </div>
@@ -138,23 +138,23 @@
                                                                 </th>
                                                             </tr>
 
-                                                            {% for product in product_list %}
+                                                            {% for product,quantity in productandquantity %}
                                                                 <tr>
                                                                     <td
                                                                         style="border-bottom: 1px solid #dddddd;padding:11px">
-                                                                        {{product.product.uid}}
+                                                                        {{product.uid}}
                                                                     </td>
                                                                     <td
                                                                         style="border-bottom: 1px solid #dddddd;padding:11px">
-                                                                        {{product.quantity}}
+                                                                        {{quantity}}
                                                                     </td>
                                                                     <td
                                                                         style="border-bottom: 1px solid #dddddd; padding:11px">
-                                                                        {{product.product.product_discount_price}}
+                                                                        {{product.book_discount_price}}
                                                                     </td>
                                                                     <td
                                                                         style="border-bottom: 1px solid #dddddd;text-align: end; padding:11px">
-                                                                        {{product.product.product_total_price}}
+                                                                        {{product.book_discount_price}}
                                                                     </td>
                                                                 </tr>
                                                             {% endfor %}

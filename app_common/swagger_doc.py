@@ -60,8 +60,7 @@ order_placed = [
 
     openapi.Parameter(name="payment_status",in_=openapi.IN_QUERY,required=True, type=openapi.TYPE_ARRAY, items=openapi.Items(type=openapi.TYPE_STRING,enum=[i[0] for i in Order.PaymentStatus], )
     ),
-    openapi.Parameter(name="payment_method",in_=openapi.IN_QUERY,required=True, type=openapi.TYPE_ARRAY, items=openapi.Items(type=openapi.TYPE_STRING,enum=[i[0] for i in Order.PaymentMode], )
-    ),
+    
     openapi.Parameter(
         "transaction_id", openapi.IN_QUERY, required=False, type=openapi.TYPE_NUMBER, description="Transaction id if online payment"
     ),

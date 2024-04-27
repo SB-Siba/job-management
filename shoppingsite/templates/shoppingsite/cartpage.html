@@ -66,7 +66,7 @@
                         <span><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{totalPrice}}</span>
                     </div>
                     {% if products|length > 0 %}
-                        <a href="{% url 'shoppingsite:checkout' cartItems.id %}" class="btn btn-warning w-100 mt-3">Proceed to Checkout</a>
+                        <a href="{% url 'shoppingsite:checkout' %}" class="btn btn-warning w-100 mt-3">Proceed to Checkout</a>
                     {% else %}
                         <a href="" class="btn btn-warning w-100 mt-3">Proceed to Checkout</a>
                     {% endif %}

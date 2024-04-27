@@ -79,11 +79,11 @@ urlpatterns = [
     path('credential/change_password', credential.Change_password.as_view(), name="change_password"),
     path('credential/change_user_status', credential.UserActiveInactive.as_view(), name="change_user_status"),
 
-    # path('order/admin_order_list', order.OrderList.as_view(), name='admin_order_list'),
-    # path('order/admin_order_search', order.OrderSearch.as_view(), name='admin_order_search'),
-    # path('order/order_detail/<str:order_uid>', order.OrderDetail.as_view(), name='order_detail'),
-    # path('order/download_invoice/<str:order_uid>', order.DownloadInvoice.as_view(), name='download_invoice'),
-    # path('order/order_status_search', order.OrderStatusSearch.as_view(), name='order_status_search'),
+    path('order/admin_order_list', order.OrderList.as_view(), name='admin_order_list'),
+    path('order/admin_order_search', order.OrderSearch.as_view(), name='admin_order_search'),
+    path('order/order_detail/<str:order_uid>', order.OrderDetail.as_view(), name='order_detail'),
+    path('order/download_invoice/<str:order_uid>', order.DownloadInvoice.as_view(), name='download_invoice'),
+    path('order/order_status_search', order.OrderStatusSearch.as_view(), name='order_status_search'),
     
 
     # contact message

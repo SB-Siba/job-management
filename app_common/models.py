@@ -42,7 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     
-    address = models.JSONField(default= dict, null=True, blank=True) # user_address
+    address = models.JSONField(default= dict, null=True, blank=True)
     otp = models.CharField(max_length= 10, null=True, blank=True)
     
     # billing details
@@ -106,6 +106,7 @@ class AudioBook(models.Model):
         ("yes","yes"),
         ("no","no")
     )
+    uid=models.CharField(max_length=255, null=True, blank=True)
     title = models.CharField(max_length=255, null=True, blank=True, unique=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
     author = models.CharField(max_length=255)
@@ -125,6 +126,11 @@ class AudioBook(models.Model):
     rating = models.DecimalField(max_digits=5, decimal_places=1, default=0.0)
     num_ratings = models.PositiveIntegerField(default=0)
 
+    def save(self, *args, **kwargs):
+        if not self.uid:
+            self.uid = utils.get_rand_number(5)
+        super().save(*args, **kwargs)
+        
     def __str__(self):
         return self.title
 
@@ -230,28 +236,18 @@ class Order(models.Model):
         ("Refunded","Refunded"),
     )
 
-    PaymentMode=(
-        ("ONLINE","ONLINE"),
-        ("CASH","CASH"),
-        ("PENDING","PENDING"),
-    )
-
-    PaymentType=(
-        ("CREDITCARD","CREDITCARD"),
-        ("DEBITCARD","DEBITCARD"),
-        ("PAYPAL","PAYPAL"),
-        ("COD","COD"),
-    )
-
     uid=models.CharField(max_length=255, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    full_name=models.CharField(max_length=255, null=True, blank=True)
+    email = models.EmailField(null=True,blank=True)
     products = models.JSONField(default=dict, null=True, blank=True)
     coupon = models.CharField(max_length=255, null=True, blank=True)
     order_value = models.FloatField(default=0.0)
     # order_meta_data = models.JSONField(default=dict, null=True, blank=True)
     order_status = models.CharField(max_length=255, choices= ORDER_STATUS, default="Placed")
-    payment_method = models.CharField(max_length=255, choices= PaymentMode, default="PENDING")
-    payment_type = models.CharField(max_length=255,choices= PaymentType, default="CREDITCARD")
+    razorpay_payment_id = models.TextField(null= True, blank=True)
+    razorpay_order_id = models.TextField(null= True, blank=True)
+    razorpay_signature = models.TextField(null= True, blank=True)
     payment_status = models.CharField(max_length=255, choices= PaymentStatus, default="Paid")
 
     address = models.JSONField(default=dict, null=True, blank=True)
