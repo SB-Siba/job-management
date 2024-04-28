@@ -243,7 +243,7 @@ class Order(models.Model):
     products = models.JSONField(default=dict, null=True, blank=True)
     coupon = models.CharField(max_length=255, null=True, blank=True)
     order_value = models.FloatField(default=0.0)
-    # order_meta_data = models.JSONField(default=dict, null=True, blank=True)
+    order_meta_data = models.JSONField(default=dict, null=True, blank=True)
     order_status = models.CharField(max_length=255, choices= ORDER_STATUS, default="Placed")
     razorpay_payment_id = models.TextField(null= True, blank=True)
     razorpay_order_id = models.TextField(null= True, blank=True)

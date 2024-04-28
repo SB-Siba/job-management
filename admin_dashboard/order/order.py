@@ -129,20 +129,25 @@ class DownloadInvoice(View):
         data = OrderSerializer(order).data
         products = []
         quantities = []
-        for product,quantity in data['products'].items():
-            p_obj = common_model.AudioBook.objects.get(title= product)
-            products.append(p_obj)
-            quantities.append(quantity)
+        price_per_unit = []
+        total_prices = []
+        for product,p_overview in data['order_meta_data']['products'].items():
+            products.append(product)
+            quantities.append(p_overview['quantity'])
+            price_per_unit.append(p_overview['price_per_unit'])
+            total_prices.append(p_overview['total_price'])
             # product['product']['quantity']=product['quantity']
-        prod_quant = zip(products, quantities)
+        prod_quant = zip(products, quantities,price_per_unit,total_prices)
         context ={
             'order':data,
             'address':data['address'],
             'user':order.user,
-            'productandquantity':prod_quant
-            # 'charges':data['order_meta_data']['charges'],
-            # 'gross_amt':data['order_meta_data']['our_price'],
-            # 'discount':data['order_meta_data']['our_price'] - data['order_value'],
+            'productandquantity':prod_quant,
+            'GST':data['order_meta_data']['charges']['GST'],
+            'delevery_charge':data['order_meta_data']['charges']['Delivary'],
+            'gross_amt':data['order_meta_data']['our_price'],
+            'discount':data['order_meta_data']['discount_amount'],
+            'final_total':data['order_meta_data']['final_cart_value']
         }
 
         return render(request, self.template, context)
