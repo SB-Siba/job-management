@@ -61,10 +61,11 @@ Checkout Page
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function(response){
+                    console.log(response);
                     window.location.href = 'http://127.0.0.1:8000/';
                 },
                 error: function(xhr, status, error){
-                    // Handle errors
+                    console.log("error")
                     console.error(xhr.responseText);
                 }
             });

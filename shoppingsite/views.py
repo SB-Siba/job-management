@@ -247,13 +247,23 @@ class ShowCart(View):
         else:
             try:
                 cartItems = Cart.objects.get(user=user)
-                products = {}
                 totaloriginalprice = 0
                 totalPrice = 0
+                GST = 0
+                Delivary = 0
+                final_cart_value = 0
+                products = {}
+                obj = CartSerializer(cartItems).data
+                print(obj)
+                for i,j in obj.items():
+                    totaloriginalprice = int(j['gross_cart_value'])
+                    totalPrice = int(j['our_price'])
+                    GST = j['charges']['GST']
+                    Delivary = j['charges']['Delivary']
+                    final_cart_value = j['final_cart_value']
+                
                 for key, value in cartItems.products.items():
                     prd_obj = AudioBook.objects.get(title=str(key))
-                    totaloriginalprice += (prd_obj.book_max_price) * value
-                    totalPrice += (prd_obj.book_discount_price) * value
                     products[prd_obj] = value
                 discount_price = totaloriginalprice - totalPrice
                 # taxprice = totalPrice*(3/100)
@@ -262,7 +272,8 @@ class ShowCart(View):
                 cartItems.total_price = totalPrice
                 cartItems.save()
 
-            except Exception:
+            except Exception as e:
+                print('Error :', str(e))
                 products = {}
 
         return render(request, "shoppingsite/cartpage.html", locals())
@@ -405,7 +416,12 @@ class PaymentSuccess(View):
         cart = Cart.objects.get(user=request.user)
         data = json.loads(request.body)
         address_id = data.get('address_id')
-        
+        order_details = CartSerializer(cart).data
+        ord_meta_data = {}
+        print(ord_meta_data)
+        for i,j in order_details.items():
+            ord_meta_data.update(j)
+        print(ord_meta_data)
         user_addresses = user.address
         selected_address = None
         for address in user_addresses:
@@ -426,15 +442,18 @@ class PaymentSuccess(View):
                 products=cart.products,
                 order_value=cart.total_price,
                 address=selected_address,
+                order_meta_data = ord_meta_data
                 # razorpay_payment_id = razorpay_payment_id,
                 # razorpay_order_id= razorpay_order_id,
                 # razorpay_signature= razorpay_signature,
             )
+            # order.order_meta_data = json.loads(ord_meta_data)
             order.save()
             messages.success(request, "Order Successful!")
             cart.delete()
             return redirect("shoppingsite:home")
-        except Exception:
+        except Exception as e:
+            print(e)
             messages.error(request, "Error while placing Order.")
             return redirect("shoppingsite:checkout")
         # else:

@@ -122,7 +122,7 @@
                                                             <tr>
                                                                 <th
                                                                     style=" border-bottom: 1px solid #dddddd;text-align: left; padding:11px">
-                                                                    Item-ID
+                                                                    Item-Name
                                                                 </th>
                                                                 <th
                                                                     style=" border-bottom: 1px solid #dddddd;text-align: left;padding:11px">
@@ -138,11 +138,11 @@
                                                                 </th>
                                                             </tr>
 
-                                                            {% for product,quantity in productandquantity %}
+                                                            {% for product,quantity,price_per_unit,total_price in productandquantity %}
                                                                 <tr>
                                                                     <td
                                                                         style="border-bottom: 1px solid #dddddd;padding:11px">
-                                                                        {{product.uid}}
+                                                                        {{product}}
                                                                     </td>
                                                                     <td
                                                                         style="border-bottom: 1px solid #dddddd;padding:11px">
@@ -150,11 +150,11 @@
                                                                     </td>
                                                                     <td
                                                                         style="border-bottom: 1px solid #dddddd; padding:11px">
-                                                                        {{product.book_discount_price}}
+                                                                        {{price_per_unit}}
                                                                     </td>
                                                                     <td
                                                                         style="border-bottom: 1px solid #dddddd;text-align: end; padding:11px">
-                                                                        {{product.book_discount_price}}
+                                                                        {{total_price}}
                                                                     </td>
                                                                 </tr>
                                                             {% endfor %}
@@ -192,7 +192,7 @@
                                                                     {{gross_amt}}
                                                                 </td>
                                                             </tr>
-                                                            <tr>
+                                                            <!-- <tr>
                                                                 <td
                                                                     style="border-bottom: 1px solid #dddddd;background-color: #0000000f;">
                                                                 </td>
@@ -207,7 +207,7 @@
                                                                     style="border-bottom: 1px solid #dddddd;text-align: end; padding:11px;background-color: #0000000f;">
                                                                     {{discount}}
                                                                 </td>
-                                                            </tr>
+                                                            </tr> -->
 
                                                             <tr>
                                                                 <td
@@ -222,7 +222,7 @@
                                                                 </th>
                                                                 <td
                                                                     style="border-bottom: 1px solid #dddddd;text-align: end; padding:11px;background-color: #0000000f;">
-                                                                    {{charges.GST}}
+                                                                    {{GST}}
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -238,7 +238,7 @@
                                                                 </th>
                                                                 <td
                                                                     style="border-bottom: 1px solid #dddddd;text-align: end; padding:11px;background-color: #0000000f;">
-                                                                    {{charges.Delivary}}
+                                                                    {{delevery_charge}}
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -254,7 +254,7 @@
                                                                 </th>
                                                                 <td
                                                                     style="border-bottom: 1px solid #dddddd;text-align: end; padding:11px;background-color: #0000000f;">
-                                                                    {{order.order_value}}
+                                                                    {{final_total}}
                                                                 </td>
                                                             </tr>
 

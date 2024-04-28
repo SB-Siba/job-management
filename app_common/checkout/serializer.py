@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.conf import settings
 from ..serializer import UserSerializer
 from app_common import models as common_models
+from django.shortcuts import get_object_or_404
+from decimal import Decimal
 
 class CartSerializer(serializers.ModelSerializer):
     products_data = serializers.SerializerMethodField()
@@ -49,7 +51,6 @@ class CartSerializer(serializers.ModelSerializer):
     def get_products_data(self,obj):
         total_cart_items = 0
         total_cart_value = 0
-
         charges = {}
 
         gross_cart_value = 0 #market price or product_max_price
@@ -57,28 +58,32 @@ class CartSerializer(serializers.ModelSerializer):
         final_payable_amount =0
 
 
+        products = {}
         product_list = []
 
-        for key, value in obj.products.items():
-            product_total_max__price = value['product']['product_max_price'] * value['quantity']
-            gross_cart_value += product_total_max__price
+        for key,value in obj.products.items():
+            product = get_object_or_404(common_models.AudioBook,title = key)
+            gross_cart_value += float(product.book_max_price)*int(value)
 
-            product_total_discounted__price = value['product']['product_discount_price'] * value['quantity']
+            product_total_discounted__price = float(product.book_discount_price)*int(value)
             our_price += product_total_discounted__price
 
 
-            total_cart_items += value['quantity']
+            total_cart_items += int(value)
             
 
-            value['product']['product_total_price'] = product_total_discounted__price
+            # value['product']['product_total_price'] = product_total_discounted__price
+            x = {}
             
-            product_list.append(value)
+            x['quantity'] = value
+            x['price_per_unit'] = product.book_discount_price
+            x['total_price'] = float(product.book_discount_price) * int(value)
 
-
+            products[key] = x
 
         discount_amount = gross_cart_value - our_price
         result = {
-            'products':product_list,
+            'products':products,
             'total_cart_items':total_cart_items,
             'gross_cart_value': gross_cart_value,
             'our_price':our_price,
@@ -88,7 +93,7 @@ class CartSerializer(serializers.ModelSerializer):
         }
 
         # calculating final amount by adding the charges
-        final_cart_value = our_price
+        final_cart_value = Decimal(str(our_price))
         if len(charges) > 0:
             for key, value in charges.items():
                 final_cart_value += value
@@ -102,19 +107,20 @@ class CartSerializer(serializers.ModelSerializer):
 
         # GST
         if settings.GST_CHARGE > 0:
-            charges['GST']= final_cart_value * settings.GST_CHARGE
-            result['final_cart_value'] += charges['GST']
+            gst_value = final_cart_value * Decimal(str(settings.GST_CHARGE))
+            charges['GST'] = '{:.2f}'.format(gst_value)
         else:
             charges['GST']=0
-
-
+        
         #delivary
         if result['final_cart_value'] < settings.DELIVARY_FREE_ORDER_AMOUNT:
-            charges['Delivary']= total_cart_items * settings.DELIVARY_CHARGE_PER_BAG
-            result['final_cart_value'] += charges['Delivary']
+            delevery_charge = total_cart_items * Decimal(str(settings.DELIVARY_CHARGE_PER_BAG))
+            charges['Delivary'] = '{:.2f}'.format(delevery_charge)
         else:
             charges['Delivary']= 0
 
+        for key, value in charges.items():
+            final_cart_value += Decimal(value)
 
         #modifing coupon data
         if settings.COUPON_ENABLE and self.coupon:
@@ -123,6 +129,9 @@ class CartSerializer(serializers.ModelSerializer):
 
             if cuopon_validation_response['valid'] == True:
                 result['final_cart_value'] -= cuopon_validation_response['discount']
+
+        result['final_cart_value'] = float(final_cart_value)
+
         return result
     
 
