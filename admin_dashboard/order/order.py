@@ -25,7 +25,7 @@ class OrderList(View):
         order_list = self.model.objects.all().order_by('-id')
         paginated_data = utils.paginate(request, order_list, 50)
         order_status_options = common_model.Order.ORDER_STATUS
-        
+      
         context = {
             "order_list":paginated_data,
             "order_status_options":order_status_options,
@@ -77,8 +77,11 @@ class OrderDetail(View):
         product_list = []
         product_quantity = []
         total_quantity= 0
-        
-
+        grand_total = 0
+        try:
+            grand_total = order.order_meta_data['final_cart_value']
+        except Exception:
+            grand_total = order.order_meta_data['final_value']
         # for product in order.products:
         #     product['product']['quantity'] = product['quantity']
         #     total_quantity += product['quantity']
@@ -93,6 +96,7 @@ class OrderDetail(View):
         
         context={
             'order':order,
+            'grand_total':grand_total,
             'zipproduct':zipproduct,
             'total_quantity':total_quantity,
             'address':order.address,
@@ -138,6 +142,10 @@ class DownloadInvoice(View):
             total_prices.append(p_overview['total_price'])
             # product['product']['quantity']=product['quantity']
         prod_quant = zip(products, quantities,price_per_unit,total_prices)
+        try:
+            final_total = data['order_meta_data']['final_cart_value']
+        except Exception:
+            final_total = data['order_meta_data']['final_value']
         context ={
             'order':data,
             'address':data['address'],
@@ -147,7 +155,7 @@ class DownloadInvoice(View):
             'delevery_charge':data['order_meta_data']['charges']['Delivary'],
             'gross_amt':data['order_meta_data']['our_price'],
             'discount':data['order_meta_data']['discount_amount'],
-            'final_total':data['order_meta_data']['final_cart_value']
+            'final_total':final_total
         }
 
         return render(request, self.template, context)

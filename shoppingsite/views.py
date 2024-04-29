@@ -6,7 +6,7 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from . import forms
 from . import rozerpay
-from app_common.checkout.serializer import CartSerializer
+from app_common.checkout.serializer import CartSerializer,DirectBuySerializer
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from io import StringIO
@@ -306,6 +306,36 @@ class AddToCartView(View):
     def get(self, request, *args, **kwargs):
         return redirect("home")
 
+class ManageCart(View):
+    model = Cart
+ 
+    def get(self, request, product_uid):
+        operation_type = request.GET.get('operation')
+        prd_obj = get_object_or_404(AudioBook, uid=product_uid)
+        cart = self.model.objects.get(user = request.user)
+        old_product_dict = cart.products
+        # print(old_product_dict)
+        if prd_obj.title in old_product_dict:
+            if operation_type == 'plus':
+                old_product_dict[prd_obj.title] += 1
+                cart.products = old_product_dict
+                cart.save()
+                
+ 
+            elif operation_type == "min":
+                old_product_dict[prd_obj.title] -= 1
+                cart.products = old_product_dict
+                cart.save()
+ 
+            # else:
+            #     print("remove operation")
+            #     old_product_dict.pop(product_uid)
+            #     cart.products = old_product_dict
+            #     cart.save()
+            
+        else:
+            messages.error(request, "Product is not in your cart..")
+        return redirect('shoppingsite:showcart')
 
 def RemoveFromCart(request, cart_id, rp_name):
     cart = get_object_or_404(Cart, id=cart_id)
@@ -386,10 +416,12 @@ class Checkout(View):
     def get(self, request):
         user = request.user
         cart = Cart.objects.get(user=user)
-        total_price = cart.total_price
+        order_details = CartSerializer(cart).data
+        total_price = 0
+        for i,j in order_details.items():
+            total_price = float(j['final_cart_value'])
         user = request.user
         addresses = user.address or []
-        print(addresses)
         # status, rz_order_id = rozerpay.create_order_in_razPay(
         #     amount=int(cart.total_price)
         # )
@@ -398,8 +430,35 @@ class Checkout(View):
         context = {
             "cart": cart.products,
             # "rz_order_id": rz_order_id,
-            "amount": cart.total_price,
             # "api_key": settings.RAZORPAY_API_KEY,
+            "total_price":total_price,
+            "addresses":addresses
+        }
+
+        return render(request, self.template, context)
+    
+class DirectBuyCheckout(View):
+    template = app + "directbuycheckout.html"
+
+    def get(self, request,p_id):
+        user = request.user
+        product = AudioBook.objects.get(id=p_id)
+        order_details = DirectBuySerializer(product).data
+        total_price = 0
+        for i,j in order_details.items():
+            total_price = float(j['final_value'])
+        
+        user = request.user
+        addresses = user.address or []
+        # status, rz_order_id = rozerpay.create_order_in_razPay(
+        #     amount=int(cart.total_price)
+        # )
+        # print("over",rz_order_id)
+
+        context = {
+            # "rz_order_id": rz_order_id,
+            # "api_key": settings.RAZORPAY_API_KEY,
+            "product_uid" : product.uid,
             "total_price":total_price,
             "addresses":addresses
         }
@@ -418,10 +477,12 @@ class PaymentSuccess(View):
         address_id = data.get('address_id')
         order_details = CartSerializer(cart).data
         ord_meta_data = {}
-        print(ord_meta_data)
+        # print(ord_meta_data)
         for i,j in order_details.items():
             ord_meta_data.update(j)
-        print(ord_meta_data)
+
+        t_price = ord_meta_data['final_cart_value']
+
         user_addresses = user.address
         selected_address = None
         for address in user_addresses:
@@ -440,7 +501,7 @@ class PaymentSuccess(View):
                 full_name=cart.user.full_name,
                 email=cart.user.email,
                 products=cart.products,
-                order_value=cart.total_price,
+                order_value=t_price,
                 address=selected_address,
                 order_meta_data = ord_meta_data
                 # razorpay_payment_id = razorpay_payment_id,
@@ -479,69 +540,53 @@ class PaymentSuccess(View):
 #         }
 #         return JsonResponse(context, safe=False)
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class DirectBuy(View):
-    template = app + "checkout.html"
-
-    def get(self, request, p_id):
+    model = Order
+    def post(self, request):
         user = request.user
-        product_obj = AudioBook.objects.get(id=p_id)
-        total_price = product_obj.book_discount_price
-        return render(request, self.template, locals())
+        data = json.loads(request.body)
+        address_id = data.get('address_id')
+        productId = data.get('productId')
+        prod_obj = get_object_or_404(AudioBook,uid = productId)
+        order_details = DirectBuySerializer(prod_obj).data
+        # print(order_details)
+        ord_meta_data = {}
+        for i,j in order_details.items():
+            ord_meta_data.update(j)
+        # print(ord_meta_data)
+        t_price = ord_meta_data['final_value']
 
-    def post(self, request, p_id):
-        user = request.user
-        product_obj = AudioBook.objects.get(id=p_id)
-        user_obj = User.objects.get(id=user.id)
-
-        fullName = request.POST["fullName"]
-        email = request.POST["email"]
-        # Address
-        address = request.POST["address"]
-        address2 = request.POST["address2"]
-        city = request.POST["city"]
-        state = request.POST["state"]
-        zipcode = request.POST["zip"]
-        country = request.POST["country"]
-        phone = request.POST["phone"]
-        # card values
-        paymentMethod = request.POST["paymentMethod"]
-        cc_name = request.POST["cc-name"]
-        cc_number = request.POST["cc-number"]
-        cc_expiration = request.POST["cc-expiration"]
-        cc_cvv = request.POST["cc-cvv"]
-
-        order_address = {
-            "main_address": address,
-            "sub_address": address2,
-            "city": city,
-            "state": state,
-            "zipcode": zipcode,
-            "country": country,
-            "phone": phone,
-        }
-
-        product_dict = {product_obj.title: 1}
-
+        user_addresses = user.address
+        selected_address = None
+        for address in user_addresses:
+            if address['id'] == address_id:
+                selected_address = address
+                break
+        
         try:
-            order = Order(
-                user=request.user,
-                products=product_dict,
-                order_value=product_obj.book_discount_price,
-                payment_type=paymentMethod,
-                address=order_address,
+            order = self.model(
+                user=user,
+                full_name=user.full_name,
+                email=user.email,
+                products={prod_obj.title:1},
+                order_value=t_price,
+                address=selected_address,
+                order_meta_data = ord_meta_data
+                # razorpay_payment_id = razorpay_payment_id,
+                # razorpay_order_id= razorpay_order_id,
+                # razorpay_signature= razorpay_signature,
             )
+            # order.order_meta_data = json.loads(ord_meta_data)
             order.save()
             messages.success(request, "Order Successful!")
             return redirect("shoppingsite:home")
-        except Exception:
+        except Exception as e:
+            print(e)
             messages.error(request, "Error while placing Order.")
-            return redirect("shoppingsite:productdetails", p_id)
-
+            return redirect("shoppingsite:directbuychecout")
 
 from django.views.decorators.csrf import csrf_exempt
-
-
 @csrf_exempt
 def remove_audio(request):
     if request.method == "POST":
