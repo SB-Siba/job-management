@@ -15,34 +15,43 @@
     <section class="container my-5">
         <div class="row">
             <div class="col-md-8">
-                <!-- Cart Items List -->
-                <div class="cart-item">
-                    {% if products|length > 0 %}
-                        {% for key,value in products.items %}
-                        <div class="row">
-                            <div class="col-md-3 col-sm">
-                                <img src="{{key.audiobook_image.url}}" class="img-thumbnail" alt="avatar2" style="height: 100px; width: 100px;">
-                            </div>
-                            <div class="col-md-4 col-sm">
-                                <h4>{{key.title}}</h4>
-                                <p><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{key.book_discount_price}}</p>
-                            </div>
-                            
-                            <div class="col-md-3 col-sm mt-3">
-                                <input type="number" class="form-control" value="{{value}}">
-                            </div>
-                            <div class="col-md-2 col-sm mt-3">
-                                <a href="{% url 'shoppingsite:removefromcart' cartItems.id key.title %}"><i class="fa fa-trash fs-2 text-danger" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    {% else %}
-                    <h1 class="text-center">Your cart is empty !!!</h1>
-                    {% endif %}
-                </div>
-                
-                
-                <!-- Add more cart items here -->
+                <!-- Cart Items List -->  
+                <table class="table">
+                    <thead>
+                        <th class="cart-product-remove">Product Image</th>
+                        <th class="cart-product-image">Product & Price</th>
+                        <th class="cart-product-info">Quantity</th>
+                        <th class="cart-product-remove">Remove</th> <!-- Add an empty th for the remove icon -->
+                    </thead>
+                    <tbody>
+                        {% if products|length > 0 %}
+                            {% for key,value in products.items %}
+                            <tr>
+                                <td class="cart-product-image" style="width: 25%;">
+                                    <a>
+                                        <img src="{{key.audiobook_image.url}}" class="img-thumbnail" alt="avatar2" style="height: 100px; width: 100px;">
+                                    </a>
+                                </td>
+                                <td>
+                                    {{key.title}}
+                                    <p><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{key.book_discount_price}}</p>
+                                </td>
+                                <td>
+                                    <div class='d-flex'>
+                                        <a href="{% url 'shoppingsite:managecart' key.uid %}?operation=plus" class="mt-1"><i style="color:green;margin-right:10px;" class="fas fa-plus-square"></i></a>
+                                        <input type="number" style="width: 50px;" class="form-control" value="{{value}}" readonly/>
+                                        <a href="{% url 'shoppingsite:managecart' key.uid %}?operation=min" class="mt-1"><i style="color:red;margin-left:10px;" class="fas fa-minus-square"></i></a>
+                                    </div>
+                                </td>
+                                <td><a href="{% url 'shoppingsite:removefromcart' cartItems.id key.title %}" style="margin-left: 15%;"><i class="fa fa-trash fs-2 text-danger" aria-hidden="true"></i></a></td> 
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <h1 class="text-center">Your cart is empty !!!</h1>
+                        {% endif %}
+                    </tbody>
+                </table>
+             <!-- Add more cart items here -->
             </div>
 
             <div class="col-md-4">
