@@ -44,20 +44,20 @@
                             <tr>
                                 <th scope="col">Name</th>
                                 <th scope="col">Description</th>
-                                <th scope="col">Hide</th>
+                                <th scope="col">Product Count</th>
                                 <th scope="col">Action</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody id="test_table_tbody">
-                            {% for catagory in catagory_list %}
+                            {% for catagory,product_count in category_product_count_zip %}
                                 <tr>
                                     <td>
                                         <a class="text-heading text-primary-hover font-semibold" href="#">{{catagory.title}}</a>
                                     </td>
                                     <td>{{catagory.description}}</td>
                                     
-                                    <td>{{catagory.hide}}</td>
+                                    <td>{{product_count}}</td>
                                     
                                     <td >
                                         <a href="{% url 'admin_dashboard:catagory_update' catagory.id %}" class="btn btn-sm btn-square btn-neutral">

@@ -6,7 +6,7 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from . import forms
 from . import rozerpay
-from app_common.checkout.serializer import CartSerializer,DirectBuySerializer
+from app_common.checkout.serializer import CartSerializer,DirectBuySerializer,TakeSubscriptionSerializer
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from io import StringIO
@@ -36,6 +36,9 @@ class HomeView(View):
     def get(self, request):
         category_obj = Category.objects.all()
         audioBooks = AudioBook.objects.all().order_by("-id")[:10]
+        # user_subscription = get_object_or_404(UserSubscription, user=request.user)
+        # if user_subscription.days_left() <= 0:
+        #     user_subscription.delete()
         return render(request, self.template, locals())
 
 
@@ -66,14 +69,11 @@ class UpdateProfileView(View):
         user = request.user
         category_obj = Category.objects.all()
         userobj = User.objects.get(email=user.email)
-
-        try:
-            profileObj = UserProfile.objects.get(user=user)
-        except UserProfile.DoesNotExist:
-            profileObj = None
-        except:
-            pass
-
+        print(userobj)
+    
+        profileObj, created = UserProfile.objects.get_or_create(user=userobj)
+       
+        print(profileObj)
         initial_data = {
             "email": userobj.email,
             "full_name": userobj.full_name,
@@ -140,9 +140,9 @@ class AllAddress(View):
 
     def get(self, request):
         user = request.user
-        addresses = user.address or []  # This will return a list of addresses
+        address = user.address or []  # This will return a list of addresses
 
-        return render(request, self.template, {"addresses": addresses})
+        return render(request, self.template, {"address": address})
 
 
 from uuid import uuid4
@@ -250,7 +250,7 @@ class ShowCart(View):
                 totaloriginalprice = 0
                 totalPrice = 0
                 GST = 0
-                Delivary = 0
+                # Delivary = 0
                 final_cart_value = 0
                 products = {}
                 obj = CartSerializer(cartItems).data
@@ -259,7 +259,7 @@ class ShowCart(View):
                     totaloriginalprice = int(j['gross_cart_value'])
                     totalPrice = int(j['our_price'])
                     GST = j['charges']['GST']
-                    Delivary = j['charges']['Delivary']
+                    # Delivary = j['charges']['Delivary']
                     final_cart_value = j['final_cart_value']
                 
                 for key, value in cartItems.products.items():
@@ -388,10 +388,33 @@ class SubscribeBooksEpisode(View):
 
         return render(request, self.template, locals())
 
+class SubscriptionChecout(View):
+    model = SubscriptionPlan
+    template = app + "subscription_checkout.html"
+
+    def get(self,request,plan_id):
+        plan_obj = self.model.objects.get(id=plan_id)
+        plan_serializer = TakeSubscriptionSerializer(plan_obj).data
+        gst = plan_serializer['products_data']['charges']['GST']
+        grandtotal = plan_serializer['products_data']['final_value']
+     
+        return render(request,self.template,locals())
 
 def UserTakeSubscription(request, plan_id):
     user = request.user
     plan_obj = SubscriptionPlan.objects.get(id=plan_id)
+    plan_serializer = TakeSubscriptionSerializer(plan_obj).data
+    print(plan_serializer)
+    ord_meta_data = {}
+    for i,j in plan_serializer.items():
+        ord_meta_data.update(j)
+    t_price = ord_meta_data['final_value']
+    user_address = user.address
+    selected_address = None
+    for address in user_address:
+        selected_address = address
+        break
+        
     try:
         subs_qset = UserSubscription.objects.filter(user=user, plan=plan_obj).count()
         if subs_qset > 0:
@@ -399,82 +422,98 @@ def UserTakeSubscription(request, plan_id):
             return redirect("shoppingsite:pricing")
         else:
             new_subscription = UserSubscription(user=user, plan=plan_obj)
+            order = Order(
+                user=user,
+                full_name=user.full_name,
+                email=user.email,
+                products={plan_obj.title:1},
+                order_value=t_price,
+                address=selected_address,
+                order_meta_data = ord_meta_data
+                # razorpay_payment_id = razorpay_payment_id,
+                # razorpay_order_id= razorpay_order_id,
+                # razorpay_signature= razorpay_signature,
+            )
+            # order.order_meta_data = json.loads(ord_meta_data)
+            
+            order.save()
             new_subscription.save()
             messages.success(
                 request, "You have successfully subscribed for the selected Plan!"
             )
             return redirect("shoppingsite:home")
-    except:
+    except Exception as e:
+        print(e)
         messages.error(request, "Error while Taking Subscription")
         return redirect("shoppingsite:pricing")
 
 
-class Checkout(View):
-    template = app + "checkout.html"
-    model = Order
+# class Checkout(View):
+#     template = app + "checkout.html"
+#     model = Order
 
-    def get(self, request):
-        user = request.user
-        cart = Cart.objects.get(user=user)
-        order_details = CartSerializer(cart).data
-        total_price = 0
-        for i,j in order_details.items():
-            total_price = float(j['final_cart_value'])
-        user = request.user
-        addresses = user.address or []
-        # status, rz_order_id = rozerpay.create_order_in_razPay(
-        #     amount=int(cart.total_price)
-        # )
-        # print("over",rz_order_id)
+#     def get(self, request):
+#         user = request.user
+#         cart = Cart.objects.get(user=user)
+#         order_details = CartSerializer(cart).data
+#         total_price = 0
+#         for i,j in order_details.items():
+#             total_price = float(j['final_cart_value'])
+#         user = request.user
+#         # addresses = user.address or []
+#         # status, rz_order_id = rozerpay.create_order_in_razPay(
+#         #     amount=int(cart.total_price)
+#         # )
+#         # print("over",rz_order_id)
 
-        context = {
-            "cart": cart.products,
-            # "rz_order_id": rz_order_id,
-            # "api_key": settings.RAZORPAY_API_KEY,
-            "total_price":total_price,
-            "addresses":addresses
-        }
+#         context = {
+#             "cart": cart.products,
+#             # "rz_order_id": rz_order_id,
+#             # "api_key": settings.RAZORPAY_API_KEY,
+#             "total_price":total_price,
+#             # "addresses":addresses
+#         }
 
-        return render(request, self.template, context)
+#         return render(request, self.template, context)
     
-class DirectBuyCheckout(View):
-    template = app + "directbuycheckout.html"
+# class DirectBuyCheckout(View):
+#     template = app + "directbuycheckout.html"
 
-    def get(self, request,p_id):
-        user = request.user
-        product = AudioBook.objects.get(id=p_id)
-        order_details = DirectBuySerializer(product).data
-        total_price = 0
-        for i,j in order_details.items():
-            total_price = float(j['final_value'])
+#     def get(self, request,p_id):
+#         user = request.user
+#         product = AudioBook.objects.get(id=p_id)
+#         order_details = DirectBuySerializer(product).data
+#         total_price = 0
+#         for i,j in order_details.items():
+#             total_price = float(j['final_value'])
         
-        user = request.user
-        addresses = user.address or []
-        # status, rz_order_id = rozerpay.create_order_in_razPay(
-        #     amount=int(cart.total_price)
-        # )
-        # print("over",rz_order_id)
+#         user = request.user
+#         # addresses = user.address or []
+#         # status, rz_order_id = rozerpay.create_order_in_razPay(
+#         #     amount=int(cart.total_price)
+#         # )
+#         # print("over",rz_order_id)
 
-        context = {
-            # "rz_order_id": rz_order_id,
-            # "api_key": settings.RAZORPAY_API_KEY,
-            "product_uid" : product.uid,
-            "total_price":total_price,
-            "addresses":addresses
-        }
+#         context = {
+#             # "rz_order_id": rz_order_id,
+#             # "api_key": settings.RAZORPAY_API_KEY,
+#             "product_uid" : product.uid,
+#             "total_price":total_price,
+#             # "addresses":addresses
+#         }
 
-        return render(request, self.template, context)
+#         return render(request, self.template, context)
 
 @method_decorator(csrf_exempt, name='dispatch')
 class PaymentSuccess(View):
 
     model = Order
 
-    def post(self, request):
+    def get(self, request,cart_id):
         user = request.user
-        cart = Cart.objects.get(user=request.user)
-        data = json.loads(request.body)
-        address_id = data.get('address_id')
+        cart = Cart.objects.get(id=cart_id)
+        # data = json.loads(request.body)
+        # address_id = data.get('address_id')
         order_details = CartSerializer(cart).data
         ord_meta_data = {}
         # print(ord_meta_data)
@@ -483,12 +522,11 @@ class PaymentSuccess(View):
 
         t_price = ord_meta_data['final_cart_value']
 
-        user_addresses = user.address
+        user_address = user.address
         selected_address = None
-        for address in user_addresses:
-            if address['id'] == address_id:
-                selected_address = address
-                break
+        for address in user_address:
+            selected_address = address
+            break
         # razorpay_payment_id = request.POST['razorpay_payment_id']
         # razorpay_order_id = request.POST['razorpay_order_id']
         # razorpay_signature = request.POST['razorpay_signature']
@@ -543,12 +581,12 @@ class PaymentSuccess(View):
 @method_decorator(csrf_exempt, name='dispatch')
 class DirectBuy(View):
     model = Order
-    def post(self, request):
+    def get(self, request,p_uid):
         user = request.user
-        data = json.loads(request.body)
-        address_id = data.get('address_id')
-        productId = data.get('productId')
-        prod_obj = get_object_or_404(AudioBook,uid = productId)
+        # data = json.loads(request.body)
+        # address_id = data.get('address_id')
+        # productId = data.get('productId')
+        prod_obj = get_object_or_404(AudioBook,uid = p_uid)
         order_details = DirectBuySerializer(prod_obj).data
         # print(order_details)
         ord_meta_data = {}
@@ -557,12 +595,11 @@ class DirectBuy(View):
         # print(ord_meta_data)
         t_price = ord_meta_data['final_value']
 
-        user_addresses = user.address
+        user_address = user.address
         selected_address = None
-        for address in user_addresses:
-            if address['id'] == address_id:
-                selected_address = address
-                break
+        for address in user_address:
+            selected_address = address
+            break
         
         try:
             order = self.model(
@@ -612,3 +649,14 @@ def remove_audio(request):
             messages.error(request, {"error": str(e)})
     else:
         messages.error(request, {"error": "Method not allowed"})
+
+
+class OrderView(View):
+    model = AudioBook
+    template = app + "orders.html"
+
+    def get(self,request):
+        user = request.user
+        orders = Order.objects.filter(user = user)
+        context={'orders':orders}
+        return render(request,self.template,context)

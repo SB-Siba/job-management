@@ -18,8 +18,6 @@ class SubscriptionPlanList(View):
 
     def get(self,request):
         subscriptionplan_obj = self.model.objects.all().order_by('id')
-        for i in subscriptionplan_obj:
-            print(i.title)
 
         paginated_data = utils.paginate(
             request, subscriptionplan_obj, 50
@@ -29,24 +27,7 @@ class SubscriptionPlanList(View):
             "data_list":paginated_data
         }
         return render(request, self.template, context)
-    
-class SubscriptionPlanList(View):
-    model = common_model.SubscriptionPlan
-    template = app + "subscriptionplan_list.html"
 
-    def get(self,request):
-        subscriptionplan_obj = self.model.objects.all().order_by('id')
-        for i in subscriptionplan_obj:
-            print(i.title)
-
-        paginated_data = utils.paginate(
-            request, subscriptionplan_obj, 50
-        )
-        context = {
-            "subscriptionplan_list":subscriptionplan_obj,
-            "data_list":paginated_data
-        }
-        return render(request, self.template, context)
     
 @method_decorator(utils.super_admin_only, name='dispatch')
 class SubscriptionPlanAdd(View):

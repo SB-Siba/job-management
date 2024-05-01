@@ -326,8 +326,8 @@ class UserSubscription(models.Model):
         days_left = (end_date - today).days
         return max(days_left, 0)
     
-@receiver(post_save, sender=UserSubscription)
-def delete_subscription_on_end(sender, instance, created, **kwargs):
-    if not created:
-        if instance.end_date <= timezone.now().date():
-            instance.delete()
+    def save(self, *args, **kwargs):
+        if self.pk:  # Check if instance already exists (i.e., not newly created)
+            if self.days_left() <= 0:
+                self.delete()
+        super(UserSubscription, self).save(*args, **kwargs)

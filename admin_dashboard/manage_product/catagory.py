@@ -33,9 +33,17 @@ class CatagotyList(View):
 
     def get(self,request):
         catagory_list = self.model.objects.all().order_by('-id')
+        categories = []
+        product_count = []
+        for i in catagory_list:
+            p_obj = common_model.AudioBook.objects.filter(category = i).count()
+            categories.append(i)
+            product_count.append(p_obj)
+
+        category_product_count_zip = zip(categories,product_count)
         context = {
             "form": self.form_class,
-            "catagory_list":catagory_list,
+            "category_product_count_zip":category_product_count_zip,
         }
         return render(request, self.template, context)
     

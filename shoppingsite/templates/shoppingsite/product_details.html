@@ -55,7 +55,7 @@
                             <input type="hidden" name="quantity" value="1">
                             <input type="submit" class="btn btn-warning btn-block btn-lg w-100  fs-3 fw-bold mt-2" value="Add to Cart">
                         </form>
-                        <a href="{% url 'shoppingsite:directbuychecout' product_obj.id %}" class="fw-bold fs-2 text-black text-decoration-none">
+                        <a href="{% url 'shoppingsite:directbuy' product_obj.uid %}" class="fw-bold fs-2 text-black text-decoration-none">
                             <button type="submit" class="btn btn-info btn-block btn-lg w-100  fs-3 fw-bold mt-2">
                                 <div class="d-flex justify-content-center">
                                     Buy Now
