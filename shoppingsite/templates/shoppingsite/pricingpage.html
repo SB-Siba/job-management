@@ -18,7 +18,7 @@
                         <li>{{i.feature}}</li> 
                     {% endfor %}
                 </ul> 
-                <a href="{% url 'shoppingsite:usertakesubscription' key.id %}" class="btn border border-2">Buy Now</a> 
+                <a href="{% url 'shoppingsite:subscriptioncheckout' key.id %}" class="btn border border-2">Buy Now</a> 
             </div>
         {% endfor %} 
     </div> 

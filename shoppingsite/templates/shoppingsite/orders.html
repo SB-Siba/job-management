@@ -1,0 +1,72 @@
+{% extends 'shoppingsite/base.html' %}
+{% load static %}
+{% block title %}
+    Orders Page
+{% endblock title %}
+
+{% block main-content %}
+<section style="margin-top: 50px;">
+    <header>
+      <div class="container-fluid">
+        <div class="pt-6 pb-2">
+          <div class="row align-items-center">
+            <div class="col-sm col-12">
+              <h1 class="h2 ls-tight">Order List</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  
+    <main class="py-6 bg-surface-secondary">
+      <div class="container-fluid">
+        <div class="vstack gap-4">
+          <div class="card">
+            <div class="table-responsive">
+              <table class="table table-hover table-nowrap">
+                <thead class="table-light">
+                  <tr>
+                    <th scope="col">ORD_ID</th>
+                    <th scope="col">Products</th>
+                    <th scope="col">Order Ammount</th>
+                    <th scope="col">status</th>
+                  </tr>
+                </thead>
+                <tbody id="test_table_tbody">
+                  {% for order in orders %}
+                  <tr>
+                    <td>
+                      <a class="text-heading text-primary-hover font-semibold" href="#">{{order.uid}}</a>
+                    </td>
+                    <td>
+                        {% for i,j in order.products.items %}
+                            {{i}} : {{j}} <br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {{order.order_value}}
+                    </td>
+                    {% if order.order_status == "Accepted" %}
+                    <td>
+                        <p class="text-success">
+                            {{order.order_status}}
+                        </p>
+                    </td>
+                    {% else %}
+                    <td>
+                      <p class="text-black">
+                        {{order.order_status}}
+                      </p>
+                    </td>
+                    {% endif %}
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </section>
+{% endblock main-content %}
