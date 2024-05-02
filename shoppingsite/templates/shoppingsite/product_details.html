@@ -18,25 +18,17 @@
                 </h1>
                 <p class="mb-0">by <span class="fw-medium text-decoration-underline">&nbsp;{{product_obj.author}}</span></p>
                 <p class="mb-0">Narrated by <span class="fw-medium text-decoration-underline">&nbsp;{{product_obj.narrated_by}}</span></p>
-
-                <h5 class="fw-bold border-top">&#8377;&nbsp;{{ product_obj.book_discount_price }}</h5>
+                {% if is_subscribed %}
+                    <h5 class="fw-bold border-top">&#8377;&nbsp;{{ product_obj.book_discount_price_for_members }}</h5>
+                {% else %}
+                    <h5 class="fw-bold border-top">&#8377;&nbsp;{{ product_obj.book_discount_price }}</h5>
+                {% endif %}
                 <small class="fw-bold text-decoration-line-through text-danger">&#8377;&nbsp;{{product_obj.book_max_price}}</small>
                 <br>
                 <h4>Product Description</h4>
                 <ul class="" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">
                     <li>{{product_obj.description}}</li>
                 </ul>
-                {% if user.is_authenticated %}
-                    {% if wishlist %}
-                    <a pid='{{product.id}}' id="minus-wishlist" class="btn btn-block btn-danger fw-bold text-black text-decoration-none mb-2">
-                        <i class="fas fa-heart fa-lg"></i>
-                    </a>
-                    {% else %}
-                    <a pid='{{product.id}}' id="plus-wishlist" class="btn btn-block btn-success fw-bold text-black text-decoration-none mb-2">
-                        <i class="fas fa-heart fa-lg"></i>
-                    </a>
-                    {% endif %}
-                {% endif %}
 
                 <ul class="" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">
                     <li>Sample Audio :  &nbsp;

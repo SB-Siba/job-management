@@ -9,7 +9,8 @@ class CartSerializer(serializers.ModelSerializer):
     products_data = serializers.SerializerMethodField()
 
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, user_has_subscription=False, **kwargs):
+        self.user_has_subscription = user_has_subscription
         self.coupon = kwargs.pop('coupon', None)
         super().__init__(*args, **kwargs)
 
@@ -63,24 +64,31 @@ class CartSerializer(serializers.ModelSerializer):
 
         for key,value in obj.products.items():
             product = get_object_or_404(common_models.AudioBook,title = key)
-            gross_cart_value += float(product.book_max_price)*int(value)
+            gross_cart_value += product.book_max_price*int(value)
 
-            product_total_discounted__price = float(product.book_discount_price)*int(value)
-            our_price += product_total_discounted__price
+            if self.user_has_subscription:
+                print("hbhij")
+                product_total_discounted__price = float(product.book_discount_price_for_members)*int(value)
+                our_price += product_total_discounted__price
+                price = product.book_discount_price_for_members
+            else:
+                print("false")
+                product_total_discounted__price = float(product.book_discount_price)*int(value)
+                our_price += product_total_discounted__price
+                price = product.book_discount_price
 
+            # product_total_discounted_price = price * int(value)
+            # our_price += product_total_discounted_price
 
             total_cart_items += int(value)
-            
 
-            # value['product']['product_total_price'] = product_total_discounted__price
             x = {}
-            
             x['quantity'] = value
-            x['price_per_unit'] = product.book_discount_price
-            x['total_price'] = float(product.book_discount_price) * int(value)
+            x['price_per_unit'] = price
+            x['total_price'] = float(price) * int(value)
 
             products[key] = x
-
+        print(gross_cart_value,our_price)
         discount_amount = gross_cart_value - our_price
         result = {
             'products':products,
@@ -147,7 +155,8 @@ class DirectBuySerializer(serializers.ModelSerializer):
     products_data = serializers.SerializerMethodField()
 
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, user_has_subscription=False, **kwargs):
+        self.user_has_subscription = user_has_subscription
         self.coupon = kwargs.pop('coupon', None)
         super().__init__(*args, **kwargs)
 
@@ -201,17 +210,26 @@ class DirectBuySerializer(serializers.ModelSerializer):
         try:
             product = get_object_or_404(common_models.AudioBook,uid = obj.uid)
             gross_value += float(product.book_max_price)
-
-            product_discounted__price = float(product.book_discount_price)
-            our_price = product_discounted__price
+            #____________
+            if self.user_has_subscription:
+                product_discounted__price = float(product.book_discount_price_for_members)
+                our_price = product_discounted__price
+                price = product.book_discount_price_for_members
+            else:
+                product_discounted__price = float(product.book_discount_price)
+                our_price = product_discounted__price
+                price = product.book_discount_price
 
             x = {}
             
             x['quantity'] = 1
-            x['price_per_unit'] = product.book_discount_price
-            x['total_price'] = float(product.book_discount_price)
+            x['price_per_unit'] = price
+            x['total_price'] = float(price)
 
             products[product.title] = x
+            #______________
+
+            
         except Exception as e:
             print(e)
         discount_amount = gross_value - our_price

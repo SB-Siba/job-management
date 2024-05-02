@@ -75,7 +75,7 @@ class AudioBookForm(forms.ModelForm):
             'release_date',
             'demo_audio_file',
             'language',
-            'stock',
+            # 'stock',
             'trending',
             'show_as_new',
             'display_as_bestseller',
@@ -115,8 +115,8 @@ class AudioBookForm(forms.ModelForm):
     language = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
     language.widget.attrs.update({'class': 'form-control','type':'text'})
 
-    stock = forms.IntegerField(required=True)
-    stock.widget.attrs.update({'class': 'form-control','type':'number'})
+    # stock = forms.IntegerField(required=True)
+    # stock.widget.attrs.update({'class': 'form-control','type':'number'})
 
 
     trending = forms.ChoiceField(choices=common_models.AudioBook.YESNO, initial= 'no')
