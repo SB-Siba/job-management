@@ -39,7 +39,12 @@
                                 </div>
                                 <div>
                                     <span class="text-danger">&#8377<s> {{i.book_max_price}}</s></span><br>
-                                    <small class="fw-bold fs-6">&#8377 {{i.book_discount_price}}</small>
+                                    {% if is_subscribed %}
+                                        <small class="fw-bold fs-6">&#8377 {{i.book_discount_price_for_members}}</small>
+                                    {% else %}
+                                        <small class="fw-bold fs-6">&#8377 {{i.book_discount_price}}</small>
+                                    {% endif %}
+                                    
                                 </div>
                             </div>
                             <div class="d-flex flex-row justify-content-between text-right mb-2">

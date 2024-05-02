@@ -34,8 +34,14 @@ class HomeView(View):
     template = app + "home.html"
 
     def get(self, request):
+        user = request.user
         category_obj = Category.objects.all()
         audioBooks = AudioBook.objects.all().order_by("-id")[:10]
+        subscription_user = UserSubscription.objects.filter(user=user)
+        if len(subscription_user)>0 :
+            is_subscribed = True
+        else :
+            is_subscribed = False
         # user_subscription = get_object_or_404(UserSubscription, user=request.user)
         # if user_subscription.days_left() <= 0:
         #     user_subscription.delete()
@@ -216,7 +222,10 @@ class showProductsViews(View):
     def get(self, request, c_name):
         user = request.user
         subscription_user = UserSubscription.objects.filter(user=user)
-        s_user_length = subscription_user.count()
+        if len(subscription_user)>0 :
+            is_subscribed = True
+        else :
+            is_subscribed = False
         category_obj = Category.objects.all()
         products_for_this_category = AudioBook.objects.filter(category__title=c_name)
         return render(request, self.template, locals())
@@ -228,6 +237,11 @@ class ProductDetailsView(View):
 
     def get(self, request, p_id):
         user = request.user
+        s_user_obj = UserSubscription.objects.filter(user = user)
+        if len(s_user_obj)>0 :
+            is_subscribed = True
+        else :
+            is_subscribed = False
         cart_obj = Cart.objects.filter(products__id=p_id)
         category_obj = Category.objects.all()
         product_obj = self.model.objects.get(id=p_id)
@@ -253,7 +267,13 @@ class ShowCart(View):
                 # Delivary = 0
                 final_cart_value = 0
                 products = {}
-                obj = CartSerializer(cartItems).data
+                s_user_obj = UserSubscription.objects.filter(user = user)
+                if len(s_user_obj)>0 :
+                    serializer = CartSerializer(cartItems, user_has_subscription=True)
+                else :
+                    serializer = CartSerializer(cartItems)
+
+                obj = serializer.data
                 print(obj)
                 for i,j in obj.items():
                     totaloriginalprice = int(j['gross_cart_value'])
@@ -281,6 +301,7 @@ class ShowCart(View):
 
 class AddToCartView(View):
     def post(self, request, *args, **kwargs):
+        user = request.user
         product_id = request.POST.get("product_id")
         quantity = int(request.POST.get("quantity", 1))
         product_obj = AudioBook.objects.get(id=product_id)
@@ -293,10 +314,19 @@ class AddToCartView(View):
         )
         cart.products = products
 
-        total_price = sum(
-            AudioBook.objects.get(title=name).book_discount_price * qty
-            for name, qty in products.items()
-        )
+        subscription_user = UserSubscription.objects.filter(user=user)
+        if len(subscription_user)>0 :
+            total_price = sum(
+                AudioBook.objects.get(title=name).book_discount_price_for_members * qty
+                for name, qty in products.items()
+            )
+        else :
+            total_price = sum(
+                AudioBook.objects.get(title=name).book_discount_price * qty
+                for name, qty in products.items()
+            )
+
+        
         cart.total_price = total_price
 
         cart.save()
@@ -514,7 +544,13 @@ class PaymentSuccess(View):
         cart = Cart.objects.get(id=cart_id)
         # data = json.loads(request.body)
         # address_id = data.get('address_id')
-        order_details = CartSerializer(cart).data
+        s_user_obj = UserSubscription.objects.filter(user = user)
+        if len(s_user_obj)>0 :
+            serializer = CartSerializer(cart, user_has_subscription=True)
+        else :
+            serializer = CartSerializer(cart)
+
+        order_details = serializer.data
         ord_meta_data = {}
         # print(ord_meta_data)
         for i,j in order_details.items():
@@ -587,7 +623,12 @@ class DirectBuy(View):
         # address_id = data.get('address_id')
         # productId = data.get('productId')
         prod_obj = get_object_or_404(AudioBook,uid = p_uid)
-        order_details = DirectBuySerializer(prod_obj).data
+        s_user_obj = UserSubscription.objects.filter(user = user)
+        if len(s_user_obj)>0 :
+            serializer = DirectBuySerializer(prod_obj, user_has_subscription=True)
+        else :
+            serializer = DirectBuySerializer(prod_obj)
+        order_details = serializer.data
         # print(order_details)
         ord_meta_data = {}
         for i,j in order_details.items():
@@ -658,5 +699,34 @@ class OrderView(View):
     def get(self,request):
         user = request.user
         orders = Order.objects.filter(user = user)
-        context={'orders':orders}
+        is_plan = []
+        order_list = []
+        products_list = []
+        for order in orders:
+            order_products = []
+            order_items = order.products.items()
+            for title, quantity in order_items:
+                try:
+                    product = AudioBook.objects.get(title=title)
+                    is_a_plan = False
+                except AudioBook.DoesNotExist:
+                    try:
+                        plan = SubscriptionPlan.objects.get(title=title)
+                        is_a_plan = True
+                        product = []
+                        features = SubscriptionFeatures.objects.filter(sub_plan=plan)
+                        for m in features:
+                            product.append(m)
+                    except SubscriptionPlan.DoesNotExist:
+                        continue  # Skip this product if it's neither an AudioBook nor a SubscriptionPlan
+                order_products.append(product)
+            
+            # Now 'order_products' list contains all the products for the current order
+            products_list.append(order_products)
+            order_list.append(order)
+            is_plan.append(is_a_plan)
+
+        order_and_products = zip(order_list, products_list,is_plan)
+        
+        context={'order_and_products':order_and_products}
         return render(request,self.template,context)
