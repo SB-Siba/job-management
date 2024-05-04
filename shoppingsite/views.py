@@ -6,7 +6,8 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from . import forms
 from . import rozerpay
-from app_common.checkout.serializer import CartSerializer,DirectBuySerializer,TakeSubscriptionSerializer
+from app_common.checkout.serializer import CartSerializer,DirectBuySerializer,TakeSubscriptionSerializer,OrderSerializer
+from admin_dashboard.order.forms import OrderUpdateForm
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from io import StringIO
@@ -671,6 +672,45 @@ class DirectBuy(View):
             print(e)
             messages.error(request, "Error while placing Order.")
             return redirect("shoppingsite:directbuychecout")
+
+
+class UserDownloadInvoice(View):
+    model = Order
+    form_class = OrderUpdateForm
+    template= 'app_common/checkout/invoice.html'
+
+    def get(self,request, order_uid):
+        order = self.model.objects.get(uid = order_uid)
+        data = OrderSerializer(order).data
+        products = []
+        quantities = []
+        price_per_unit = []
+        total_prices = []
+        for product,p_overview in data['order_meta_data']['products'].items():
+            products.append(product)
+            quantities.append(p_overview['quantity'])
+            price_per_unit.append(p_overview['price_per_unit'])
+            total_prices.append(p_overview['total_price'])
+            # product['product']['quantity']=product['quantity']
+        prod_quant = zip(products, quantities,price_per_unit,total_prices)
+        try:
+            final_total = data['order_meta_data']['final_cart_value']
+        except Exception:
+            final_total = data['order_meta_data']['final_value']
+        
+        context ={
+            'order':data,
+            'address':data['address'],
+            'user':order.user,
+            'productandquantity':prod_quant,
+            'GST':data['order_meta_data']['charges']['GST'],
+            'delevery_charge':data['order_meta_data']['charges']['Delivary'],
+            'gross_amt':data['order_meta_data']['our_price'],
+            'discount':data['order_meta_data']['discount_amount'],
+            'final_total':final_total
+        }
+        return render(request,self.template,context)
+
 
 from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
