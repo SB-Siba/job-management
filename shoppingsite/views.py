@@ -37,14 +37,22 @@ class HomeView(View):
         user = request.user
         category_obj = Category.objects.all()
         audioBooks = AudioBook.objects.all().order_by("-id")[:10]
-        subscription_user = UserSubscription.objects.filter(user=user)
-        if len(subscription_user)>0 :
-            is_subscribed = True
-        else :
+        try:
+            subscription_user = UserSubscription.objects.filter(user=user)
+            if len(subscription_user)>0 :
+                is_subscribed = True
+            else :
+                is_subscribed = False
+        except Exception as e:
             is_subscribed = False
-        # user_subscription = get_object_or_404(UserSubscription, user=request.user)
-        # if user_subscription.days_left() <= 0:
-        #     user_subscription.delete()
+
+        try:
+            user_subscription = get_object_or_404(UserSubscription, user=request.user)
+            if user_subscription.days_left() <= 0:
+                user_subscription.delete()
+        except Exception:
+            user_subscription = None
+
         return render(request, self.template, locals())
 
 
@@ -704,8 +712,9 @@ class OrderView(View):
         products_list = []
         for order in orders:
             order_products = []
-            order_items = order.products.items()
-            for title, quantity in order_items:
+            order_items = order.products
+            # print(order_items)
+            for title, quantity in order_items.items():
                 try:
                     product = AudioBook.objects.get(title=title)
                     is_a_plan = False
