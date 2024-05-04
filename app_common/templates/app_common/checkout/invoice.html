@@ -30,6 +30,7 @@
                         <table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope=""
                             itemtype="http://schema.org/ConfirmAction"
                             style=" box-sizing: border-box; font-size: 14px; border-radius: 3px; margin: 0; border: none;">
+                            
                             <tbody>
                                 <tr style=" box-sizing: border-box; font-size: 14px; margin: 0;">
                                     <td class="content-wrap"
@@ -56,6 +57,7 @@
                                                             <p
                                                                 style="margin-bottom:0px; margin-top:4px;font-size:1.1em;">
                                                                 {{order.date}}</p>
+                                                            <!-- <p><button id="downloadButton">Download Invoice</button></p> -->
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -80,18 +82,21 @@
                                                             <p style="margin-bottom: -9px;">address</p>
                                                         </div>
                                                     </td>
-                                                </tr>
-
-                                                <tr style=" box-sizing: border-box; font-size: 14px; margin: 0;">
                                                     <td class="content-block"
-                                                        style="display: flex;justify-content: space-between; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 29px;padding-top: 0rem;"
+                                                        style="display: flex;box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;padding-top: 1rem;justify-content: space-between;"
                                                         valign="top">
                                                         <div>
-                                                            <h4 style="margin-bottom: -9px;">Payment Status</h4>
-                                                            <p style="margin-bottom: -9px;">{{order.payment_status}}</p>
+                                                            <h4 style="margin-bottom: -9px;">Billing Address</h4>
+                                                            <p style="margin-bottom: -9px;">Address 1 : <span class="value">{{address.landmark1}}</span></p>
+                                                            <p style="margin-bottom: -9px;">Address 2 : <span class="value">{{address.landmark2}}</span></p>
+                                                            <p style="margin-bottom: -9px;">State : <span class="value">{{address.state}}</span></p>
+                                                            <p style="margin-bottom: -9px;">City: <span class="value">{{address.city}}</span></p>
+                                                            <p style="margin-bottom: -9px;">Zip : <span class="value">{{address.zipcode}}</span></p>
                                                         </div>
                                                         <div style="margin-left: auto;">
-                                                            <h4 style="margin-bottom: -9px;">Order Status</h4>
+                                                            <h4 style="margin-bottom: -9px;">Payment Status:</h4>
+                                                            <p style="margin-bottom: -9px;">{{order.payment_status}}</p>
+                                                            <h4 style="margin-bottom: -9px;">Order Status:</h4>
                                                             <p style="margin-bottom: -9px;">{{order.order_status}}</p>
                                                         </div>
                                                     </td>
@@ -287,5 +292,21 @@
     </table>
     <!-- wrapper ends here -->
 </body>
+<script>
+    // function downloadInvoice() {
+    //     // Get the HTML content of the table
+    //     var htmlContent = document.querySelector('.main').outerHTML;
+        
+    //     // Create a Blob from the HTML content
+    //     var blob = new Blob([htmlContent], {type: 'text/html'});
+        
+    //     // Create a link element to trigger the download
+    //     var link = document.createElement('a');
+    //     link.download = 'invoice.html'; // Name of the downloaded file
+    //     link.href = window.URL.createObjectURL(blob);
+    //     link.click();
+    // }
 
+    // document.getElementById('downloadButton').addEventListener('click', downloadInvoice);
+</script>
 </html>

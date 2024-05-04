@@ -88,12 +88,14 @@ class OrderDetail(View):
         #     product_list.append(product['product'])
 
         for i,j in order.products.items():
-            p_obj = common_model.AudioBook.objects.get(title= i)
+            try:
+                p_obj = common_model.AudioBook.objects.get(title= i)
+            except Exception:
+                p_obj = common_model.SubscriptionPlan.objects.get(title=i)
             product_list.append(p_obj)
             product_quantity.append(j)
             total_quantity+= int(j)
         zipproduct = zip(product_list, product_quantity)
-        
         context={
             'order':order,
             'grand_total':grand_total,
@@ -146,6 +148,7 @@ class DownloadInvoice(View):
             final_total = data['order_meta_data']['final_cart_value']
         except Exception:
             final_total = data['order_meta_data']['final_value']
+        
         context ={
             'order':data,
             'address':data['address'],
