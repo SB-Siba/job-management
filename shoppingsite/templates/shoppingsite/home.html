@@ -47,11 +47,8 @@ Home
                     </ul> -->
                     <h6 style="font-size: 10px;">{{i.title}}</h6>
                     <small class="fw-bold" style="font-size: 12px;">{{i.category.title}}</small>
-                    {% if is_subscribed %}
-                        <div class="price">{{i.book_discount_price_for_members}}</div>
-                    {% else %}
-                        <div class="price">{{i.book_discount_price}}</div>
-                    {% endif %}
+                   
+                    <div class="price">{{i.book_discount_price}}</div>
                     
                 </div>
             </div>

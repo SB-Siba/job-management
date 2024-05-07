@@ -211,14 +211,9 @@ class DirectBuySerializer(serializers.ModelSerializer):
             product = get_object_or_404(common_models.AudioBook,uid = obj.uid)
             gross_value += float(product.book_max_price)
             #____________
-            if self.user_has_subscription:
-                product_discounted__price = float(product.book_discount_price_for_members)
-                our_price = product_discounted__price
-                price = product.book_discount_price_for_members
-            else:
-                product_discounted__price = float(product.book_discount_price)
-                our_price = product_discounted__price
-                price = product.book_discount_price
+            product_discounted__price = float(product.book_discount_price)
+            our_price = product_discounted__price
+            price = product.book_discount_price
 
             x = {}
             

@@ -61,7 +61,6 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Category</th>
                                 <th scope="col">Price</th>
-                                <th scope="col">Stock</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -79,7 +78,6 @@
                                     <td>{{product.title}}</td>
                                     <td>{{product.category}}</td>
                                     <td>{{product.book_discount_price}}</td>
-                                    <td>{{product.stock}}</td>
                                     <td>
                                         <a href="{% url 'admin_dashboard:product_update' product.id %}"
                                             class="btn btn-sm btn-square btn-neutral">

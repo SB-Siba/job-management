@@ -38,14 +38,6 @@ class HomeView(View):
         user = request.user
         category_obj = Category.objects.all()
         audioBooks = AudioBook.objects.all().order_by("-id")[:10]
-        try:
-            subscription_user = UserSubscription.objects.filter(user=user)
-            if len(subscription_user)>0 :
-                is_subscribed = True
-            else :
-                is_subscribed = False
-        except Exception as e:
-            is_subscribed = False
 
         try:
             user_subscription = get_object_or_404(UserSubscription, user=request.user)
@@ -230,15 +222,26 @@ class showProductsViews(View):
 
     def get(self, request, c_name):
         user = request.user
-        subscription_user = UserSubscription.objects.filter(user=user)
-        if len(subscription_user)>0 :
-            is_subscribed = True
-        else :
-            is_subscribed = False
         category_obj = Category.objects.all()
         products_for_this_category = AudioBook.objects.filter(category__title=c_name)
         return render(request, self.template, locals())
 
+class search_items(View):
+    template = app + "search_item.html"
+    def post(self,request):
+        if request.method == 'POST':
+            user = request.user
+            search_title = request.POST.get("search-box")
+            print(search_title)
+            all_searh_items = []
+            product = AudioBook.objects.filter(title__icontains = search_title)
+            for i in product:
+                all_searh_items.append(i)
+            category = AudioBook.objects.filter(category__title__icontains=search_title)
+            for j in category:
+                if j not in all_searh_items:
+                    all_searh_items.append(j)
+            return render(request,self.template,locals())
 
 class ProductDetailsView(View):
     model = AudioBook
@@ -246,18 +249,11 @@ class ProductDetailsView(View):
 
     def get(self, request, p_id):
         user = request.user
-        s_user_obj = UserSubscription.objects.filter(user = user)
-        if len(s_user_obj)>0 :
-            is_subscribed = True
-        else :
-            is_subscribed = False
         cart_obj = Cart.objects.filter(products__id=p_id)
         category_obj = Category.objects.all()
         product_obj = self.model.objects.get(id=p_id)
         episodes = Episode.objects.filter(audiobook=product_obj).order_by("e_id")
-        subscription_user = UserSubscription.objects.filter(user__id=user.id)
-        s_user_length = subscription_user.count()
-
+      
         return render(request, self.template, locals())
 
 
@@ -276,11 +272,8 @@ class ShowCart(View):
                 # Delivary = 0
                 final_cart_value = 0
                 products = {}
-                s_user_obj = UserSubscription.objects.filter(user = user)
-                if len(s_user_obj)>0 :
-                    serializer = CartSerializer(cartItems, user_has_subscription=True)
-                else :
-                    serializer = CartSerializer(cartItems)
+              
+                serializer = CartSerializer(cartItems)
 
                 obj = serializer.data
                 print(obj)
@@ -323,17 +316,11 @@ class AddToCartView(View):
         )
         cart.products = products
 
-        subscription_user = UserSubscription.objects.filter(user=user)
-        if len(subscription_user)>0 :
-            total_price = sum(
-                AudioBook.objects.get(title=name).book_discount_price_for_members * qty
-                for name, qty in products.items()
-            )
-        else :
-            total_price = sum(
-                AudioBook.objects.get(title=name).book_discount_price * qty
-                for name, qty in products.items()
-            )
+        
+        total_price = sum(
+            AudioBook.objects.get(title=name).book_discount_price * qty
+            for name, qty in products.items()
+        )
 
         
         cart.total_price = total_price
