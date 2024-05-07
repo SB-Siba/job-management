@@ -1,10 +1,9 @@
-{% extends 'shoppingsite/base.html' %}
+{% extends 'shoppingsite/index.html' %}
 {% load static %}
 {% block title %}
-All Address
+Address
 {% endblock title %}
-
-{% block main-content %}
+{% block main_content %}
 <div class="container mt-5">
     <div class="row">
         <h5 class="card-title">{{request.user.full_name}} Your Address</h5>
@@ -32,4 +31,4 @@ All Address
         {% endif %}
     </div>
 </div>
-{% endblock main-content %}
+{% endblock main_content %}

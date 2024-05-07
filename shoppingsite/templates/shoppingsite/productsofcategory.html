@@ -1,11 +1,9 @@
-{% extends 'shoppingsite/base.html' %}
+{% extends 'shoppingsite/index.html' %}
 {% load static %}
-
 {% block title %}
-    Products Of {{category_objs.title}} Category
+Category Product
 {% endblock title %}
-
-{% block main-content %}
+{% block main_content %}
 
     <div class="container my-5">
         <h2 class="text-center mb-4">Our Products</h2>
@@ -65,31 +63,35 @@
         {% endif %}
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var audioPlayers = document.querySelectorAll('.audioPlayer');
-            // var s_user_length = "{{ s_user_length }}";
+    
+{% endblock main_content %}
 
-            // if (parseInt(s_user_length) === 0) {
-            //     console.log("s_user is empty");
-            //     audioPlayers.forEach(function(audio) {
-            //         audio.addEventListener('play', function() {
-            //             setTimeout(function() {
-            //                 window.location.href = '/pricingpage';
-            //             }, 10000);
-            //         });
-            //     });
-            // }
+{% block js_block %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var audioPlayers = document.querySelectorAll('.audioPlayer');
+        // var s_user_length = "{{ s_user_length }}";
 
-            audioPlayers.forEach(function(audio) {
-                audio.addEventListener('play', function() {
-                    audioPlayers.forEach(function(otherAudio) {
-                        if (otherAudio !== audio && !otherAudio.paused) {
-                            otherAudio.pause();
-                        }
-                    });
+        // if (parseInt(s_user_length) === 0) {
+        //     console.log("s_user is empty");
+        //     audioPlayers.forEach(function(audio) {
+        //         audio.addEventListener('play', function() {
+        //             setTimeout(function() {
+        //                 window.location.href = '/pricingpage';
+        //             }, 10000);
+        //         });
+        //     });
+        // }
+
+        audioPlayers.forEach(function(audio) {
+            audio.addEventListener('play', function() {
+                audioPlayers.forEach(function(otherAudio) {
+                    if (otherAudio !== audio && !otherAudio.paused) {
+                        otherAudio.pause();
+                    }
                 });
             });
         });
-    </script>
-{% endblock main-content %}
+    });
+</script>
+{% endblock js_block %}

@@ -1,42 +1,33 @@
-{% extends 'shoppingsite/base.html' %}
+{% extends 'shoppingsite/index.html' %}
 {% load static %}
-
 {% block title %}
-    Search Product
+Search Items
 {% endblock title %}
-
-{% block main-content %}
+{% block main_content %}
 <div class="row my-5 container">
     {% for i in all_searh_items %}
-        <div class="col-md-2 col-sm-6">
-            <div class="product-grid border-bottom border-success" style="max-width: 200px; height: 300px;"> <!-- Adjust height and width as needed -->
-                <div class="product-image">
-                    <a href="{% url 'shoppingsite:productdetails' i.id %}" class="image">
-                        <img class="pic-1" src="{{i.audiobook_image.url}}">
-                        <img class="pic-2" src="{{i.audiobook_image.url}}">
-                    </a>
-                    <ul class="product-links">
-                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        <li><a href="#"><i class="far fa-heart"></i></a></li>
-                        <li><a href="#"><i class="fa fa-random"></i></a></li>
-                    </ul>
-                </div>
-                <div class="product-content">
-                    <!-- <ul class="rating">
-                        <li class="fa fa-star"></li>
-                        <li class="fa fa-star"></li>
-                        <li class="fa fa-star"></li>
-                        <li class="fa fa-star"></li>
-                        <li class="far fa-star"></li>
-                    </ul> -->
-                    <h6 style="font-size: 10px;">{{i.title}}</h6>
-                    <small class="fw-bold" style="font-size: 12px;">{{i.category.title}}</small>
-                    
-                    <div class="price">{{i.book_discount_price}}</div>
-                    
+        <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
+            <div class="custom-block custom-block-overlay">
+                <a href="{% url 'shoppingsite:productdetails' i.id %}" class="custom-block-image-wrap">
+                    <img src="{{i.audiobook_image.url}}"
+                        class="custom-block-image img-fluid" alt="">
+                </a>
+
+                <div class="custom-block-info custom-block-overlay-info">
+                    <h5 class="mb-1">
+                        <small>{{i.title}}</small>
+                    </h5>
+
+                    <p class="text-black">{{i.category.title}}</p>
+                    <div class="d-flex justify-content-between">
+                        <p class="text-black">₹ {{i.book_discount_price}}</p>
+                        <p class="price text-danger" style="text-decoration: line-through;">₹ {{i.book_max_price}}</p>
+                    </div>
+                  
+
                 </div>
             </div>
         </div>
     {% endfor %}
 </div>
-{% endblock main-content %}
+{% endblock main_content %}

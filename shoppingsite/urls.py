@@ -46,9 +46,12 @@ urlpatterns = [
     path('subscriptioncheckout/<int:plan_id>',views.SubscriptionChecout.as_view(),name='subscriptioncheckout'),
     path('usertakesubscription/<int:plan_id>',views.UserTakeSubscription,name='usertakesubscription'),
     path('invoice/<int:order_uid>',views.UserDownloadInvoice.as_view(),name="invoice"),
+    path('orderbook',views.OrderAudioBooks.as_view(),name="orderaudiobooks"),
     path('subscriptionaudiobooks',views.SubscriptionAudioBooks.as_view(),name='subscriptionaudiobooks'),
     path('subscribebookepisodes/<int:book_id>',views.SubscribeBooksEpisode.as_view(),name='subscribebookepisodes'),
     path('removeaudio',views.remove_audio,name='remove-audio'),
 
     path('orders',views.OrderView.as_view(),name='orders'),
+    path('contactmessage',views.contactMesage.as_view(),name="contactmessage"),
+    path('about',views.AboutPage.as_view(),name="about"),
 ]

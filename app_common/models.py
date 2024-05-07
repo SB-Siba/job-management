@@ -277,7 +277,7 @@ class ContactMessage(models.Model):
     )
     uid=models.CharField(max_length=255, null=True, blank=True)
     user = models.ForeignKey(User, on_delete= models.CASCADE, null= True, blank= True)
-    order_number = models.CharField(max_length=255, null= True, blank= True)
+    # order_number = models.CharField(max_length=255, null= True, blank= True)
     message = models.TextField(null= True, blank= True)
     status = models.CharField(max_length=255,choices=STATUS, default= 'new')
     reply = models.TextField(null=True, blank= True)

@@ -1,11 +1,10 @@
-{% extends 'shoppingsite/base.html' %}
+{% extends 'shoppingsite/index.html' %}
 {% load static %}
 {% block title %}
-    Products {{product_obj.name}}
+Book Details
 {% endblock title %}
-
-{% block main-content %}
-<section>
+{% block main_content %}
+<section class="mb-2">
     <div class="container mb-3">
         <div class="row flex justify-content-center-between">
             <div class="img2 col-lg-5 mt-1">
@@ -67,32 +66,33 @@
     </div>
 </section>
 
-
+{% endblock main_content %}
+{% block js_block %}
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var audioPlayers = document.querySelectorAll('.audioPlayer');
-            // var s_user_length = "{{ s_user_length }}";
+    document.addEventListener('DOMContentLoaded', function() {
+        var audioPlayers = document.querySelectorAll('.audioPlayer');
+        // var s_user_length = "{{ s_user_length }}";
 
-            // if (parseInt(s_user_length) === 0) {
-            //     console.log("s_user is empty");
-            //     audioPlayers.forEach(function(audio) {
-            //         audio.addEventListener('play', function() {
-            //             setTimeout(function() {
-            //                 window.location.href = '/pricingpage';
-            //             }, 10000);
-            //         });
-            //     });
-            // }
+        // if (parseInt(s_user_length) === 0) {
+        //     console.log("s_user is empty");
+        //     audioPlayers.forEach(function(audio) {
+        //         audio.addEventListener('play', function() {
+        //             setTimeout(function() {
+        //                 window.location.href = '/pricingpage';
+        //             }, 10000);
+        //         });
+        //     });
+        // }
 
-            audioPlayers.forEach(function(audio) {
-                audio.addEventListener('play', function() {
-                    audioPlayers.forEach(function(otherAudio) {
-                        if (otherAudio !== audio && !otherAudio.paused) {
-                            otherAudio.pause();
-                        }
-                    });
+        audioPlayers.forEach(function(audio) {
+            audio.addEventListener('play', function() {
+                audioPlayers.forEach(function(otherAudio) {
+                    if (otherAudio !== audio && !otherAudio.paused) {
+                        otherAudio.pause();
+                    }
                 });
             });
         });
+    });
 </script>
-{% endblock main-content %}
+{% endblock js_block %}

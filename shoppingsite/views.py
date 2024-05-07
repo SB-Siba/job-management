@@ -23,6 +23,7 @@ from app_common.models import (
     SubscriptionPlan,
     UserSubscription,
     Order,
+    ContactMessage
 )
 
 from helpers.utils import dict_filter  # Import dict_filter function
@@ -32,13 +33,20 @@ app = "shoppingsite/"
 
 
 class HomeView(View):
-    template = app + "home.html"
+    template = app + "home1.html"
 
     def get(self, request):
         user = request.user
         category_obj = Category.objects.all()
-        audioBooks = AudioBook.objects.all().order_by("-id")[:10]
-
+        recent_audioBooks = AudioBook.objects.all().order_by("-id")[:2]
+        audioBookss = AudioBook.objects.all()
+        trending_books = AudioBook.objects.filter(trending = "yes")[:4]
+        t_books = []
+        e_count = []
+        for i in trending_books:
+            t_books.append(i)
+            e_count.append(Episode.objects.filter(audiobook=i).count())
+        booksandepisode = zip(t_books,e_count)
         try:
             user_subscription = get_object_or_404(UserSubscription, user=request.user)
             if user_subscription.days_left() <= 0:
@@ -46,6 +54,21 @@ class HomeView(View):
         except Exception:
             user_subscription = None
 
+
+        categories = Category.objects.all()
+        products_category_wise = {}
+        for category in categories:
+            x = []
+            product_for_this_category = AudioBook.objects.filter(category = category)
+            x.append(product_for_this_category)
+            products_category_wise.update({category.title.replace(" ",""):x})
+        category_list = []
+        products_list = []
+        for i,j in products_category_wise.items():
+            category_list.append(i)
+            products_list.extend(j)
+       
+        category_and_products_zip = zip(category_list,products_list)
         return render(request, self.template, locals())
 
 
@@ -241,6 +264,10 @@ class search_items(View):
             for j in category:
                 if j not in all_searh_items:
                     all_searh_items.append(j)
+            author = AudioBook.objects.filter(author__icontains=search_title)
+            for k in author:
+                if k not in all_searh_items:
+                    all_searh_items.append(k)
             return render(request,self.template,locals())
 
 class ProductDetailsView(View):
@@ -386,6 +413,25 @@ class PricingPageView(View):
         for i in subcription_plans:
             subscription_feature = SubscriptionFeatures.objects.filter(sub_plan=i)
             features[i] = list(subscription_feature)
+        return render(request, self.template, locals())
+
+class OrderAudioBooks(View):
+    model = AudioBook
+    template = app + "orderbooks.html"
+
+    def get(self, request):
+        user = request.user
+        order_user_obj = Order.objects.filter(user=user)
+        products = []
+        for i in order_user_obj:
+            for m,n in i.products.items():
+                try:
+                    obj = AudioBook.objects.get(title = m)
+                    if obj not in products:
+                        products.append(obj)
+                except Exception:
+                    pass
+
         return render(request, self.template, locals())
 
 
@@ -540,11 +586,8 @@ class PaymentSuccess(View):
         cart = Cart.objects.get(id=cart_id)
         # data = json.loads(request.body)
         # address_id = data.get('address_id')
-        s_user_obj = UserSubscription.objects.filter(user = user)
-        if len(s_user_obj)>0 :
-            serializer = CartSerializer(cart, user_has_subscription=True)
-        else :
-            serializer = CartSerializer(cart)
+      
+        serializer = CartSerializer(cart)
 
         order_details = serializer.data
         ord_meta_data = {}
@@ -619,11 +662,8 @@ class DirectBuy(View):
         # address_id = data.get('address_id')
         # productId = data.get('productId')
         prod_obj = get_object_or_404(AudioBook,uid = p_uid)
-        s_user_obj = UserSubscription.objects.filter(user = user)
-        if len(s_user_obj)>0 :
-            serializer = DirectBuySerializer(prod_obj, user_has_subscription=True)
-        else :
-            serializer = DirectBuySerializer(prod_obj)
+        
+        serializer = DirectBuySerializer(prod_obj)
         order_details = serializer.data
         # print(order_details)
         ord_meta_data = {}
@@ -733,7 +773,7 @@ class OrderView(View):
 
     def get(self,request):
         user = request.user
-        orders = Order.objects.filter(user = user)
+        orders = Order.objects.filter(user = user).order_by("-uid")
         is_plan = []
         order_list = []
         products_list = []
@@ -766,3 +806,39 @@ class OrderView(View):
         
         context={'order_and_products':order_and_products}
         return render(request,self.template,context)
+    
+class contactMesage(View):
+    template = app + "contact_page.html"
+
+    def get(self,request):
+        initial = {'user': request.user.full_name}
+        form = forms.ContactMessageForm(initial=initial)
+
+        context={"form":form}
+        return render(request,self.template,context)
+    
+    def post(self,request):
+        form = forms.ContactMessageForm(request.POST)  # Instantiate the form with request POST data
+        if form.is_valid():  # Add parentheses to is_valid()
+            user = form.cleaned_data['user']
+            message = form.cleaned_data['message']
+            try:
+                u_obj = get_object_or_404(User,full_name = user)
+                contact_obj = ContactMessage(user = u_obj,message = message)
+                contact_obj.save()
+                messages.info(request,"Your Message has been sent successfully.")
+                return redirect("shoppingsite:home")
+            except Exception as e:
+                print (e)
+                messages.warning(request,"There was an error while sending your message.")
+                return self.get(request)
+        else:   # If the form is not valid, re-render the form with errors
+            return self.get(request)
+        
+
+class AboutPage(View):
+    template = app + "about.html"
+
+    def get(self,request):
+        
+        return render(request,self.template)

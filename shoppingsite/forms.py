@@ -112,3 +112,17 @@ class OrderForm(forms.Form):
     
     zipcode = forms.IntegerField()
     zipcode.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Pincode',"required":"required"})
+
+
+class ContactMessageForm(forms.Form):
+
+    user = forms.CharField(max_length=255)
+    user.widget.attrs.update({'class': 'form-control','type':'text',"required":"required","readonly":"readonly"})
+
+    message = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'form-control', 
+            'placeholder': 'Enter Your Message'
+        }),
+        required=True
+    )

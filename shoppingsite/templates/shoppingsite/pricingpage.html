@@ -1,16 +1,15 @@
-{% extends 'shoppingsite/base.html' %}
+{% extends 'shoppingsite/index.html' %}
 {% load static %}
 {% block title %}
-    Pricing Page
+Subscription Plans
 {% endblock title %}
-
-{% block main-content %}
+{% block main_content %}
 <div class="container mb-2"> 
     <h2 class="text-center">Select Your Plan</h2> 
     <div class="price-row"> 
         {% for key,value in features.items %}
             <div class="price-col"> 
-                <p class="fw-bold">{{key.title}}</p> 
+                <p class="fw-bold text-white">{{key.title}}</p> 
                 <hr> 
                 <h4> ₹ {{key.price}}/<span>{{key.days}} days</span></h4> 
                 <ul> 
@@ -25,4 +24,4 @@
 </div> 
 {% include 'snippets/alert.html' %}
 
-{% endblock main-content %}
+{% endblock main_content %}
