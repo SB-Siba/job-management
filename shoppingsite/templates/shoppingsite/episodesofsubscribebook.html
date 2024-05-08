@@ -13,8 +13,16 @@ Episodes Subscription Products
                     <p>{{ i.description }}</p>
                 </div>
                 <div class="audio-container">
-                    <audio class="audioPlayer" preload="auto" id="audioPlayer{{ i.id }}" controls controlsList="nodownload nodisplayrate"
-                        src="{{ i.audio_file.url }}" data-audio-url = "{{ i.audio_file.url }}" type="audio/mp3"></audio>
+                    <!-- <audio class="audioPlayer" preload="auto" id="audioPlayer{{ i.id }}" controls controlsList="nodownload nodisplayrate"
+                        src="{{ i.audio_file.url }}" data-audio-url = "{{ i.audio_file.url }}" type="audio/mp3"></audio> -->
+                        <audio class="audioPlayer" id="audioPlayer{{ i.id }}" src="{{ i.audio_file.url }}"></audio>    
+                        <a class="skip-backward"><i class="fa fa-backward social-icon-link"></i></a>
+                        <a class="playpause-btn" onclick="togglePlayPause('audioPlayer{{ i.id }}', this)">
+                            <i class="social-icon-link fa fa-play"></i>
+                        </a>
+                        <a class="skip10"><i class="fa fa-forward social-icon-link"></i></a>
+                        <a class="skip30"><i class="fa fa-fast-forward social-icon-link"></i></a>
+                        <div class="remaining-time"></div>
                 </div>
             </li>
         {% endfor %}
@@ -31,6 +39,7 @@ Episodes Subscription Products
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
         // Function to get current user ID, you may implement your own method
+        
         function getUserId() {
             return {{ userId }};
         }
@@ -39,43 +48,61 @@ Episodes Subscription Products
             var userId = getUserId();
     
             var audioPlayers = document.querySelectorAll('.audioPlayer');
-    
+            
+
             audioPlayers.forEach(function(audio) {
+                var playPauseBtn = audio.parentElement.querySelector('.playpause-btn');
+                var remainingTimeDisplay = audio.parentElement.querySelector('.remaining-time');
+
+                playPauseBtn.addEventListener('click', function() {
+                    togglePlayPause(audio, playPauseBtn);
+                });
+
+                audio.addEventListener('timeupdate', function() {
+                    var remainingTime = formatTime(audio.duration - audio.currentTime);
+                    remainingTimeDisplay.textContent = remainingTime;
+                });
+                audio.addEventListener('pause', function() {
+                    playPauseBtn.innerHTML = '<i class="social-icon-link fa fa-play"></i>';
+                });
+
                 audio.addEventListener('play', function() {
                     audioPlayers.forEach(function(otherAudio) {
                         if (otherAudio !== audio && !otherAudio.paused) {
                             otherAudio.pause();
+                            playPauseBtn.innerHTML = '<i class="social-icon-link fa fa-pause"></i>';
                         }
                     });
     
                     var audioUrl = this.getAttribute('data-audio-url');
-                    removeAudio(audioUrl);
+                    // removeAudio(audioUrl);
                 });
                 
                 audioPlayers.forEach(function(audio, index) {
-                audio.addEventListener('ended', function() {
-                    // Pause the current audio
-                    this.pause();
-    
-                    // Get the next audio element
-                    var nextIndex = index + 1;
-                    if (nextIndex < audioPlayers.length) {
-                        var nextAudio = audioPlayers[nextIndex];
-    
-                        // Play the next audio
-                        nextAudio.play();
-    
-                        // Remove the stored pause time for the current audio
-                        var audioId = this.id;
-                        removeAudio(audioId);
-    
-                        // Store the pause time for the next audio
-                        storePauseTime(userId, nextAudio.id, 0);
-                    }
+                    audio.addEventListener('ended', function() {
+                        // Pause the current audio
+                        this.pause();
+                        var playPauseBtn = this.parentElement.querySelector('.playpause-btn');
+
+                        // Update the play/pause button icon to "play" when the audio ends
+                        playPauseBtn.innerHTML = '<i class="social-icon-link fa fa-play"></i>';
+                        // Get the next audio element
+                        var nextIndex = index + 1;
+                        if (nextIndex < audioPlayers.length) {
+                            var nextAudio = audioPlayers[nextIndex];
+                            var nextPlayPauseBtn = nextAudio.parentElement.querySelector('.playpause-btn');
+                            // Play the next audio
+                            nextAudio.play();
+                            nextPlayPauseBtn.innerHTML = '<i class="social-icon-link fa fa-pause"></i>';
+                            // Remove the stored pause time for the current audio
+                            var audioId = this.id;
+                            // removeAudio(audioId);
+        
+                            // Store the pause time for the next audio
+                            storePauseTime(userId, nextAudio.id, 0);
+                        }
+                    });
                 });
-    
-                // Rest of your existing code for handling pause and storing pause time
-            });
     
                 var audioId = audio.id;
                 var storedTime = localStorage.getItem(userId + '-' + audioId + '-pauseTime');
@@ -86,7 +113,30 @@ Episodes Subscription Products
                     storePauseTime(userId, audioId, audio.currentTime);
                 });
             });
-    
+            // Skip buttons
+            var skip10Buttons = document.querySelectorAll('.skip10');
+            var skip30Buttons = document.querySelectorAll('.skip30');
+            var skipBackwardButtons = document.querySelectorAll('.skip-backward');
+
+            skip10Buttons.forEach(function(skip10Button) {
+                skip10Button.addEventListener('click', function() {
+                    var currentAudio = this.closest('.audio-container').querySelector('.audioPlayer');
+                    currentAudio.currentTime += 10; // Skip 10 seconds
+                });
+            });
+
+            skip30Buttons.forEach(function(skip30Button) {
+                skip30Button.addEventListener('click', function() {
+                    var currentAudio = this.closest('.audio-container').querySelector('.audioPlayer');
+                    currentAudio.currentTime += 30; // Skip 30 seconds
+                });
+            });
+            skipBackwardButtons.forEach(function(skipBackwardButton) {
+                skipBackwardButton.addEventListener('click', function() {
+                    var currentAudio = this.closest('.audio-container').querySelector('.audioPlayer');
+                    currentAudio.currentTime -= 10; // Skip 10 seconds backward
+                });
+            });
             window.addEventListener('beforeunload', function() {
                 audioPlayers.forEach(function(audio) {
                     storePauseTime(userId, audio.id, audio.currentTime);
@@ -101,6 +151,22 @@ Episodes Subscription Products
         function setStartTime(audioId, time) {
             var player = document.getElementById(audioId);
             player.src = player.src.split('#')[0] + '#t=' + time;
+        }
+
+        function togglePlayPause(audioId, button) {
+            var audio = document.getElementById(audioId);
+            if (audio && audio.paused) {
+                audio.play();
+                button.innerHTML = '<i class="social-icon-link fa fa-pause"></i>';
+            } else if (audio) {
+                audio.pause();
+                button.innerHTML = '<i class="social-icon-link fa fa-play"></i>';
+            }
+        }
+        function formatTime(seconds) {
+            var minutes = Math.floor(seconds / 60);
+            var remainingSeconds = Math.floor(seconds % 60);
+            return minutes + ':' + (remainingSeconds < 10 ? '0' : '') + remainingSeconds;
         }
     </script>
 {% endblock js_block %}
