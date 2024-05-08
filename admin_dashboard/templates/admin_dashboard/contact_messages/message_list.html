@@ -18,7 +18,7 @@
               <th scope="col">Name</th>
               <th scope="col">Contact</th>
               <th scope="col">Email</th>
-              <th scope="col">Order-Number</th>
+              <!-- <th scope="col">Order-Number</th> -->
               <th scope="col">Date</th>
               <th scope="col">Status</th>
             </tr>
@@ -34,11 +34,11 @@
                 <td>{{message.user.full_name}}</td>
                 <td>{{message.user.contact}}</td>
                 <td>{{message.user.email}}</td>
-                <td>
+                <!-- <td>
                   <span style="color:blue" onclick="get_order_detail(this)" uid="{{message.order_number}}">
                     {{message.order_number}}
                   </span>
-                </td>
+                </td> -->
                 <td>{{message.created_at}}</td>
                 <td>
                   <span class="badge badge-lg badge-dot">

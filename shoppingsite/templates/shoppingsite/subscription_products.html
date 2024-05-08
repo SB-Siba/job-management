@@ -1,11 +1,9 @@
-{% extends 'shoppingsite/base.html' %}
+{% extends 'shoppingsite/index.html' %}
 {% load static %}
-
 {% block title %}
-    Products Of {{category_objs.title}} Category
+Subscription Products
 {% endblock title %}
-
-{% block main-content %}
+{% block main_content %}
 
     <div class="container my-5">
         <h2 class="text-center mb-4">Our Products</h2>
@@ -19,13 +17,6 @@
                                 <div class="d-flex justify-content-between mb-1">
                                     <div>
                                         <span class="fw-bold fs-6">{{ i.title }}</span>
-                                    </div>
-                                    <div class="">
-                                        <div class="badge text-wrap" style="font-size: medium;">
-                                            <div>
-                                                <i class="fa fa-star fw-bold" style="color: rgb(255, 149, 41)"></i><span class="mx-1">{{product.avg_rating}}</span>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                                 
@@ -44,4 +35,4 @@
         <p class="lead text-center">Please Take Subscription to see our products.</p>
         {% endif %}
     </div>
-{% endblock main-content %}
+{% endblock main_content %}

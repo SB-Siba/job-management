@@ -1,10 +1,9 @@
-{% extends 'shoppingsite/base.html' %}
+{% extends 'shoppingsite/index.html' %}
 {% load static %}
 {% block title %}
-    Add Address
+Add Address
 {% endblock title %}
-
-{% block main-content %}
+{% block main_content %}
 <div class="container mt-3" style="width: 60%;">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -14,4 +13,4 @@
         </div>
     </form>
 </div>
-{% endblock main-content %}
+{% endblock main_content %}

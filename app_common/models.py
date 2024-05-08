@@ -114,7 +114,6 @@ class AudioBook(models.Model):
     description = models.TextField(blank=True, null=True)
     book_max_price=models.FloatField(default=0.0)
     book_discount_price=models.FloatField(default=0.0)
-    book_discount_price_for_members=models.FloatField(default=0.0)
     release_date = models.DateField()
     demo_audio_file = models.FileField(upload_to='demo_audio/',null=True, blank=True, unique=True)
     language = models.CharField(max_length=50)
@@ -130,9 +129,6 @@ class AudioBook(models.Model):
     def save(self, *args, **kwargs):
         if not self.uid:
             self.uid = utils.get_rand_number(5)
-        
-        # Calculate the discount price for members
-        self.book_discount_price_for_members = self.book_discount_price - 100
         
         super().save(*args, **kwargs)
         
@@ -281,7 +277,7 @@ class ContactMessage(models.Model):
     )
     uid=models.CharField(max_length=255, null=True, blank=True)
     user = models.ForeignKey(User, on_delete= models.CASCADE, null= True, blank= True)
-    order_number = models.CharField(max_length=255, null= True, blank= True)
+    # order_number = models.CharField(max_length=255, null= True, blank= True)
     message = models.TextField(null= True, blank= True)
     status = models.CharField(max_length=255,choices=STATUS, default= 'new')
     reply = models.TextField(null=True, blank= True)

@@ -16,32 +16,12 @@
                                 
                                 <form method="post" action="">
                                     {% csrf_token %}
-                                    <div class="mb-5">
-                                        <label class="form-label text-white" for="fullname">Full Name</label>
-                                        <input type="text" name="fullname" class="form-control" id="fullname" required>
-                                    </div>
-                                    <div class="mb-5">
-                                        <label class="form-label text-white" for="email">Email address</label>
-                                        <input type="email" name="email" class="form-control" id="email" required>
-                                    </div>
-                                    <div class="mb-5">
-                                        <label class="form-label text-white" for="contact">Contact</label>
-                                        <input type="text" name="contact" class="form-control" id="contact" required>
-                                    </div>
-                                    <div class="mb-5">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div>
-                                                <label class="form-label text-white" for="password">Password</label>
-                                            </div>
-                                            <!-- <div class="mb-2">
-                                                <a href="#"
-                                                    class="text-sm text-muted text-primary-hover text-underline">Forgot
-                                                    password?</a>
-                                            </div> -->
+                                    {% for field in form %}
+                                        <div class="col-md-12 col-12 col-sm-12 mb-2">
+                                            {{field.label}}
+                                            {{field}}
                                         </div>
-                                        <input type="password" class="form-control" id="password"
-                                            autocomplete="current-password" name="password" required>
-                                    </div>
+                                    {% endfor %}
                                     <div>
                                         <button class="btn btn-primary w-full" type="submit">Sign Up</button>
                                     </div>

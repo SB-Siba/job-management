@@ -32,6 +32,7 @@ urlpatterns = [
     path('updateprofile',views.UpdateProfileView.as_view(),name="updateprofile"),
     path('productsofcategory/<str:c_name>',views.showProductsViews.as_view(),name="productsofcategory"),
     path('productdetails/<int:p_id>',views.ProductDetailsView.as_view(),name="productdetails"),
+    path('searchproduct/',views.search_items.as_view(),name="searchproduct"),
     path('showcart',views.ShowCart.as_view(),name='showcart'),
     path('addtocart',views.AddToCartView.as_view(),name='addtocart'),
     path("manage-cart/<int:product_uid>/", views.ManageCart.as_view(), name="managecart"),
@@ -45,9 +46,13 @@ urlpatterns = [
     path('subscriptioncheckout/<int:plan_id>',views.SubscriptionChecout.as_view(),name='subscriptioncheckout'),
     path('usertakesubscription/<int:plan_id>',views.UserTakeSubscription,name='usertakesubscription'),
     path('invoice/<int:order_uid>',views.UserDownloadInvoice.as_view(),name="invoice"),
+    path('orderbook',views.OrderAudioBooks.as_view(),name="orderaudiobooks"),
     path('subscriptionaudiobooks',views.SubscriptionAudioBooks.as_view(),name='subscriptionaudiobooks'),
     path('subscribebookepisodes/<int:book_id>',views.SubscribeBooksEpisode.as_view(),name='subscribebookepisodes'),
     path('removeaudio',views.remove_audio,name='remove-audio'),
 
     path('orders',views.OrderView.as_view(),name='orders'),
+    path('contactmessage',views.contactMesage.as_view(),name="contactmessage"),
+    path('about',views.AboutPage.as_view(),name="about"),
+    path('filter-books/', views.filter_audiobooks, name='filter_books'),
 ]

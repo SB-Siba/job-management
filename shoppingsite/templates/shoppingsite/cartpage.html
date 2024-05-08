@@ -1,14 +1,13 @@
-{% extends 'shoppingsite/base.html' %}
+{% extends 'shoppingsite/index.html' %}
 {% load static %}
 {% block title %}
-Cart Page
+Cart
 {% endblock title %}
-
-{% block main-content %}
+{% block main_content %}
 
 <header class="py-3">
     <div class="container">
-        <h1 class="text-muted">Hey {{user.full_name}} Your Cart is here.</h1>
+        <h5 class="text-muted">Hey {{user.full_name}} Your Cart is here.</h5>
     </div>
 </header>
 
@@ -102,4 +101,4 @@ Cart Page
         </div>
     </div>
 </section>
-{% endblock main-content %}
+{% endblock main_content %}

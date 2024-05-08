@@ -9,8 +9,7 @@ class CartSerializer(serializers.ModelSerializer):
     products_data = serializers.SerializerMethodField()
 
 
-    def __init__(self, *args, user_has_subscription=False, **kwargs):
-        self.user_has_subscription = user_has_subscription
+    def __init__(self, *args,**kwargs):
         self.coupon = kwargs.pop('coupon', None)
         super().__init__(*args, **kwargs)
 
@@ -66,16 +65,9 @@ class CartSerializer(serializers.ModelSerializer):
             product = get_object_or_404(common_models.AudioBook,title = key)
             gross_cart_value += product.book_max_price*int(value)
 
-            if self.user_has_subscription:
-                print("hbhij")
-                product_total_discounted__price = float(product.book_discount_price_for_members)*int(value)
-                our_price += product_total_discounted__price
-                price = product.book_discount_price_for_members
-            else:
-                print("false")
-                product_total_discounted__price = float(product.book_discount_price)*int(value)
-                our_price += product_total_discounted__price
-                price = product.book_discount_price
+            product_total_discounted__price = float(product.book_discount_price)*int(value)
+            our_price += product_total_discounted__price
+            price = product.book_discount_price
 
             # product_total_discounted_price = price * int(value)
             # our_price += product_total_discounted_price
@@ -211,14 +203,9 @@ class DirectBuySerializer(serializers.ModelSerializer):
             product = get_object_or_404(common_models.AudioBook,uid = obj.uid)
             gross_value += float(product.book_max_price)
             #____________
-            if self.user_has_subscription:
-                product_discounted__price = float(product.book_discount_price_for_members)
-                our_price = product_discounted__price
-                price = product.book_discount_price_for_members
-            else:
-                product_discounted__price = float(product.book_discount_price)
-                our_price = product_discounted__price
-                price = product.book_discount_price
+            product_discounted__price = float(product.book_discount_price)
+            our_price = product_discounted__price
+            price = product.book_discount_price
 
             x = {}
             

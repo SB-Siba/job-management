@@ -1,11 +1,10 @@
-{% extends 'shoppingsite/base.html' %}
+{% extends 'shoppingsite/index.html' %}
 {% load static %}
 {% block title %}
-    Products {{product_obj.name}}
+Book Details
 {% endblock title %}
-
-{% block main-content %}
-<section>
+{% block main_content %}
+<section class="mb-2">
     <div class="container mb-3">
         <div class="row flex justify-content-center-between">
             <div class="img2 col-lg-5 mt-1">
@@ -18,11 +17,7 @@
                 </h1>
                 <p class="mb-0">by <span class="fw-medium text-decoration-underline">&nbsp;{{product_obj.author}}</span></p>
                 <p class="mb-0">Narrated by <span class="fw-medium text-decoration-underline">&nbsp;{{product_obj.narrated_by}}</span></p>
-                {% if is_subscribed %}
-                    <h5 class="fw-bold border-top">&#8377;&nbsp;{{ product_obj.book_discount_price_for_members }}</h5>
-                {% else %}
-                    <h5 class="fw-bold border-top">&#8377;&nbsp;{{ product_obj.book_discount_price }}</h5>
-                {% endif %}
+                <h5 class="fw-bold border-top">&#8377;&nbsp;{{ product_obj.book_discount_price }}</h5>
                 <small class="fw-bold text-decoration-line-through text-danger">&#8377;&nbsp;{{product_obj.book_max_price}}</small>
                 <br>
                 <h4>Product Description</h4>
@@ -54,6 +49,13 @@
                                 </div>
                             </button>
                         </a>
+                        <a href="{% url 'shoppingsite:pricing' %}" class="fw-bold fs-2 text-decoration-none">
+                            <button type="submit" class="btn btn-secondary btn-block btn-lg w-100  fs-3 fw-bold mt-2">
+                                <div class="d-flex justify-content-center text-black">
+                                    Take Subscription
+                                </div>
+                            </button>
+                        </a>
                     {% else %}
                         <h4 class="text-danger">Please Login to buy the book!</h4>
                     {% endif %}
@@ -64,32 +66,33 @@
     </div>
 </section>
 
-
+{% endblock main_content %}
+{% block js_block %}
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var audioPlayers = document.querySelectorAll('.audioPlayer');
-            var s_user_length = "{{ s_user_length }}";
+    document.addEventListener('DOMContentLoaded', function() {
+        var audioPlayers = document.querySelectorAll('.audioPlayer');
+        // var s_user_length = "{{ s_user_length }}";
 
-            if (parseInt(s_user_length) === 0) {
-                console.log("s_user is empty");
-                audioPlayers.forEach(function(audio) {
-                    audio.addEventListener('play', function() {
-                        setTimeout(function() {
-                            window.location.href = '/pricingpage';
-                        }, 10000);
-                    });
-                });
-            }
+        // if (parseInt(s_user_length) === 0) {
+        //     console.log("s_user is empty");
+        //     audioPlayers.forEach(function(audio) {
+        //         audio.addEventListener('play', function() {
+        //             setTimeout(function() {
+        //                 window.location.href = '/pricingpage';
+        //             }, 10000);
+        //         });
+        //     });
+        // }
 
-            audioPlayers.forEach(function(audio) {
-                audio.addEventListener('play', function() {
-                    audioPlayers.forEach(function(otherAudio) {
-                        if (otherAudio !== audio && !otherAudio.paused) {
-                            otherAudio.pause();
-                        }
-                    });
+        audioPlayers.forEach(function(audio) {
+            audio.addEventListener('play', function() {
+                audioPlayers.forEach(function(otherAudio) {
+                    if (otherAudio !== audio && !otherAudio.paused) {
+                        otherAudio.pause();
+                    }
                 });
             });
         });
+    });
 </script>
-{% endblock main-content %}
+{% endblock js_block %}

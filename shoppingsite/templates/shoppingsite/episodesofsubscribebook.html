@@ -1,11 +1,9 @@
-{% extends 'shoppingsite/base.html' %}
+{% extends 'shoppingsite/index.html' %}
 {% load static %}
 {% block title %}
-    Episodes
+Episodes Subscription Products
 {% endblock title %}
-
-{% block main-content %}
-
+{% block main_content %}
 <div class="container mt-3">
     <ul class="list-group">
         {% for i in episodes %}
@@ -26,80 +24,83 @@
     {% include 'snippets/alert.html' %}
 </div>
 
+{% endblock main_content %}
+
+{% block js_block %}
 <script>
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    // Function to get current user ID, you may implement your own method
-    function getUserId() {
-        return {{ userId }};
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        var userId = getUserId();
-
-        var audioPlayers = document.querySelectorAll('.audioPlayer');
-
-        audioPlayers.forEach(function(audio) {
-            audio.addEventListener('play', function() {
-                audioPlayers.forEach(function(otherAudio) {
-                    if (otherAudio !== audio && !otherAudio.paused) {
-                        otherAudio.pause();
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+        // Function to get current user ID, you may implement your own method
+        function getUserId() {
+            return {{ userId }};
+        }
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            var userId = getUserId();
+    
+            var audioPlayers = document.querySelectorAll('.audioPlayer');
+    
+            audioPlayers.forEach(function(audio) {
+                audio.addEventListener('play', function() {
+                    audioPlayers.forEach(function(otherAudio) {
+                        if (otherAudio !== audio && !otherAudio.paused) {
+                            otherAudio.pause();
+                        }
+                    });
+    
+                    var audioUrl = this.getAttribute('data-audio-url');
+                    removeAudio(audioUrl);
+                });
+                
+                audioPlayers.forEach(function(audio, index) {
+                audio.addEventListener('ended', function() {
+                    // Pause the current audio
+                    this.pause();
+    
+                    // Get the next audio element
+                    var nextIndex = index + 1;
+                    if (nextIndex < audioPlayers.length) {
+                        var nextAudio = audioPlayers[nextIndex];
+    
+                        // Play the next audio
+                        nextAudio.play();
+    
+                        // Remove the stored pause time for the current audio
+                        var audioId = this.id;
+                        removeAudio(audioId);
+    
+                        // Store the pause time for the next audio
+                        storePauseTime(userId, nextAudio.id, 0);
                     }
                 });
-
-                var audioUrl = this.getAttribute('data-audio-url');
-                removeAudio(audioUrl);
+    
+                // Rest of your existing code for handling pause and storing pause time
             });
-            
-            audioPlayers.forEach(function(audio, index) {
-            audio.addEventListener('ended', function() {
-                // Pause the current audio
-                this.pause();
-
-                // Get the next audio element
-                var nextIndex = index + 1;
-                if (nextIndex < audioPlayers.length) {
-                    var nextAudio = audioPlayers[nextIndex];
-
-                    // Play the next audio
-                    nextAudio.play();
-
-                    // Remove the stored pause time for the current audio
-                    var audioId = this.id;
-                    removeAudio(audioId);
-
-                    // Store the pause time for the next audio
-                    storePauseTime(userId, nextAudio.id, 0);
-                }
+    
+                var audioId = audio.id;
+                var storedTime = localStorage.getItem(userId + '-' + audioId + '-pauseTime');
+                var time = storedTime ? parseFloat(storedTime) : 0;
+                setStartTime(audioId, time);
+    
+                audio.addEventListener('pause', function() {
+                    storePauseTime(userId, audioId, audio.currentTime);
+                });
             });
-
-            // Rest of your existing code for handling pause and storing pause time
-        });
-
-            var audioId = audio.id;
-            var storedTime = localStorage.getItem(userId + '-' + audioId + '-pauseTime');
-            var time = storedTime ? parseFloat(storedTime) : 0;
-            setStartTime(audioId, time);
-
-            audio.addEventListener('pause', function() {
-                storePauseTime(userId, audioId, audio.currentTime);
+    
+            window.addEventListener('beforeunload', function() {
+                audioPlayers.forEach(function(audio) {
+                    storePauseTime(userId, audio.id, audio.currentTime);
+                });
             });
         });
-
-        window.addEventListener('beforeunload', function() {
-            audioPlayers.forEach(function(audio) {
-                storePauseTime(userId, audio.id, audio.currentTime);
-            });
-        });
-    });
-
-    function storePauseTime(userId, audioId, time) {
-        localStorage.setItem(userId + '-' + audioId + '-pauseTime', time);
-    }
-
-    function setStartTime(audioId, time) {
-        var player = document.getElementById(audioId);
-        player.src = player.src.split('#')[0] + '#t=' + time;
-    }
-</script>
-{% endblock main-content %}
+    
+        function storePauseTime(userId, audioId, time) {
+            localStorage.setItem(userId + '-' + audioId + '-pauseTime', time);
+        }
+    
+        function setStartTime(audioId, time) {
+            var player = document.getElementById(audioId);
+            player.src = player.src.split('#')[0] + '#t=' + time;
+        }
+    </script>
+{% endblock js_block %}
