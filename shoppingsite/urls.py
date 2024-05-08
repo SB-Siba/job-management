@@ -54,4 +54,5 @@ urlpatterns = [
     path('orders',views.OrderView.as_view(),name='orders'),
     path('contactmessage',views.contactMesage.as_view(),name="contactmessage"),
     path('about',views.AboutPage.as_view(),name="about"),
+    path('filter-books/', views.filter_audiobooks, name='filter_books'),
 ]

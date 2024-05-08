@@ -28,13 +28,12 @@ class Registration(View):
             password = form.cleaned_data.get('password')
             confirm_password = form.cleaned_data.get('confirm_password')
             full_name = form.cleaned_data.get('full_name')
-            contact = form.cleaned_data.get('contact')
 
             user = auth.authenticate(request, username=email, password=password)
             if user is None:
                 try:
                     if password == confirm_password:
-                        new_user = self.model(email=email, full_name=full_name, contact=contact)
+                        new_user = self.model(email=email, full_name=full_name)
                         new_user.set_password(password)
                         new_user.save()
                         messages.success(request, 'Registration Successful!')

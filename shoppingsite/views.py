@@ -842,3 +842,26 @@ class AboutPage(View):
     def get(self,request):
         
         return render(request,self.template)
+
+def filter_audiobooks(request):
+    category = request.GET.get('category')
+    if category:
+        books = AudioBook.objects.filter(category__title=category)
+    else:
+        books = AudioBook.objects.all()
+    
+    data = []
+    for book in books:
+        product_data = {
+            'id': book.id,
+            'name': book.title,
+            'price': book.book_discount_price,
+            'old_price': book.book_max_price,
+            'author': book.author,
+            'narrator': book.narrated_by,
+            'image_url': book.audiobook_image.url,  # Assuming 'image' is a ImageField in your model
+            'audio_file_url': book.demo_audio_file.url if book.demo_audio_file else None,
+        }
+        data.append(product_data)
+
+    return JsonResponse(data, safe=False)
