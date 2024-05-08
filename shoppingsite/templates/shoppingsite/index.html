@@ -46,7 +46,6 @@ https://templatemo.com/tm-584-pod-talk
 <body>
 
     <main>
-
         <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a class="navbar-brand me-lg-5 me-0" href="{% url 'shoppingsite:home' %}">
@@ -81,7 +80,7 @@ https://templatemo.com/tm-584-pod-talk
                             <a class="nav-link" href="{% url 'shoppingsite:about' %}">About</a>
                         </li>
 
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown hhh">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">{{request.user.full_name}}</a>
 
@@ -102,7 +101,7 @@ https://templatemo.com/tm-584-pod-talk
                             <a class="nav-link" href="{% url 'shoppingsite:contactmessage' %}">Contact</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'shoppingsite:showcart' %}" class="fas fa-shopping-cart mt-3 text-primary"></a>
+                            <a class="nav-link" href="{% url 'shoppingsite:showcart' %}"><i class="fas fa-shopping-cart text-primary"></i></a>
                         </li>
                     </ul>
                 </div>
