@@ -1252,3 +1252,23 @@ main {
 
 }
 
+.category-link.active {
+  border-bottom: 2px solid blue;
+  font-weight: bold;
+  color: blue; /* Change color as per your preference */
+}
+
+.timeline-container {
+  position: relative;
+  height: 2px;
+  background-color: #ccc;
+}
+
+.timeline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background-color: blue;
+}
