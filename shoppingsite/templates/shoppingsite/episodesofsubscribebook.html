@@ -15,14 +15,20 @@ Episodes Subscription Products
                 <div class="audio-container">
                     <!-- <audio class="audioPlayer" preload="auto" id="audioPlayer{{ i.id }}" controls controlsList="nodownload nodisplayrate"
                         src="{{ i.audio_file.url }}" data-audio-url = "{{ i.audio_file.url }}" type="audio/mp3"></audio> -->
-                        <audio class="audioPlayer" id="audioPlayer{{ i.id }}" src="{{ i.audio_file.url }}"></audio>    
-                        <a class="skip-backward"><i class="fa fa-backward social-icon-link"></i></a>
-                        <a class="playpause-btn" onclick="togglePlayPause('audioPlayer{{ i.id }}', this)">
-                            <i class="social-icon-link fa fa-play"></i>
-                        </a>
-                        <a class="skip10"><i class="fa fa-forward social-icon-link"></i></a>
-                        <a class="skip30"><i class="fa fa-fast-forward social-icon-link"></i></a>
-                        <div class="remaining-time"></div>
+                        <div class="progress-bar">
+                            <div class="progress"></div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-center">
+                            <audio class="audioPlayer" id="audioPlayer{{ i.id }}" src="{{ i.audio_file.url }}"></audio>    
+                            <a class="skip-backward"><i class="fa fa-backward social-icon-link"></i></a>
+                            <a class="playpause-btn" onclick="togglePlayPause('audioPlayer{{ i.id }}', this)">
+                                <i class="social-icon-link fa fa-play"></i>
+                            </a>
+                            <a class="skip10"><i class="fa fa-forward social-icon-link"></i></a>
+                            <a class="skip30"><i class="fa fa-fast-forward social-icon-link"></i></a>
+                            <div class="remaining-time"></div>
+                        </div> 
                 </div>
             </li>
         {% endfor %}
@@ -57,10 +63,25 @@ Episodes Subscription Products
                 playPauseBtn.addEventListener('click', function() {
                     togglePlayPause(audio, playPauseBtn);
                 });
+                audio.addEventListener('loadedmetadata', function() {
+                    // Update remaining time display to show full duration
+                    remainingTimeDisplay.textContent = formatTime(audio.duration);
+                });
 
                 audio.addEventListener('timeupdate', function() {
-                    var remainingTime = formatTime(audio.duration - audio.currentTime);
+                    var currentTime = audio.currentTime;
+                    var duration = audio.duration;
+
+                    // Update remaining time display
+                    var remainingTime = formatTime(duration - currentTime);
                     remainingTimeDisplay.textContent = remainingTime;
+
+                    // Update progress bar width
+                    var progress = (currentTime / duration) * 100;
+                    var progressBar = audio.parentElement.previousElementSibling.querySelector('.progress-bar .progress');
+                    console.log(progressBar)
+                    progressBar.style.width = progress + '%';
+
                 });
                 audio.addEventListener('pause', function() {
                     playPauseBtn.innerHTML = '<i class="social-icon-link fa fa-play"></i>';

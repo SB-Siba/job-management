@@ -4,6 +4,7 @@ from django.views import View
 from django.contrib import messages
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from . import forms
 from . import rozerpay
 from app_common.checkout.serializer import CartSerializer,DirectBuySerializer,TakeSubscriptionSerializer,OrderSerializer
@@ -11,6 +12,7 @@ from admin_dashboard.order.forms import OrderUpdateForm
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from io import StringIO
+from django.core.mail import send_mail
 import json
 from app_common.models import (
     AudioBook,
@@ -69,6 +71,7 @@ class HomeView(View):
             products_list.extend(j)
        
         category_and_products_zip = zip(category_list,products_list)
+
         return render(request, self.template, locals())
 
 
@@ -471,53 +474,72 @@ class SubscriptionChecout(View):
         grandtotal = plan_serializer['products_data']['final_value']
      
         return render(request,self.template,locals())
+    
+    def post(self,request,plan_id):
+        user = request.user
+        plan_obj = SubscriptionPlan.objects.get(id=plan_id)
+        plan_serializer = TakeSubscriptionSerializer(plan_obj).data
+        # Checking whether the user has activate auto renewal
+        auto_renewal = request.POST.get('autoRenewal')
 
-def UserTakeSubscription(request, plan_id):
-    user = request.user
-    plan_obj = SubscriptionPlan.objects.get(id=plan_id)
-    plan_serializer = TakeSubscriptionSerializer(plan_obj).data
-    print(plan_serializer)
-    ord_meta_data = {}
-    for i,j in plan_serializer.items():
-        ord_meta_data.update(j)
-    t_price = ord_meta_data['final_value']
-    user_address = user.address
-    selected_address = None
-    for address in user_address:
-        selected_address = address
-        break
-        
-    try:
-        subs_qset = UserSubscription.objects.filter(user=user, plan=plan_obj).count()
-        if subs_qset > 0:
-            messages.error(request, "This user already has a subscription to this plan")
-            return redirect("shoppingsite:pricing")
-        else:
-            new_subscription = UserSubscription(user=user, plan=plan_obj)
-            order = Order(
-                user=user,
-                full_name=user.full_name,
-                email=user.email,
-                products={plan_obj.title:1},
-                order_value=t_price,
-                address=selected_address,
-                order_meta_data = ord_meta_data
-                # razorpay_payment_id = razorpay_payment_id,
-                # razorpay_order_id= razorpay_order_id,
-                # razorpay_signature= razorpay_signature,
-            )
-            # order.order_meta_data = json.loads(ord_meta_data)
+        ord_meta_data = {}
+        for i,j in plan_serializer.items():
+            ord_meta_data.update(j)
+        t_price = ord_meta_data['final_value']
+        user_address = user.address
+        selected_address = None
+        for address in user_address:
+            selected_address = address
+            break
             
-            order.save()
-            new_subscription.save()
-            messages.success(
-                request, "You have successfully subscribed for the selected Plan!"
-            )
-            return redirect("shoppingsite:home")
-    except Exception as e:
-        print(e)
-        messages.error(request, "Error while Taking Subscription")
-        return redirect("shoppingsite:pricing")
+        try:
+            subs_qset = UserSubscription.objects.filter(user=user, plan=plan_obj).count()
+            if subs_qset > 0:
+                messages.error(request, "This user already has a subscription to this plan")
+                return redirect("shoppingsite:pricing")
+            else:
+                if auto_renewal == 'on':
+                    user_email = user.email
+                    subject = "Subscription Taken Successfully"
+                    message = f'Dear {str(user.full_name)},\nYour subscription for {plan_obj.title} and {plan_obj.days} days is taken successfully.\nAlso You Activate Autorenewal for this.'
+                    from_email = "forverify.noreply@gmail.com"
+                    send_mail(subject, message, from_email,[user_email], fail_silently=False)
+
+                    new_subscription = UserSubscription(user=user, plan=plan_obj,renewal_status = "taken")
+                else:
+                    user_email = user.email
+                    subject = "Subscription Taken Successfully"
+                    message = f'Dear {str(user.full_name)},\nYour subscription for {plan_obj.title} and {plan_obj.days} days is taken successfully.'
+                    from_email = "forverify.noreply@gmail.com"
+                    send_mail(subject, message, from_email,[user_email], fail_silently=False)
+
+                    new_subscription = UserSubscription(user=user, plan=plan_obj,renewal_status = "nottaken")
+                order = Order(
+                    user=user,
+                    full_name=user.full_name,
+                    email=user.email,
+                    products={plan_obj.title:1},
+                    order_value=t_price,
+                    address=selected_address,
+                    order_meta_data = ord_meta_data
+                    # razorpay_payment_id = razorpay_payment_id,
+                    # razorpay_order_id= razorpay_order_id,
+                    # razorpay_signature= razorpay_signature,
+                )
+                # order.order_meta_data = json.loads(ord_meta_data)
+                
+                order.save()
+                new_subscription.save()
+                messages.success(
+                    request, "You have successfully subscribed for the selected Plan!"
+                )
+                return redirect("shoppingsite:home")
+        except Exception as e:
+            print(e)
+            messages.error(request, "Error while Taking Subscription")
+            return redirect("shoppingsite:pricing")
+
+    
 
 
 # class Checkout(View):
@@ -609,6 +631,12 @@ class PaymentSuccess(View):
         # if rozerpay.verify_signature(request.POST):
         # print("order_placed")
         try:
+            user_email = cart.user.email
+            subject = "Order Successfull."
+            message = f"Dear {user.full_name},\nYour order has been placed successfully.\n\nPlease check your email for further instructions"
+            from_email = "forverify.noreply@gmail.com"
+            send_mail(subject, message, from_email,[user_email], fail_silently=False)
+
             order = self.model(
                 user=user,
                 full_name=cart.user.full_name,
@@ -679,6 +707,11 @@ class DirectBuy(View):
             break
         
         try:
+            user_email = user.email
+            subject = "Order Successfull."
+            message = f"Dear {user.full_name},\nYour order of {prod_obj.title} has been placed successfully.\n\nPlease check your email for further instructions"
+            from_email = "forverify.noreply@gmail.com"
+            send_mail(subject, message, from_email,[user_email], fail_silently=False)
             order = self.model(
                 user=user,
                 full_name=user.full_name,
@@ -824,6 +857,11 @@ class contactMesage(View):
             message = form.cleaned_data['message']
             try:
                 u_obj = get_object_or_404(User,full_name = user)
+                user_email = u_obj.email
+                subject = "Your Query Recived."
+                message = f"Dear,\nYour Query has been recived successfully.\nOur Team members look into this."
+                from_email = "forverify.noreply@gmail.com"
+                send_mail(subject, message, from_email,[user_email], fail_silently=False)
                 contact_obj = ContactMessage(user = u_obj,message = message)
                 contact_obj.save()
                 messages.info(request,"Your Message has been sent successfully.")
@@ -865,3 +903,30 @@ def filter_audiobooks(request):
         data.append(product_data)
 
     return JsonResponse(data, safe=False)
+
+class SubscriptionFeatureDetail(View):
+    template = app + "subscription_details.html"
+    model = UserSubscription
+    def get(self,request):
+        user = request.user
+        subscription_user = False
+        features = []
+        try:
+            plan_order_obj = get_object_or_404(self.model,user = user)
+            if plan_order_obj:
+                subscription_user = True
+                feature_obj = SubscriptionFeatures.objects.filter(sub_plan = plan_order_obj.plan)
+                for i in feature_obj:
+                    features.append(i)
+        except Exception as e:
+            plan_order_obj = None
+            subscription_user = False
+        
+        return render(request,self.template,locals())
+    
+def auto_renewal(request,user_plan_id):
+    user_plan_obj = get_object_or_404(UserSubscription,id = user_plan_id)
+    user_plan_obj.renewal_status = "taken"
+    user_plan_obj.save()
+
+    return redirect("shoppingsite:subscription_details")

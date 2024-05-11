@@ -4,7 +4,7 @@ from django.utils.encoding import force_bytes
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.template.loader import get_template
-from .models import Order
+from . models import UserSubscription
 # from app_common.checkout.serializer import OrderSerializer
 
 @shared_task
@@ -71,3 +71,9 @@ def share_invoice(email,data):
         print("#############################################")
         print(str(e))
         print("#############################################")
+
+@shared_task
+def renew_subscription(subscription_id):
+    subscription = UserSubscription.objects.get(id=subscription_id)
+    new_end_date = subscription.auto_renew()
+    return new_end_date
