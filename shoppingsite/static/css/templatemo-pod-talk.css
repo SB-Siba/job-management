@@ -1272,3 +1272,23 @@ main {
   width: 0;
   background-color: blue;
 }
+.progress-bar {
+  /* width: 100%; */
+  height: 5px; /* Adjust height as needed */
+  background-color: #c7e4d0;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 10px; /* Adjust spacing as needed */
+  margin-bottom: 10px;
+}
+
+.progress {
+  height: 100%;
+  background-color: #0cd613;
+  width: 0;
+}
+.audio-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

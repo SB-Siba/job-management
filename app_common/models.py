@@ -12,7 +12,6 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
 from .manager import MyAccountManager
 
  
@@ -310,9 +309,14 @@ class SubscriptionFeatures(models.Model):
         return f"{self.feature}"
 
 class UserSubscription(models.Model):
+    STATUS = (
+        ("taken","taken"),
+        ("nottaken","nottaken"),
+    )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE)
     start_date = models.DateField(default=timezone.now)
+    renewal_status = models.CharField(max_length=255,choices=STATUS, default= 'nottaken')
 
     def calculate_end_date(self):
         return self.start_date + timedelta(days=self.plan.days)
@@ -327,8 +331,16 @@ class UserSubscription(models.Model):
         days_left = (end_date - today).days
         return max(days_left, 0)
     
-    def save(self, *args, **kwargs):
-        if self.pk:  # Check if instance already exists (i.e., not newly created)
-            if self.days_left() <= 0:
-                self.delete()
-        super(UserSubscription, self).save(*args, **kwargs)
+    def auto_renew(self):
+        if self.renewal_status == 'taken':
+            # Assuming the renewal period is the same as the plan's duration
+            renewal_period = timedelta(days=self.plan.days)
+            new_end_date = self.end_date + renewal_period
+            self.start_date = self.end_date  # Start date of renewed subscription is the previous end date
+            self.save()
+            from .tasks import renew_subscription
+            renew_subscription.delay(self.id)  # Trigger the Celery task for renewal asynchronously
+            return new_end_date
+        elif self.renewal_status == 'nottaken':
+            # If renewal status is 'nottaken', turn off renewal
+            return None

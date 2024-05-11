@@ -79,7 +79,13 @@ https://templatemo.com/tm-584-pod-talk
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'shoppingsite:about' %}">About</a>
                         </li>
-
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'shoppingsite:contactmessage' %}">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'shoppingsite:showcart' %}"><i class="fas fa-shopping-cart text-primary"></i></a>
+                        </li>
                         <li class="nav-item dropdown hhh">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">{{request.user.full_name}}</a>
@@ -96,12 +102,8 @@ https://templatemo.com/tm-584-pod-talk
                                 </li>
                             </ul>
                         </li>
-                        
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'shoppingsite:contactmessage' %}">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'shoppingsite:showcart' %}"><i class="fas fa-shopping-cart text-primary"></i></a>
+                            <a class="nav-link" href="{% url 'shoppingsite:subscription_details' %}">Subscription Details</a>
                         </li>
                     </ul>
                 </div>

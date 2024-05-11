@@ -44,7 +44,7 @@ urlpatterns = [
     path('directbuy/<int:p_uid>',views.DirectBuy.as_view(),name='directbuy'),
     path('pricingpage',views.PricingPageView.as_view(),name='pricing'),
     path('subscriptioncheckout/<int:plan_id>',views.SubscriptionChecout.as_view(),name='subscriptioncheckout'),
-    path('usertakesubscription/<int:plan_id>',views.UserTakeSubscription,name='usertakesubscription'),
+    # path('usertakesubscription/<int:plan_id>',views.UserTakeSubscription,name='usertakesubscription'),
     path('invoice/<int:order_uid>',views.UserDownloadInvoice.as_view(),name="invoice"),
     path('orderbook',views.OrderAudioBooks.as_view(),name="orderaudiobooks"),
     path('subscriptionaudiobooks',views.SubscriptionAudioBooks.as_view(),name='subscriptionaudiobooks'),
@@ -55,4 +55,7 @@ urlpatterns = [
     path('contactmessage',views.contactMesage.as_view(),name="contactmessage"),
     path('about',views.AboutPage.as_view(),name="about"),
     path('filter-books/', views.filter_audiobooks, name='filter_books'),
+    path('subscription-feature-details/',views.SubscriptionFeatureDetail.as_view(),name='subscription_details'),
+    path('autorenewal/<int:user_plan_id>', views.auto_renewal, name='autorenewal'),
+
 ]

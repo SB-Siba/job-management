@@ -8,6 +8,7 @@ from .forms import SignUpForm,LoginForm
 from django.contrib.auth import logout
 from helpers import privacy_t_and_c
 from app_common import models
+from django.core.mail import send_mail
 
 
 app = "shoppingsite/"
@@ -35,9 +36,22 @@ class Registration(View):
                     if password == confirm_password:
                         new_user = self.model(email=email, full_name=full_name)
                         new_user.set_password(password)
-                        new_user.save()
-                        messages.success(request, 'Registration Successful!')
-                        return redirect('shoppingsite:login')
+                        try:
+                            user_email = email
+                            subject = "Registration Successfull."
+                            message = f"""\
+                            Dear {full_name},
+                            Your account has been created successfully on our site. You can login now."""
+                            from_email = "forverify.noreply@gmail.com"
+                            send_mail(subject, message, from_email,[user_email], fail_silently=False)
+
+                            new_user.save()
+                            messages.success(request, 'Registration Successful!')
+                            return redirect('shoppingsite:login')
+                        except Exception as e:
+                            print("Error in sending verfication mail",e)
+                            messages.error(request,'Email could not be sent due to some error.Please contact support for further assistance.')
+                            return redirect('shoppingsite:signup')
                     else:
                         messages.error(request, "Password does not match with Confirm Password")
                         return redirect('shoppingsite:signup')
