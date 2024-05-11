@@ -50,6 +50,7 @@ urlpatterns = [
     path('subscriptionaudiobooks',views.SubscriptionAudioBooks.as_view(),name='subscriptionaudiobooks'),
     path('subscribebookepisodes/<int:book_id>',views.SubscribeBooksEpisode.as_view(),name='subscribebookepisodes'),
     path('removeaudio',views.remove_audio,name='remove-audio'),
+    path('account-details',views.AccountDetails.as_view(),name='account_details'),
 
     path('orders',views.OrderView.as_view(),name='orders'),
     path('contactmessage',views.contactMesage.as_view(),name="contactmessage"),
@@ -57,5 +58,6 @@ urlpatterns = [
     path('filter-books/', views.filter_audiobooks, name='filter_books'),
     path('subscription-feature-details/',views.SubscriptionFeatureDetail.as_view(),name='subscription_details'),
     path('autorenewal/<int:user_plan_id>', views.auto_renewal, name='autorenewal'),
-
+    path('listen-history/', views.add_to_listen_history, name='add_to_listen_history'),
+    path('listen-history-view/', views.ListenEpisodes.as_view(), name='listen_history'),
 ]

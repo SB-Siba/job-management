@@ -101,6 +101,26 @@ Episodes Subscription Products
                 
                 audioPlayers.forEach(function(audio, index) {
                     audio.addEventListener('ended', function() {
+                        var audioId = this.id;
+                        var audioIdNumeric = audioId.replace('audioPlayer', ''); // Extract numerical part
+                        var formData = new FormData();
+                        formData.append('audio_id',audioIdNumeric);
+                        // AJAX post request
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '{% url "shoppingsite:add_to_listen_history" %}', true);
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                if (xhr.status === 200) {
+                                    // Handle success response
+                                    console.log('Audio added to listen history successfully.');
+                                } else {
+                                    // Handle error response
+                                    console.error('Failed to add audio to listen history.');
+                                }
+                            }
+                        };
+                        xhr.send(formData);
+                        
                         // Pause the current audio
                         this.pause();
                         var playPauseBtn = this.parentElement.querySelector('.playpause-btn');
@@ -189,5 +209,5 @@ Episodes Subscription Products
             var remainingSeconds = Math.floor(seconds % 60);
             return minutes + ':' + (remainingSeconds < 10 ? '0' : '') + remainingSeconds;
         }
-    </script>
+</script>
 {% endblock js_block %}

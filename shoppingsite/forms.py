@@ -36,8 +36,8 @@ class UpdateProfileForm(forms.Form):
 
     password = forms.CharField(label='Password',widget=forms.PasswordInput(attrs= {'autocomplete':'current-password','class':'form-control','placeholder':'Only if you want to change then type here.'}),required=False)
 
-    profile_pic = forms.FileField(label='Select an audio file')
-    profile_pic.widget.attrs.update({'class': 'form-control','type':'file'})
+    profile_pic = forms.FileField(label='Select an image file', required=False)
+    profile_pic.widget.attrs.update({'class': 'form-control', 'type': 'file'})
     
 class AddressForm(forms.Form):
     landmark1 = forms.CharField(max_length=255)

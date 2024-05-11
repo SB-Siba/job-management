@@ -145,6 +145,13 @@ class Episode(models.Model):
     def __str__(self):
         return self.title
     
+class ListenHistory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
+    listenepisodes = models.JSONField(default=list,null=True, blank=True)
+
+    def __str__(self):
+        return f"Listen History for {self.user.full_name}"
+    
 # class Coupon(models.Model):
 #     YESNO = (
 #         ("yes","yes"),

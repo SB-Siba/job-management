@@ -1292,3 +1292,8 @@ main {
   justify-content: center;
   align-items: center;
 }
+.list-unstyled li.active a {
+  font-weight: bold;
+  color: #0c0c0b; /* Text color */
+  background-color: #3ca3bd; /* Background color */
+}
