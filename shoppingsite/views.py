@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.conf import settings
 from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
 from django.views import View
@@ -16,8 +17,10 @@ from django.core.mail import send_mail
 import json
 from app_common.models import (
     AudioBook,
+    BecomeAPartner,
     Category,
     Cart,
+    ListenHistory,
     UserProfile,
     User,
     Episode,
@@ -161,7 +164,7 @@ class UpdateProfileView(View):
                     messages.success(request, "Password Changed Successfully")
 
                 userobj.save()
-                return redirect("shoppingsite:profile")
+                return redirect("shoppingsite:account_details")
 
             except:
                 messages.error(request, "Error in Updating Profile")
@@ -930,3 +933,107 @@ def auto_renewal(request,user_plan_id):
     user_plan_obj.save()
 
     return redirect("shoppingsite:subscription_details")
+
+class AccountDetails(View):
+    template = app + "accountdetails.html"
+
+    def get(self,request):
+        user = request.user
+        print(user)
+        category_obj = Category.objects.all()
+        userobj = User.objects.get(email=user.email)
+        try:
+            profileobj = UserProfile.objects.get(user=userobj)
+        except UserProfile.DoesNotExist:
+            profileobj = None
+
+        if not user.is_authenticated:
+            return redirect("shoppingsite:login")
+        
+        return render(request,self.template,locals())
+    
+@csrf_exempt
+def add_to_listen_history(request):
+    if request.method == 'POST':
+        try:
+            audio_id = request.POST.get('audio_id')
+            episode = Episode.objects.get(id=int(audio_id))
+            user = request.user
+            # Get or create the user's listen history
+            listen_history, created = ListenHistory.objects.get_or_create(user=user)
+
+            # Check if the episode already exists in the user's listen history
+            episode_id = str(episode.id)
+            if episode_id not in [entry['episode_id'] for entry in listen_history.listenepisodes]:
+                # Add the episode details and completion time to the listen history
+                completion_time = datetime.now().isoformat()  # Store current time in ISO 8601 format
+                episode_data = {
+                    'episode_id': episode_id,
+                    'episode_name': episode.title,
+                    'audiobook': episode.audiobook.title,
+                    'completion_time': completion_time
+                }
+                listen_history.listenepisodes.append(episode_data)
+                listen_history.save()
+                return JsonResponse({'message': 'Audio added to listen history successfully.'})
+            else:
+                return JsonResponse({'message': 'Audio already exists in listen history.'})
+        except Episode.DoesNotExist:
+            return JsonResponse({'error': 'Episode not found.'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    else:
+        return JsonResponse({'error': 'Method not allowed.'}, status=405)
+    
+class ListenEpisodes(View):
+    template = app + "listenhistory.html"
+    def get(self, request):
+        try:
+            listen_history = ListenHistory.objects.get(user=request.user)
+            listen_episodes = listen_history.listenepisodes if listen_history.listenepisodes else []
+
+            for episode in listen_episodes:
+                completion_time = datetime.strptime(episode['completion_time'], '%Y-%m-%dT%H:%M:%S.%f')
+                episode['formatted_completion_time'] = completion_time.strftime('%Y-%m-%d %H:%M')
+        except ListenHistory.DoesNotExist:
+            listen_episodes = []
+
+        context = {
+            'listen_history': listen_episodes
+        }
+        return render(request, self.template,context)
+
+
+class Become_A_Partner(View):
+    template = app + "becomeapartner.html"
+    model = BecomeAPartner
+
+    def get(self,request):
+        form = forms.PartnerForm()
+        return render(request, self.template,{'form':form})
+    def post(self,request): 
+        form = forms.PartnerForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            user_email = email
+            subject = "Partner Request Sent."
+            message = """
+            You have requested to become a partner on the Open
+            Humanities Podcast. Please log into your
+            account (if you have one) and check
+            your messages for further instructions."""
+            # send_mail(subject,message
+            #           ,settings.DEFAULT_FROM_EMA
+            #           ,[user_email])
+            from_email = "forverify.noreply@gmail.com"
+            send_mail(subject, message, from_email,[user_email], fail_silently=False)
+            form.save()
+            return redirect('shoppingsite:thank_you')
+        else:
+            error_message="Please fill out all fields correctly."
+            return render(request, self.template)
+
+class ThankYou(View):
+    template = app + "thankyoupage.html"
+    def get(self, request):
+        return render(request, self.template)

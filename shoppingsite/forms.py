@@ -36,8 +36,8 @@ class UpdateProfileForm(forms.Form):
 
     password = forms.CharField(label='Password',widget=forms.PasswordInput(attrs= {'autocomplete':'current-password','class':'form-control','placeholder':'Only if you want to change then type here.'}),required=False)
 
-    profile_pic = forms.FileField(label='Select an audio file')
-    profile_pic.widget.attrs.update({'class': 'form-control','type':'file'})
+    profile_pic = forms.FileField(label='Select an image file', required=False)
+    profile_pic.widget.attrs.update({'class': 'form-control', 'type': 'file'})
     
 class AddressForm(forms.Form):
     landmark1 = forms.CharField(max_length=255)
@@ -125,3 +125,22 @@ class ContactMessageForm(forms.Form):
         }),
         required=True
     )
+
+
+class PartnerForm(forms.ModelForm):
+    class Meta:
+        model = common_models.BecomeAPartner
+        fields = ['name', 'email', 'phone_number', 'company_name', 'website', 'industry', 'number_of_employees', 'partnership_interest', 'partnership_type', 'past_experience', 'additional_information']
+        widgets = {
+            'partnership_interest': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
+            'past_experience': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
+            'additional_information': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'company_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'website': forms.URLInput(attrs={'class': 'form-control'}),
+            'industry': forms.TextInput(attrs={'class': 'form-control'}),
+            'number_of_employees': forms.NumberInput(attrs={'class': 'form-control'}),
+            'partnership_type': forms.TextInput(attrs={'class': 'form-control'}),
+        }

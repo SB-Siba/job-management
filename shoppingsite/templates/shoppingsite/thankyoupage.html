@@ -1,0 +1,19 @@
+{% extends 'shoppingsite/index.html' %}
+{% load static %}
+{% block title %}
+Thank You
+{% endblock title %}
+{% block main_content %}
+<div class=content>
+    <div class="wrapper-1">
+        <div class="wrapper-2">
+            <h1 class="text-primary">Thank you !</h1>
+            <p>Thank you for taking the time to submit your partnership request.</p>
+            <p>We appreciate your interest in partnering with Audiobook Pvt. Ltd.. Your information has been successfully received.</p>
+            <a href="{% url 'shoppingsite:home' %}" class="go-home btn">
+                Go Home
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock main_content %}
