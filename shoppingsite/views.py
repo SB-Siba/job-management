@@ -17,6 +17,7 @@ from django.core.mail import send_mail
 import json
 from app_common.models import (
     AudioBook,
+    BecomeAPartner,
     Category,
     Cart,
     ListenHistory,
@@ -1001,3 +1002,38 @@ class ListenEpisodes(View):
             'listen_history': listen_episodes
         }
         return render(request, self.template,context)
+
+
+class Become_A_Partner(View):
+    template = app + "becomeapartner.html"
+    model = BecomeAPartner
+
+    def get(self,request):
+        form = forms.PartnerForm()
+        return render(request, self.template,{'form':form})
+    def post(self,request): 
+        form = forms.PartnerForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            user_email = email
+            subject = "Partner Request Sent."
+            message = """
+            You have requested to become a partner on the Open
+            Humanities Podcast. Please log into your
+            account (if you have one) and check
+            your messages for further instructions."""
+            # send_mail(subject,message
+            #           ,settings.DEFAULT_FROM_EMA
+            #           ,[user_email])
+            from_email = "forverify.noreply@gmail.com"
+            send_mail(subject, message, from_email,[user_email], fail_silently=False)
+            form.save()
+            return redirect('shoppingsite:thank_you')
+        else:
+            error_message="Please fill out all fields correctly."
+            return render(request, self.template)
+
+class ThankYou(View):
+    template = app + "thankyoupage.html"
+    def get(self, request):
+        return render(request, self.template)

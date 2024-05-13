@@ -60,4 +60,6 @@ urlpatterns = [
     path('autorenewal/<int:user_plan_id>', views.auto_renewal, name='autorenewal'),
     path('listen-history/', views.add_to_listen_history, name='add_to_listen_history'),
     path('listen-history-view/', views.ListenEpisodes.as_view(), name='listen_history'),
+    path('become-a-partner/',views.Become_A_Partner.as_view(),name='become_a_partner'),
+    path('thank-you/',views.ThankYou.as_view(),name='thank_you'),
 ]

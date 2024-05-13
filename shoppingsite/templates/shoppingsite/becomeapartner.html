@@ -1,0 +1,87 @@
+{% extends 'shoppingsite/index.html' %}
+{% load static %}
+{% block title %}
+Become A partner
+{% endblock title %}
+{% block main_content %}
+<!-- Contact 1 - Bootstrap Brain Component -->
+<section class="bg-light py-1">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                <h2 class="mb-4 display-5 text-center">Become A Partner</h2>
+                <p class="text-secondary mb-2 text-center">Coming together is a beginning, staying together is progress, and working together is success.</p>
+                <hr class="w-50 mx-auto mb-2 mb-xl-9 border-dark-subtle">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-lg-center">
+            <div class="col-12 col-lg-9">
+    
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="id_name">Name:</label>
+                            {{ form.name }}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="id_email">Email:</label>
+                            {{ form.email }}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="id_phone_number">Phone Number:</label>
+                            {{ form.phone_number }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="id_company_name">Company Name:</label>
+                            {{ form.company_name }}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="id_website">Website:</label>
+                            {{ form.website }}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="id_industry">Industry:</label>
+                            {{ form.industry }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="id_number_of_employees">Number of Employees:</label>
+                            {{ form.number_of_employees }}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="id_partnership_interest">Partnership Interest:</label>
+                            {{ form.partnership_interest }}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="id_partnership_type">Partnership Type:</label>
+                            {{ form.partnership_type }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="id_past_experience">Past Experience:</label>
+                            {{ form.past_experience }}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="id_additional_information">Additional Information:</label>
+                            {{ form.additional_information }}
+                        </div>
+                        <!-- Add more fields as needed -->
+                    </div>
+                    <div class="text-center my-2">
+                        <button class="btn btn-primary w-full" type="submit">Send Message</button>
+                    </div>
+                </form>
+    
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock main_content %}

@@ -351,3 +351,24 @@ class UserSubscription(models.Model):
         elif self.renewal_status == 'nottaken':
             # If renewal status is 'nottaken', turn off renewal
             return None
+        
+class BecomeAPartner(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=20)
+    
+    company_name = models.CharField(max_length=100)
+    website = models.URLField()
+    industry = models.CharField(max_length=100)
+    number_of_employees = models.IntegerField()
+    
+    partnership_interest = models.TextField()
+    partnership_type = models.CharField(max_length=100)
+    past_experience = models.TextField(blank=True, null=True)
+    
+    additional_information = models.TextField(blank=True, null=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.company_name

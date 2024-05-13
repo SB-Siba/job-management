@@ -125,3 +125,22 @@ class ContactMessageForm(forms.Form):
         }),
         required=True
     )
+
+
+class PartnerForm(forms.ModelForm):
+    class Meta:
+        model = common_models.BecomeAPartner
+        fields = ['name', 'email', 'phone_number', 'company_name', 'website', 'industry', 'number_of_employees', 'partnership_interest', 'partnership_type', 'past_experience', 'additional_information']
+        widgets = {
+            'partnership_interest': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
+            'past_experience': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
+            'additional_information': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'company_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'website': forms.URLInput(attrs={'class': 'form-control'}),
+            'industry': forms.TextInput(attrs={'class': 'form-control'}),
+            'number_of_employees': forms.NumberInput(attrs={'class': 'form-control'}),
+            'partnership_type': forms.TextInput(attrs={'class': 'form-control'}),
+        }
