@@ -959,14 +959,15 @@ def add_to_listen_history(request):
             audio_id = request.POST.get('audio_id')
             episode = Episode.objects.get(id=int(audio_id))
             user = request.user
-            # Get or create the user's listen history
+
+            # Retrieve the user's listen history or create it if it doesn't exist
             listen_history, created = ListenHistory.objects.get_or_create(user=user)
 
             # Check if the episode already exists in the user's listen history
             episode_id = str(episode.id)
-            if episode_id not in [entry['episode_id'] for entry in listen_history.listenepisodes]:
+            if not any(entry['episode_id'] == episode_id for entry in listen_history.listenepisodes):
                 # Add the episode details and completion time to the listen history
-                completion_time = datetime.now().isoformat()  # Store current time in ISO 8601 format
+                completion_time = timezone.now().isoformat()  # Use timezone.now() for time zone-aware datetime
                 episode_data = {
                     'episode_id': episode_id,
                     'episode_name': episode.title,
@@ -993,7 +994,18 @@ class ListenEpisodes(View):
             listen_episodes = listen_history.listenepisodes if listen_history.listenepisodes else []
 
             for episode in listen_episodes:
-                completion_time = datetime.strptime(episode['completion_time'], '%Y-%m-%dT%H:%M:%S.%f')
+                completion_time_str = episode['completion_time']
+                try:
+                    # Attempt to parse with microseconds and timezone
+                    completion_time = datetime.strptime(completion_time_str, '%Y-%m-%dT%H:%M:%S.%f%z')
+                except ValueError:
+                    try:
+                        # Fallback to parsing without microseconds
+                        completion_time = datetime.strptime(completion_time_str, '%Y-%m-%dT%H:%M:%S%z')
+                    except ValueError:
+                        # Fallback to parsing without timezone
+                        completion_time = datetime.strptime(completion_time_str, '%Y-%m-%dT%H:%M:%S.%f')
+
                 episode['formatted_completion_time'] = completion_time.strftime('%Y-%m-%d %H:%M')
         except ListenHistory.DoesNotExist:
             listen_episodes = []
@@ -1001,7 +1013,7 @@ class ListenEpisodes(View):
         context = {
             'listen_history': listen_episodes
         }
-        return render(request, self.template,context)
+        return render(request, self.template, context)
 
 
 class Become_A_Partner(View):
