@@ -955,18 +955,27 @@ class AccountDetails(View):
 @csrf_exempt
 def add_to_listen_history(request):
     if request.method == 'POST':
+        user = request.user
         try:
             audio_id = request.POST.get('audio_id')
-            episode = Episode.objects.get(id=int(audio_id))
-            user = request.user
-            # Get or create the user's listen history
-            listen_history, created = ListenHistory.objects.get_or_create(user=user)
+            print(audio_id)
 
-            # Check if the episode already exists in the user's listen history
+            episode = Episode.objects.get(id=int(audio_id))
+
+            # Ensure only one ListenHistory per user
+            listen_histories = ListenHistory.objects.filter(user=user)
+            if listen_histories.count() > 1:
+                # If more than one listen history exists, remove duplicates and keep one
+                primary_history = listen_histories.first()
+                listen_histories.exclude(id=primary_history.id).delete()
+                listen_history = primary_history
+            else:
+                listen_history, created = ListenHistory.objects.get_or_create(user=user)
+
             episode_id = str(episode.id)
-            if episode_id not in [entry['episode_id'] for entry in listen_history.listenepisodes]:
+            if not any(entry['episode_id'] == episode_id for entry in listen_history.listenepisodes):
                 # Add the episode details and completion time to the listen history
-                completion_time = datetime.now().isoformat()  # Store current time in ISO 8601 format
+                completion_time = timezone.now().isoformat()  # Use timezone.now() for time zone-aware datetime
                 episode_data = {
                     'episode_id': episode_id,
                     'episode_name': episode.title,
@@ -981,6 +990,7 @@ def add_to_listen_history(request):
         except Episode.DoesNotExist:
             return JsonResponse({'error': 'Episode not found.'}, status=404)
         except Exception as e:
+            print(e)
             return JsonResponse({'error': str(e)}, status=400)
     else:
         return JsonResponse({'error': 'Method not allowed.'}, status=405)
@@ -993,7 +1003,18 @@ class ListenEpisodes(View):
             listen_episodes = listen_history.listenepisodes if listen_history.listenepisodes else []
 
             for episode in listen_episodes:
-                completion_time = datetime.strptime(episode['completion_time'], '%Y-%m-%dT%H:%M:%S.%f')
+                completion_time_str = episode['completion_time']
+                try:
+                    # Attempt to parse with microseconds and timezone
+                    completion_time = datetime.strptime(completion_time_str, '%Y-%m-%dT%H:%M:%S.%f%z')
+                except ValueError:
+                    try:
+                        # Fallback to parsing without microseconds
+                        completion_time = datetime.strptime(completion_time_str, '%Y-%m-%dT%H:%M:%S%z')
+                    except ValueError:
+                        # Fallback to parsing without timezone
+                        completion_time = datetime.strptime(completion_time_str, '%Y-%m-%dT%H:%M:%S.%f')
+
                 episode['formatted_completion_time'] = completion_time.strftime('%Y-%m-%d %H:%M')
         except ListenHistory.DoesNotExist:
             listen_episodes = []
@@ -1001,7 +1022,7 @@ class ListenEpisodes(View):
         context = {
             'listen_history': listen_episodes
         }
-        return render(request, self.template,context)
+        return render(request, self.template, context)
 
 
 class Become_A_Partner(View):
