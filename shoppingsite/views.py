@@ -955,15 +955,23 @@ class AccountDetails(View):
 @csrf_exempt
 def add_to_listen_history(request):
     if request.method == 'POST':
+        user = request.user
         try:
             audio_id = request.POST.get('audio_id')
+            print(audio_id)
+
             episode = Episode.objects.get(id=int(audio_id))
-            user = request.user
 
-            # Retrieve the user's listen history or create it if it doesn't exist
-            listen_history, created = ListenHistory.objects.get_or_create(user=user)
+            # Ensure only one ListenHistory per user
+            listen_histories = ListenHistory.objects.filter(user=user)
+            if listen_histories.count() > 1:
+                # If more than one listen history exists, remove duplicates and keep one
+                primary_history = listen_histories.first()
+                listen_histories.exclude(id=primary_history.id).delete()
+                listen_history = primary_history
+            else:
+                listen_history, created = ListenHistory.objects.get_or_create(user=user)
 
-            # Check if the episode already exists in the user's listen history
             episode_id = str(episode.id)
             if not any(entry['episode_id'] == episode_id for entry in listen_history.listenepisodes):
                 # Add the episode details and completion time to the listen history
@@ -982,6 +990,7 @@ def add_to_listen_history(request):
         except Episode.DoesNotExist:
             return JsonResponse({'error': 'Episode not found.'}, status=404)
         except Exception as e:
+            print(e)
             return JsonResponse({'error': str(e)}, status=400)
     else:
         return JsonResponse({'error': 'Method not allowed.'}, status=405)
