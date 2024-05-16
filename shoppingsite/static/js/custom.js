@@ -50,3 +50,21 @@
   })(window.jQuery);
 
 
+document.addEventListener("DOMContentLoaded", function() {
+    const questions = document.querySelectorAll('.question');
+ 
+    questions.forEach(question => {
+        question.addEventListener('click', function() {
+            // Toggle the 'open' class on the clicked question
+            question.classList.toggle('open');
+ 
+            // Toggle the display of the next sibling element (answer)
+            const answer = question.nextElementSibling;
+            if (answer.style.display === 'block') {
+                answer.style.display = 'none';
+            } else {
+                answer.style.display = 'block';
+            }
+        });
+    });
+});

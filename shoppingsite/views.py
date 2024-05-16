@@ -39,8 +39,14 @@ app = "shoppingsite/"
 
 class HomeView(View):
     template = app + "home1.html"
+    unauthenticated_template = app + "landing_page.html"
 
     def get(self, request):
+        if not request.user.is_authenticated:
+            categories = Category.objects.all()
+            
+            return render(request, self.unauthenticated_template,locals())
+        
         user = request.user
         category_obj = Category.objects.all()
         recent_audioBooks = AudioBook.objects.all().order_by("-id")[:2]

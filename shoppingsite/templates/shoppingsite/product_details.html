@@ -4,7 +4,85 @@
 Book Details
 {% endblock title %}
 {% block main_content %}
-<section class="mb-2">
+<section class="latest-podcast-section section-padding pb-0" id="section_2">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-12">
+                <div class="row">
+                    <div class="col-lg-3 col-12">
+                        <div class="custom-block-icon-wrap">
+                            <div class="custom-block-image-wrap custom-block-image-detail-page">
+                                <img src="{{ product_obj.audiobook_image.url }}"
+                                    class="custom-block-image img-fluid" alt="">
+                            </div> 
+                        </div>
+                        <div class="mt-2">
+                            <p class="mb-0 text-black fw-bold">by : <span class="fw-medium">&nbsp;{{product_obj.author}}</span></p>
+                            <p class="mb-0 text-black fw-bold">Narrated by : <span class="fw-medium">&nbsp;{{product_obj.narrated_by}}</span></p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-9 col-12">
+                        <div class="custom-block-info">
+                            <div class="custom-block-top d-flex mb-1">
+                                <!-- <small>
+                                    <i class="bi-clock-fill custom-icon"></i>
+                                    50 Minutes
+                                </small> -->
+
+                                <!-- <small class="ms-auto">Episode <span class="badge">15</span></small> -->
+                            </div>
+
+                            <h3 class="mb-2">{{ product_obj.title }}</h3>
+
+                            <p class="text-black">{{product_obj.description}}</p>
+                            <h5 class="fw-bold">&#8377;&nbsp;{{ product_obj.book_discount_price }}<small class="fw-bold text-decoration-line-through text-danger mx-3">&#8377;&nbsp;{{product_obj.book_max_price}}</small></h5>
+                            
+                            <div class="profile-block profile-detail-block d-flex flex-wrap align-items-center mt-5 row">
+                                <div class="col-md-12 col-12">
+                                    <div class="d-flex justify-content-evenly">
+                                        <div class="text-black">
+                                            <small class="">
+                                                <div class="audio-container my-1 d-flex justify-content-center">
+                                                    <audio id="audio-{{product_obj.id}}" src="{{product_obj.demo_audio_file.url}}"></audio>
+                                                    <a class="playpause-btn" onclick="togglePlayPause('audio-{{product_obj.id}}',this)">
+                                                        <i class="social-icon-link fa fa-play"></i>
+                                                    </a>
+                                                </div>
+                                                <!-- <a href="#" class="">
+                                                    <i class="bi-play text-primary"></i>
+                                                    Play now
+                                                </a> -->
+                                            </small>
+                                        </div>
+                                        <div class="text-black">
+                                            <form action="{% url 'shoppingsite:addtocart' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="product_id" value="{{product_obj.id}}">
+                                                <input type="hidden" name="quantity" value="1">
+                                                <input type="submit" class="btn btn-warning btn-lg fw-bold" value="Add to Cart">
+                                            </form>
+                                        </div>
+                                        <div class="text-black">
+                                            <a href="{% url 'shoppingsite:directbuy' product_obj.uid %}" class="btn btn-lg btn-primary fw-bold">Buy Now</a>
+                                        </div>
+                                        <div class="text-black">
+                                            <a href="{% url 'shoppingsite:pricing' %}" class="btn btn-lg bg-info fw-bold">Subscribe</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- <section class="mb-2">
     <div class="container mb-3">
         <div class="row flex justify-content-center-between">
             <div class="img2 col-lg-5 mt-1">
@@ -64,13 +142,23 @@ Book Details
     
         </div>
     </div>
-</section>
+</section> -->
 
 {% endblock main_content %}
 {% block js_block %}
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var audioPlayers = document.querySelectorAll('.audioPlayer');
+    function togglePlayPause(audioId, button) {
+        var audio = document.getElementById(audioId);
+        if (audio.paused) {
+            audio.play();
+            button.innerHTML = '<i class="social-icon-link fa fa-pause"></i>';
+        } else {
+            audio.pause();
+            button.innerHTML = '<i class="social-icon-link fa fa-play"></i>';
+        }
+    }
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     var audioPlayers = document.querySelectorAll('.audioPlayer');
         // var s_user_length = "{{ s_user_length }}";
 
         // if (parseInt(s_user_length) === 0) {
@@ -84,15 +172,15 @@ Book Details
         //     });
         // }
 
-        audioPlayers.forEach(function(audio) {
-            audio.addEventListener('play', function() {
-                audioPlayers.forEach(function(otherAudio) {
-                    if (otherAudio !== audio && !otherAudio.paused) {
-                        otherAudio.pause();
-                    }
-                });
-            });
-        });
-    });
+    //     audioPlayers.forEach(function(audio) {
+    //         audio.addEventListener('play', function() {
+    //             audioPlayers.forEach(function(otherAudio) {
+    //                 if (otherAudio !== audio && !otherAudio.paused) {
+    //                     otherAudio.pause();
+    //                 }
+    //             });
+    //         });
+    //     });
+    // });
 </script>
 {% endblock js_block %}
