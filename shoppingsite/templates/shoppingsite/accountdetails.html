@@ -23,10 +23,10 @@ Account Details
                         <div class="card p-3 py-4">
                 
                             <div class="text-center">
-                                {% if profileobj.profile_pic is None %}
-                                    <img src="https://i.imgur.com/bDLhJiP.jpg" height="50" width="100" class="rounded-circle">
-                                {% else %}
+                                {% if profileobj.profile_pic %}
                                     <img src="{{ profileobj.profile_pic.url }}" width="100" class="rounded-circle">
+                                {% else %}
+                                    <img src="https://i.imgur.com/bDLhJiP.jpg" height="100" width="100" class="rounded-circle">      
                                 {% endif %}
                             </div>
                             
