@@ -945,9 +945,8 @@ class AccountDetails(View):
 
     def get(self,request):
         user = request.user
-        print(user)
         category_obj = Category.objects.all()
-        userobj = User.objects.get(email=user.email)
+        userobj = User.objects.get(id=user.id)
         try:
             profileobj = UserProfile.objects.get(user=userobj)
         except UserProfile.DoesNotExist:
