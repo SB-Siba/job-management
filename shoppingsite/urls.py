@@ -33,6 +33,7 @@ urlpatterns = [
     path('productsofcategory/<str:c_name>',views.showProductsViews.as_view(),name="productsofcategory"),
     path('productdetails/<int:p_id>',views.ProductDetailsView.as_view(),name="productdetails"),
     path('searchproduct/',views.search_items.as_view(),name="searchproduct"),
+    path('search-product-names/', views.search_product_names, name='search_product_names'),
     path('showcart',views.ShowCart.as_view(),name='showcart'),
     path('addtocart',views.AddToCartView.as_view(),name='addtocart'),
     path("manage-cart/<int:product_uid>/", views.ManageCart.as_view(), name="managecart"),

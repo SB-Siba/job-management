@@ -1324,3 +1324,16 @@ main {
   text-transform:capitalize;
   box-shadow: 0 10px 16px 1px rgba(174, 199, 251, 1);
 }
+
+#search-suggestions {
+  width: 200px;
+  border-radius: 15px;
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+.suggestion-hover:hover {
+  border-radius: 15px;
+  background-color: white;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
