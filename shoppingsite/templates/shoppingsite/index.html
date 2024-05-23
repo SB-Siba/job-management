@@ -105,10 +105,9 @@ https://templatemo.com/tm-584-pod-talk
                                 <li><a class="dropdown-item" href="{% url 'shoppingsite:become_a_partner' %}">Become A Partner</a></li>
                                 <li><a class="dropdown-item" href="{% url 'shoppingsite:passwordchange' %}">Change Password</a></li>
                                 <li>
-                                    <form method="POST" action="{% url 'shoppingsite:logout' %}">
-                                        {% csrf_token %}
-                                        <button type="submit" class="dropdown-item btn btn-link text-decoration-none text-black">Logout</button>
-                                    </form>
+                                    <button class="form-control btn btn-link text-decoration-none text-black"><a
+                                            href="{% url 'shoppingsite:logout' %}"
+                                            class="form-control btn btn-link text-decoration-none text-black">Logout</a></button>
                                 </li>
                             </ul>
                         </li>
