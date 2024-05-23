@@ -18,44 +18,38 @@ Home Page
                     <a href="#section_2" class="btn custom-btn smoothscroll mt-3">Start listening</a>
                 </div>
 
-                <div class="owl-carousel owl-theme">
-                    {% for book in audioBookss %}
-                    <div class="owl-carousel-info-wrap item">
-                        <!-- {% static 'shopingsite/profile/smiling-business-woman-with-folded-hands-against-white-wall-toothy-smile-crossed-arms.jpg' %} -->
-                        <img src="{{book.audiobook_image.url}}" class="owl-carousel-image img-fluid" alt=""
-                            style="height: 400px;">
-
-                        <div class="owl-carousel-info">
-                            <small class="mb-2">
-                                {{book.title}}
-                            </small> <br>
-
-                            <span class="badge">{{book.book_discount_price}}</span>
-
-                            <span class="badge bg-danger"
-                                style="text-decoration: line-through;">{{book.book_max_price}}</span>
+                <div class="carousel-container">
+                    <div class="owl-carousel owl-theme px-0">
+                        {% for book in audioBookss %}
+                        <div class="owl-carousel-info-wrap item">
+                            <img src="{{ book.audiobook_image.url }}" class="owl-carousel-image img-fluid" alt="" style="height: 400px;">
+                
+                            <div class="owl-carousel-info">
+                                <small class="mb-2">{{ book.title }}</small><br>
+                                <span class="badge">{{ book.book_discount_price }}</span>
+                                <span class="badge bg-danger" style="text-decoration: line-through;">{{ book.book_max_price }}</span>
+                            </div>
+                
+                            <div class="social-share">
+                                <ul class="social-icon">
+                                    <li class="social-icon-item">
+                                        <a href="{% url 'shoppingsite:productdetails' book.id %}" class="social-icon-link fa fa-info-circle"></a>
+                                    </li>
+                                    <li class="social-icon-item">
+                                        <form action="{% url 'shoppingsite:addtocart' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="product_id" value="{{ book.id }}">
+                                            <input type="hidden" name="quantity" value="1">
+                                            <button type="submit" class="social-icon-link fas fa-shopping-cart"></button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-
-                        <div class="social-share">
-                            <ul class="social-icon">
-                                <li class="social-icon-item">
-                                    <a href="{% url 'shoppingsite:productdetails' book.id %}"
-                                        class="social-icon-link fa fa-info-circle"></a>
-                                </li>
-                                <li class="social-icon-item">
-                                    <form action="{% url 'shoppingsite:addtocart' %}" method="post">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="product_id" value="{{book.id}}">
-                                        <input type="hidden" name="quantity" value="1">
-                                        <button type="submit" class="social-icon-link fas fa-shopping-cart"></button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
-
                 </div>
+                
             </div>
 
         </div>

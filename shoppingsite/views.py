@@ -282,6 +282,16 @@ class search_items(View):
                     all_searh_items.append(k)
             return render(request,self.template,locals())
 
+
+def search_product_names(request):
+    if request.method == 'POST':
+        search_term = request.POST.get('search_term', '')
+        if search_term:
+            products = AudioBook.objects.filter(title__icontains=search_term)
+            products_data = [{'id': product.id, 'title': product.title} for product in products]
+            return JsonResponse(products_data, safe=False)
+    return JsonResponse([], safe=False)
+
 class ProductDetailsView(View):
     model = AudioBook
     template = app + "product_details.html"

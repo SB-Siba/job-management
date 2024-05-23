@@ -1324,3 +1324,57 @@ main {
   text-transform:capitalize;
   box-shadow: 0 10px 16px 1px rgba(174, 199, 251, 1);
 }
+#search-suggestions {
+  display: none; /* initially hidden */
+  margin-top: 12rem;
+  padding: 1rem;
+  width: 100%;
+  max-width: 600px;
+  left: 10%;
+  transform: translateX(-10%);
+  border-radius: 15px;
+  z-index: 1000;
+}
+
+.suggestion-hover:hover {
+  border-radius: 10px;
+  background-color: white;
+}
+
+@media (max-width: 768px) {
+  #search-suggestions {
+      width: 90%; /* Adjust width for small screens */
+  }
+}
+
+@media (max-width: 576px) {
+  #search-suggestions {
+      width: 95%; /* Further adjust width for extra small screens */
+  }
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.carousel-container {
+  position: relative;
+  padding: 20px;
+  overflow: hidden; /* Ensure the shadow doesn't overflow */
+}
+
+.owl-carousel {
+  position: relative;
+}
+
+.owl-carousel-info-wrap {
+  position: relative;
+  z-index: 1; /* Ensure it stays above the shadow */
+}
+
+.carousel-container {
+  border-radius: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+  position: relative;
+  box-shadow: -10px 0 20px -5px rgba(0, 0, 0, 0.5), 10px 0 20px -5px rgba(0, 0, 0, 0.5);
+}
