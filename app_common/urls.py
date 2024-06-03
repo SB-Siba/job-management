@@ -35,11 +35,11 @@ urlpatterns = [
     # path("api/order_cancel_return_refund/<str:order_uid>", checkout.OrderCancelReturnRefund.as_view()),
 
     #address
-    path("api/manage_address", address.AddressManage.as_view()),
+    # path("api/manage_address", address.AddressManage.as_view()),
 
-    #contact message
-    path('api/contact_message_filter', contact.AllMessageListApi.as_view()),
-    path('api/create/contact_message', contact.MessageCreateApi.as_view()),
+    # #contact message
+    # path('api/contact_message_filter', contact.AllMessageListApi.as_view()),
+    # path('api/create/contact_message', contact.MessageCreateApi.as_view()),
 
 ]
 

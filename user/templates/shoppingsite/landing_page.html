@@ -60,13 +60,13 @@ https://templatemo.com/tm-584-pod-talk
     <main>
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand me-lg-5 me-0" href="{% url 'shoppingsite:home' %}">
+                <a class="navbar-brand me-lg-5 me-0" href="{% url 'user:home' %}">
                     <!-- {% static 'shopingsite/pod-talk-logo.png' %} -->
                     <img src="{% static 'images/audio_logo.png' %}" class="logo-image img-fluid"
                         alt="templatemo pod talk">
                 </a>
 
-                <form action="{% url 'shoppingsite:searchproduct' %}" method="post"
+                <form action="{% url 'user:searchproduct' %}" method="post"
                     class="custom-form search-form flex-fill me-3" role="search">
                     {% csrf_token %}
                     <div class="input-group input-group-lg">
@@ -87,7 +87,7 @@ https://templatemo.com/tm-584-pod-talk
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-lg-auto text-black">
                         <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'shoppingsite:home' %}">Home</a>
+                            <a class="nav-link active" href="{% url 'user:home' %}">Home</a>
                         </li>
 
 
@@ -98,8 +98,8 @@ https://templatemo.com/tm-584-pod-talk
 
                             <ul class="dropdown-menu dropdown-menu-light"
                                 aria-labelledby="navbarLightDropdownMenuLink1">
-                                <li><a class="dropdown-item" href="{% url 'shoppingsite:login' %}">login</a></li>
-                                <li><a class="dropdown-item" href="{% url 'shoppingsite:signup' %}">signup</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:login' %}">login</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user--*:signup' %}">signup</a></li>
 
                             </ul>
                         </li>

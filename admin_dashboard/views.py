@@ -10,9 +10,9 @@ from drf_yasg.utils import swagger_auto_schema
 
 
 #import requests
-from app_common.models import Order
-from django.db.models import Count, Sum
-from django.core.files.storage import default_storage
+# from app_common.models import Order
+# from django.db.models import Count, Sum
+# from django.core.files.storage import default_storage
 
 from helpers import utils, api_permission, privacy_t_and_c
 from . import swagger_doc
@@ -28,21 +28,21 @@ class AdminDashboard(View):
     template = app + "index.html"
 
     def get(self, request):
-        order= {}
+    #     order= {}
         
-        order_counts = Order.objects.values('order_status').annotate(
-            count=Count('order_status'),
-            total_order_value=Sum('order_value')
-        ).order_by('order_status')
+    #     order_counts = Order.objects.values('order_status').annotate(
+    #         count=Count('order_status'),
+    #         total_order_value=Sum('order_value')
+    #     ).order_by('order_status')
 
-        # print(order_counts)
-        for data in order_counts:
-            order[data['order_status']] = data
+    #     # print(order_counts)
+    #     for data in order_counts:
+    #         order[data['order_status']] = data
         
-        context = {
-            "order": order,
-        }
-        return render(request, self.template, context)
+    #     context = {
+    #         "order": order,
+    #     }
+        return render(request, self.template)
     
 
     

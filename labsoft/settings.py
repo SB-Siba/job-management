@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     #apps
     "app_common",
     "admin_dashboard",
-    "shoppingsite",
+    "user",
 ]
 
 MIDDLEWARE = [

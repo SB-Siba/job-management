@@ -2,7 +2,7 @@ from django import template
 from django.db.models import Count
 register = template.Library()
 
-from app_common.models import Order
+# from app_common.models import Order
 
 
 @register.simple_tag

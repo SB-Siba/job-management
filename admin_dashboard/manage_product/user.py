@@ -3,7 +3,7 @@ from django.views import View
 from django.utils.decorators import method_decorator
 from helpers import utils, api_permission
 from django.contrib import messages
-from shoppingsite import forms as siteforms
+from user import forms as siteforms
 from admin_dashboard.manage_product import forms
 import os
 from app_common import models as common_model

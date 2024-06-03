@@ -1,4 +1,4 @@
-{% extends 'shoppingsite/index.html' %}
+{% extends 'user/index.html' %}
 {% load static %}
 {% block title %}
 Home Page
@@ -33,10 +33,10 @@ Home Page
                             <div class="social-share">
                                 <ul class="social-icon">
                                     <li class="social-icon-item">
-                                        <a href="{% url 'shoppingsite:productdetails' book.id %}" class="social-icon-link fa fa-info-circle"></a>
+                                        <a href="" class="social-icon-link fa fa-info-circle"></a>
                                     </li>
                                     <li class="social-icon-item">
-                                        <form action="{% url 'shoppingsite:addtocart' %}" method="post">
+                                        <form action="" method="post">
                                             {% csrf_token %}
                                             <input type="hidden" name="product_id" value="{{ book.id }}">
                                             <input type="hidden" name="quantity" value="1">
@@ -75,7 +75,7 @@ Home Page
                             <a href="detail-page.html" class="custom-block-image-wrap">
                                 <img src="{{a_book.audiobook_image.url}}" class="custom-block-image img-fluid" alt="">
 
-                                <a href="{% url 'shoppingsite:productdetails' a_book.id %}" class="custom-block-icon">
+                                <a href="" class="custom-block-icon">
                                     <li class="social-icon-item">
                                         <i class="social-icon-link fa fa-info-circle"></i>
                                     </li>
@@ -84,7 +84,7 @@ Home Page
                         </div>
 
                         <div class="mt-2">
-                            <a href="{% url 'shoppingsite:pricing' %}" class="btn custom-btn">
+                            <a href="" class="btn custom-btn">
                                 Subscribe
                             </a>
                         </div>
@@ -92,7 +92,7 @@ Home Page
 
                     <div class="custom-block-info">
                         <h5 class="mb-2">
-                            <a href="{% url 'shoppingsite:productdetails' a_book.id %}">
+                            <a href="">
                                 {{a_book.title}}
                             </a>
                         </h5>
@@ -151,13 +151,13 @@ Home Page
             {% for t_book,e_count in booksandepisode %}
             <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
                 <div class="custom-block custom-block-overlay">
-                    <a href="{% url 'shoppingsite:productdetails' t_book.id %}" class="custom-block-image-wrap">
+                    <a href="" class="custom-block-image-wrap">
                         <img src="{{t_book.audiobook_image.url}}" class="custom-block-image img-fluid" alt="">
                     </a>
 
                     <div class="custom-block-info custom-block-overlay-info">
                         <h5 class="mb-1">
-                            <a href="{% url 'shoppingsite:productdetails' t_book.id %}">
+                            <a href="">
                                 <small>Details</small>
                             </a>
                         </h5>

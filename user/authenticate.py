@@ -11,7 +11,7 @@ from app_common import models
 from django.core.mail import send_mail
 
 
-app = "shoppingsite/"
+app = "user/"
 
 
 class Registration(View):
@@ -29,6 +29,7 @@ class Registration(View):
             password = form.cleaned_data.get('password')
             confirm_password = form.cleaned_data.get('confirm_password')
             full_name = form.cleaned_data.get('full_name')
+            resume =  form.FileField()
 
             user = auth.authenticate(request, username=email, password=password)
             if user is None:
@@ -47,11 +48,11 @@ class Registration(View):
 
                             new_user.save()
                             messages.success(request, 'Registration Successful!')
-                            return redirect('shoppingsite:login')
+                            return redirect('user:login')
                         except Exception as e:
                             print("Error in sending verfication mail",e)
                             messages.error(request,'Email could not be sent due to some error.Please contact support for further assistance.')
-                            return redirect('shoppingsite:signup')
+                            return redirect('user:signup')
                     else:
                         messages.error(request, "Password does not match with Confirm Password")
                         return redirect('shoppingsite:signup')
@@ -61,6 +62,16 @@ class Registration(View):
             else:
                 messages.error(request, "User already exists.")
         return render(request, self.template, {'form': form})
+
+    def resume(request):  
+        if request.method == 'POST':  
+            student = StudentForm(request.POST, request.FILES)  
+            if student.is_valid():  
+                handle_uploaded_file(request.FILES['file'])  
+                return HttpResponse("Resume uploaded successfuly")  
+        else:  
+            student = StudentForm()  
+            return render(request,"authtemp/registration.html",{'form':student})
             
 class Login(View):
     model=models.User
@@ -83,13 +94,13 @@ class Login(View):
                 if user.is_superuser == True:
                     return redirect('admin_dashboard:admin_dashboard') 
                 else:
-                    return redirect('shoppingsite:home')
+                    return redirect('user:home')
             else:
                 messages.error(request, "Login Failed")
 
-        return redirect('shoppingsite:login')
+        return redirect('user:login')
 
 class Logout(View):
     def get(self, request):
         logout(request)
-        return redirect('shoppingsite:login')
+        return redirect('user:login')

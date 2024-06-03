@@ -8,102 +8,102 @@ import os
 from app_common import models as common_model
 
 
-app = "admin_dashboard/episodes/"
+app = "admin_dashboard/Jobs/"
 
 
 @method_decorator(utils.super_admin_only, name='dispatch')
-class EpisodeList(View):
-    model = common_model.Episode
-    template = app + "episode_list.html"
+class JobList(View):
+    model = common_model.Jobs
+    template = app + "job_list.html"
 
     def get(self,request):
-        episode_list = self.model.objects.all().order_by('id')
+        job_list = self.model.objects.all().order_by('id')
+        
+        paginated_data = utils.paginate(
+            request, job_list, 50
+        )
+        context = {
+            "job_list":job_list,
+            "data_list":paginated_data
+        }
+        return render(request, self.template, context)
+    
+class JobList(View):
+    model = common_model.Jobs
+    template = app + "job_list.html"
+
+    def get(self,request):
+        job_list = self.model.objects.all().order_by('id')
         
         paginated_data = utils.paginate(
             request, episode_list, 50
         )
         context = {
-            "episode_list":episode_list,
-            "data_list":paginated_data
-        }
-        return render(request, self.template, context)
-    
-class EpisodeList(View):
-    model = common_model.Episode
-    template = app + "episode_list.html"
-
-    def get(self,request):
-        episode_list = self.model.objects.all().order_by('id')
-        
-        paginated_data = utils.paginate(
-            request, episode_list, 50
-        )
-        context = {
-            "episode_list":episode_list,
+            "job_list":job_list,
             "data_list":paginated_data
         }
         return render(request, self.template, context)
     
 @method_decorator(utils.super_admin_only, name='dispatch')
-class EpisodeSearch(View):
-    model = common_model.Episode
+class JobSearch(View):
+    model = common_model.Jobs
     form_class = forms.CategoryEntryForm
-    template = app + "episode_list.html"
+    template = app + "job_list.html"
 
     def post(self,request):
         filter_by = request.POST.get("filter_by")
         query = request.POST.get("query")
         product_list = []
         if filter_by == "uid":
-            episode_list = self.model.objects.filter(e_id = query)
+            job_list = self.model.objects.filter(e_id = query)
         else:
-            episode_list = self.model.objects.filter(title__icontains = query)
+            job_list = self.model.objects.filter(title__icontains = query)
 
         paginated_data = utils.paginate(
-            request, episode_list, 50
+            request, job_list, 50
         )
         context = {
             "form": self.form_class,
-            "episode_list":episode_list,
+            "job_list":job_list,
             "data_list":paginated_data
         }
         return render(request, self.template, context)
 
-class EpisodeSearch(View):
-    model = common_model.Episode
+class JobSearch(View):
+    model = common_model.JobList
     form_class = forms.CategoryEntryForm
-    template = app + "episode_list.html"
+    template = app + "job_list.html"
 
     def post(self,request):
         filter_by = request.POST.get("filter_by")
         query = request.POST.get("query")
         product_list = []
         if filter_by == "uid":
-            episode_list = self.model.objects.filter(e_id = query)
+            job_list = self.model.objects.filter(e_id = query)
         else:
-            episode_list = self.model.objects.filter(title__icontains = query)
+            job_list = self.model.objects.filter(title__icontains = query)
 
         paginated_data = utils.paginate(
-            request, episode_list, 50
+            request, job_list, 50
         )
         context = {
             "form": self.form_class,
-            "episode_list":episode_list,
+            "job_list":job_list,
             "data_list":paginated_data
         }
         return render(request, self.template, context)
     
     
 @method_decorator(utils.super_admin_only, name='dispatch')
-class EpisodeAdd(View):
-    model = common_model.Episode
-    form_class = forms.EpisodeForm
-    template = app + "episode_add.html"
+class JobAdd(View):
+    model = common_model.Jobs
+    form_class = forms.JobForm
+    template = app + "job_add.html"
 
     def get(self,request):
-        episode_list = self.model.objects.all().order_by('-id')
+        job_list = self.model.objects.all().order_by('-id')
         context = {
-            "episode_list" : episode_list,
+            "job_list" : job_list,
             "form": self.form_class,
         }
         return render(request, self.template, context)
@@ -113,54 +113,54 @@ class EpisodeAdd(View):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, f"Episode is added successfully.....")
+            messages.success(request, f"Job is added successfully.....")
         else:
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f'{field}: {error}')
 
-        return redirect("admin_dashboard:episode_list")
+        return redirect("admin_dashboard:job_list")
     
 @method_decorator(utils.super_admin_only, name='dispatch')
-class EpisodeUpdate(View):
-    model = common_model.Episode
-    form_class = forms.EpisodeForm
-    template = app + "episode_update.html"
+class JobUpdate(View):
+    model = common_model.Jobs
+    form_class = forms.JobForm
+    template = app + "job_update.html"
 
-    def get(self,request, episode_id):
-        episode = self.model.objects.get(id = episode_id)
+    def get(self,request, job_id):
+        job = self.model.objects.get(id = job_id)
  
         context = {
-            "episode" : episode,
-            "form": self.form_class(instance=episode),
+            "job" : job,
+            "form": self.form_class(instance=job),
         }
         return render(request, self.template, context)
     
-    def post(self,request, episode_id):
+    def post(self,request, job_id):
 
-        episode = self.model.objects.get(id = episode_id)
-        form = self.form_class(request.POST, request.FILES, instance=episode)
+        job = self.model.objects.get(id = job_id)
+        form = self.form_class(request.POST, request.FILES, instance=job)
 
         if form.is_valid():
             form.save()
-            messages.success(request, f"Episode ({episode_id}) is updated successfully.....")
+            messages.success(request, f"Job ({job_id}) is updated successfully.....")
         else:
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f'{field}: {error}')
 
-        return redirect("admin_dashboard:episode_update", episode_id = episode_id)
+        return redirect("admin_dashboard:job_update", job_id = job_id)
 
 
 @method_decorator(utils.super_admin_only, name='dispatch')
-class EpisodeDelete(View):
-    model = common_model.Episode
+class JobDelete(View):
+    model = common_model.Jobs
 
-    def get(self,request, episode_id):
-        print(episode_id,type(episode_id))
-        product = self.model.objects.get(id = episode_id)
+    def get(self,request, job_id):
+        print(job_id,type(job_id))
+        product = self.model.objects.get(id = job_id)
 
         product.delete()
-        messages.info(request, 'Episode is deleted succesfully......')
+        messages.info(request, 'Job is deleted succesfully......')
 
-        return redirect("admin_dashboard:episode_list")
+        return redirect("admin_dashboard:job_list")

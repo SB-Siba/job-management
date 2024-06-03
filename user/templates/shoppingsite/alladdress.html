@@ -19,12 +19,12 @@ Address
                         <li>City : {{i.city}}</li>
                         <li>Zipcode : {{i.zipcode}}</li>
                     </p>
-                    <a href="{% url 'shoppingsite:delete_address' i.id %}" class="card-link btn btn-danger">Delete</a>
+                    <a href="{% url 'user:delete_address' i.id %}" class="card-link btn btn-danger">Delete</a>
                 </div>
             </div>
             {% endfor %}
         {% else %}
-            <a href="{% url 'shoppingsite:addaddress' %}" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+            <a href="{% url 'user:addaddress' %}" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                 style="z-index: 1;">
                 Add Address
             </a>

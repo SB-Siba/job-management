@@ -24,7 +24,7 @@ urlpatterns = [
     path("all_things", include("app_common.urls")),
     path("admin_dashboard/", include("admin_dashboard.urls")),
     path('accounts/', include('django.contrib.auth.urls')),
-    path("", include("shoppingsite.urls")),   # for the home page of our website
+    path("", include("user.urls")),   # for the home page of our website
 
     # ------------------------------------------------ swagger ---------------------------------
     path(
