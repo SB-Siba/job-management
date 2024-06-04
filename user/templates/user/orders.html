@@ -1,0 +1,87 @@
+{% extends 'shoppingsite/index.html' %}
+{% load static %}
+{% block title %}
+Orders
+{% endblock title %}
+{% block main_content %}
+<section class="mt-2">
+  <div class="container">
+    <h4>{{request.user.full_name}}'s Account</h4>
+    <div class="row">
+      <div class="col-sm-3 border-end">
+        <ul class="list-unstyled">
+          <li class="d-grid"><a href="{% url 'shoppingsite:account_details' %}"
+              class="btn btn-secondary mb-1">Profile</a></li>
+          <li class="d-grid"><a href="{% url 'shoppingsite:subscription_details' %}" class="btn btn-secondary mb-1">View
+            Subscription Details</a></li>
+          <li class="d-grid active"><a href="{% url 'shoppingsite:orders' %}" class="btn btn-secondary mb-1">Orders</a></li>
+          <li class="d-grid"><a href="{% url 'shoppingsite:listen_history' %}" class="btn btn-secondary mb-1">Listen History</a></li>
+        </ul>
+      </div>
+
+      <div class="col-sm-8 offset-sm-1">
+          <main class="py-6 bg-surface-secondary">
+            <div class="container-fluid">
+              <div class="vstack gap-4">
+                <div class="card">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-nowrap">
+                      <thead class="table-light">
+                        <tr>
+                          <th scope="col">ORD_ID</th>
+                          <th scope="col">Products</th>
+                          <th scope="col">Order Ammount</th>
+                          <th scope="col">status</th>
+                          <th>Invoice</th>
+                        </tr>
+                      </thead>
+                      <tbody id="test_table_tbody">
+                        {% for order,product,isplan in order_and_products %}
+                        <tr>
+                          <td>
+                            <a>
+                              {{order.uid}}
+                            </a>
+                          </td>
+                          <td>
+                            {% for i,j in order.products.items %}
+                            {{i}} : {{j}} <br>
+                            {% endfor %}
+                          </td>
+                          <td>
+                            {{order.order_value}}
+                          </td>
+                          {% if order.order_status == "Accepted" %}
+                          <td>
+                            <p class="text-success">
+                              {{order.order_status}}
+                            </p>
+                          </td>
+                          {% else %}
+                          <td>
+                            <p class="text-black">
+                              {{order.order_status}}
+                            </p>
+                          </td>
+                          {% endif %}
+                          <td>
+                            <a href="{% url 'shoppingsite:invoice' order.uid %}"
+                              class="btn btn-sm btn-square btn-neutral btn-primary">
+                              Invoice
+                            </a>
+                          </td>
+                        </tr>
+
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock main_content %}

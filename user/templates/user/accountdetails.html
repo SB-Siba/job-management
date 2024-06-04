@@ -1,0 +1,59 @@
+{% extends 'shoppingsite/index.html' %}
+{% load static %}
+{% block title %}
+Account Details
+{% endblock title %}
+{% block main_content %}
+<section class="mt-2">
+    <div class="container">
+        <h4>{{request.user.full_name}}'s Account</h4>
+        <div class="row">
+            <div class="col-sm-3 border-end">
+                <ul class="list-unstyled">
+                    <li class="d-grid active"><a href="{% url 'user:account_details' %}" class="btn btn-secondary mb-1">Profile</a></li>
+                    <li class="d-grid"><a href="{% url 'user:subscription_details' %}" class="btn btn-secondary mb-1">View Subscription Details</a></li>
+                    <li class="d-grid"><a href="{% url 'user:orders' %}" class="btn btn-secondary mb-1">Orders</a></li>
+                    <li class="d-grid"><a href="{% url 'user:listen_history' %}" class="btn btn-secondary mb-1">Listen History</a></li>
+                </ul>
+            </div>
+    
+            <div class="col-sm-8 offset-sm-1">
+                <div class="container h-100 mt-2">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="card p-3 py-4">
+                
+                            <div class="text-center">
+                                {% if profileobj.profile_pic %}
+                                    <img src="{{ profileobj.profile_pic.url }}" width="100" class="rounded-circle">
+                                {% else %}
+                                    <img src="https://i.imgur.com/bDLhJiP.jpg" height="100" width="100" class="rounded-circle">      
+                                {% endif %}
+                            </div>
+                            
+                            <div class="text-center mt-3">
+                                <h5 class="mt-2 mb-0">{{ userobj.full_name }}</h5>
+                                <span>e-mail : {{ userobj.email }}</span>
+                                <span class="fw-bold">|</span>
+                                <span>contact : {{ userobj.contact }}</span>
+                                
+                                <div class="px-4 mt-1">
+                                    <p class="fonts">{{ profileobj.bio }}</p>
+                                
+                                </div>
+                                
+                                <div class="buttons">
+                                    
+                                    <a href="{% url 'user:updateprofile' %}" class="btn btn-primary px-4">Update Profile</a>
+                                    <a href="{% url 'user:alladdress' %}" class="btn btn-primary px-4 ms-3">Address</a>
+                                </div>
+                                
+                                
+                            </div>      
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock main_content %}

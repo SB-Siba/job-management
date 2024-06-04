@@ -1,0 +1,53 @@
+{% extends 'shoppingsite/index.html' %}
+{% load static %}
+{% block title %}
+Check Out
+{% endblock title %}
+{% block main_content %}
+<div class="section mt-5">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="d-flex align-items-center justify-content-center" style="height: 250px;">
+            <div>
+                <table class="table table-striped">
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>Plan Name</li>
+                                <li>Plan Price</li>
+                                <li>GST</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li><b>{{plan_obj.title}}</b></li>
+                                <li><b>{{plan_obj.price}}</b></li>
+                                <li><b>{{gst}}</b></li>
+                            </ul>
+                        </td>
+                        <td>
+                            <div>
+                                <div style="text-align: center;">
+                                    <h3>Order Total</h3>
+                                    <h3><span style="color:green;">{{grandtotal}}</span></h3>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <div style="text-align: center;" class="mt-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="autoRenewalCheckbox" name="autoRenewal">
+                                        <label class="form-check-label" for="autoRenewalCheckbox">Auto Renewal</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Pay Now</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock main_content %}
