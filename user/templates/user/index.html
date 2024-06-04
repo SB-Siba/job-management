@@ -55,7 +55,7 @@ https://templatemo.com/tm-584-pod-talk
             <div class="container">
                 <a class="navbar-brand me-lg-5 me-0" href="{% url 'user:home' %}">
                     <!-- {% static 'shopingsite/pod-talk-logo.png' %} -->
-                    <img src="{% static 'images/audio_logo.png' %}" class="logo-image img-fluid"
+                    <img src="" class="logo-image img-fluid"
                         alt="templatemo pod talk">
                 </a>
 
@@ -86,7 +86,7 @@ https://templatemo.com/tm-584-pod-talk
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="">About</a>
+                            <a class="nav-link" href="{% url 'user:about' %}">About</a>
                         </li>
 
                         <li class="nav-item">
@@ -99,7 +99,7 @@ https://templatemo.com/tm-584-pod-talk
                             <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">{{ request.user.full_name }}</a>
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink1">
-                                <li><a class="dropdown-item" href="">Account Details</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:profile' %}">Account Details</a></li>
                                 <li><a class="dropdown-item" href="">Subscribed Books</a></li>
                                 <li><a class="dropdown-item" href="">Order Books</a></li>
                                 <li><a class="dropdown-item" href="">Become A Partner</a></li>

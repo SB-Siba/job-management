@@ -2,7 +2,9 @@ from django.urls import path
 from . import views
 
 from .credentials import credential
-from .manage_product import user,Jobs
+from .manage_product import user,job,catagory,product
+from .order import order
+
 
 # from .order import order
 from .contact_messages import messages
@@ -25,11 +27,11 @@ urlpatterns = [
 
 
     #Episodes
-    path("Job/episode_list", Jobs.JobList.as_view(), name="_list"),
-    path("Job/episode_search", Jobs.JobSearch.as_view(), name="episode_search"),
-    path("Job/episode_add", Jobs.JobAdd.as_view(), name="episode_add"),
-    path("Job/episode_update/<str:episode_id>", Jobs.JobUpdate.as_view(), name="episode_update"),
-    path("Job/episode_delete/<str:episode_id>", Jobs.Delete.as_view(), name="episode_delete"),
+    path("job/job_list", job.JobList.as_view(), name="job_list"),
+    path("job/job_search", job.JobSearch.as_view(), name="job_search"),
+    path("job/job_add", job.JobAdd.as_view(), name="job_add"),
+    path("job/job_update/<str:job_id>", job.JobUpdate.as_view(), name="job_update"),
+    path("job/job_delete/<str:job_id>", job.JobDelete.as_view(), name="job_delete"),
 
 
     # #Subscription Plan
@@ -51,40 +53,38 @@ urlpatterns = [
     # # path("coupon/coupon_delete/<str:coupon_id>", coupon.CouponDelete.as_view(), name="coupon_delete"),
 
     # # catagory web
-    # path("catagory/catagory_list", catagory.CatagotyList.as_view(), name="catagory_list"),
-    # path("catagory/catagory_update/<str:catagory_id>", catagory.CatagotyUpdate.as_view(), name="catagory_update"),
-    # path("catagory/catagory_delete/<str:catagory_id>", catagory.CatagotyDelete.as_view(), name="catagory_delete"),
+    path("catagory/catagory_list", catagory.CatagotyList.as_view(), name="catagory_list"),
+    path("catagory/catagory_update/<str:catagory_id>", catagory.CatagotyUpdate.as_view(), name="catagory_update"),
+    path("catagory/catagory_delete/<str:catagory_id>", catagory.CatagotyDelete.as_view(), name="catagory_delete"),
 
     # # catagory api
     # path("catagory/catagory_list_api", catagory.CatagotyListApi.as_view()),
 
     # #product web
-    # path("product/product_list", product.AudioBookList.as_view(), name="product_list"),
-    # path("product/product_search", product.AudioBookSearch.as_view(), name="product_search"),
-    # path("product/product_filter", product.AudioBookFilter.as_view(), name="product_filter"),
-    # path("product/product_add", product.AudioBookAdd.as_view(), name="product_add"),
-    # path("product/product_update/<str:product_uid>", product.AudioBookUpdate.as_view(), name="product_update"),
-    # path("product/product_delete/<str:product_uid>", product.AudioBookDelete.as_view(), name="product_delete"),
+    path("product/product_list", product.AudioBookList.as_view(), name="product_list"),
+    path("product/product_search", product.AudioBookSearch.as_view(), name="product_search"),
+    path("product/product_filter", product.AudioBookFilter.as_view(), name="product_filter"),
+    path("product/product_add", product.AudioBookAdd.as_view(), name="product_add"),
+    path("product/product_update/<str:product_uid>", product.AudioBookUpdate.as_view(), name="product_update"),
+    path("product/product_delete/<str:product_uid>", product.AudioBookDelete.as_view(), name="product_delete"),
     
     # #product_api
-    # path("catagory_product_list/<str:catagory_id>", product.CatagoryProductFilter.as_view()),
-    # path("api_product_filter", product.ApiProductList.as_view()),
-    # path("api_product_detail/<str:product_uid>", product.ApiProductDetail.as_view()),
+    path("catagory_product_list/<str:catagory_id>", product.CatagoryProductFilter.as_view()),
+    path("api_product_filter", product.ApiProductList.as_view()),
+    path("api_product_detail/<str:product_uid>", product.ApiProductDetail.as_view()),
 
-    # path("catagory/catagory_list_ajax", tests.TestAjaxList.as_view(), name="test_list_ajax"),
-    # path("catagory/catagory_create", tests.TestCreate.as_view(), name="test_create"),
-    # path("catagory/catagory_delete/<str:test_pk>", tests.TestDelete.as_view(), name="test_delete"),
+    
 
     #credential
     path('credential/add_credential', credential.CreateCredential.as_view(), name="add_credential"),
     path('credential/change_password', credential.Change_password.as_view(), name="change_password"),
     path('credential/change_user_status', credential.UserActiveInactive.as_view(), name="change_user_status"),
 
-    # path('order/admin_order_list', order.OrderList.as_view(), name='admin_order_list'),
-    # path('order/admin_order_search', order.OrderSearch.as_view(), name='admin_order_search'),
-    # path('order/order_detail/<str:order_uid>', order.OrderDetail.as_view(), name='order_detail'),
-    # path('order/download_invoice/<str:order_uid>', order.DownloadInvoice.as_view(), name='download_invoice'),
-    # path('order/order_status_search', order.OrderStatusSearch.as_view(), name='order_status_search'),
+    path('order/admin_order_list', order.OrderList.as_view(), name='admin_order_list'),
+    path('order/admin_order_search', order.OrderSearch.as_view(), name='admin_order_search'),
+    path('order/order_detail/<str:order_uid>', order.OrderDetail.as_view(), name='order_detail'),
+    path('order/download_invoice/<str:order_uid>', order.DownloadInvoice.as_view(), name='download_invoice'),
+    path('order/order_status_search', order.OrderStatusSearch.as_view(), name='order_status_search'),
     
 
     # contact message

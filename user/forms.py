@@ -6,9 +6,12 @@ class SignUpForm(forms.Form):
     full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.',
                              widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    contact = forms.IntegerField(max_value=10 ,help_text='Required. Enter a valid contact number .',
+                             widget=forms.NumberInput(attrs={'class': 'form-control'}))
     
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    Resume=forms.FileField(widget=forms.FileInput(attrs={'class': 'form-control'}))
 
 class LoginForm(forms.Form):
     email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -20,11 +23,11 @@ class PasswordChangeForm(PasswordChangeForm):
     new_password2 = forms.CharField(label='Cofirm Password',widget=forms.PasswordInput(attrs= {'autocomplete':'current-password','class':'form-control'}))
 
 
-class StudentForm(forms.Form):  
-    firstname = forms.CharField(label="Enter first name",max_length=50)  
-    lastname  = forms.CharField(label="Enter last name", max_length = 10)  
-    email     = forms.EmailField(label="Enter Email")  
-    resume      = forms.FileField() # for creating file input
+# class StudentForm(forms.Form):  
+#     firstname = forms.CharField(label="Enter first name",max_length=50)  
+#     lastname  = forms.CharField(label="Enter last name", max_length = 10)  
+#     email     = forms.EmailField(label="Enter Email")  
+#     resume      = forms.FileField() # for creating file input
 
 
 class UpdateProfileForm(forms.Form):
@@ -38,8 +41,8 @@ class UpdateProfileForm(forms.Form):
     contact = forms.IntegerField()
     contact.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Mobile Number',"required":"required"})
 
-    bio = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"1"}))
-    bio.widget.attrs.update({'class': 'form-control','type':'text'})
+    skills = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"1"}))
+    skills.widget.attrs.update({'class': 'form-control','type':'text'})
 
     password = forms.CharField(label='Password',widget=forms.PasswordInput(attrs= {'autocomplete':'current-password','class':'form-control','placeholder':'Only if you want to change then type here.'}),required=False)
 

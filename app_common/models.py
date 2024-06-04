@@ -1,14 +1,14 @@
 from django.db import models
-# import io
-# from PIL import Image
-# import os
-# import uuid
-# from django.core.files import File
-# from django.core.files.base import ContentFile
-# from helpers import utils
-# import datetime
-# from datetime import timedelta
-# from django.utils import timezone
+import io
+from PIL import Image
+import os
+import uuid
+from django.core.files import File
+from django.core.files.base import ContentFile
+from helpers import utils
+import datetime
+from datetime import timedelta
+from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 # from django.db.models.signals import post_save
 # from django.dispatch import receiver
@@ -101,41 +101,31 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
-# class AudioBook(models.Model):
-#     YESNO = (
-#         ("yes","yes"),
-#         ("no","no")
-#     )
-#     uid=models.CharField(max_length=255, null=True, blank=True)
-#     title = models.CharField(max_length=255, null=True, blank=True, unique=True)
-#     category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
-#     author = models.CharField(max_length=255)
-#     narrated_by = models.CharField(max_length=100,blank = True,null = True)
-#     description = models.TextField(blank=True, null=True)
-#     book_max_price=models.FloatField(default=0.0)
-#     book_discount_price=models.FloatField(default=0.0)
-#     release_date = models.DateField()
-#     demo_audio_file = models.FileField(upload_to='demo_audio/',null=True, blank=True, unique=True)
-#     language = models.CharField(max_length=50)
-#     # stock=models.IntegerField(default=1)
-#     trending = models.CharField(max_length= 255, choices= YESNO, default="no") 
-#     show_as_new = models.CharField(max_length= 255, choices= YESNO ,default="no")
-#     display_as_bestseller = models.CharField(max_length= 255, choices= YESNO ,default="no")
-#     hide = models.CharField(max_length= 255, choices= YESNO ,default="no")
-#     audiobook_image = models.ImageField(upload_to="audiobook_image/", null=True, blank=True)
-#     rating = models.DecimalField(max_digits=5, decimal_places=1, default=0.0)
-#     num_ratings = models.PositiveIntegerField(default=0)
+class AudioBook(models.Model):
+    YESNO = (
+        ("yes","yes"),
+        ("no","no")
+    )
+    uid=models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True, unique=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
+    company = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    job_posted_date = models.DateField()
+    show_as_new = models.CharField(max_length= 255, choices= YESNO ,default="no")
+    rating = models.DecimalField(max_digits=5, decimal_places=1, default=0.0)
+    num_ratings = models.PositiveIntegerField(default=0)
 
-#     def save(self, *args, **kwargs):
-#         if not self.uid:
-#             self.uid = utils.get_rand_number(5)
+    def save(self, *args, **kwargs):
+        if not self.uid:
+            self.uid = utils.get_rand_number(5)
         
-#         super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
         
-#     def __str__(self):
-#         return self.title
+    def __str__(self):
+        return self.title
 
-class Job(models.Model):
+class job(models.Model):
     e_id = models.PositiveBigIntegerField(null=True, blank=True)
     description = models.TextField()
     posted_on = models.DateTimeField(auto_now_add=True)
@@ -171,41 +161,41 @@ class Job(models.Model):
     
 
 
-# # class Products(models.Model):
-# #     YESNO = (
-# #         ("yes","yes"),
-# #         ("no","no")
-# #     )
-# #     category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
-# #     uid=models.CharField(max_length=255, null=True, blank=True)
-# #     name=models.CharField(max_length=255, null=True, blank=True, unique=True)
-# #     brand=models.CharField(max_length=255, null=True, blank=True)
+# class Products(models.Model):
+#     YESNO = (
+#         ("yes","yes"),
+#         ("no","no")
+#     )
+#     category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
+#     uid=models.CharField(max_length=255, null=True, blank=True)
+#     name=models.CharField(max_length=255, null=True, blank=True, unique=True)
+#     brand=models.CharField(max_length=255, null=True, blank=True)
 
-# #     product_max_price=models.FloatField(default=0.0)
-# #     product_discount_price=models.FloatField(default=0.0)
+#     product_max_price=models.FloatField(default=0.0)
+#     product_discount_price=models.FloatField(default=0.0)
 
-# #     product_short_description=models.TextField(null=True, blank=True)
-# #     product_long_description=models.TextField(null=True, blank=True)
-# #     stock=models.IntegerField(default=1)
+#     product_short_description=models.TextField(null=True, blank=True)
+#     product_long_description=models.TextField(null=True, blank=True)
+#     stock=models.IntegerField(default=1)
 
-# #     image = models.ImageField(upload_to="product_image/", null=True, blank=True)
-# #     trending = models.CharField(max_length= 255, choices= YESNO, default="no") 
-# #     show_as_new = models.CharField(max_length= 255, choices= YESNO ,default="no")
-# #     display_as_bestseller = models.CharField(max_length= 255, choices= YESNO ,default="no")
-# #     hide = models.CharField(max_length= 255, choices= YESNO ,default="no")
+#     image = models.ImageField(upload_to="product_image/", null=True, blank=True)
+#     trending = models.CharField(max_length= 255, choices= YESNO, default="no") 
+#     show_as_new = models.CharField(max_length= 255, choices= YESNO ,default="no")
+#     display_as_bestseller = models.CharField(max_length= 255, choices= YESNO ,default="no")
+#     hide = models.CharField(max_length= 255, choices= YESNO ,default="no")
 
-# #     @property
-# #     def discount_percentage(self):
-# #         if self.product_max_price and self.product_discount_price:
-# #             discount = self.product_max_price - self.product_discount_price
-# #             percentage = discount / self.product_max_price * 100
-# #             return int(percentage)
+#     @property
+#     def discount_percentage(self):
+#         if self.product_max_price and self.product_discount_price:
+#             discount = self.product_max_price - self.product_discount_price
+#             percentage = discount / self.product_max_price * 100
+#             return int(percentage)
 
 
-# #     def save(self, *args, **kwargs):
-# #         if not self.uid:
-# #             self.uid = utils.get_rand_number(5)
-# #         super().save(*args, **kwargs)
+#     def save(self, *args, **kwargs):
+#         if not self.uid:
+#             self.uid = utils.get_rand_number(5)
+#         super().save(*args, **kwargs)
 
 
 # class Cart(models.Model):
@@ -225,51 +215,51 @@ class Job(models.Model):
 #         super().save(*args, **kwargs)
 
  
-# class Order(models.Model):
-#     ORDER_STATUS = (
-#         ("Placed","Placed"),
-#         ("Accepted","Accepted"),
-#         ("Cancel","Cancel"),
-#         ("On_Way","On_Way"),
-#         ("Refund","Refund"),
-#         ("Return","Return"),
-#     )
+class Order(models.Model):
+    ORDER_STATUS = (
+        ("Placed","Placed"),
+        ("Accepted","Accepted"),
+        ("Cancel","Cancel"),
+        ("On_Way","On_Way"),
+        ("Refund","Refund"),
+        ("Return","Return"),
+    )
 
-#     PaymentStatus = (
-#         ("Paid","Paid"),
-#         ("Pending","Pending"),
-#         ("Refunded","Refunded"),
-#     )
+    PaymentStatus = (
+        ("Paid","Paid"),
+        ("Pending","Pending"),
+        ("Refunded","Refunded"),
+    )
 
-#     uid=models.CharField(max_length=255, null=True, blank=True)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-#     full_name=models.CharField(max_length=255, null=True, blank=True)
-#     email = models.EmailField(null=True,blank=True)
-#     products = models.JSONField(default=dict, null=True, blank=True)
-#     coupon = models.CharField(max_length=255, null=True, blank=True)
-#     order_value = models.FloatField(default=0.0)
-#     order_meta_data = models.JSONField(default=dict, null=True, blank=True)
-#     order_status = models.CharField(max_length=255, choices= ORDER_STATUS, default="Placed")
-#     razorpay_payment_id = models.TextField(null= True, blank=True)
-#     razorpay_order_id = models.TextField(null= True, blank=True)
-#     razorpay_signature = models.TextField(null= True, blank=True)
-#     payment_status = models.CharField(max_length=255, choices= PaymentStatus, default="Paid")
+    uid=models.CharField(max_length=255, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    full_name=models.CharField(max_length=255, null=True, blank=True)
+    email = models.EmailField(null=True,blank=True)
+    products = models.JSONField(default=dict, null=True, blank=True)
+    coupon = models.CharField(max_length=255, null=True, blank=True)
+    order_value = models.FloatField(default=0.0)
+    order_meta_data = models.JSONField(default=dict, null=True, blank=True)
+    order_status = models.CharField(max_length=255, choices= ORDER_STATUS, default="Placed")
+    razorpay_payment_id = models.TextField(null= True, blank=True)
+    razorpay_order_id = models.TextField(null= True, blank=True)
+    razorpay_signature = models.TextField(null= True, blank=True)
+    payment_status = models.CharField(max_length=255, choices= PaymentStatus, default="Paid")
 
-#     address = models.JSONField(default=dict, null=True, blank=True)
+    address = models.JSONField(default=dict, null=True, blank=True)
 
-#     more_info = models.TextField(null= True, blank=True)
-#     date = models.DateField(auto_now_add= True, null=True, blank=True)
+    more_info = models.TextField(null= True, blank=True)
+    date = models.DateField(auto_now_add= True, null=True, blank=True)
 
-#     transaction_id = models.TextField(null= True, blank=True)
-#     can_edit = models.BooleanField(default=True) # id a order is canceled or refunded, make it non editable
+    transaction_id = models.TextField(null= True, blank=True)
+    can_edit = models.BooleanField(default=True) # id a order is canceled or refunded, make it non editable
 
-#     def __str__(self):
-#         return self.uid
+    def __str__(self):
+        return self.uid
 
-#     def save(self, *args, **kwargs):
-#         if not self.uid:
-#             self.uid = utils.get_rand_number(5)
-#         super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.uid:
+            self.uid = utils.get_rand_number(5)
+        super().save(*args, **kwargs)
 
 
  

@@ -15,21 +15,14 @@ from . import rozerpay
 # from io import StringIO
 # from django.core.mail import send_mail
 import json
-# from app_common.models import (
-#     AudioBook,
-#     BecomeAPartner,
-#     Category,
-#     Cart,
-#     ListenHistory,
-#     UserProfile,
-#     User,
-#     Episode,
-#     SubscriptionFeatures,
-#     SubscriptionPlan,
-#     UserSubscription,
-#     Order,
-#     ContactMessage
-# )
+from app_common.models import (
+    AudioBook,
+    Category,
+    UserProfile,
+    User,
+    job,
+    
+)
 
 from helpers.utils import dict_filter  # Import dict_filter function
 import json
@@ -44,41 +37,41 @@ class HomeView(View):
         return render(request, self.template, locals())
             
         
-    #     user = request.user
-    #     category_obj = Category.objects.all()
-    #     recent_audioBooks = AudioBook.objects.all().order_by("-id")[:2]
-    #     audioBookss = AudioBook.objects.all()
-    #     trending_books = AudioBook.objects.filter(trending = "yes")[:4]
-    #     t_books = []
-    #     e_count = []
-    #     for i in trending_books:
-    #         t_books.append(i)
-    #         e_count.append(Episode.objects.filter(audiobook=i).count())
-    #     booksandepisode = zip(t_books,e_count)
-    #     try:
-    #         user_subscription = get_object_or_404(UserSubscription, user=request.user)
-    #         if user_subscription.days_left() <= 0:
-    #             user_subscription.delete()
-    #     except Exception:
-    #         user_subscription = None
+        user = request.user
+        category_obj = Category.objects.all()
+        recent_audioBooks = AudioBook.objects.all().order_by("-id")[:2]
+        audioBookss = AudioBook.objects.all()
+        trending_books = AudioBook.objects.filter(trending = "yes")[:4]
+        t_books = []
+        e_count = []
+        for i in trending_books:
+            t_books.append(i)
+            e_count.append(Episode.objects.filter(audiobook=i).count())
+        booksandepisode = zip(t_books,e_count)
+        try:
+            user_subscription = get_object_or_404(UserSubscription, user=request.user)
+            if user_subscription.days_left() <= 0:
+                user_subscription.delete()
+        except Exception:
+            user_subscription = None
 
 
-    #     categories = Category.objects.all()
-    #     products_category_wise = {}
-    #     for category in categories:
-    #         x = []
-    #         product_for_this_category = AudioBook.objects.filter(category = category)
-    #         x.append(product_for_this_category)
-    #         products_category_wise.update({category.title.replace(" ",""):x})
-    #     category_list = []
-    #     products_list = []
-    #     for i,j in products_category_wise.items():
-    #         category_list.append(i)
-    #         products_list.extend(j)
+        categories = Category.objects.all()
+        products_category_wise = {}
+        for category in categories:
+            x = []
+            product_for_this_category = AudioBook.objects.filter(category = category)
+            x.append(product_for_this_category)
+            products_category_wise.update({category.title.replace(" ",""):x})
+        category_list = []
+        products_list = []
+        for i,j in products_category_wise.items():
+            category_list.append(i)
+            products_list.extend(j)
        
-    #     category_and_products_zip = zip(category_list,products_list)
+        category_and_products_zip = zip(category_list,products_list)
 
-    #     return render(request, self.template, locals())
+        return render(request, self.template, locals())
 
 
 class ProfileView(View):
@@ -132,7 +125,7 @@ class UpdateProfileView(View):
             email = form.cleaned_data["email"]
             full_name = form.cleaned_data["full_name"]
             contact = form.cleaned_data["contact"]
-            bio = form.cleaned_data["bio"]
+            skills = form.cleaned_data["skills"]
             profile_picture = form.cleaned_data["profile_pic"]
             password = form.cleaned_data["password"]
             resume = form.cleaned_data["resume"]
@@ -155,13 +148,13 @@ class UpdateProfileView(View):
                     picture = profile_picture
 
                 if len(profile_object) == 0:
-                    profileobj = UserProfile(user=user, bio=bio, profile_pic=picture)
+                    profileobj = UserProfile(user=user, skills=skills, profile_pic=picture)
                     profileobj.save()
                 else:
                     for i in profile_object:
                         i.user = user
                         i.profile_pic = picture
-                        i.bio = bio
+                        i.skills = skills
                         i.save()
 
                 
@@ -897,12 +890,12 @@ class UpdateProfileView(View):
 #             return self.get(request)
         
 
-# class AboutPage(View):
-#     template = app + "about.html"
+class AboutPage(View):
+    template = app + "about.html"
 
-#     def get(self,request):
+    def get(self,request):
         
-#         return render(request,self.template)
+        return render(request,self.template)
 
 # def filter_audiobooks(request):
 #     category = request.GET.get('category')

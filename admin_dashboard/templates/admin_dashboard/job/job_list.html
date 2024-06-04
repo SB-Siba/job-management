@@ -1,4 +1,4 @@
-<!-- {% extends 'admin_dashboard/starter.html' %}
+{% extends 'admin_dashboard/starter.html' %}
 {% load static %}
 {% block content %}
 
@@ -10,7 +10,7 @@
         <div class="border-bottom pt-6">
             <div class="row align-items-center">
                 <div class="col-sm col-12">
-                    <h1 class="h2 ls-tight">Episode List</h1>
+                    <h1 class="h2 ls-tight">Job List</h1>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
     <div class="container-fluid">
         <div class="vstack gap-4">
             <div class="d-flex justify-content-between flex-column flex-sm-row gap-3">
-                <form action="{% url 'admin_dashboard:episode_search' %}" method="post">
+                <form action="{% url 'admin_dashboard:job_search' %}" method="post">
                     {% csrf_token %}
                     <div class="hstack gap-2">
 
@@ -44,9 +44,9 @@
                 <div class="btn-group">
                     <!-- <button data-bs-toggle="modal" data-bs-target="#select_filter" class="btn btn-sm btn-neutral">
                         <i class="fa-solid fa-filter fa-shake" style="color: #098cf1;"></i>
-                    </button> -->
-                    <a href="{% url 'admin_dashboard:episode_add' %}" class="btn btn-sm btn-neutral">
-                        <i class="bi bi-plus">Add New Episode</i>
+                    </button>
+                    <a href="{% url 'admin_dashboard:job_add' %}" class="btn btn-sm btn-neutral">
+                        <i class="bi bi-plus">Add New JOB</i>
                     </a>
 
                 </div>
@@ -58,7 +58,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Episode ID</th>
+                                <th scope="col">Job ID</th>
                                 <th scope="col">Title</th>
                                 <th scope="col">Audiofiles</th>
                                 <th scope="col">Audiobook</th>
@@ -69,30 +69,30 @@
                         <form method="post" action="">
                             {% csrf_token %}
                             <tbody id="test_table_tbody">
-                                {% for episode in episode_list %}
+                                {% for job in job_list %}
                                 <tr {% if product.stock <= 10 %} style="background: #f6a4a4;" {% endif %}>
                                     <td>
                                         <a class="text-heading text-primary-hover font-semibold"
                                             href="">
-                                            {{episode.id}}
+                                            {{job.id}}
                                         </a>
                                     </td>
                                     <td>
                                         <a class="text-heading text-primary-hover font-semibold"
                                             href="">
-                                            {{episode.e_id}}
+                                            {{job.e_id}}
                                         </a>
                                     </td>
-                                    <td>{{episode.title}}</td>
-                                    <td>{{episode.audio_file}}</td>
-                                    <td>{{episode.audiobook}}</td>
-                                    <td>{{episode.published_date}}</td>
+                                    <td>{{job.title}}</td>
+                                    <td>{{job.audio_file}}</td>
+                                    <td>{{job.audiobook}}</td>
+                                    <td>{{job.published_date}}</td>
                                     <td>
-                                        <a href="{% url 'admin_dashboard:episode_update' episode.id %}"
+                                        <a href="{% url 'admin_dashboard:job_update' job.id %}"
                                             class="btn btn-sm btn-square btn-neutral">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <a onclick="delete_episode(this)" e_title="{{episode.title}}" e_id="{{episode.id}}">
+                                        <a onclick="delete_job(this)" e_title="{{job.title}}" e_id="{{job.id}}">
                                             <button type="button"
                                                 class="btn btn-sm btn-square btn-neutral text-danger-hover">
                                                 <i class="bi bi-trash"></i>
@@ -120,14 +120,14 @@
 
 <!-- Product delete modal -->
 
-<div class="modal fade" id="episode_delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="job_delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="episode_delete_name">
+            <div class="modal-body" id="job_delete_name">
                 
             </div>
             <div class="modal-footer">
@@ -140,7 +140,7 @@
     </div>
 </div>
 
-<!-- test create modal -->
+test create modal -->
 <!-- <div class="modal fade" id="select_filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -150,17 +150,17 @@
             </div>
             <div class="modal-body">
                 <div style="display:flex;" class="product_filter">
-                    <a href="{% url 'admin_dashboard:product_filter' %}?filter_by=trending">Trending</a>
-                    <a href="{% url 'admin_dashboard:product_filter' %}?filter_by=show_as_new">New Products</a>
-                    <a href="{% url 'admin_dashboard:product_filter' %}?filter_by=display_as_bestseller">Best-Seller</a>
-                    <a href="{% url 'admin_dashboard:product_filter' %}?filter_by=hide">Hidden</a>
-                    <a href="{% url 'admin_dashboard:product_filter' %}?filter_by=all">All</a>
+                    <a href="{}}?filter_by=trending">Trending</a>
+                    <a href="{}?filter_by=show_as_new">New Products</a>
+                    <a href="{}?filter_by=display_as_bestseller">Best-Seller</a>
+                    <a href="{}?filter_by=hide">Hidden</a>
+                    <a href="{}?filter_by=all">All</a>
                 </div>
             </div>
 
         </div>
     </div>
-</div> -->
+</div>
 
 
 
@@ -170,18 +170,18 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-    function delete_episode(element){
-        var episode_title = element.getAttribute('e_title');
-        var episode_id = element.getAttribute('e_id');
-        console.log(episode_title);
+    function delete_job(element){
+        var job_title = element.getAttribute('e_title');
+        var job_id = element.getAttribute('e_id');
+        console.log(job_title);
         
-        var target = document.getElementById('episode_delete_name');
-        target.innerHTML = "<p>Episode Name : <b>"+episode_title+"</b> ("+episode_id+")</p>";
+        var target = document.getElementById('job_delete_name');
+        target.innerHTML = "<p>Job Name : <b>"+job_title+"</b> ("+job_id+")</p>";
 
-        var delete_url = '/admin_dashboard/episode/episode_delete/'+episode_id;
+        var delete_url = '/admin_dashboard/job/job_delete/'+job_id;
         document.getElementById('confirm_delete_btn').setAttribute('href', delete_url);
 
-        var myModal = new bootstrap.Modal(document.getElementById('episode_delete')); //modal id
+        var myModal = new bootstrap.Modal(document.getElementById('job_delete')); //modal id
         myModal.show(); //to open a modal
     }
 </script>

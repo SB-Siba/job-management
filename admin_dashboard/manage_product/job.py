@@ -8,12 +8,12 @@ import os
 from app_common import models as common_model
 
 
-app = "admin_dashboard/Jobs/"
+app = "admin_dashboard/job/"
 
 
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobList(View):
-    model = common_model.Jobs
+    model = common_model.job
     template = app + "job_list.html"
 
     def get(self,request):
@@ -29,14 +29,14 @@ class JobList(View):
         return render(request, self.template, context)
     
 class JobList(View):
-    model = common_model.Jobs
+    model = common_model.job
     template = app + "job_list.html"
 
     def get(self,request):
         job_list = self.model.objects.all().order_by('id')
         
         paginated_data = utils.paginate(
-            request, episode_list, 50
+            request, job_list, 50
         )
         context = {
             "job_list":job_list,
@@ -46,7 +46,7 @@ class JobList(View):
     
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobSearch(View):
-    model = common_model.Jobs
+    model = common_model.job
     form_class = forms.CategoryEntryForm
     template = app + "job_list.html"
 
@@ -70,7 +70,7 @@ class JobSearch(View):
         return render(request, self.template, context)
 
 class JobSearch(View):
-    model = common_model.JobList
+    model = common_model.job
     form_class = forms.CategoryEntryForm
     template = app + "job_list.html"
 
@@ -96,7 +96,7 @@ class JobSearch(View):
     
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobAdd(View):
-    model = common_model.Jobs
+    model = common_model.job
     form_class = forms.JobForm
     template = app + "job_add.html"
 
@@ -123,7 +123,7 @@ class JobAdd(View):
     
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobUpdate(View):
-    model = common_model.Jobs
+    model = common_model.job
     form_class = forms.JobForm
     template = app + "job_update.html"
 
@@ -154,7 +154,7 @@ class JobUpdate(View):
 
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobDelete(View):
-    model = common_model.Jobs
+    model = common_model.job
 
     def get(self,request, job_id):
         print(job_id,type(job_id))

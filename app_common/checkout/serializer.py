@@ -1,9 +1,9 @@
-# from rest_framework import serializers
-# from django.conf import settings
-# from ..serializer import UserSerializer
-# from app_common import models as common_models
-# from django.shortcuts import get_object_or_404
-# from decimal import Decimal
+from rest_framework import serializers
+from django.conf import settings
+from ..serializer import UserSerializer
+from app_common import models as common_models
+from django.shortcuts import get_object_or_404
+from decimal import Decimal
 
 # class CartSerializer(serializers.ModelSerializer):
 #     products_data = serializers.SerializerMethodField()
@@ -152,40 +152,40 @@
 #         self.coupon = kwargs.pop('coupon', None)
 #         super().__init__(*args, **kwargs)
 
-#     #coupon validation and calculation
-#     # def coupon_validation(self, code, amount):
-#     #     error_dict = {
-#     #         "valid" : False,
-#     #         "discount" : "0",
-#     #         "message": "Invalid Coupon Code"
-#     #     }
+    #coupon validation and calculation
+    # def coupon_validation(self, code, amount):
+    #     error_dict = {
+    #         "valid" : False,
+    #         "discount" : "0",
+    #         "message": "Invalid Coupon Code"
+    #     }
         
-#     #     try:
-#     #         coupon_obj = common_models.Coupon.objects.get(code = code)
-#     #     except:
-#     #         return error_dict
+    #     try:
+    #         coupon_obj = common_models.Coupon.objects.get(code = code)
+    #     except:
+    #         return error_dict
         
-#     #     if coupon_obj.quantity < 1 or coupon_obj.active == 'no':
-#     #         return error_dict
+    #     if coupon_obj.quantity < 1 or coupon_obj.active == 'no':
+    #         return error_dict
         
-#     #     if coupon_obj.discount_type == "flat":
-#     #         discount = coupon_obj.discount_digit
-#     #         return {
-#     #         "coupon":code,
-#     #         "valid" : True,
-#     #         "discount" : discount,
-#     #         "message": f"{code} : is applied successfully"
-#     #         }
-#     #     elif coupon_obj.discount_type == "pencentage":
-#     #         discount = round(amount*(coupon_obj.discount_digit/100),2)
-#     #         return {
-#     #             "coupon":code,
-#     #             "valid" : True,
-#     #             "discount" : discount,
-#     #             "message": f"{code} : is applied successfully"
-#     #         }
-#     #     else:
-#     #         return error_dict
+    #     if coupon_obj.discount_type == "flat":
+    #         discount = coupon_obj.discount_digit
+    #         return {
+    #         "coupon":code,
+    #         "valid" : True,
+    #         "discount" : discount,
+    #         "message": f"{code} : is applied successfully"
+    #         }
+    #     elif coupon_obj.discount_type == "pencentage":
+    #         discount = round(amount*(coupon_obj.discount_digit/100),2)
+    #         return {
+    #             "coupon":code,
+    #             "valid" : True,
+    #             "discount" : discount,
+    #             "message": f"{code} : is applied successfully"
+    #         }
+    #     else:
+    #         return error_dict
 
 #     def get_products_data(self,obj):
 #         total_items = 1
@@ -412,10 +412,10 @@
 #         ]
 
 
-# class OrderSerializer(serializers.ModelSerializer):
-#     user = UserSerializer()
-#     class Meta:
+class OrderSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    class Meta:
 
-#         model = common_models.Order
-#         fields = '__all__'
+        model = common_models.Order
+        fields = '__all__'
 

@@ -45,102 +45,73 @@ class MaxFileSizeValidator:
 # #     active.widget.attrs.update({'class': 'form-control','type':'text'})
 
 # # =================================================== manage catagory  =============================================
-# class CategoryEntryForm(forms.ModelForm):
-#     class Meta:
-#         model = common_models.Category
-#         fields = [
-#             'title',
-#             'description',
+class CategoryEntryForm(forms.ModelForm):
+    class Meta:
+        model = common_models.Category
+        fields = [
+            'title',
+            'description',
 
-#         ]
+        ]
     
-#     title = forms.CharField(max_length=255)
-#     title.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
+    title = forms.CharField(max_length=255)
+    title.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
 
-#     description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
-#     description.widget.attrs.update({'class': 'form-control','type':'text'})
+    description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
+    description.widget.attrs.update({'class': 'form-control','type':'text'})
 
 
-# class AudioBookForm(forms.ModelForm):
-#     class Meta:
-#         model = common_models.AudioBook
-#         fields = [
-#             'title',
-#             'category',
-#             'author',
-#             'narrated_by',
-#             'description',
-#             'book_max_price',
-#             'book_discount_price',
-#             'release_date',
-#             'demo_audio_file',
-#             'language',
-#             # 'stock',
-#             'trending',
-#             'show_as_new',
-#             'display_as_bestseller',
-#             'hide',
-#             'audiobook_image',
+class AudioBookForm(forms.ModelForm):
+    class Meta:
+        model = common_models.AudioBook
+        fields = [
+            'title',
+            'category',
+            'company_name',
+            'description',
+            'job_posted_date',
+            'show_as_new',
+            'company_image',
 
-#         ]
+        ]
     
-#     title = forms.CharField(max_length=255)
-#     title.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
+    title = forms.CharField(max_length=255)
+    title.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
 
-#     category = forms.ModelChoiceField(queryset = common_models.Category.objects.all())
-#     category.widget.attrs.update({'class': 'form-control','type':'text'})
+    category = forms.ModelChoiceField(queryset = common_models.Category.objects.all())
+    category.widget.attrs.update({'class': 'form-control','type':'text'})
 
-#     author = forms.CharField(max_length=255)
-#     author.widget.attrs.update({'class': 'form-control','type':'text'})
-
-#     narrated_by = forms.CharField(max_length=255)
-#     narrated_by.widget.attrs.update({'class': 'form-control','type':'text'})
-
-#     description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
-#     description.widget.attrs.update({'class': 'form-control','type':'text'})
+    company_name = forms.CharField(max_length=255)
+    company_name.widget.attrs.update({'class': 'form-control','type':'text'})
 
 
-#     book_max_price = forms.IntegerField()
-#     book_max_price.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Market Price',"required":"required"})
-
-#     book_discount_price = forms.IntegerField()
-#     book_discount_price.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Your Discounted Price',"required":"required"})
-
-#     release_date = forms.DateField()
-#     release_date.widget.attrs.update({'class': 'form-control','type':'date',"required":"required"})
-    
-#     demo_audio_file = forms.FileField(label='Select an audio file')
-#     demo_audio_file.widget.attrs.update({'class': 'form-control','type':'file'})
-
-#     language = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
-#     language.widget.attrs.update({'class': 'form-control','type':'text'})
-
-#     # stock = forms.IntegerField(required=True)
-#     # stock.widget.attrs.update({'class': 'form-control','type':'number'})
+    description = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 4, 'maxlength': 30}))
+    description.widget.attrs.update({'class': 'form-control','type':'text'})
 
 
-#     trending = forms.ChoiceField(choices=common_models.AudioBook.YESNO, initial= 'no')
-#     trending.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
+    job_posted_date = forms.DateField()
+    job_posted_date.widget.attrs.update({'class': 'form-control','type':'date',"required":"required"})
+    job_posted_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
-#     show_as_new = forms.ChoiceField(choices=common_models.AudioBook.YESNO, initial= 'no')
-#     show_as_new.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
 
-#     display_as_bestseller = forms.ChoiceField(choices=common_models.AudioBook.YESNO, initial= 'no')
-#     display_as_bestseller.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
+    # stock = forms.IntegerField(required=True)
+    # stock.widget.attrs.update({'class': 'form-control','type':'number'})
 
-#     hide = forms.ChoiceField(choices=common_models.AudioBook.YESNO, initial= 'no')
-#     hide.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
 
-#     audiobook_image = forms.FileField(
-#         validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg','png']),MaxFileSizeValidator(50*1024)]) # 20 = kb
-#     audiobook_image.widget.attrs.update({'class': 'form-control','type':'file'})
+    show_as_new = forms.ChoiceField(choices=common_models.AudioBook.YESNO, initial= 'no')
+    show_as_new.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
+
+
+    company_image = forms.FileField(
+        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg','png']),MaxFileSizeValidator(50*1024)]) # 20 = kb
+    company_image.widget.attrs.update({'class': 'form-control','type':'file'})
 
     
     
 class JobForm(forms.ModelForm):
 
     class Meta:
-        model = common_models.Job
+        model = common_models.job
         fields = ['e_id','title','description',]
 
     e_id = forms.IntegerField(required=True)

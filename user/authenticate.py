@@ -29,7 +29,6 @@ class Registration(View):
             password = form.cleaned_data.get('password')
             confirm_password = form.cleaned_data.get('confirm_password')
             full_name = form.cleaned_data.get('full_name')
-            resume =  form.FileField()
 
             user = auth.authenticate(request, username=email, password=password)
             if user is None:
