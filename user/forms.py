@@ -6,12 +6,23 @@ class SignUpForm(forms.Form):
     full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.',
                              widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    contact = forms.IntegerField(max_value=10 ,help_text='Required. Enter a valid contact number .',
+    phone_number = forms.IntegerField(help_text='Required. Enter a valid contact number .',
                              widget=forms.NumberInput(attrs={'class': 'form-control'}))
     
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    Resume=forms.FileField(widget=forms.FileInput(attrs={'class': 'form-control'}))
+    # Resume=forms.FileField(widget=forms.FileInput(attrs={'class': 'form-control'}))
+
+
+class Client_SignUpForm(forms.Form):
+    full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.',
+                             widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    phone_number = forms.IntegerField(max_value=10 ,help_text='Required. Enter a valid contact number .',
+                             widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 class LoginForm(forms.Form):
     email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))

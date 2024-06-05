@@ -65,7 +65,7 @@ class AudioBookList(View):
 @method_decorator(utils.super_admin_only, name='dispatch')
 class AudioBookSearch(View):
     model = common_model.AudioBook
-    form_class = forms.CategoryEntryForm
+    form_class = forms.CriteriaEntryForm
     template = app + "product_list.html"
 
     def post(self,request):
@@ -91,7 +91,7 @@ class AudioBookSearch(View):
 
 class AudioBookSearch(View):
     model = common_model.AudioBook
-    form_class = forms.CategoryEntryForm
+    form_class = forms.CriteriaEntryForm
     template = app + "product_list.html"
 
     def post(self,request):

@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 from .credentials import credential
-from .manage_product import user,job,catagory,product
+from .manage_product import user,job,criteria,product
 from .order import order
 
 
@@ -24,6 +24,8 @@ urlpatterns = [
     # Userlist
     path("user/userslist", user.UserList.as_view(), name="userslist"),
     path("user/deleteuser/<int:id>", user.delete_user, name="deleteuser"),
+    path("user/userdetail/<int:id>", user.user_detail, name="userdetail"),
+
 
 
     #Episodes
@@ -53,9 +55,9 @@ urlpatterns = [
     # # path("coupon/coupon_delete/<str:coupon_id>", coupon.CouponDelete.as_view(), name="coupon_delete"),
 
     # # catagory web
-    path("catagory/catagory_list", catagory.CatagotyList.as_view(), name="catagory_list"),
-    path("catagory/catagory_update/<str:catagory_id>", catagory.CatagotyUpdate.as_view(), name="catagory_update"),
-    path("catagory/catagory_delete/<str:catagory_id>", catagory.CatagotyDelete.as_view(), name="catagory_delete"),
+    path("criteria/criteria_list", criteria.CriteriaList.as_view(), name="criteria_list"),
+    path("criteria/criteria_update/<str:criteria_id>", criteria.CriteriaUpdate.as_view(), name="criteria_update"),
+    path("criteria/criteria_delete/<str:criteria_id>", criteria.CriteriaDelete.as_view(), name="criteria_delete"),
 
     # # catagory api
     # path("catagory/catagory_list_api", catagory.CatagotyListApi.as_view()),

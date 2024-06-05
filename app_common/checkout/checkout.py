@@ -1,19 +1,19 @@
-# from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
 
-# import json
-# from helpers import utils, api_permission
-# from django.forms.models import model_to_dict
+import json
+from helpers import utils, api_permission
+from django.forms.models import model_to_dict
 
-# # for api
-# from rest_framework.views import APIView
-# from rest_framework.response import Response
+# for api
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
-# from drf_yasg.utils import swagger_auto_schema
-# # -------------------------------------------- custom import
-# from .. import swagger_doc
+from drf_yasg.utils import swagger_auto_schema
+# -------------------------------------------- custom import
+from .. import swagger_doc
 
-# from app_common import models as common_model
-# from . import serializer as cart_serializer
+from app_common import models as common_model
+from . import serializer as cart_serializer
 # from .. import tasks
 
 # class CartList(APIView):    
@@ -300,49 +300,49 @@
 #         })
 
 
-# class OrderList(APIView):
-#     permission_classes = [api_permission.is_authenticated]
-#     model = common_model.Order
-#     serializer = cart_serializer.OrderSerializer
-#     pagination_class = utils.CustomPagination(50)
+class OrderList(APIView):
+    permission_classes = [api_permission.is_authenticated]
+    model = common_model.Order
+    serializer = cart_serializer.OrderSerializer
+    pagination_class = utils.CustomPagination(50)
 
 
-#     @swagger_auto_schema(
-#         tags=["Order"],
-#         operation_description="Order List",
-#     )  
-#     def get(self, request):
-#         order_list = self.model.objects.filter(user = request.user).order_by("-id")
+    @swagger_auto_schema(
+        tags=["Order"],
+        operation_description="Order List",
+    )  
+    def get(self, request):
+        order_list = self.model.objects.filter(user = request.user).order_by("-id")
 
-#         paginator = self.pagination_class
-#         page = paginator.paginate_queryset(order_list, request)
-#         serialized_data= self.serializer(page, many=True).data
+        paginator = self.pagination_class
+        page = paginator.paginate_queryset(order_list, request)
+        serialized_data= self.serializer(page, many=True).data
 
-#         return Response({
-#             'status': 200,
-#             'order_list': serialized_data,
-#             'pagination_meta_data': paginator.pagination_meta_data(),
+        return Response({
+            'status': 200,
+            'order_list': serialized_data,
+            'pagination_meta_data': paginator.pagination_meta_data(),
 
-#         })
+        })
 
 
-# class OrderDetail(APIView):
-#     permission_classes = [api_permission.is_authenticated]
-#     model = common_model.Order
-#     serializer_class = cart_serializer.OrderSerializer
+class OrderDetail(APIView):
+    permission_classes = [api_permission.is_authenticated]
+    model = common_model.Order
+    serializer_class = cart_serializer.OrderSerializer
 
-#     @swagger_auto_schema(
-#         tags=["Order"],
-#         operation_description="Order Detail API",
-#     )  
-#     def get(self, request, uid):
-#         order = self.model.objects.get(user = request.user, uid = uid)
+    @swagger_auto_schema(
+        tags=["Order"],
+        operation_description="Order Detail API",
+    )  
+    def get(self, request, uid):
+        order = self.model.objects.get(user = request.user, uid = uid)
 
-#         return Response({
-#             'status': 200,
-#             'order_list': self.serializer_class(order).data,
+        return Response({
+            'status': 200,
+            'order_list': self.serializer_class(order).data,
 
-#         })
+        })
 
 
 # class OrderCancelReturnRefund(APIView):

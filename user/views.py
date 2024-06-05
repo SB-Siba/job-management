@@ -7,17 +7,17 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from . import forms
-from . import rozerpay
+# from . import rozerpay
 # from app_common.checkout.serializer import CartSerializer,DirectBuySerializer,TakeSubscriptionSerializer,OrderSerializer
-# from admin_dashboard.order.forms import OrderUpdateForm
-# from django.utils.decorators import method_decorator
-# from django.views.decorators.csrf import csrf_exempt
+from admin_dashboard.order.forms import OrderUpdateForm
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 # from io import StringIO
-# from django.core.mail import send_mail
+from django.core.mail import send_mail
 import json
 from app_common.models import (
     AudioBook,
-    Category,
+    Criteria,
     UserProfile,
     User,
     job,
@@ -80,7 +80,7 @@ class ProfileView(View):
     def get(self, request):
         user = request.user
         print(user)
-        category_obj = Category.objects.all()
+        criteria_obj =Criteria.objects.all()
         userobj = User.objects.get(email=user.email)
         try:
             profileobj = UserProfile.objects.get(user=userobj)

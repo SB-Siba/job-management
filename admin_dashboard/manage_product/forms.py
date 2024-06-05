@@ -45,9 +45,9 @@ class MaxFileSizeValidator:
 # #     active.widget.attrs.update({'class': 'form-control','type':'text'})
 
 # # =================================================== manage catagory  =============================================
-class CategoryEntryForm(forms.ModelForm):
+class CriteriaEntryForm(forms.ModelForm):
     class Meta:
-        model = common_models.Category
+        model = common_models.Criteria
         fields = [
             'title',
             'description',
@@ -66,7 +66,7 @@ class AudioBookForm(forms.ModelForm):
         model = common_models.AudioBook
         fields = [
             'title',
-            'category',
+            'criteria',
             'company_name',
             'description',
             'job_posted_date',
@@ -78,8 +78,8 @@ class AudioBookForm(forms.ModelForm):
     title = forms.CharField(max_length=255)
     title.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
 
-    category = forms.ModelChoiceField(queryset = common_models.Category.objects.all())
-    category.widget.attrs.update({'class': 'form-control','type':'text'})
+    criteria = forms.ModelChoiceField(queryset = common_models.Criteria.objects.all())
+    criteria.widget.attrs.update({'class': 'form-control','type':'text'})
 
     company_name = forms.CharField(max_length=255)
     company_name.widget.attrs.update({'class': 'form-control','type':'text'})

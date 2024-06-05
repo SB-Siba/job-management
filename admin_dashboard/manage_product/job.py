@@ -47,7 +47,7 @@ class JobList(View):
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobSearch(View):
     model = common_model.job
-    form_class = forms.CategoryEntryForm
+    form_class = forms.CriteriaEntryForm
     template = app + "job_list.html"
 
     def post(self,request):
@@ -71,7 +71,7 @@ class JobSearch(View):
 
 class JobSearch(View):
     model = common_model.job
-    form_class = forms.CategoryEntryForm
+    form_class = forms.CriteriaEntryForm
     template = app + "job_list.html"
 
     def post(self,request):

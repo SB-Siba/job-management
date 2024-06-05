@@ -54,7 +54,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <form action="{% url 'user:searchproduct' %}" method="post" class="input-group input-group-rounded">
+                            <form action="" method="post" class="input-group input-group-rounded">
                                 {% csrf_token %}
                                 <input name="search-box" type="search" class="form-control rounded border-1 border-primary opacity-50" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
                                 <span><button type="submit" id="" class="btn btn-outline-primary">Search</button></span>
@@ -62,7 +62,7 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item px-2"><a class="nav-link fw-medium active" aria-current="page" href="{% url 'shoppingsite:contactmessage' %}">
+                        <li class="nav-item px-2"><a class="nav-link fw-medium active" aria-current="page" href="">
                             <svg class="feather feather-phone me-3" xmlns="http://www.w3.org/2000/svg" width="16"
                             height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round">
@@ -73,7 +73,7 @@
                         </a>
                     </li>
                         <li class="nav-item px-2">
-                            <a class="nav-link fw-medium" href="{% url 'user:showcart' %}">
+                            <a class="nav-link fw-medium" href="">
                                 <svg class="feather feather-shopping-cart me-3" xmlns="http://www.w3.org/2000/svg"
                                     width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -95,9 +95,9 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
                                 <li><a class="dropdown-item" href="{% url 'user:profile' %}">Profile</a></li>
-                                <li><a class="dropdown-item" href="{% url 'user:orders' %}">Orders</a></li>
-                                <li><a class="dropdown-item" href="{% url 'user:pricing' %}">Subscription Plans</a></li>
-                                <li><a class="dropdown-item" href="{% url 'user:subscriptionaudiobooks' %}">Subscribe Books</a></li>
+                                <li><a class="dropdown-item" href="">Orders</a></li>
+                                <li><a class="dropdown-item" href="">Subscription Plans</a></li>
+                                <li><a class="dropdown-item" href="">Subscribe Books</a></li>
                                 {% if user.is_superuser %}
                                     <li><a class="dropdown-item" href="">Add Products</a></li>
                                     <li><a class="dropdown-item" href="">View Products</a></li>

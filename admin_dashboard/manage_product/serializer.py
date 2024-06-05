@@ -2,10 +2,10 @@ from rest_framework import serializers
 
 from app_common import models as common_models
 
-class CatagorySerializer(serializers.ModelSerializer):
+class CriteriaSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = common_models.Category
+        model = common_models.Criteria
         fields = "__all__"
 
 class ProductSerializer(serializers.ModelSerializer):

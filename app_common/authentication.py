@@ -36,7 +36,7 @@ class SignupApi(APIView):
         if serializer.is_valid():
             serializer.save(
                 password = make_password(request.data.get("password"))
-            )
+            ) 
             return Response(
                {
                 "status":200,

@@ -26,4 +26,9 @@ def delete_user(request,id=None):
     else:
        user.delete()
        messages.success(request,"Successfully deleted the user!")
-       return redirect('admin_dashboard:userslist') 
+       return redirect('admin_dashboard:userslist')
+
+def user_detail(request,id=None):
+    user_detail =  common_model.UserProfile.objects.filter(pk=id).first()
+    # return render(request,self.user:profile,{"user_obj":user_obj})
+    return redirect('user:profile')
