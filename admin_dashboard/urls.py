@@ -88,9 +88,9 @@ urlpatterns = [
     
 
     # contact message
-    # path("contact_messages/all_mesages/",messages.ContactMessageList.as_view(), name="all_contact_message"),
-    # path("contact_messages/contact_message_detail/<str:uid>",messages.ContactMessageDetail.as_view(), name="contact_message_detail"),
-    # path("contact_messages/contact_message_reply/<str:uid>",messages.ContactMessagereply.as_view(), name="contact_message_reply"),
+    path("contact_messages/all_mesages/",messages.ContactMessageList.as_view(), name="all_contact_message"),
+    path("contact_messages/contact_message_detail/<str:uid>",messages.ContactMessageDetail.as_view(), name="contact_message_detail"),
+    path("contact_messages/contact_message_reply/<str:uid>",messages.ContactMessagereply.as_view(), name="contact_message_reply"),
 
 
 ]

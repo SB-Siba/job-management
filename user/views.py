@@ -9,11 +9,11 @@ from django.utils import timezone
 from . import forms
 from . import rozerpay
 # from app_common.checkout.serializer import CartSerializer,DirectBuySerializer,TakeSubscriptionSerializer,OrderSerializer
-# from admin_dashboard.order.forms import OrderUpdateForm
-# from django.utils.decorators import method_decorator
-# from django.views.decorators.csrf import csrf_exempt
+from admin_dashboard.order.forms import OrderUpdateForm
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 # from io import StringIO
-# from django.core.mail import send_mail
+from django.core.mail import send_mail
 import json
 from app_common.models import (
     AudioBook,
@@ -856,38 +856,38 @@ class UpdateProfileView(View):
 #         context={'order_and_products':order_and_products}
 #         return render(request,self.template,context)
     
-# class contactMesage(View):
-#     template = app + "contact_page.html"
+class contactMesage(View):
+    template = app + "contact_page.html"
 
-#     def get(self,request):
-#         initial = {'user': request.user.full_name}
-#         form = forms.ContactMessageForm(initial=initial)
+    def get(self,request):
+        # initial = {'user': request.user.full_name}
+        form = forms.ContactMessageForm
 
-#         context={"form":form}
-#         return render(request,self.template,context)
+        context={"form":form}
+        return render(request,self.template,context)
     
-#     def post(self,request):
-#         form = forms.ContactMessageForm(request.POST)  # Instantiate the form with request POST data
-#         if form.is_valid():  # Add parentheses to is_valid()
-#             user = form.cleaned_data['user']
-#             message = form.cleaned_data['message']
-#             try:
-#                 u_obj = get_object_or_404(User,full_name = user)
-#                 user_email = u_obj.email
-#                 subject = "Your Query Recived."
-#                 message = f"Dear,\nYour Query has been recived successfully.\nOur Team members look into this."
-#                 from_email = "forverify.noreply@gmail.com"
-#                 send_mail(subject, message, from_email,[user_email], fail_silently=False)
-#                 contact_obj = ContactMessage(user = u_obj,message = message)
-#                 contact_obj.save()
-#                 messages.info(request,"Your Message has been sent successfully.")
-#                 return redirect("user:home")
-#             except Exception as e:
-#                 print (e)
-#                 messages.warning(request,"There was an error while sending your message.")
-#                 return self.get(request)
-#         else:   # If the form is not valid, re-render the form with errors
-#             return self.get(request)
+    def post(self,request):
+        form = forms.ContactMessageForm(request.POST)  # Instantiate the form with request POST data
+        if form.is_valid():  # Add parentheses to is_valid()
+            user = form.cleaned_data['user']
+            message = form.cleaned_data['message']
+            try:
+                u_obj = get_object_or_404(User,full_name = user)
+                user_email = u_obj.email
+                subject = "Your Query Recived."
+                message = f"Dear,\nYour Query has been recived successfully.\nOur Team members look into this."
+                from_email = "forverify.noreply@gmail.com"
+                send_mail(subject, message, from_email,[user_email], fail_silently=False)
+                contact_obj = contactMesage(user = u_obj,message = message)
+                contact_obj.save()
+                messages.info(request,"Your Message has been sent successfully.")
+                return redirect("user:home")
+            except Exception as e:
+                print (e)
+                messages.warning(request,"There was an error while sending your message.")
+                return self.get(request)
+        else:   # If the form is not valid, re-render the form with errors
+            return self.get(request)
         
 
 class AboutPage(View):

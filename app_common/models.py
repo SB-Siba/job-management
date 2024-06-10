@@ -1,6 +1,6 @@
 from django.db import models
 import io
-from PIL import Image
+# from PIL import Image
 import os
 import uuid
 from django.core.files import File
@@ -263,25 +263,25 @@ class Order(models.Model):
 
 
  
-# class ContactMessage(models.Model):
-#     STATUS = (
-#         ("pending","pending"),
-#         ("read","read"),
-#         ("resolved","resolved"),
-#     )
-#     uid=models.CharField(max_length=255, null=True, blank=True)
-#     user = models.ForeignKey(User, on_delete= models.CASCADE, null= True, blank= True)
-#     # order_number = models.CharField(max_length=255, null= True, blank= True)
-#     message = models.TextField(null= True, blank= True)
-#     status = models.CharField(max_length=255,choices=STATUS, default= 'new')
-#     reply = models.TextField(null=True, blank= True)
-#     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+class ContactMessage(models.Model):
+    STATUS = (
+        ("pending","pending"),
+        ("read","read"),
+        ("resolved","resolved"),
+    )
+    uid=models.CharField(max_length=255, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete= models.CASCADE, null= True, blank= True)
+    # order_number = models.CharField(max_length=255, null= True, blank= True)
+    message = models.TextField(null= True, blank= True)
+    status = models.CharField(max_length=255,choices=STATUS, default= 'new')
+    reply = models.TextField(null=True, blank= True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
 
-#     def save(self, *args, **kwargs):
-#         if not self.uid:
-#             self.uid = utils.get_rand_number(5)
-#         super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.uid:
+            self.uid = utils.get_rand_number(5)
+        super().save(*args, **kwargs)
 
 # # class Offers(models.Model):
 # #     product = models.ForeignKey(Products, on_delete= models.CASCADE, null= True, blank= True)

@@ -54,7 +54,7 @@ urlpatterns = [
     # path('account-details',views.AccountDetails.as_view(),name='account_details'),
 
     # path('orders',views.OrderView.as_view(),name='orders'),
-    # path('contactmessage',views.contactMesage.as_view(),name="contactmessage"),
+    path('contactmessage',views.contactMesage.as_view(),name="contactmessage"),
     path('about',views.AboutPage.as_view(),name="about"),
     # path('filter-books/', views.filter_audiobooks, name='filter_books'),
     # path('subscription-feature-details/',views.SubscriptionFeatureDetail.as_view(),name='subscription_details'),
