@@ -100,7 +100,7 @@
                                 <li><a class="dropdown-item" href="">Subscribe Books</a></li>
                                 {% if user.is_superuser %}
                                     <li><a class="dropdown-item" href="">Add Products</a></li>
-                                    <li><a class="dropdown-item" href="">View Products</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'admin_dashboard:product_list' %}">View Products</a></li>
                                 {% endif %}
                                 <li><a class="dropdown-item" href="{% url 'user:passwordchange' %}">Change Password</a></li>
                                 <li>

@@ -26,24 +26,24 @@ app = "admin_dashboard/manage_product/"
 # ================================================== patient management ==========================================
 
 @method_decorator(utils.super_admin_only, name='dispatch')
-class CriteriaList(View):
-    model = common_model.Criteria
-    form_class = forms.CriteriaEntryForm
-    template = app + "criteria_list.html"
+class CatagoryList(View):
+    model = common_model.Catagory
+    form_class = forms.CatagoryEntryForm
+    template = app + "catagory_list.html"
 
     def get(self,request):
-        criteria_list = self.model.objects.all().order_by('-id')
-        criterias = []
+        catagory_list = self.model.objects.all().order_by('-id')
+        catagorys = []
         product_count = []
-        for i in criteria_list:
-            p_obj = common_model.AudioBook.objects.filter(criteria = i).count()
-            criterias.append(i)
+        for i in catagory_list:
+            p_obj = common_model.Job.objects.filter(catagory = i).count()
+            catagorys.append(i)
             product_count.append(p_obj)
-
-        criteria_product_count_zip = zip(criterias,product_count)
+            
+        catagory_product_count_zip = zip(catagorys,product_count)
         context = {
             "form": self.form_class,
-            "criteria_product_count_zip":criteria_product_count_zip,
+            "catagory_product_count_zip":catagory_product_count_zip,
         }
         return render(request, self.template, context)
     
@@ -57,24 +57,24 @@ class CriteriaList(View):
                 for error in errors:
                     messages.error(request, f'{field}: {error}')
 
-        return redirect("admin_dashboard:criteria_list")
+        return redirect("admin_dashboard:catagory_list")
 
 
 @method_decorator(utils.super_admin_only, name='dispatch')
-class CriteriaUpdate(View):
-    model = common_model.Criteria
-    form_class = forms.CriteriaEntryForm
-    template = app + "criteria_update.html"
+class CatagoryUpdate(View):
+    model = common_model.Catagory
+    form_class = forms.CatagoryEntryForm
+    template = app + "catagory_update.html"
 
-    def get(self,request, criteria_id):
-        criteria = self.model.objects.get(id= criteria_id)
+    def get(self,request, catagory_id):
+        catagory = self.model.objects.get(id= catagory_id)
         context = {
-            "form": self.form_class(instance=criteria),
+            "form": self.form_class(instance=catagory),
         }
         return render(request, self.template, context)
     
-    def post(self, request, criteria_id):
-        catagory = self.model.objects.get(id= criteria_id)
+    def post(self, request, catagory_id):
+        catagory = self.model.objects.get(id= catagory_id)
         form = self.form_class(request.POST, request.FILES ,instance= catagory)
         if form.is_valid():
             form.save()
@@ -84,39 +84,39 @@ class CriteriaUpdate(View):
                 for error in errors:
                     messages.error(request, f'{field}: {error}')
 
-        return redirect("admin_dashboard:criteria_update", catagory_id = criteria_id)
+        return redirect("admin_dashboard:catagory_update", catagory_id = catagory_id)
 
 
 @method_decorator(utils.super_admin_only, name='dispatch')
-class CriteriaDelete(View):
-    model = common_model.Criteria
-    form_class = forms.CriteriaEntryForm
-    template = app + "criteria_update.html"
+class CatagoryDelete(View):
+    model = common_model.Catagory
+    form_class = forms.CatagoryEntryForm
+    template = app + "catagory_update.html"
 
-    def get(self,request, criteria_id):
-        criteria = self.model.objects.get(id= criteria_id).delete()
-        messages.info(request, "Criteria is deleted successfully....")
-        return redirect("admin_dashboard:criteria_list")
+    def get(self,request, catagory_id):
+        catagory = self.model.objects.get(id= catagory_id).delete()
+        messages.info(request, "Catagory is deleted successfully....")
+        return redirect("admin_dashboard:catagory_list")
 
 
-class CriteriaListApi(APIView):
+class CatagoryListApi(APIView):
 
     permission_classes = [api_permission.is_authenticated]
-    serializer_class= product_serializer.CriteriaSerializer
-    model= common_model.Criteria
+    serializer_class= product_serializer.CatagorySerializer
+    model= common_model.Catagory
     pagination_class = utils.CustomPagination(50)
 
     @swagger_auto_schema(
-        tags=["criteria"],
-        operation_description="It will return all criteria list",
+        tags=["catagory"],
+        operation_description="It will return all catagory list",
     )
 
     def get(self, request):
 
         catagory_list= self.model.objects.filter(hide="no").order_by('-id')
-        print(criteria_list)
+        print(catagory_list)
         paginator = self.pagination_class
-        page = paginator.paginate_queryset(criteria_list, request)
+        page = paginator.paginate_queryset(catagory_list, request)
         serialized_data= self.serializer_class(page, many=True).data
 
         return Response({

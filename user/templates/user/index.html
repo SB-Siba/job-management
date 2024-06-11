@@ -64,7 +64,7 @@ https://templatemo.com/tm-584-pod-talk
                     {% csrf_token %}
                     <div class="input-group input-group-lg">
                         <input name="search-box" type="search" class="form-control" id="search"
-                            placeholder="Search Books" aria-label="Search">
+                            placeholder="Search jobs" aria-label="Search">
 
                         <button type="submit" class="form-control" id="submit">
                             <i class="fa fa-search" aria-hidden="true"></i>
@@ -90,19 +90,16 @@ https://templatemo.com/tm-584-pod-talk
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="">Contact</a>
+                            <a class="nav-link" href="{% url 'user:contactmessage' %}">Contact</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">Subscription Plans</a>
-                        </li>
+                        
                         <li class="nav-item dropdown hhh">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">{{ request.user.full_name }}</a>
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink1">
                                 <li><a class="dropdown-item" href="{% url 'user:profile' %}">Account Details</a></li>
-                                <li><a class="dropdown-item" href="">Subscribed Books</a></li>
-                                <li><a class="dropdown-item" href="">Order Books</a></li>
-                                <li><a class="dropdown-item" href="">Become A Partner</a></li>
+                                
+                                <li><a class="dropdown-item" href="">Applied Job</a></li>
                                 <li><a class="dropdown-item" href="{% url 'user:passwordchange' %}">Change Password</a></li>
                                 <li>
                                     <button class="form-control btn btn-link text-decoration-none text-black"><a
@@ -112,10 +109,7 @@ https://templatemo.com/tm-584-pod-talk
                             </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href=""><i
-                                    class="fas fa-shopping-cart text-primary"></i></a>
-                        </li>
+                        
                     </ul>
                 </div>
             </div>
