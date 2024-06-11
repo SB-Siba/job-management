@@ -55,8 +55,7 @@ https://templatemo.com/tm-584-pod-talk
             <div class="container">
                 <a class="navbar-brand me-lg-5 me-0" href="{% url 'user:home' %}">
                     <!-- {% static 'shopingsite/pod-talk-logo.png' %} -->
-                    <img src="" class="logo-image img-fluid"
-                        alt="templatemo pod talk">
+        <!--s      <img class="img-fluid rounded" loading="lazy" src="{% static 'images/d3.jpg' %}" alt="About 1">  -->
                 </a>
 
                 <form action="" method="post"
@@ -64,7 +63,7 @@ https://templatemo.com/tm-584-pod-talk
                     {% csrf_token %}
                     <div class="input-group input-group-lg">
                         <input name="search-box" type="search" class="form-control" id="search"
-                            placeholder="Search jobs" aria-label="Search">
+                            placeholder="Find Your Services" aria-label="Search">
 
                         <button type="submit" class="form-control" id="submit">
                             <i class="fa fa-search" aria-hidden="true"></i>
@@ -86,15 +85,24 @@ https://templatemo.com/tm-584-pod-talk
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'user:about' %}">About</a>
+                            <a class="nav-link" href="{% url 'user:about' %}">About Us</a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'user:contactmessage' %}">Contact</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Sectors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user:signup' %}">Registation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user:login' %}">Login</a>
+                        </li>
                         
                         <li class="nav-item dropdown hhh">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button"
+                            <a class="nav-link dropdown-toggle" href="#"id="navbarLightDropdownMenuLink1" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">{{ request.user.full_name }}</a>
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink1">
                                 <li><a class="dropdown-item" href="{% url 'user:profile' %}">Account Details</a></li>
@@ -109,7 +117,6 @@ https://templatemo.com/tm-584-pod-talk
                             </ul>
                         </li>
 
-                        
                     </ul>
                 </div>
             </div>
@@ -156,12 +163,11 @@ https://templatemo.com/tm-584-pod-talk
                     <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                         <!-- Content -->
                         <h6 class="text-uppercase fw-bold mb-2">
-                            <img src="{% static 'images/audio_logo.png' %}" class="logo-image img-fluid mb-2"
-                                alt="templatemo pod talk" style="height: 50px; width: 50px;"><br>Audiobook Pvt. Ltd.
+                     <!--    <img src="{% static 'images/audio_logo.png' %}" class="logo-image img-fluid mb-2"  
+                        alt="templatemo pod talk" style="height: 50px; width: 50px;"> --><br>Prabhati International Pvt.Ltd.
                         </h6>
                         <p class="text-black">
-                            Dive into captivating audiobooks across genres. Join our community and start
-                            your listening journey today!
+                            Always believe yourself
                         </p>
                     </div>
                     <!-- Grid column -->
@@ -170,19 +176,29 @@ https://templatemo.com/tm-584-pod-talk
                     <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
                         <!-- Links -->
                         <h6 class="text-uppercase fw-bold mb-4">
-                            Products
+                           Our Services
                         </h6>
+                        <ul class="custom-bullets">
                         <p class="text-black">
-                            <a href="#!" class="text-reset">Biography & Memoir</a>
+                            <li>      <a href="#!" class="text-reset">All Paramedical Staff</a>    </li> 
                         </p>
                         <p class="text-black">
-                            <a href="#!" class="text-reset">Science Fiction & Fantasy</a>
+                            <li>    <a href="#!" class="text-reset">Housekeeping & Security</a> </li> 
                         </p>
                         <p class="text-black">
-                            <a href="#!" class="text-reset">Business & Careers</a>
+                            <li>   <a href="#!" class="text-reset">BedSide Patient Attendant</a> </li> 
                         </p>
                         <p class="text-black">
-                            <a href="#!" class="text-reset">Education & Learning</a>
+                            <li>  <a href="#!" class="text-reset">Home Nursing</a> </li> 
+                        </p>
+                        <p class="text-black">
+                            <li>   <a href="#!" class="text-reset">Data Entry, Font Office & Back Office</a> </li> 
+                        </p>
+                         <p class="text-black">
+                            <li>    <a href="#!" class="text-reset">ITI, Diploma, Degree Engineer</a> </li> 
+                        </p>
+                        <p class="text-black">
+                            <li>        <a href="#!" class="text-reset">Fire Safeyt & Office Boy</a> </li> 
                         </p>
                     </div>
                     <!-- Grid column -->
@@ -194,16 +210,17 @@ https://templatemo.com/tm-584-pod-talk
                             Useful links
                         </h6>
                         <p class="text-black">
-                            <a href="#!" class="text-reset">Pricing</a>
+                            <ul class="custom-bullets">
+                                <li>      <a href="#!" class="text-reset">Pricing</a> </li> 
                         </p>
                         <p class="text-black">
-                            <a href="#!" class="text-reset">Settings</a>
+                            <li>       <a href="#!" class="text-reset">Settings</a> </li> 
                         </p>
                         <p class="text-black">
-                            <a href="#!" class="text-reset">Orders</a>
+                            <li>     <a href="#!" class="text-reset">Orders</a> </li> 
                         </p>
                         <p class="text-black">
-                            <a href="#!" class="text-reset">Help</a>
+                            <li>        <a href="#!" class="text-reset">Help</a> </li> 
                         </p>
                     </div>
                     <!-- Grid column -->
@@ -212,13 +229,15 @@ https://templatemo.com/tm-584-pod-talk
                     <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
                         <!-- Links -->
                         <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
-                        <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p>
+                        <p class="text-black"><i class="fas fa-home me-3"></i>Friends Colony Mangalabag, Cuttack - 753001</p>
                         <p class="text-black">
                             <i class="fas fa-envelope me-3"></i>
-                            info@example.com
-                        </p>
-                        <p class="text-black"><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
-                        <p class="text-black"><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+                          pravatiservices643@gmail.com
+                                              </p>
+                        <p class="text-black"><i class="fas fa-phone me-3"></i> +91 9114790643</p>
+                        <p class="text-black"><i class="fas fa-phone me-3"></i> +91 9668790643</p>
+                    <!--   <p class="text-black"><i class="fas fa-print me-3"></i> + 01 234 567 89</p>  --> 
+                       
                     </div>
                     <!-- Grid column -->
                 </div>
@@ -229,8 +248,8 @@ https://templatemo.com/tm-584-pod-talk
 
         <!-- Copyright -->
         <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-            © 2021 Copyright:
-            <a class="text-reset fw-bold" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+           
+     <!--       <a class="text-reset fw-bold" href="https://mdbootstrap.com/">MDBootstrap.com</a>   -->
         </div>
         <!-- Copyright -->
     </footer>
