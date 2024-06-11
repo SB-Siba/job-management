@@ -6,12 +6,23 @@ class SignUpForm(forms.Form):
     full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.',
                              widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    contact = forms.IntegerField(max_value=10 ,help_text='Required. Enter a valid contact number .',
+    phone_number = forms.IntegerField(help_text='Required. Enter a valid contact number .',
                              widget=forms.NumberInput(attrs={'class': 'form-control'}))
     
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    Resume=forms.FileField(widget=forms.FileInput(attrs={'class': 'form-control'}))
+    # Resume=forms.FileField(widget=forms.FileInput(attrs={'class': 'form-control'}))
+
+
+class Client_SignUpForm(forms.Form):
+    full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.',
+                             widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    phone_number = forms.IntegerField(max_value=10 ,help_text='Required. Enter a valid contact number .',
+                             widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 class LoginForm(forms.Form):
     email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -21,13 +32,6 @@ class PasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(label='Old Password',widget=forms.PasswordInput(attrs= {'autofocus':True,'autocomplete':'current-password','class':'form-control'}))
     new_password1 = forms.CharField(label='New Password',widget=forms.PasswordInput(attrs= {'autocomplete':'current-password','class':'form-control'}))
     new_password2 = forms.CharField(label='Cofirm Password',widget=forms.PasswordInput(attrs= {'autocomplete':'current-password','class':'form-control'}))
-
-
-# class StudentForm(forms.Form):  
-#     firstname = forms.CharField(label="Enter first name",max_length=50)  
-#     lastname  = forms.CharField(label="Enter last name", max_length = 10)  
-#     email     = forms.EmailField(label="Enter Email")  
-#     resume      = forms.FileField() # for creating file input
 
 
 class UpdateProfileForm(forms.Form):
@@ -52,50 +56,11 @@ class UpdateProfileForm(forms.Form):
     resume = forms.FileField(label='Select an pdf file', required=False)
     resume.widget.attrs.update({'class': 'form-control', 'type': 'file'})
     
-# class AddressForm(forms.Form):
-#     landmark1 = forms.CharField(max_length=255)
-#     landmark1.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
 
-#     landmark2 = forms.CharField(max_length=255)
-#     landmark2.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
-    
-#     country = forms.CharField(max_length=255)
-#     country.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
+# from django import forms
+# from .models import Application
 
-#     state = forms.CharField(max_length=255)
-#     state.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
 
-#     city = forms.CharField(max_length=255)
-#     city.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
-    
-#     zipcode = forms.IntegerField()
-#     zipcode.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Pincode',"required":"required"})
-
-# class SubscriptionPlanForm(forms.ModelForm):
-
-#     class Meta:
-#         model = common_models.SubscriptionPlan
-#         fields = ['title','price','days']
-
-#     title = forms.CharField(max_length=255)
-#     title.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
-
-#     price = forms.IntegerField()
-#     price.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Price',"required":"required"})
-
-#     days = forms.IntegerField()
-#     days.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Days',"required":"required"})
-
-# class SubscriptionFeaturesForm(forms.ModelForm):
-#     class Meta:
-#         model = common_models.SubscriptionFeatures
-#         fields = ['sub_plan','feature']
-
-#     sub_plan = forms.ModelChoiceField(queryset = common_models.SubscriptionPlan.objects.all())
-#     sub_plan.widget.attrs.update({'class': 'form-control','type':'text'})
-
-#     feature = forms.CharField(max_length=255)
-#     feature.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
 
 # class OrderForm(forms.Form):
 #     full_name = forms.CharField(max_length=255)

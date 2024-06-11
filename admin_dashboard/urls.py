@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 from .credentials import credential
-from .manage_product import user,job,catagory,product
+from .manage_product import user,catagory,job
 from .order import order
 
 
@@ -16,7 +16,7 @@ urlpatterns = [
     # path('banner_delete/<str:banner_id>', views.BannerDelete.as_view(), name = "web_banner_delete"),
     # path('banner_list_api', views.ApiBannerList.as_view(),),
 
-    # privacy policy and terms and about us   
+    # privacy policy and terms and about us    
     path('privacy_policy_api', views.ApiPrivacyPolicy.as_view(),),
     path('terms_and_conditions', views.ApiTermsCondition.as_view(),),
     path('about_us', views.ApiAbountUs.as_view(),),
@@ -24,14 +24,12 @@ urlpatterns = [
     # Userlist
     path("user/userslist", user.UserList.as_view(), name="userslist"),
     path("user/deleteuser/<int:id>", user.delete_user, name="deleteuser"),
+    path('user/user_detail/<int:id>', user.user_detail, name='user_detail'),
+    # path("user/edit_user/<str:user_id>", user.Edit_User, name="edit_user"),
+    path('edit_user/<int:user_id>',user.Edit_User,name="edit_user"),
 
 
-    #Episodes
-    path("job/job_list", job.JobList.as_view(), name="job_list"),
-    path("job/job_search", job.JobSearch.as_view(), name="job_search"),
-    path("job/job_add", job.JobAdd.as_view(), name="job_add"),
-    path("job/job_update/<str:job_id>", job.JobUpdate.as_view(), name="job_update"),
-    path("job/job_delete/<str:job_id>", job.JobDelete.as_view(), name="job_delete"),
+
 
 
     # #Subscription Plan
@@ -53,25 +51,28 @@ urlpatterns = [
     # # path("coupon/coupon_delete/<str:coupon_id>", coupon.CouponDelete.as_view(), name="coupon_delete"),
 
     # # catagory web
-    path("catagory/catagory_list", catagory.CatagotyList.as_view(), name="catagory_list"),
-    path("catagory/catagory_update/<str:catagory_id>", catagory.CatagotyUpdate.as_view(), name="catagory_update"),
-    path("catagory/catagory_delete/<str:catagory_id>", catagory.CatagotyDelete.as_view(), name="catagory_delete"),
+    path("catagory/catagory_list", catagory.CatagoryList.as_view(), name="catagory_list"),
+    path("catagory/catagory_update/<str:catagory_id>", catagory.CatagoryUpdate.as_view(), name="catagory_update"),
+    path("catagory/catagory_delete/<str:catagory_id>", catagory.CatagoryDelete.as_view(), name="catagory_delete"),
 
     # # catagory api
     # path("catagory/catagory_list_api", catagory.CatagotyListApi.as_view()),
+    path("catagory_Job_list/<str:catagory_id>", job.CatagoryJobFilter.as_view()),
+    path("api_Job_filter", job.ApiJobList.as_view()),
+    path("api_Job_detail/<str:Job_uid>", job.ApiJobDetail.as_view()),
 
     # #product web
-    path("product/product_list", product.AudioBookList.as_view(), name="product_list"),
-    path("product/product_search", product.AudioBookSearch.as_view(), name="product_search"),
-    path("product/product_filter", product.AudioBookFilter.as_view(), name="product_filter"),
-    path("product/product_add", product.AudioBookAdd.as_view(), name="product_add"),
-    path("product/product_update/<str:product_uid>", product.AudioBookUpdate.as_view(), name="product_update"),
-    path("product/product_delete/<str:product_uid>", product.AudioBookDelete.as_view(), name="product_delete"),
+    path("job/job_list", job.JobList.as_view(), name="job_list"),
+    path("job/job_search", job.JobSearch.as_view(), name="job_search"),
+    path("job/job_filter", job.JobFilter.as_view(), name="job_filter"),
+    path("job/job_add", job.JobAdd.as_view(), name="job_add"),
+    path("job/job_update/<str:job_uid>", job.JobUpdate.as_view(), name="job_update"),
+    path("job/job_delete/<str:job_uid>", job.JobDelete.as_view(), name="job_delete"),
     
     # #product_api
-    path("catagory_product_list/<str:catagory_id>", product.CatagoryProductFilter.as_view()),
-    path("api_product_filter", product.ApiProductList.as_view()),
-    path("api_product_detail/<str:product_uid>", product.ApiProductDetail.as_view()),
+    path("catagory_job_list/<str:catagory_id>", job.CatagoryJobFilter.as_view()),
+    path("api_job_filter", job.ApiJobList.as_view()),
+    path("api_job_detail/<str:job_uid>", job.ApiJobDetail.as_view()),
 
     
 

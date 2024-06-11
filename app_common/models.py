@@ -37,6 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     contact = models.CharField(max_length= 10, null=True, blank=True, unique=True)
 
+    is_client = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
@@ -49,6 +50,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ["password"]
 
     objects = MyAccountManager()
+
+
 
     @property
     def full_contact_number(self):
@@ -90,7 +93,7 @@ class UserProfile(models.Model):
     bio = models.TextField(null=True, blank=True)
     resume = models.ImageField(upload_to="user_resume/", null=True, blank=True)
 
-class Category(models.Model):
+class Catagory(models.Model):
     YESNO = (
         ("yes","yes"),
         ("no","no")
@@ -101,44 +104,69 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
-class AudioBook(models.Model):
+# class Job(models.Model):
+#     YESNO = (
+#         ("yes","yes"),
+#         ("no","no")
+#     )
+#     uid=models.CharField(max_length=255, null=True, blank=True)
+#     title = models.CharField(max_length=255, null=True, blank=True, unique=True)
+#     catagory = models.ForeignKey(Catagory, on_delete=models.SET_NULL, blank=True, null=True)
+#     company_name= models.CharField(max_length=255 ,default='Default Company Name')
+#     description = models.TextField(blank=True, null=True)
+#     job_posted_date = models.DateField(default=timezone.now)
+#     show_as_new = models.CharField(max_length= 255, choices= YESNO ,default="no")
+#     rating = models.DecimalField(max_digits=5, decimal_places=1, default=0.0)
+#     num_ratings = models.PositiveIntegerField(default=0)
+
+#     def save(self, *args, **kwargs):
+#         if not self.uid:
+#             self.uid = utils.get_rand_number(5)
+        
+#         super().save(*args, **kwargs)
+        
+#     def __str__(self):
+#         return self.title
+
+class Job(models.Model):
     YESNO = (
         ("yes","yes"),
         ("no","no")
     )
     uid=models.CharField(max_length=255, null=True, blank=True)
     title = models.CharField(max_length=255, null=True, blank=True, unique=True)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
-    company = models.CharField(max_length=255)
+    catagory = models.ForeignKey(Catagory, on_delete=models.SET_NULL, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    job_posted_date = models.DateField()
-    show_as_new = models.CharField(max_length= 255, choices= YESNO ,default="no")
-    rating = models.DecimalField(max_digits=5, decimal_places=1, default=0.0)
-    num_ratings = models.PositiveIntegerField(default=0)
+    requirements = models.TextField(blank=True, null=True)
+    location = models.CharField(max_length=100, null=True, blank=True, unique=True)
+    posted_at = models.DateField(default=timezone.now)
 
     def save(self, *args, **kwargs):
         if not self.uid:
             self.uid = utils.get_rand_number(5)
         
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+class Application(models.Model):
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    resume = models.FileField(upload_to='resumes/')
+    cover_letter = models.TextField()
+    applied_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, default='Pending')
+
+    def save(self, *args, **kwargs):
+        if not self.uid:
+            self.uid = utils.get_rand_number(5)
         
-    def __str__(self):
-        return self.title
+        super().save(*args, **kwargs)
 
-class job(models.Model):
-    e_id = models.PositiveBigIntegerField(null=True, blank=True)
-    description = models.TextField()
-    posted_on = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return self.title
-    
-# class ListenHistory(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
-#     listenepisodes = models.JSONField(default=list,null=True, blank=True)
 
-#     def __str__(self):
-#         return f"Listen History for {self.user.full_name}"
+    def __str__(self):
+        return f'{self.user.username} - {self.job.title}'
     
 # # class Coupon(models.Model):
 # #     YESNO = (

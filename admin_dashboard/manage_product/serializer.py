@@ -5,10 +5,10 @@ from app_common import models as common_models
 class CatagorySerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = common_models.Category
+        model = common_models.Catagory
         fields = "__all__"
 
-class ProductSerializer(serializers.ModelSerializer):
+class jobSerializer(serializers.ModelSerializer):
     discount_percentage = serializers.SerializerMethodField()
     def get_discount_percentage(self, obj):
         return f"{obj.discount_percentage} %"

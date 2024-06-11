@@ -183,13 +183,13 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'forverify.noreply@gmail.com'
-EMAIL_HOST_PASSWORD = 'qukk ozby nejn ombm'
+EMAIL_HOST_USER = 'noreplyf577@gmail.com'
+EMAIL_HOST_PASSWORD = 'lxlb pidz ggno lujv'
+# django-mail-system
 
-
-RAZORPAY_API_KEY = os.getenv('RAZORPAY_API_KEY')
-RAZORPAY_API_SECRET = os.getenv('RAZORPAY_API_SECRET')
-SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
+# RAZORPAY_API_KEY = os.getenv('RAZORPAY_API_KEY')
+# RAZORPAY_API_SECRET = os.getenv('RAZORPAY_API_SECRET')
+# SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
 
 
 

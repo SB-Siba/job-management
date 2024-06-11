@@ -1,4 +1,4 @@
-{% extends 'shoppingsite/index.html' %}
+y7{% extends 'user/index.html' %}
 {% load static %}
 {% block title %}
 Search Items
@@ -8,7 +8,7 @@ Search Items
     {% for i in all_searh_items %}
         <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
             <div class="custom-block custom-block-overlay">
-                <a href="{% url 'shoppingsite:productdetails' i.id %}" class="custom-block-image-wrap">
+                <a href="{% url 'user:productdetails' i.id %}" class="custom-block-image-wrap">
                     <img src="{{i.audiobook_image.url}}"
                         class="custom-block-image img-fluid" alt="">
                 </a>

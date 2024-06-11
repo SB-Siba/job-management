@@ -1,6 +1,6 @@
 from drf_yasg import openapi
 
-product_filter = [
+job_filter = [
     openapi.Parameter(
         "filter_by", openapi.IN_QUERY, required=True, type=openapi.TYPE_STRING
     ),

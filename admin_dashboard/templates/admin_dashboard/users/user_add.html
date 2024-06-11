@@ -10,16 +10,9 @@
                 <form action="" method="post" enctype="multipart/form-data">
                     {% include 'snippets/alert.html' %}
                     {% csrf_token %}
-                    <div class="row">
-                        {% for field in form %}
-                            <div class="col-md-6 col-6 col-sm-6">
-                                {{field.label}}
-                                {{field}}
-                            </div>
-                        {% endfor %}
-                    </div>
+                    {{form.as_p}}
                     <br>
-                    <center><button type="submit" class="btn btn-success">Add Product</button></center>
+                    <center><button type="submit" class="btn btn-success">Add User</button></center>
                 </form>
 
             </div>

@@ -30,8 +30,8 @@ urlpatterns = [
 
     # place order
     # path("api/place_order", checkout.PlaceOrder.as_view()),
-    # path("api/order_list", checkout.OrderList.as_view()),
-    # path("api/order_detail/<str:uid>", checkout.OrderDetail.as_view()),
+    path("api/order_list", checkout.OrderList.as_view()),
+    path("api/order_detail/<str:uid>", checkout.OrderDetail.as_view()),
     # path("api/order_cancel_return_refund/<str:order_uid>", checkout.OrderCancelReturnRefund.as_view()),
 
     #address

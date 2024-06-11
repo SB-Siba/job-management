@@ -13,6 +13,18 @@ class MyAccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    def create_client(self, email, password=None):
+        if not email:
+            raise ValueError('Users must have an email address')
+
+        user = self.model(
+            email=self.normalize_email(email),
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
     def create_superuser(self, email, password):
         user = self.create_user(
             email=self.normalize_email(email),
@@ -20,6 +32,7 @@ class MyAccountManager(BaseUserManager):
             
         )
 
+        user.is_client = True
         user.is_staff = True
         user.is_active = True
         user.is_superuser = True

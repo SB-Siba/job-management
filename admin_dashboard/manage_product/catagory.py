@@ -26,24 +26,24 @@ app = "admin_dashboard/manage_product/"
 # ================================================== patient management ==========================================
 
 @method_decorator(utils.super_admin_only, name='dispatch')
-class CatagotyList(View):
-    model = common_model.Category
-    form_class = forms.CategoryEntryForm
+class CatagoryList(View):
+    model = common_model.Catagory
+    form_class = forms.CatagoryEntryForm
     template = app + "catagory_list.html"
 
     def get(self,request):
         catagory_list = self.model.objects.all().order_by('-id')
-        categories = []
+        catagorys = []
         product_count = []
         for i in catagory_list:
-            p_obj = common_model.AudioBook.objects.filter(category = i).count()
-            categories.append(i)
+            p_obj = common_model.Job.objects.filter(catagory = i).count()
+            catagorys.append(i)
             product_count.append(p_obj)
-
-        category_product_count_zip = zip(categories,product_count)
+            
+        catagory_product_count_zip = zip(catagorys,product_count)
         context = {
             "form": self.form_class,
-            "category_product_count_zip":category_product_count_zip,
+            "catagory_product_count_zip":catagory_product_count_zip,
         }
         return render(request, self.template, context)
     
@@ -61,9 +61,9 @@ class CatagotyList(View):
 
 
 @method_decorator(utils.super_admin_only, name='dispatch')
-class CatagotyUpdate(View):
-    model = common_model.Category
-    form_class = forms.CategoryEntryForm
+class CatagoryUpdate(View):
+    model = common_model.Catagory
+    form_class = forms.CatagoryEntryForm
     template = app + "catagory_update.html"
 
     def get(self,request, catagory_id):
@@ -88,9 +88,9 @@ class CatagotyUpdate(View):
 
 
 @method_decorator(utils.super_admin_only, name='dispatch')
-class CatagotyDelete(View):
-    model = common_model.Category
-    form_class = forms.CategoryEntryForm
+class CatagoryDelete(View):
+    model = common_model.Catagory
+    form_class = forms.CatagoryEntryForm
     template = app + "catagory_update.html"
 
     def get(self,request, catagory_id):
@@ -99,11 +99,11 @@ class CatagotyDelete(View):
         return redirect("admin_dashboard:catagory_list")
 
 
-class CatagotyListApi(APIView):
+class CatagoryListApi(APIView):
 
     permission_classes = [api_permission.is_authenticated]
     serializer_class= product_serializer.CatagorySerializer
-    model= common_model.Category
+    model= common_model.Catagory
     pagination_class = utils.CustomPagination(50)
 
     @swagger_auto_schema(

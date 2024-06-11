@@ -1,0 +1,25 @@
+{% extends 'admin_dashboard/starter.html' %}
+{% block page_title %}
+<h4>
+    Edit User | Username : {{username}} | id : {{id}}
+</h4>
+{% endblock page_title %}
+{% load static %}
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Edit User</h3>
+                    </div>
+                    {% url 'edit_user' as action_path %}
+                    {% include 'user_list.html' with messages=messages form=form action_path=action_path button_text="Save Student" %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock main_content %}
