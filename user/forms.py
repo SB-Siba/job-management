@@ -57,13 +57,10 @@ class UpdateProfileForm(forms.Form):
     resume.widget.attrs.update({'class': 'form-control', 'type': 'file'})
     
 
-from django import forms
-from .models import Application
+# from django import forms
+# from .models import Application
 
-class ApplicationForm(forms.ModelForm):
-    class Meta:
-        model = Application
-        fields = ['resume', 'user']
+
 
 # class OrderForm(forms.Form):
 #     full_name = forms.CharField(max_length=255)

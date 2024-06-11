@@ -71,8 +71,9 @@ class JobForm(forms.ModelForm):
             'title',
             'catagory',
             'description',
-            'job_posted_date',
-            'show_as_new',
+            'requirements',
+            'location',
+            'posted_at',
 
         ]
     
@@ -82,47 +83,31 @@ class JobForm(forms.ModelForm):
     catagory = forms.ModelChoiceField(queryset = common_models.Catagory.objects.all())
     catagory.widget.attrs.update({'class': 'form-control','type':'text'})
 
-    company_name = forms.CharField(max_length=255)
-    company_name.widget.attrs.update({'class': 'form-control','type':'text'})
-
 
     description = forms.CharField(widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
     description.widget.attrs.update({'class': 'form-control','type':'text'})
 
 
-    job_posted_date = forms.DateField()
-    job_posted_date.widget.attrs.update({'class': 'form-control','type':'date',"required":"required"})
-    job_posted_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    requirements = forms.CharField(widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
+    requirements.widget.attrs.update({'class': 'form-control','type':'text'})
+
+    location = forms.CharField(max_length=255)
+    location.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
 
 
-    # stock = forms.IntegerField(required=True)
-    # stock.widget.attrs.update({'class': 'form-control','type':'number'})
+    posted_at = forms.DateField()
+    posted_at.widget.attrs.update({'class': 'form-control','type':'date',"required":"required"})
+    posted_at = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
 
-    show_as_new = forms.ChoiceField(choices=common_models.Job.YESNO, initial= 'no')
-    show_as_new.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
+    # show_as_new = forms.ChoiceField(choices=common_models.Job.YESNO, initial= 'no')
+    # show_as_new.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
 
 
-    # company_image = forms.FileField(
-    #     validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg','png']),MaxFileSizeValidator(50*1024)]) # 20 = kb
-    # company_image.widget.attrs.update({'class': 'form-control','type':'file'})
-
-    
-    
-# class JobForm(forms.ModelForm):
-
-#     class Meta:
-#         model = common_models.job
-#         fields = ['e_id','title','description',]
-
-#     e_id = forms.IntegerField(required=True)
-#     e_id.widget.attrs.update({'class': 'form-control','type':'number'})
-
-#     title = forms.CharField(max_length=255)
-#     title.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
-
-#     description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
-#     description.widget.attrs.update({'class': 'form-control','type':'text'})
+class ApplicationForm(forms.Form):
+    class Meta:
+        model =common_models.Application
+        fields = ['resume', 'user']  
 
 class EditUserForm(forms.Form):
     email = forms.EmailField(label="Email",max_length=50,widget=forms.EmailInput(attrs={"class":"form-control"}))

@@ -19,7 +19,7 @@ from app_common.models import (
     Job,
     Catagory,
     UserProfile,
-    User,
+    User,Application,
     
 )
 
@@ -270,35 +270,35 @@ class UpdateProfileView(View):
 #         return redirect("user:alladdress")
 
 
-class showJobsViews(View):
-    template = app + "jobsofcategory.html"
+# class showJobsViews(View):
+#     template = app + "jobsofcategory.html"
 
-    def get(self, request, c_name):
-        user = request.user
-        category_obj = Category.objects.all()
-        jobs_for_this_category = Job.objects.filter(category__title=c_name)
-        return render(request, self.template, locals())
+#     def get(self, request, c_name):
+#         user = request.user
+#         category_obj = Category.objects.all()
+#         jobs_for_this_category = Job.objects.filter(category__title=c_name)
+#         return render(request, self.template, locals())
 
-class search_items(View):
-    template = app + "search_item.html"
-    def post(self,request):
-        if request.method == 'POST':
-            user = request.user
-            search_title = request.POST.get("search-box")
-            print(search_title)
-            all_searh_items = []
-            product = Job.objects.filter(title__icontains = search_title)
-            for i in product:
-                all_searh_items.append(i)
-            category = Job.objects.filter(category__title__icontains=search_title)
-            for j in category:
-                if j not in all_searh_items:
-                    all_searh_items.append(j)
-            company_name = Job.objects.filter(author__icontains=search_title)
-            for k in company_name:
-                if k not in all_searh_items:
-                    all_searh_items.append(k)
-            return render(request,self.template,locals())
+# class search_items(View):
+#     template = app + "search_item.html"
+#     def post(self,request):
+#         if request.method == 'POST':
+#             user = request.user
+#             search_title = request.POST.get("search-box")
+#             print(search_title)
+#             all_searh_items = []
+#             product = Job.objects.filter(title__icontains = search_title)
+#             for i in product:
+#                 all_searh_items.append(i)
+#             category = Job.objects.filter(category__title__icontains=search_title)
+#             for j in category:
+#                 if j not in all_searh_items:
+#                     all_searh_items.append(j)
+#             company_name = Job.objects.filter(author__icontains=search_title)
+#             for k in company_name:
+#                 if k not in all_searh_items:
+#                     all_searh_items.append(k)
+#             return render(request,self.template,locals())
 
 
 # def search_product_names(request):
@@ -310,19 +310,46 @@ class search_items(View):
 #             return JsonResponse(products_data, safe=False)
 #     return JsonResponse([], safe=False)
 
-class JobDetailsView(View):
-    model = Job
-    template = app + "product_details.html"
+# class JobDetailsView(View):
+#     model = Job
+#     template = app + "product_details.html"
 
-    def get(self, request, p_id):
-        user = request.user
-        cart_obj = Cart.objects.filter(jobs__id=p_id)
-        category_obj = Category.objects.all()
-        job_obj = self.model.objects.get(id=p_id)
-        # episodes = Episode.objects.filter(job=job_obj).order_by("e_id")
+#     def get(self, request, p_id):
+#         user = request.user
+#         cart_obj = Cart.objects.filter(jobs__id=p_id)
+#         category_obj = Category.objects.all()
+#         job_obj = self.model.objects.get(id=p_id)
+#         # episodes = Episode.objects.filter(job=job_obj).order_by("e_id")
       
-        return render(request, self.template, locals())
+#         return render(request, self.template, locals())
 
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from app_common.models import Job, Application
+from admin_dashboard.manage_product.forms import ApplicationForm
+
+def job_list(request):
+    jobs = Job.objects.all()
+    return render(request, 'jobs/job_list.html', {'jobs': jobs})
+
+def job_detail(request, pk):
+    job = get_object_or_404(Job, pk=pk)
+    return render(request, 'jobs/job_detail.html', {'job': job})
+
+@login_required
+def apply_for_job(request, pk):
+    job = get_object_or_404(Job, pk=pk)
+    if request.method == 'POST':
+        form = ApplicationForm(request.POST, request.FILES)
+        if form.is_valid():
+            application = form.save(commit=False)
+            application.job = job
+            application.user = request.user
+            application.save()
+            return redirect('job_list')
+    else:
+        form = ApplicationForm()
+    return render(request, 'jobs/apply_for_job.html', {'form': form, 'job': job})
 
 # class ShowCart(View):
 #     def get(self, request):
@@ -499,7 +526,6 @@ class JobDetailsView(View):
 #         for address in user_address:
 #             selected_address = address
 #             break
-            
 #         try:
 #             subs_qset = UserSubscription.objects.filter(user=user, plan=plan_obj).count()
 #             if subs_qset > 0:

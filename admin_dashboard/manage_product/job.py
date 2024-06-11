@@ -63,6 +63,42 @@ class JobList(View):
 
 
 @method_decorator(utils.super_admin_only, name='dispatch')
+class ApplicationList(View):
+    model = common_model.Application
+    template = app + "job_list.html"
+
+    def get(self,request):
+        application_list = self.model.objects.all().order_by('-id')
+        
+        paginated_data = utils.paginate(
+            request, application_list, 50
+        )
+        context = {
+            "application_list":application_list,
+            "data_list":paginated_data
+        }
+        return render(request, self.template, context)
+    
+
+
+class ApplicationList(View):
+    model = common_model.Application
+    template = app + "job_list.html"
+
+    def get(self,request):
+        application_list = self.model.objects.all().order_by('-id')
+        
+        paginated_data = utils.paginate(
+            request, application_list, 50
+        )
+        context = {
+            "application_list":application_list,
+            "data_list":paginated_data
+        }
+        return render(request, self.template, context)
+
+
+@method_decorator(utils.super_admin_only, name='dispatch')
 class JobSearch(View):
     model = common_model.Job
     form_class = forms.CatagoryEntryForm

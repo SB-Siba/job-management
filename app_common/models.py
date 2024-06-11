@@ -134,11 +134,12 @@ class Job(models.Model):
         ("no","no")
     )
     uid=models.CharField(max_length=255, null=True, blank=True)
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    requirements = models.TextField()
-    location = models.CharField(max_length=100)
-    posted_at = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=255, null=True, blank=True, unique=True)
+    catagory = models.ForeignKey(Catagory, on_delete=models.SET_NULL, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    requirements = models.TextField(blank=True, null=True)
+    location = models.CharField(max_length=100, null=True, blank=True, unique=True)
+    posted_at = models.DateField(default=timezone.now)
 
     def save(self, *args, **kwargs):
         if not self.uid:
@@ -156,6 +157,13 @@ class Application(models.Model):
     cover_letter = models.TextField()
     applied_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, default='Pending')
+
+    def save(self, *args, **kwargs):
+        if not self.uid:
+            self.uid = utils.get_rand_number(5)
+        
+        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return f'{self.user.username} - {self.job.title}'
