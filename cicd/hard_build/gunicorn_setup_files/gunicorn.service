@@ -1,0 +1,17 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/var/lib/jenkins/workspace/hvproject
+ExecStart=/var/lib/jenkins/workspace/hvproject/env/bin/gunicorn \
+          --access-logfile - \
+          --workers 3 \
+          --bind unix:/run/gunicorn.sock \
+          hvp_project.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

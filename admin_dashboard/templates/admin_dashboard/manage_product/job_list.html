@@ -1,0 +1,202 @@
+{% extends 'admin_dashboard/starter.html' %}
+{% load static %}
+{% block content %}
+
+<center>
+    {% include 'snippets/alert.html' %}
+</center>
+<header>
+    <div class="container-fluid">
+        <div class="border-bottom pt-6">
+            <div class="row align-items-center">
+                <div class="col-sm col-12">
+                    <h1 class="h2 ls-tight">JOB List</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="py-6 bg-surface-secondary">
+
+
+    <div class="container-fluid">
+        <div class="vstack gap-4">
+            <div class="d-flex justify-content-between flex-column flex-sm-row gap-3">
+                <form action="{% url 'admin_dashboard:job_search' %}" method="post">
+                    {% csrf_token %}
+                    <div class="hstack gap-2">
+
+                        <select style="width: 6rem;" name="filter_by" class="form-select"
+                            aria-label="Default select example">
+                            <option selected value="uid">id</option>
+                            <option value="name">Name</option>
+                        </select>
+
+                        <input type="text" name="query" placeholder="Serch Here" class="form-control" required />
+
+                        <button type="submit" class="btn btn-sm btn-neutral">
+                            <i class="fa-solid fa-magnifying-glass fa-beat-fade" style="color: #8c00ff;"></i>
+                        </button>
+
+                    </div>
+                </form>
+                <div class="btn-group">
+                    <button data-bs-toggle="modal" data-bs-target="#select_filter" class="btn btn-sm btn-neutral">
+                        <i class="fa-solid fa-filter fa-shake" style="color: #098cf1;"></i>
+                    </button>
+                    <a href="{% url 'admin_dashboard:job_add' %}" class="btn btn-sm btn-neutral">
+                        <i class="bi bi-plus">Create New Job</i>
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-hover table-nowrap">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">JOB ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            <tbody id="test_table_tbody">
+                                {% for job in job_list %}
+                                <tr {% if job.stock <= 10 %} style="background: #f6a4a4;" {% endif %}>
+                                    <td>
+                                        <a class="text-heading text-primary-hover font-semibold"
+                                            href="{% url 'admin_dashboard:job_update' job.id %}">
+                                            {{job.id}}
+                                        </a>
+                                    </td>
+                                    <td>{{job.title}}</td>
+                                    <td>{{job.category}}</td>
+                                    <!-- <td>{{job.book_discount_price}}</td> -->
+                                    <td>
+                                        <a href="{% url 'admin_dashboard:job_update' job.id %}"
+                                            class="btn btn-sm btn-square btn-neutral">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a onclick="delete_job(this)" p_name="{{job.name}}" p_uid="{{job.id}}">
+                                            <button type="button"
+                                                class="btn btn-sm btn-square btn-neutral text-danger-hover">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </a>
+    
+                                    </td>
+                                </tr>
+                                {% endfor %}
+    
+                            </tbody>
+                        </form>
+
+                    </table>
+
+                </div>
+                <div class="card-footer">
+                    {% include 'snippets/pagination.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<!-- Product delete modal -->
+
+<div class="modal fade" id="job_delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="job_delete_name">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a id="confirm_delete_btn" href="">
+                    <button type="button" class="btn btn-primary">Confirm Delete</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- test create modal -->
+<div class="modal fade" id="select_filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Filter job</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div style="display:flex;" class="job_filter">
+                    <a href="{% url 'admin_dashboard:job_filter' %}?filter_by=trending">Trending</a>
+                    <a href="{% url 'admin_dashboard:job_filter' %}?filter_by=show_as_new">New jobs</a>
+                    <a href="{% url 'admin_dashboard:job_filter' %}?filter_by=display_as_bestseller">Best-Seller</a>
+                    <a href="{% url 'admin_dashboard:job_filter' %}?filter_by=hide">Hidden</a>
+                    <a href="{% url 'admin_dashboard:job_filter' %}?filter_by=all">All</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="create_catagory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">{{field.label}}:</label>
+              {{field}}
+            </div>
+            {% endfor %}
+
+            <center>
+                <button class="btn btn-primary" type="submit"> Add User </button>
+            </center>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    function delete_job(element){
+        var job_name = element.getAttribute('p_name');
+        var job_uid = element.getAttribute('p_uid');
+        
+        var target = document.getElementById('job_delete_name');
+        target.innerHTML = "<p>job Name : <b>"+job_name+"</b> ("+job_uid+")</p>";
+
+        var delete_url = '/admin_dashboard/job/job_delete/'+job_uid+'';
+        document.getElementById('confirm_delete_btn').setAttribute('href', delete_url);
+
+        var myModal = new bootstrap.Modal(document.getElementById('job_delete')); //modal id
+        myModal.show(); //to open a modal
+    }
+</script>
+{% endblock js %}

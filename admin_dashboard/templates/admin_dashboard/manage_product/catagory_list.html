@@ -1,0 +1,116 @@
+{% extends 'admin_dashboard/starter.html' %}
+{% load static %}
+{% block content %}
+
+<center>
+    {% include 'snippets/alert.html' %}
+</center>
+<header>
+    <div class="container-fluid">
+        <div class="border-bottom pt-6">
+            <div class="row align-items-center">
+                <div class="col-sm col-12">
+                    <h1 class="h2 ls-tight">Catagory List</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="py-6 bg-surface-secondary">
+    
+    
+    <div class="container-fluid">
+        <div class="vstack gap-4">
+            <div class="d-flex justify-content-between flex-column flex-sm-row gap-3">
+                <div class="hstack gap-2">
+                    <div class="input-group input-group-sm input-group-inline">
+
+                    </div>
+
+                </div>
+                <div class="btn-group">
+                    <a data-bs-toggle="modal" data-bs-target="#create_catagory" class="btn btn-sm btn-neutral">
+                        <i class="bi bi-plus">Create New Catagory</i>
+                     </a>
+
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-hover table-nowrap">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Title</th>
+                                <!-- <th scope="col">Description</th> -->
+                                <th scope="col">Product Count</th>
+                                <th scope="col">Action</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="test_table_tbody">
+                            {% for catagory,count in catagory_product_count_zip %}
+                                <tr>
+                                    <td>
+                                        <a class="text-heading text-primary-hover font-semibold" href="#">{{catagory.title}}</a>
+                                    </td>
+                                    <!-- <td>{{catagory.description|truncatewords:10}}</td> -->
+                                    
+                                    <td>{{count}}</td>
+                                    
+                                    <td >
+                                        <a href="{% url 'admin_dashboard:catagory_update' catagory.id %}" class="btn btn-sm btn-square btn-neutral">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                       <a href="{% url 'admin_dashboard:catagory_delete' catagory.id %}">
+                                            <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                       </a>
+                                        
+                                    </td>
+                                </tr> 
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer border-0 py-5">
+                </div>
+            </div>
+        </div>
+    </div>
+</main> 
+
+
+<!-- test create modal -->
+<div class="modal fade" id="create_catagory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Catagory</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">{{field.label}}:</label>
+              {{field}}
+            </div>
+            {% endfor %}
+
+            <center>
+                <button class="btn btn-primary" type="submit"> Create Catagory </button>
+            </center>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+ -->
