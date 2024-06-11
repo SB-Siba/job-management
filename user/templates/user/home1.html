@@ -5,7 +5,13 @@ Home Page
 {% endblock title %}
 {% block main_content %}
 <style>
-
+    .small-card {
+        width: 250px; /* Adjust the width as needed */
+    }
+    .small-card-img {
+        height: 100px; /* Adjust the height as needed */
+        object-fit: cover;
+    }
 </style>    
     <div class="container">
         <div class="row">
@@ -18,12 +24,12 @@ Home Page
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5  style="color:#6f827d" >Welcome to Pravati International Services Private Limited</h5>
                                     
-                                    <p style="color:#d43520">Provide emergency medical care,
+                                    <p style="color:#d43520"> <b>Provide emergency medical care,
                                         stabilize patients, and transport them
                                         to medical facilities. They respond to
                                         emergency calls, perform CPR,
                                         administer oxygen, and use
-                                        defibrillators.</p>
+                                        defibrillators.</b></p>
                                 </div>
                                 <a href="javascript:void()" id="quickbooks-widget" class="btn-quick-book-popup">Book Appointment</a>
                             </div>
@@ -97,12 +103,13 @@ Home Page
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
-                    </div>
+                        
+                 <!--   </div>
                     <h3 class="text-black">WELCOME TO PRAVATI INTERNATIONAL</h3>
                     <h3 class="text-black">SERVICES PRIVATE LIMITED</h3>
             
                     <!-- <a href="#section_2" class="btn custom-btn smoothscroll mt-3">Click Here</a> -->
-                </div>
+                </div> 
             
                 {% for book in audioBookss %}
                 <div class="owl-carousel-info-wrap item">
@@ -135,7 +142,179 @@ Home Page
         </div>
     </div>
 </section>
+<!-- About us Start-->
+<section class="py-3 py-md-5">
+    <div class="container">
+        <div class="row gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
+            <div class="col-12 col-lg-6 col-xl-5 d-flex justify-content-center">
+                <img class="img-fluid rounded" loading="lazy" src="{% static 'images/d3.jpg' %}" alt="About 1" style="width: 400px">
+              </div>
+              <div class="col-12 col-lg-6 col-xl-7">
+                <div class="row justify-content-xl-center">
+                  <div class="col-12 col-xl-11">
+                    <h3 class="mb-3 text-center">ABOUT US</h3>
+                    <p class="lead fs-5 text-secondary mb-3"><b>Pravati International Service Private Limited is a leading provider of manpower outsourcing services, catering to a diverse
+                        range of sectors including reputed hospitals, hotels, schools, government offices, NGOs, and manufacturing  companies. Our extensive experience and
+                         commitment to excellence make us a  trusted partner for organizations seeking
+                        to enhance their operational efficiency and focus on their core activities </b></p>
+                    </div>
+                    </div>
+                    </div>
+        </div >
+    </div>
+</section>
+<!-- About us End-->
 
+ <!-- Service Start-->
+ <div class="container mt-4">
+    <h2 class="text-center mb-4">Our Services</h2>
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/s1.jpg' %}" alt="Service Image 1">
+                <div class="card-body">
+                    <h6 class="card-title">All Paramedical Staff
+                    </h6>
+                    <p class="card-text">Highly trained paramedical staff delivering top-notch care, ensuring patient safety and comfort at all times.</p>
+                   
+                        <a href="#" class="btn btn-primary">More Details</a>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/m1.jpg' %}" alt="Service Image 2">
+                <div class="card-body">
+                    <h6 class="card-title">Housekeeping & Security</h6>
+                    <p class="card-text">Ensuring cleanliness and safety with professional housekeeping and reliable security services for all environments.</p>
+                   
+                        <a href="#" class="btn btn-primary">More Details</a>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/m2.jpg' %}" alt="Service Image 3">
+                <div class="card-body">
+                    <h6 class="card-title">BedSide Patient Attendant
+                    </h6>
+                    <p class="card-text">Providing compassionate care and support, ensuring patient comfort and well-being with professional bedside assistance.</p>
+                        
+                    <a href="#" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="..." alt="Service Image 4">
+                <div class="card-body">
+                    <h5 class="card-title">Service 4</h5>
+                    <p class="card-text">Description of the fourth service.</p>
+                    <a href="#" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/s1.jpg' %}" alt="Service Image 2">
+                <div class="card-body">
+                    <h5 class="card-title">Housekeeping & Security</h5>
+                    <p class="card-text">Description of the second service.</p>
+                    <div class="mt-auto d-flex justify-content-center">
+                        <a href="#" class="btn btn-primary">More Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/s1.jpg' %}" alt="Service Image 2">
+                <div class="card-body">
+                    <h5 class="card-title">Housekeeping & Security</h5>
+                    <p class="card-text">Description of the second service.</p>
+                    <div class="mt-auto d-flex justify-content-center">
+                        <a href="#" class="btn btn-primary">More Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/s1.jpg' %}" alt="Service Image 2">
+                <div class="card-body">
+                    <h5 class="card-title">Housekeeping & Security</h5>
+                    <p class="card-text">Description of the second service.</p>
+                    <div class="mt-auto d-flex justify-content-center">
+                        <a href="#" class="btn btn-primary">More Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Industries We Serve</h2>
+    <div class="row">
+        <div class="col-6 col-md-4 col-lg-2 mb-4">
+            <div class="card small-card">
+                <img class="card-img-top small-card-img" src="{% static 'images/m2.jpg' %}" alt="Healthcare Industry">
+                <div class="card-body">
+                    <h5 class="card-title">Hospital</h5>
+                    <p class="card-text">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-16 col-md-4 col-lg-2 mb-4">
+            <div class="card small-card">
+                <img class="card-img-top small-card-img" src="{% static 'images/m2.jpg' %}" alt="Healthcare Industry">
+                <div class="card-body">
+                    <h5 class="card-title">Hospital</h5>
+                    <p class="card-text">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 mb-4">
+            <div class="card small-card">
+                <img class="card-img-top small-card-img" src="{% static 'images/m2.jpg' %}" alt="Healthcare Industry">
+                <div class="card-body">
+                    <h5 class="card-title">Hospital</h5>
+                    <p class="card-text">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 mb-4">
+            <div class="card small-card">
+                <img class="card-img-top small-card-img" src="{% static 'images/m2.jpg' %}" alt="Healthcare Industry">
+                <div class="card-body">
+                    <h5 class="card-title">Hospital</h5>
+                    <p class="card-text">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 mb-4">
+            <div class="card small-card">
+                <img class="card-img-top small-card-img" src="{% static 'images/m2.jpg' %}" alt="Healthcare Industry">
+                <div class="card-body">
+                    <h5 class="card-title">Hospital</h5>
+                    <p class="card-text">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 mb-4">
+            <div class="card small-card">
+                <img class="card-img-top small-card-img" src="{% static 'images/m2.jpg' %}" alt="Healthcare Industry">
+                <div class="card-body">
+                    <h5 class="card-title">Hospital</h5>
+                    <p class="card-text">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <!-- Service End-->
 
 <section class="latest-podcast-section section-padding pb-0" id="section_2">
     <div class="container">
