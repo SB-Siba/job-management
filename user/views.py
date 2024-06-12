@@ -38,18 +38,10 @@ class HomeView(View):
         if not user.is_authenticated:
 
             return render(request, self.un_template, locals())
-            
-        
-       
-        
 
         return render(request, self.template, locals())
 
-# class UserDashboard(View):
-#     template = app + "landingpage.html"
 
-#     def get(self, request):
-#         return render(request, self.template)
 class ProfileView(View):
     template = app + "userprofile.html"
 
