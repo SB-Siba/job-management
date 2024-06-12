@@ -113,16 +113,7 @@ class ClientRegistration(View):
                 messages.error(request, "User already exists.")
         return render(request, self.template, {'form': form})
 
-    # def resume(request):  
-    #     if request.method == 'POST':  
-    #         student = StudentForm(request.POST, request.FILES)  
-    #         if student.is_valid():  
-    #             handle_uploaded_file(request.FILES['file'])  
-    #             return HttpResponse("Resume uploaded successfuly")  
-    #     else:  
-    #         student = StudentForm()  
-    #         return render(request,"authtemp/registration.html",{'form':student})
-            
+        
 class Login(View):
     model=models.User
     template = app + "authtemp/login.html"

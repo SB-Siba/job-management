@@ -72,19 +72,3 @@ def login_required(function):
       return redirect('app_common:login')
   return wrap
 
-# '''
-# for permission only
-# '''
-
-# def has_permission(permission_name):
-#   def _method_wrapper(function):
-#     def _arguments_wrapper(request, *args, **kwargs):
-#       if permission_name not in access_list :
-#         return HttpResponse('Enter An valid access name.')
-#       user=request.user
-#       if user.is_superuser or user.is_org_admin or permission_name in user.access:
-#         return function(request, *args, **kwargs)
-#       else:
-#         return HttpResponse('Permission denied!!' )
-#     return _arguments_wrapper
-#   return _method_wrapper

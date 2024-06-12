@@ -114,29 +114,4 @@ def Edit_User(request,user_id):
 #             form = EditUserForm(request.POST)
 #             user = User.objects.get(admin = user_id)
 #             return render(request,"users/edit_user.html",{'form':form,'id':user_id,'username':user.admin.email})
-# @method_decorator(utils.super_admin_only, name='dispatch')
-# class JobAdd(View):
-#     model = common_model.Job
-#     form_class = forms.JobForm
-#     template = app + "job_add.html"
 
-#     def get(self,request):
-#         job_list = self.model.objects.all().order_by('-id')
-#         context = {
-#             "job_list" : job_list,
-#             "form": self.form_class,
-#         }
-#         return render(request, self.template, context)
-    
-#     def post(self, request):
-
-#         form = self.form_class(request.POST, request.FILES)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, f"job is added successfully.....")
-#         else:
-#             for field, errors in form.errors.items():
-#                 for error in errors:
-#                     messages.error(request, f'{field}: {error}')
-
-#         return redirect("admin_dashboard:job_list")
