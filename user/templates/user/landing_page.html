@@ -93,6 +93,7 @@ https://templatemo.com/tm-584-pod-talk
 
 
                         <li class="nav-item dropdown hhh">
+<<<<<<< HEAD
                             <a class="nav-link dropdown-toggle" href="#"id="navbarLightDropdownMenuLink1" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">{{ request.user.full_name }}</a>
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink1">
@@ -105,6 +106,16 @@ https://templatemo.com/tm-584-pod-talk
                                             href="{% url 'user:logout' %}"
                                             class="form-control btn btn-link text-decoration-none text-black">Logout</a></button>
                                 </li>
+=======
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">not logged-in</a>
+
+                            <ul class="dropdown-menu dropdown-menu-light"
+                                aria-labelledby="navbarLightDropdownMenuLink1">
+                                <li><a class="dropdown-item" href="{% url 'user:login' %}">login</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:signup' %}">signup</a></li>
+
+>>>>>>> 262021ef29f606a3c544f418995370c7830f7f1a
                             </ul>
                         </li>
 
