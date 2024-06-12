@@ -31,49 +31,25 @@ app = "user/"
 
 
 class HomeView(View):
-    template = app + "home1.html"
-
+    template = app + "landing_page.html"
+    un_template = app + "home1.html"
     def get(self, request):
-        return render(request, self.template, locals())
+        user = request.user
+        if not user.is_authenticated:
+
+            return render(request, self.un_template, locals())
             
         
-        user = request.user
-        category_obj = Category.objects.all()
-        recent_jobs = Job.objects.all().order_by("-id")[:2]
-        jobss = Job.objects.all()
-        trending_books = JOB.objects.filter(trending = "yes")[:4]
-        t_books = []
-        e_count = []
-        for i in trending_books:
-            t_books.append(i)
-            e_count.append(Episode.objects.filter(job=i).count())
-        booksandepisode = zip(t_books,e_count)
-        try:
-            user_subscription = get_object_or_404(UserSubscription, user=request.user)
-            if user_subscription.days_left() <= 0:
-                user_subscription.delete()
-        except Exception:
-            user_subscription = None
-
-
-        categories = Category.objects.all()
-        products_category_wise = {}
-        for category in categories:
-            x = []
-            product_for_this_category = JOB.objects.filter(category = category)
-            x.append(product_for_this_category)
-            products_category_wise.update({category.title.replace(" ",""):x})
-        category_list = []
-        products_list = []
-        for i,j in products_category_wise.items():
-            category_list.append(i)
-            products_list.extend(j)
        
-        category_and_products_zip = zip(category_list,products_list)
+        
 
         return render(request, self.template, locals())
 
+# class UserDashboard(View):
+#     template = app + "landingpage.html"
 
+#     def get(self, request):
+#         return render(request, self.template)
 class ProfileView(View):
     template = app + "userprofile.html"
 
@@ -110,7 +86,7 @@ class UpdateProfileView(View):
             "email": userobj.email,
             "full_name": userobj.full_name,
             "contact": userobj.contact,
-            "bio": profileObj.bio,
+            "skills": profileObj.bio,
             "profile_pic": profileObj.profile_pic,
             "Resume": profileObj.resume,
         }

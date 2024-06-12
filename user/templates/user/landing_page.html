@@ -62,16 +62,16 @@ https://templatemo.com/tm-584-pod-talk
             <div class="container">
                 <a class="navbar-brand me-lg-5 me-0" href="{% url 'user:home' %}">
                     <!-- {% static 'shopingsite/pod-talk-logo.png' %} -->
-                    <img src="{% static 'images/audio_logo.png' %}" class="logo-image img-fluid"
+                    <img style="width:100px ; height:100px" src="{% static 'app_common/img/logos/admin_logo.png'%}" class="logo-image img-fluid"
                         alt="templatemo pod talk">
                 </a>
 
-                <form action="{% url 'user:searchproduct' %}" method="post"
+                <form action="" method="post"
                     class="custom-form search-form flex-fill me-3" role="search">
                     {% csrf_token %}
                     <div class="input-group input-group-lg">
                         <input name="search-box" type="search" class="form-control" id="search"
-                            placeholder="Search Books" aria-label="Search">
+                            placeholder="Search Jobs" aria-label="Search">
 
                         <button type="submit" class="form-control" id="submit">
                             <i class="fa fa-search" aria-hidden="true"></i>
@@ -93,14 +93,18 @@ https://templatemo.com/tm-584-pod-talk
 
 
                         <li class="nav-item dropdown hhh">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">not logged-in</a>
-
-                            <ul class="dropdown-menu dropdown-menu-light"
-                                aria-labelledby="navbarLightDropdownMenuLink1">
-                                <li><a class="dropdown-item" href="{% url 'user:login' %}">login</a></li>
-                                <li><a class="dropdown-item" href="{% url 'user--*:signup' %}">signup</a></li>
-
+                            <a class="nav-link dropdown-toggle" href="#"id="navbarLightDropdownMenuLink1" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">{{ request.user.full_name }}</a>
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink1">
+                                <li><a class="dropdown-item" href="{% url 'user:profile' %}">Account Details</a></li>
+                                
+                                <li><a class="dropdown-item" href="">Applied Job</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:passwordchange' %}">Change Password</a></li>
+                                <li>
+                                    <button class="form-control btn btn-link text-decoration-none text-black"><a
+                                            href="{% url 'user:logout' %}"
+                                            class="form-control btn btn-link text-decoration-none text-black">Logout</a></button>
+                                </li>
                             </ul>
                         </li>
 
@@ -109,73 +113,20 @@ https://templatemo.com/tm-584-pod-talk
             </div>
         </nav>
     </main>
+<section>
+    <H3>Welcome to UserDashboard</H3>
+</section>
 
-    <section id="secondpage-1">
-        <article class="black-1">
-            <div id="box1-1">
+<section>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita reprehenderit, exercitationem corporis quisquam placeat accusamus est nihil quis ea quia enim quod assumenda itaque ad magnam laborum natus facere molestias!</p>
+</section>
 
-                <h1> Get your imagination going</h1>
 
-                Lorem ipsum dolor sit amet,<br> consectetursaepe, ipsa molestiae nesciunt
-                Lorem, ipsum doit ipsa fuga iste dolor,<br> eligendi quia maxime doloribus, <br>expedita molestias
-                provident exercitationem accusamus voluptate ex magni dolores ipsum. Alias, beatae magnam.
-
-            </div>
-            <div id="box2-1">
-
-                <div class="bdcyugu">
-                    <img src="{% static 'images/img-1.jpg' %}" alt="">
-                </div>
-
-            </div>
-        </article>
-    </section>
-
+    
     <!-- end banner -->
 
     <!-- start home page-1 -->
-    <section id="secondpage">
-        <article class="black">
-
-            <div id="box2">
-                <div id="carouselExampleControlsNoTouching" class="carousel slide" data-bs-touch="false">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="{% static 'images/best-audiobook-1.jpg' %}" class="d-block w-100" alt="...">
-                        </div>
-                        <div class="carousel-item">
-                            <img src=".{% static 'images/audio-books-2.jpg' %}" class="d-block w-100" alt="...">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="{% static 'images/audio-book-3.webp' %}" class="d-block w-100" alt="...">
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button"
-                        data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button"
-                        data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-            </div>
-
-            <div id="box1">
-
-                <h1>Lorem ipsum dolor sit amet
-                </h1>
-                Lorem ipsum dolor sit ametiquam omnis magnam,<br> soluta non nesciunt autem vero facilis voluptatum
-                voluptates id recusandae?
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non sequi adipisci, nihil iure eligendi ut
-                quas tenetur.
-
-            </div>
-
-        </article>
-    </section>
+    
 
     <!-- end home page-1 -->
     <!-- <section class="topics-section section-padding pb-0">
@@ -206,142 +157,18 @@ https://templatemo.com/tm-584-pod-talk
 
     </section> -->
 
-    <div class="qqq">
-        <div class="www">
-            <h1>We've got what everyone's listening to</h1>
-        </div>
-        <div class="eee">
-            <p>Best sellers. New releases. That story you've been waiting for.</p>
-        </div>
-    </div>
-
-    <div class="rrr">
-
-        <div id="carouselExampleFade" class="carousel slide carousel-fade">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="{% static 'images/b4.jpeg' %}" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="{% static 'images/b2.jpg' %}" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="{% static 'images/b3.jpeg' %}" class="d-block w-100" alt="...">
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-
-    </div>
+ 
 
 
     <!-- start home page-2 -->
 
-    <section class="page-2">
-        <nav>
-            <h1> Members get even more</h1>
-        </nav>
-        <article>
-            <div id="con">
-                <div class="a e">
-                    <nav class="aa">
-                        <div class="ppp">
-                            <img src="{% static 'images/bar_chart_FILL0_wght400_GRAD0_opsz24.svg' %}" alt=""
-                                class="pic">
-                        </div>
-                    </nav>
-                    <nav id="uu">
-                        <h6>Pick 1 audiobook a month</h6>
-                    </nav>
-                    <nav id="kk">
-                        <p>Choose any title you want from <br>our unmatched collection - including bestsellers and new
-                            releases. This is yours to keep.</p>
-                    </nav>
-                </div>
-                <div class="a e">
-                    <nav class="aa">
-                        <img src="{% static 'images/add_circle_FILL0_wght400_GRAD0_opsz24 (1).svg' %}" alt=""
-                            class="pic">
-                    </nav>
-                    <nav id="uu">
-                        <h6>Thousands of included titles</h6>
-                    </nav>
-                    <nav id="kk">
-                        <p>Listen all you want to thousands of <br>included audiobooks and Originals with celebs you
-                            love and emerging talent.</p>
-                    </nav>
-                </div>
-
-                <div class="a e">
-                    <nav class="aa">
-                        <img src="{% static 'images/shoppingmode_FILL0_wght400_GRAD0_opsz24.svg' %}" alt="" class="pic">
-                    </nav>
-                    <nav id="uu">
-                        <h6>Deals & discounts</h6>
-                    </nav>
-                    <nav id="kk">
-                        <p>Get in on exclusive sales and deals, <br>and use your special member discount on any title,
-                            anytime..</p>
-                    </nav>
-                </div>
-            </div>
-
-        </article>
-    </section>
-
+ 
     <!-- end home page-2 -->
 
 
 
     <!-- end home page-3 -->
-    <section class="mnbvcc">
-        <div class="lpo">
-            <h1>Frequently Asked Questions</h1>
-        </div>
-        <div class="faq-container">
-            <div class="faq-item">
-                <h6 class="question">How does the free trial work?</h6>
-                <div class="answer">Audible is a membership service that provides customers with a huge selection of
-                    audiobooks as well as podcasts, exclusive originals and more.
-
-                    If you're new to Audible, you can take free membership trial for 30 days. Your membership will
-                    automatically continue for ₹199/month after the first 30 days, and you can cancel anytime.
-
-                    Download the free Audible app to start listening on your iOS or Android device. You can also listen
-                    on any Alexa-enabled device.</div>
-            </div>
-            <div class="faq-item">
-                <h6 class="question">What is included with my Audible Premium Plus membership? </h6>
-                <div class="answer">As an Audible member, your subscription includes:
-
-                    1 credit a month to use on any title of your choice—yours to keep.
-                    Access to the Plus Catalogue—thousands of Audible Originals, audiobooks and podcasts, including
-                    exclusive series.
-                    In addition, you can get exclusive access to our member-only sales and deals.</div>
-            </div>
-            <!-- Add more FAQ items as needed -->
-            <div class="faq-item">
-                <h6 class="question">Are there additional benefits for for Amazon Prime members?</h6>
-                <div class="answer">Amazon Prime members can take a free 30-day trial and receive 2 credits that can be
-                    used on any 2 titles from of their choice. After the trial period, membership is ₹199/month for 1
-                    credit per month.</div>
-            </div>
-            <div class="faq-item">
-                <h6 class="question">What happens if I want to cancel?</h6>
-                <div class="answer">You can cancel your membership at anytime at no cost. Titles added to your Library
-                    with a credit are yours to keep, even if you cancel.</div>
-            </div>
-        </div>
-    </section>
+    
     <!-- page 4 -->
 
     <!-- end page 4 -->
@@ -353,23 +180,7 @@ https://templatemo.com/tm-584-pod-talk
                         alt="templatemo pod talk" style="height: 80px; width: 80px;">
                     <p class="text-black">Discover the Future <br> With CoolGadgets!</p>
                 </div>
-                <div class="col-md-3">
-                    <h3>Navigation</h3>
-                    <ul class="list-unstyled">
-                        <li><a href="/" class="text-decoration-none text-black">Home</a></li>
-                        <li><a href="products.html" class="text-decoration-none text-black">Products</a></li>
-                        <li><a href="#contact" class="text-decoration-none text-black">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h3>Useful Links</h3>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-decoration-none text-black">Coupons</a></li>
-                        <li><a href="#" class="text-decoration-none text-black">Blog Post</a></li>
-                        <li><a href="#" class="text-decoration-none text-black">Return Policy</a></li>
-                        <li><a href="#" class="text-decoration-none text-black">Join Affiliate</a></li>
-                    </ul>
-                </div>
+
                 <div class="col-md-3">
                     <h3>Follow Us</h3>
                     <ul class="list-unstyled">
@@ -386,83 +197,7 @@ https://templatemo.com/tm-584-pod-talk
     </footer>
 
 
-    <!-- JAVASCRIPT FILES -->
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            fetchProducts(""); // Fetch all products initially
     
-            document.querySelectorAll('.category-link').forEach(function (link) {
-                link.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    document.querySelectorAll('.category-link').forEach(function (link) {
-                        link.classList.remove('active');
-                    });
-                    // Add 'active' class to the clicked link
-                    this.classList.add('active');
-                    var category = this.getAttribute('data-category');
-                    fetchProducts(category); // Fetch products based on the selected category
-                    console.log(category)
-                });
-            });
-        });
-    
-        function fetchProducts(category) {
-            var url = "/filter-books/?category=" + encodeURIComponent(category);
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-    
-                    var productList = document.getElementById('productList');
-                    productList.innerHTML = '';
-                    if (data.length === 0) {
-                        productList.innerHTML = '<div class="d-flex justify-content-center fw-bold">No products available</div>';
-                    } else {
-                        data.forEach(product => {
-                            var productHTML = `
-                                <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
-                                    <div class="custom-block custom-block-overlay">
-                                        <a href="/productdetails/${product.id}" class="custom-block-image-wrap">
-                                            <img src="${product.image_url}" class="custom-block-image img-fluid" alt="">
-                                        </a>
-                                        <div class="custom-block-info custom-block-overlay-info">
-                                            <div class="mb-1"style="height: 50px;">
-                                                <a href="">
-                                                    ${product.name}
-                                                </a>
-                                            </div>
-                                            <div class="audio-container my-1 d-flex justify-content-center">
-                                                <audio id="audio-${product.id}" src="${product.audio_file_url}"></audio>
-                                                <a class="playpause-btn" onclick="togglePlayPause('audio-${product.id}',this)">
-                                                    <i class="social-icon-link fa fa-play"></i>
-                                                </a>
-                                            </div>
-                                            <div class="d-flex justify-content-between">
-                                                <p class="badge mb-0 bg-danger" style="text-decoration: line-through;">OldPrice: ${product.old_price}</p>
-                                                <p class="badge mb-0 bg-success">Price: ${product.price}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                            productList.innerHTML += productHTML;
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching products:', error);
-                });
-        }
-        function togglePlayPause(audioId, button) {
-            var audio = document.getElementById(audioId);
-            if (audio.paused) {
-                audio.play();
-                button.innerHTML = '<i class="social-icon-link fa fa-pause"></i>';
-            } else {
-                audio.pause();
-                button.innerHTML = '<i class="social-icon-link fa fa-play"></i>';
-            }
-        }
-    </script> -->
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
