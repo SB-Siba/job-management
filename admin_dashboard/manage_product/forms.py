@@ -15,34 +15,8 @@ class MaxFileSizeValidator:
             raise ValidationError(f"For performence purpose file-size should not exceed {self.max_size/1024} KB.")
 
 
-# # =================================================== manage coupon  =============================================
 
-# # class CouponEntryForm(forms.ModelForm):
-# #     class Meta:
-# #         model = common_models.Coupon
-# #         fields = [
-# #             'code',
-# #             'discount_type',
-# #             'discount_digit',
-# #             'quantity',
-# #             'active',
 
-# #         ]
-    
-# #     code = forms.CharField(max_length=255)
-# #     code.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
-
-# #     discount_type = forms.ChoiceField(choices= common_models.Coupon.DiscountType, initial="flat")
-# #     discount_type.widget.attrs.update({'class': 'form-control','type':'text','required':'required'})
-
-# #     discount_digit = forms.IntegerField()
-# #     discount_digit.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Amount or Percentage',"required":"required"})
-
-# #     quantity = forms.IntegerField()
-# #     quantity.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Coupon Quantity',"required":"required"})
-
-# #     active = forms.ChoiceField(choices= common_models.Coupon.YESNO, initial="yes")
-# #     active.widget.attrs.update({'class': 'form-control','type':'text'})
 
 # # =================================================== manage catagory  =============================================
 class CatagoryEntryForm(forms.ModelForm):
@@ -60,8 +34,7 @@ class CatagoryEntryForm(forms.ModelForm):
     description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
     description.widget.attrs.update({'class': 'form-control','type':'text'})
 
-    # company = forms.CharField(max_length=255)
-    # company.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
+
 
 
 class JobForm(forms.ModelForm):
@@ -100,8 +73,7 @@ class JobForm(forms.ModelForm):
     posted_at = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
 
-    # show_as_new = forms.ChoiceField(choices=common_models.Job.YESNO, initial= 'no')
-    # show_as_new.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
+   
 
 
 class ApplicationForm(forms.Form):

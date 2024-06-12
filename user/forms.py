@@ -57,39 +57,6 @@ class UpdateProfileForm(forms.Form):
     resume.widget.attrs.update({'class': 'form-control', 'type': 'file'})
     
 
-# from django import forms
-# from .models import Application
-
-
-
-# class OrderForm(forms.Form):
-#     full_name = forms.CharField(max_length=255)
-#     full_name.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Full Name',"required":"required"})
-
-#     phone_no = forms.IntegerField()
-#     phone_no.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Mobile Number',"required":"required"})
-
-#     email = forms.EmailField(max_length=255)
-#     email.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Email',"required":"required"})
-
-#     address = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"1"}))
-#     address.widget.attrs.update({'class': 'form-control','type':'text'})
-
-#     address2 = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"1"}))
-#     address2.widget.attrs.update({'class': 'form-control','type':'text'})
-
-#     country = forms.CharField(max_length=255)
-#     country.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
-
-#     state = forms.CharField(max_length=255)
-#     state.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
-
-#     city = forms.CharField(max_length=255)
-#     city.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
-    
-#     zipcode = forms.IntegerField()
-#     zipcode.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Pincode',"required":"required"})
-
 
 class ContactMessageForm(forms.Form):
 
@@ -105,22 +72,3 @@ class ContactMessageForm(forms.Form):
     )
 
 
-# class PartnerForm(forms.ModelForm):
-#     class Meta:
-#         model = common_models.BecomeAPartner
-#         fields = ['name', 'email', 'phone_number', 'company_name', 'website', 'industry', 'number_of_employees', 'partnership_interest', 'partnership_type', 'past_experience', 'additional_information']
-#         widgets = {
-#             'partnership_interest': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
-#             'past_experience': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
-#             'additional_information': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
-#             'name': forms.TextInput(attrs={'class': 'form-control'}),
-#             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-#             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
-#             'company_name': forms.TextInput(attrs={'class': 'form-control'}),
-#             'website': forms.URLInput(attrs={'class': 'form-control'}),
-#             'industry': forms.TextInput(attrs={'class': 'form-control'}),
-#             'number_of_employees': forms.NumberInput(attrs={'class': 'form-control'}),
-#             'partnership_type': forms.TextInput(attrs={'class': 'form-control'}),
-#         }
-
-#
