@@ -5,11 +5,38 @@
         <a class="nav-link active" href="{% url 'admin_dashboard:admin_dashboard' %}" role="button" aria-expanded="true" aria-controls="sidebar-projects">
           <i class="fa fa-dashboard"></i> Dashboard </a>
       </li>
+<<<<<<< HEAD
       <li class="nav-item">
         <a class="nav-link active" href="{% url 'admin_dashboard:userslist' %}" role="button" aria-expanded="true" aria-controls="sidebar-projects">
           <i class="fa fa-users"></i> Users List </a>
       </li>
     </ul>
+=======
+
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="#" data-bs-toggle="collapse" data-bs-target="#master" role="button" aria-expanded="true" aria-controls="master">
+            <i class="fa fa-briefcase"></i> User List
+          </a>
+          <div class="collapse" id="master">
+              <ul class="nav nav-sm flex-column">
+                  <!-- Category list -->
+                  <li class="nav-item">
+                      <a href="{% url 'admin_dashboard:catagory_list' %}" class="nav-link font-bold">Criteria List</a>
+                  </li>
+                  <!-- Product list -->
+                  <li class="nav-item">
+                      <a href="" class="nav-link font-bold">Product List</a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="{% url 'admin_dashboard:job_list' %}" class="nav-link font-bold">Job List</a>
+                  </li>
+              </ul>
+          </div>
+        </li>
+      
+     
+>>>>>>> 262021ef29f606a3c544f418995370c7830f7f1a
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link active" href="#" data-bs-toggle="collapse" data-bs-target="#master" role="button" aria-expanded="true" aria-controls="master">

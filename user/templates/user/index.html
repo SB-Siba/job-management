@@ -46,19 +46,37 @@ TemplateMo 584 Pod Talk
 https://templatemo.com/tm-584-pod-talk
 
 -->
+<style>
+.navbar-brand{
+    margin-left: 4rem;
+    margin-right: 8rem;
+}
+.navbar{
+    margin-top: -10px;
+}
+
+</style>
 </head>
 
 <body>
 
     <main>
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg p-0">
             <div class="container">
+<<<<<<< HEAD
                 <a class="navbar-brand me-lg-5 me-0" href="{% url 'user:home' %}">
-                    <p style="color: #000080; font-family: 'Poppins', sans-serif;   margin-left: 50px;"><b>PRABHATI INTERNATIONAL PVT.LTD.</b></p>
+                    <p style="color: #000080; font-family: 'Poppins', sans-serif;   margin-left: 50px;"><b>PRAVATI INTERNATIONAL PVT.LTD.</b></p>
                     <!-- {% static 'shopingsite/pod-talk-logo.png' %} -->
         <!--s      <img class="img-fluid rounded" loading="lazy" src="{% static 'images/d3.jpg' %}" alt="About 1">  -->
                 {% comment %} </a>
 
+=======
+                    <a class="navbar-brand align-baseline p-2" href="#" ><img
+                        style="width: 150px;" src="{% static 'app_common/img/logos/logo2.png'%}" alt="..."></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+>>>>>>> 262021ef29f606a3c544f418995370c7830f7f1a
                 <form action="" method="post"
                     class="custom-form search-form flex-fill me-3" role="search">
                     {% csrf_token %}
@@ -74,11 +92,9 @@ https://templatemo.com/tm-584-pod-talk
                 <!-- <div id="search-suggestions"></div> -->
                 <div id="search-suggestions" class="position-absolute bg-transparent border mx-auto" style="display: none;"></div>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav1"
-                    aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                
 
+<<<<<<< HEAD
                 <div class="collapse navbar-collapse" id="navbarNav1">
                     <ul class="navbar-nav ms-lg-auto text-black">
                         <li class="nav-item">
@@ -96,54 +112,53 @@ https://templatemo.com/tm-584-pod-talk
                             <a class="nav-link" href="">Sectors</a>
                            
                         </li>
-                        <!-- <li class="nav-item">
-                            <a class="nav-link" href="{% url 'user:signup' %}">Registation</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'user:login' %}">Login</a>
-<<<<<<< HEAD
-                        </li> -->
                         <li class="nav-item dropdown hhh">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">not logged-in</a>
-                                <ul class="dropdown-menu dropdown-menu-light"
+
+                            <ul class="dropdown-menu dropdown-menu-light"
                                 aria-labelledby="navbarLightDropdownMenuLink1">
                                 <li><a class="dropdown-item" href="{% url 'user:login' %}">login</a></li>
                                 <li><a class="dropdown-item" href="{% url 'user:signup' %}">signup</a></li>
 
                             </ul>
                         </li>
-                        <!-- <li class="nav-item dropdown hhh">
-=======
-                        </li> 
-                        {% comment %} <li class="nav-item dropdown hhh">
-                            <a class="nav-link dropdown-toggle" href="#"id="navbarLightDropdownMenuLink1" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">Click Here{{ request.user.full_name }}</a>
-                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink1">
-                                <li><a class="dropdown-item" href="{% url 'user:profile' %}">Reccount Details</a></li>
-                                
-                                <li><a class="dropdown-item" href="">Applied Job</a></li>
-                                 {% endcomment %}
-                        {% comment %} <li class="nav-item dropdown hhh">
->>>>>>> 387752ce7963519c1a9ed814c7520fcc557586e7
-                            <a class="nav-link dropdown-toggle" href="#"id="navbarLightDropdownMenuLink1" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">{{ request.user.full_name }}</a>
-                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink1">
-                                <li><a class="dropdown-item" href="{% url 'user:profile' %}">Account Details</a></li>
-                                
-                                <li><a class="dropdown-item" href="">Applied Job</a></li>
-                                <li><a class="dropdown-item" href="{% url 'user:passwordchange' %}">Change Password</a></li>
-                                <li>
-                                    <button class="form-control btn btn-link text-decoration-none text-black"><a
-                                            href="{% url 'user:logout' %}"
-                                            class="form-control btn btn-link text-decoration-none text-black">Logout</a></button>
-                                </li> {% endcomment %}
-                            </ul>
-                        </li> -->
-
                     </ul>
                 </div>
             </div>
+=======
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        
+                        <div class="collapse navbar-collapse" id="navbarNav1">
+                            <ul class="navbar-nav ms-lg-auto text-black">
+                                <li class="nav-item">
+                                    <a class="nav-link active" style="font-size: large;" href="{% url 'user:home' %}">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link"  style="font-size:large;" href="{% url 'user:about' %}">About Us</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" style="font-size: large;" href="{% url 'user:contactmessage' %}">Contact</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link"  style="font-size: large;" href="#">Sectors</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle"  style="font-size: large;" href="#" id="navbarLightDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Account Login
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarLightDropdownMenuLink1">
+                                        <li><a class="dropdown-item" href="{% url 'user:signup' %}">Registration</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'user:login' %}">Login</a></li>
+                                       
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+>>>>>>> 262021ef29f606a3c544f418995370c7830f7f1a
         </nav>
     </main>
     {% block main_content %}
@@ -188,7 +203,7 @@ https://templatemo.com/tm-584-pod-talk
                         <!-- Content -->
                         <h6 class="text-uppercase fw-bold mb-2">
                      <!--    <img src="{% static 'images/audio_logo.png' %}" class="logo-image img-fluid mb-2"  
-                        alt="templatemo pod talk" style="height: 50px; width: 50px;"> --><br>Prabhati International Pvt.Ltd.
+                        alt="templatemo pod talk" style="height: 50px; width: 50px;"> --><br>Pravati International Pvt.Ltd.
                         </h6>
                         <p class="text-black">
                             Always believe yourself

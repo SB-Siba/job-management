@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib import auth
 from django.conf import settings
 #import requests
-from .forms import SignUpForm,LoginForm
+from . forms import SignUpForm,LoginForm
 from django.contrib.auth import logout
 from helpers import privacy_t_and_c
 from app_common import models
@@ -120,16 +120,20 @@ class Login(View):
 
     def get(self,request):
         form = LoginForm()
+        print("hiii")
         return render(request, self.template, {'form': form})
     
     def post(self,request):
+        print("byyy")
         form = LoginForm(request.POST)
+        print(form)
         if form.is_valid():
+            print("hrbvhrwbrw")
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
             
             user=auth.authenticate(username=email, password=password)
-
+            print(user)
             if user is not None:      
                 auth.login(request,user) 
                 if user.is_superuser == True:
@@ -138,7 +142,7 @@ class Login(View):
                     return redirect('user:home')
             else:
                 messages.error(request, "Login Failed")
-
+        print("hhhh")
         return redirect('user:login')
 
 class Logout(View):

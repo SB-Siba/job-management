@@ -1,45 +1,106 @@
 {% extends 'app_common/authentication/master.html' %}
 {% load static %}
 {% block content %}
+<style>
+    .gradient-custom-3 {
+/* fallback for old browsers */
+background: #84fab0;
+
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5))
+}
+.gradient-custom-4 {
+/* fallback for old browsers */
+background: #84fab0;
+
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
+}
+.container{
+    padding: 60px;
+}
+.btn{
+    width: 200px;
+   
+}
+.btn-Register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.form-control {
+    width:25rem;
+    
+
+}
+.form-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.center-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            width: 100%;
+            max-width: 500px; /* Adjust the max-width as needed */
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        #RegisterHere{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+</style>
 
 <body>
-    <div>
-        <div class="px-5 py-5 p-lg-0 min-h-screen bg-surface-secondary d-flex flex-column justify-content-center">
-            <div class="d-flex justify-content-center">
-                <div class="col-12 col-md-9 col-lg-7 offset-lg-3 border-left-lg min-h-screen d-flex flex-column justify-content-center position-relative">
-                    <div class="py-lg-16 px-lg-20">
-                        <div class="row">
-                            <div class="col-lg-10 col-md-9 col-xl-6 mx-auto ms-xl-0">
-                                <div class="mt-10 mt-lg-5 mb-6 d-lg-block">
-                                    <h1 class="ls-tight font-bolder h2">Registation Here.</h1>
-                                </div>
-                                
-                                <form method="post" action="">
-                                    {% csrf_token %}
-                                    {% for field in form %}
-                                        <div class="col-md-12 col-12 col-sm-12 mb-2">
-                                            {{field.label}}
-                                            {{field}}
-                                        </div>
-                                    {% endfor %}
-                                    <div>
-                                        <button class="btn btn-primary w-full" type="submit">Sign Up</button>
-                                    </div>
-                                    <div class="form-group mt-2">
-                                        {% include 'snippets/alert.html' %}
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="position-lg-absolute bottom-0 end-0 my-8 mx-12 text-center text-lg-end">
-                        <small>Already have an account?</small>
-                        <a href="{% url 'user:login' %}" class="text-warning text-sm font-semibold">Log In</a>
-                    </div>
-                </div>
+    <section class="vh-60 bg-image"
+  style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+  
+  
+  <div class="center-form">
+    <div class="form-container">
+       
+        <form method="post" action="">
+            <div class="mt-10 mt-lg-5 mb-6 ms-5" id="RegisterHere">
+                <h1 class="ls-tight font-bolder h1">Register Here</h1>
             </div>
-        </div>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-2">
+                    {{field.label}}
+                    {{field}}
+                </div>
+            {% endfor %}
+            <div class="btn-Register mb-3">
+                <button class="btn btn-primary" type="submit">Register</button>
+            </div>
+            <div class="form-group mt-2">
+                {% include 'snippets/alert.html' %}
+            </div>
+
+            <div class="text-center text-lg-center">
+                <small>Already have an account?</small>
+                <a href="{% url 'user:login' %}" class="text-warning text-sm font-semibold">Log In</a>
+            </div>
+        </form>
     </div>
+</div>
+</section>
     <script src="{% static 'app_common/js/main.js'%}"></script>
    
 </body>
