@@ -9,6 +9,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+
+
     <title>{% block title %}{% endblock title %}</title>
 
     <!-- CSS FILES -->
@@ -30,321 +32,165 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-fPOxyf8a+pV/h5vN8yrRtSKfPe/DMAqz6Z5s5Pp63ZZhVkZf5VIJ2ZlC8kr7U5UZ"
         crossorigin="anonymous"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Sono:wght@200;300;400;500;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css' %}">
-    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/templatemo-pod-talk.css' %}">
-    <link rel="stylesheet" href="{% static 'css/pricing.css' %}">
+
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/static/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/static/css/templatemo-pod-talk.css">
+    <link rel="stylesheet" href="/static/css/pricing.css">
+    <link rel="stylesheet" href="/static/css/landing.css">
+
+
+
+
     <!--
-
+ 
 TemplateMo 584 Pod Talk
-
+ 
 https://templatemo.com/tm-584-pod-talk
-
+ 
 -->
-<style>
-.navbar-brand{
-    margin-left: 4rem;
-    margin-right: 8rem;
-}
-.navbar{
-    margin-top: -10px;
-}
 
-</style>
+
 </head>
 
 <body>
 
     <main>
-        <nav class="navbar navbar-expand-lg p-0">
+        <nav class="navbar navbar-expand-lg">
             <div class="container">
-<<<<<<< HEAD
-                <a class="navbar-brand me-lg-5 me-0" href="{% url 'user:home' %}">
-                    <p style="color: #000080; font-family: 'Poppins', sans-serif;   margin-left: 50px;"><b>PRAVATI INTERNATIONAL PVT.LTD.</b></p>
-                    <!-- {% static 'shopingsite/pod-talk-logo.png' %} -->
-        <!--s      <img class="img-fluid rounded" loading="lazy" src="{% static 'images/d3.jpg' %}" alt="About 1">  -->
-                {% comment %} </a>
+                <a class="navbar-brand me-lg-5 me-0" href="/">
+                    <!-- /static/shopingsite/pod-talk-logo.png -->
+                    <img style="width:100px ; height:100px" src="/static/app_common/img/logos/admin_logo.png" class="logo-image img-fluid"
+                        alt="templatemo pod talk">
+                </a>
 
-=======
-                    <a class="navbar-brand align-baseline p-2" href="#" ><img
-                        style="width: 150px;" src="{% static 'app_common/img/logos/logo2.png'%}" alt="..."></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
->>>>>>> 262021ef29f606a3c544f418995370c7830f7f1a
                 <form action="" method="post"
                     class="custom-form search-form flex-fill me-3" role="search">
-                    {% csrf_token %}
+                    <input type="hidden" name="csrfmiddlewaretoken" value="NyFM1DvE3sOH74NH0gqSiP60F79rAIDtTkvfjtNUK3iKgb5tTZpKR0YOI8I55jOt">
                     <div class="input-group input-group-lg">
                         <input name="search-box" type="search" class="form-control" id="search"
-                            placeholder="Find Your Services" aria-label="Search">
+                            placeholder="Search Jobs" aria-label="Search">
 
                         <button type="submit" class="form-control" id="submit">
                             <i class="fa fa-search" aria-hidden="true"></i>
                         </button>
                     </div>
-                </form> {% endcomment %}
-                <!-- <div id="search-suggestions"></div> -->
-                <div id="search-suggestions" class="position-absolute bg-transparent border mx-auto" style="display: none;"></div>
+                </form>
 
-                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-<<<<<<< HEAD
-                <div class="collapse navbar-collapse" id="navbarNav1">
+                <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-lg-auto text-black">
                         <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'user:home' %}">Home</a>
+                            <a class="nav-link active" href="/">Home</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'user:about' %}">About Us</a>
-                        </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'user:contactmessage' %}">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">Sectors</a>
-                           
-                        </li>
+
                         <li class="nav-item dropdown hhh">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">not logged-in</a>
-
-                            <ul class="dropdown-menu dropdown-menu-light"
-                                aria-labelledby="navbarLightDropdownMenuLink1">
-                                <li><a class="dropdown-item" href="{% url 'user:login' %}">login</a></li>
-                                <li><a class="dropdown-item" href="{% url 'user:signup' %}">signup</a></li>
-
+                            <a class="nav-link dropdown-toggle" href="#"id="navbarLightDropdownMenuLink1" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">{{ request.user.full_name }}</a>
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink1">
+                                <li><a class="dropdown-item" href="{% url 'user:profile' %}">Account Details</a></li>
+                                
+                                <li><a class="dropdown-item" href="">Applied Job</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:passwordchange' %}">Change Password</a></li>
+                                <li>
+                                    <button class="form-control btn btn-link text-decoration-none text-black"><a
+                                            href="{% url 'user:logout' %}"
+                                            class="form-control btn btn-link text-decoration-none text-black">Logout</a></button>
+                                </li>
                             </ul>
                         </li>
+
                     </ul>
                 </div>
             </div>
-=======
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <div class="container-fluid">
-                        
-                        <div class="collapse navbar-collapse" id="navbarNav1">
-                            <ul class="navbar-nav ms-lg-auto text-black">
-                                <li class="nav-item">
-                                    <a class="nav-link active" style="font-size: large;" href="{% url 'user:home' %}">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link"  style="font-size:large;" href="{% url 'user:about' %}">About Us</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" style="font-size: large;" href="{% url 'user:contactmessage' %}">Contact</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link"  style="font-size: large;" href="#">Sectors</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle"  style="font-size: large;" href="#" id="navbarLightDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Account Login
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarLightDropdownMenuLink1">
-                                        <li><a class="dropdown-item" href="{% url 'user:signup' %}">Registration</a></li>
-                                        <li><a class="dropdown-item" href="{% url 'user:login' %}">Login</a></li>
-                                       
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
->>>>>>> 262021ef29f606a3c544f418995370c7830f7f1a
         </nav>
     </main>
     {% block main_content %}
 
     {% endblock main_content %}
 
-    <footer class="site-footer mt-0 pt-0 mb-0 pb-0">
-        <!-- Section: Social media -->
-        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-            <!-- Left -->
-            <div class="me-5 d-none d-lg-block">
-                <span class="fw-bold">Get connected with us on social networks : </span>
-            </div>
-            <!-- Left -->
+    
+    <!-- end banner -->
 
-            <!-- Right -->
-            <div>
-                <a href="" class="me-4 text-reset">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="" class="me-4 text-reset">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="" class="me-4 text-reset">
-                    <i class="fab fa-google"></i>
-                </a>
-                <a href="" class="me-4 text-reset">
-                    <i class="fab fa-instagram"></i>
-                </a>
-            </div>
-            <!-- Right -->
-        </section>
-        <!-- Section: Social media -->
+    <!-- start home page-1 -->
+    
 
-        <!-- Section: Links  -->
-        <section class="">
-            <div class="container text-center text-md-start mt-5">
-                <!-- Grid row -->
-                <div class="row mt-3">
-                    <!-- Grid column -->
-                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                        <!-- Content -->
-                        <h6 class="text-uppercase fw-bold mb-2">
-                     <!--    <img src="{% static 'images/audio_logo.png' %}" class="logo-image img-fluid mb-2"  
-                        alt="templatemo pod talk" style="height: 50px; width: 50px;"> --><br>Pravati International Pvt.Ltd.
-                        </h6>
-                        <p class="text-black">
-                            Always believe yourself
-                        </p>
+    <!-- end home page-1 -->
+    <!-- <section class="topics-section section-padding pb-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-12">
+                    <div class="section-title-wrap mb-5">
+                        <h4 class="section-title">Category Wise Books</h4>
                     </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                        <!-- Links -->
-                        <h6 class="text-uppercase fw-bold mb-4">
-                           Our Services
-                        </h6>
-                        <ul class="custom-bullets">
-                        <p class="text-black">
-                            <li>      <a href="#!" class="text-reset">All Paramedical Staff</a>    </li> 
-                        </p>
-                        <p class="text-black">
-                            <li>    <a href="#!" class="text-reset">Housekeeping & Security</a> </li> 
-                        </p>
-                        <p class="text-black">
-                            <li>   <a href="#!" class="text-reset">BedSide Patient Attendant</a> </li> 
-                        </p>
-                        <p class="text-black">
-                            <li>  <a href="#!" class="text-reset">Home Nursing</a> </li> 
-                        </p>
-                        <p class="text-black">
-                            <li>   <a href="#!" class="text-reset">Data Entry, Font Office & Back Office</a> </li> 
-                        </p>
-                         <p class="text-black">
-                            <li>    <a href="#!" class="text-reset">ITI, Diploma, Degree Engineer</a> </li> 
-                        </p>
-                        <p class="text-black">
-                            <li>        <a href="#!" class="text-reset">Fire Safeyt & Office Boy</a> </li> 
-                        </p>
-                    </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                        <!-- Links -->
-                        <h6 class="text-uppercase fw-bold mb-4">
-                            Useful links
-                        </h6>
-                        <p class="text-black">
-                            <ul class="custom-bullets">
-                                <li>      <a href="#!" class="text-reset">Home</a> </li> 
-                        </p>
-                        <p class="text-black">
-                            <li>       <a href="#!" class="text-reset">About Us</a> </li> 
-                        </p>
-                        <p class="text-black">
-                            <li>     <a href="#!" class="text-reset">Sector</a> </li> 
-                        </p>
-                        <p class="text-black">
-                            <li>        <a href="#!" class="text-reset">Contact</a> </li> 
-                        </p>
-                    </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-                        <!-- Links -->
-                        <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
-                        <p class="text-black"><i class="fas fa-home me-3"></i>Friends Colony Mangalabag, Cuttack - 753001</p>
-                        <p class="text-black">
-                            <i class="fas fa-envelope me-3"></i>
-                          pravatiservices643@gmail.com
-                                              </p>
-                        <p class="text-black"><i class="fas fa-phone me-3"></i> +91 9114790643</p>
-                        <p class="text-black"><i class="fas fa-phone me-3"></i> +91 9668790643</p>
-                    <!--   <p class="text-black"><i class="fas fa-print me-3"></i> + 01 234 567 89</p>  --> 
-                       
-                    </div>
-                    <!-- Grid column -->
                 </div>
-                <!-- Grid row -->
+                <div class="col-lg-12 col-12">
+                    <div class="d-flex justify-content-evenly mb-5">
+                        <div><a href="#" class="category-link active" data-category="">All</a></div>
+                        {% for category in categories %}
+                        <div><a href="#" class="category-link" data-category="{{ category.title }}">{{ category.title }}</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-        </section>
-        <!-- Section: Links  -->
-
-        <!-- Copyright -->
-        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-           
-     <!--       <a class="text-reset fw-bold" href="https://mdbootstrap.com/">MDBootstrap.com</a>   -->
         </div>
-        <!-- Copyright -->
+
+        <div class="container">
+            <div class="row" id="productList">
+
+            </div>
+        </div>
+
+    </section> -->
+
+ 
+
+
+    <!-- start home page-2 -->
+
+ 
+    <!-- end home page-2 -->
+
+
+
+    <!-- end home page-3 -->
+    
+    <!-- page 4 -->
+
+    <!-- end page 4 -->
+    <footer class="site-footer mt-0 pt-0 mb-0 pb-0">
+        <div class="container">
+            <div class="row">
+                
+
+                <div class="col-md-3">
+                    <h3>Follow Us</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none text-black">Facebook</a></li>
+                        <li><a href="#" class="text-decoration-none text-black">Twitter</a></li>
+                        <li><a href="#" class="text-decoration-none text-black">Instagram</a></li>
+                        <li><a href="#" class="text-decoration-none text-black">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">&copy; Copyright 2023 - CoolGadgets Store</div>
+        </div>
     </footer>
 
-    {% block js_block %}
 
-    {% endblock js_block %}
-    <!-- JAVASCRIPT FILES -->
-    <script>
-        $(document).ready(function() {
-            $('#search').keyup(function() {
-                var search_term = $(this).val();
-                if (search_term.length >= 1) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '',
-                        data: {
-                            'search_term': search_term,
-                            csrfmiddlewaretoken: '{{ csrf_token }}'
-                        },
-                        success: function(response) {
-                            var suggestionsHtml = '';
-                            response.forEach(function(product) {
-                                // Modify the suggestionsHtml to include both title and ID
-                                suggestionsHtml += '<div class="suggestion border-bottom border-1 cursor-pointer suggestion-hover" data-id="' + product.id + '">' + product.title + '</div>';
-                            });
-                            $('#search-suggestions').html(suggestionsHtml).show();
-                        }
-                    });
-                } else {
-                    $('#search-suggestions').hide();
-                }
-            });
+    
+    
 
-            // Handle click on suggestion
-            $(document).on('click', '.suggestion', function() {
-                // Get the ID of the clicked suggestion
-                var productId = $(this).data('id');
-                // Construct the URL using Django template syntax
-                var productUrl = ''.replace('0', productId);
-                // Redirect the user to the product details page
-                window.location.href = productUrl;
-            });
-
-            // Hide suggestions when clicking outside
-            $(document).click(function(event) {
-                if (!$(event.target).closest('#search-suggestions').length && !$(event.target).is('#search')) {
-                    $('#search-suggestions').hide();
-                }
-            });
-        });
-    </script>
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'js/custom.js' %}"></script>
 
 </body>
 
