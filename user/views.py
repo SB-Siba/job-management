@@ -31,8 +31,8 @@ app = "user/"
 
 
 class HomeView(View):
-    template = app + "landing_page.html"
-    un_template = app + "home1.html"
+    template = app + "home1.html"
+    un_template = app + "landing_page.html"
     def get(self, request):
         user = request.user
         if not user.is_authenticated:
