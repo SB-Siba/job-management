@@ -73,12 +73,12 @@ class UpdateProfileView(View):
     
         profileObj, created = UserProfile.objects.get_or_create(user=userobj)
        
-        print(profileObj)
+        # print(profileObj)
         initial_data = {
             "email": userobj.email,
             "full_name": userobj.full_name,
             "contact": userobj.contact,
-            "skills": profileObj.bio,
+            "skills": profileObj.skills,
             "profile_pic": profileObj.profile_pic,
             "Resume": profileObj.resume,
         }
@@ -127,7 +127,7 @@ class UpdateProfileView(View):
 
                 
                         
-                if len(password) > 0:
+                if len(password) > 6:
                     userobj.set_password(password)
                     messages.success(request, "Password Changed Successfully")
 
@@ -162,7 +162,7 @@ def apply_for_job(request, pk):
         form = ApplicationForm()
     return render(request, 'jobs/apply_for_job.html', {'form': form, 'job': job})
 
-#
+
 
 
     

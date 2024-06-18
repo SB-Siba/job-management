@@ -48,7 +48,7 @@ class UpdateProfileForm(forms.Form):
     skills = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"1"}))
     skills.widget.attrs.update({'class': 'form-control','type':'text'})
 
-    password = forms.CharField(label='Password',widget=forms.PasswordInput(attrs= {'autocomplete':'current-password','class':'form-control','placeholder':'Only if you want to change then type here.'}),required=False)
+    # password = forms.CharField(label='Password',widget=forms.PasswordInput(attrs= {'autocomplete':'current-password','class':'form-control','placeholder':'Only if you want to change then type here.'}),required=False)
 
     profile_pic = forms.FileField(label='Select an image file', required=False)
     profile_pic.widget.attrs.update({'class': 'form-control', 'type': 'file'})
