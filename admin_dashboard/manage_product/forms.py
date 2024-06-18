@@ -82,6 +82,7 @@ class ApplicationForm(forms.Form):
         fields = ['resume', 'user']  
 
 class EditUserForm(forms.Form):
+    model =common_models.Edit_User
     email = forms.EmailField(label="Email",max_length=50,widget=forms.EmailInput(attrs={"class":"form-control"}))
     first_name = forms.CharField(label="First Name",max_length=50,widget=forms.TextInput(attrs={"class":"form-control"}))
     last_name = forms.CharField(label="Last Name",max_length=50,widget=forms.TextInput(attrs={"class":"form-control"}))

@@ -11,6 +11,30 @@ from user import forms
 
 app = "admin_dashboard/users/"
 
+def candidate_list(request):
+    candidates = Candidate.objects.all()
+    return render(request, 'user_list.html', {'candidates': candidates})
+
+def candidate_detail(request, candidate_id):
+    candidate = Candidate.objects.get(id=candidate_id)
+    return render(request, 'user_detail.html', {'candidate': candidate})
+
+def assign_category(request, candidate_id):
+    candidate = Candidate.objects.get(id=candidate_id)
+    if request.method == 'POST':
+        category = request.POST.get('category')
+        candidate.category = category
+        candidate.save()
+        return redirect('candidate_detail', candidate_id=candidate.id)
+    return render(request, 'candidates/assign_category.html', {'candidate': candidate})
+
+def update_status_hired(request, candidate_id):
+    candidate = Candidate.objects.get(id=candidate_id)
+    candidate.status = 'hired'
+    candidate.save()
+    return redirect('candidate_detail', candidate_id=candidate.id)
+
+
 class UserList(View):
     model = common_model.User
     template = app + "user_list.html"
@@ -51,67 +75,66 @@ def user_detail(request,id=None):
 #         return JsonResponse(data)
 
 def Edit_User(request,user_id):
-    request.session['user_id'] = user_id
-    user = User.objects.get(admin = user_id)
-    form = EditUserForm()
-    form.fields['email'].initial = user.admin.email
-    form.fields['first_name'].initial = user.admin.first_name
-    form.fields['last_name'].initial = user.admin.last_name
-    form.fields['contact'].initial = user.admin.contact
+    user = common_model.UserProfile.objects
+    form_class = forms.EditUserForm
+    form.fields['email'].initial = user.email
+    form.fields['first_name'].initial = user.first_name
+    form.fields['last_name'].initial = user.last_name
+    form.fields['contact'].initial = user.contact
 
 
     data = {
         'form':form,
         'id':user_id,
-        'username':user.admin.email,
+        'username':user.email,
 
     }
     return render(request,'users/edit_user.html',data)
 
-# def Edit_User_Save(request):
-#     if request.method != 'POST':
-#         return HttpResponse("Method Not Allowed")
-#     else:
-#         user_id = request.session.get('user_id')
-#         if user_id == None:
-#             return redirect('manage_user')
+def Edit_User_Save(request):
+    if request.method != 'POST':
+        return HttpResponse("Method Not Allowed")
+    else:
+        user_id = request.session.get('user_id')
+        if user_id == None:
+            return redirect('manage_user')
         
-#         form = EditUserForm(request.POST,request.FILES)
-#         if form.is_valid():
-#         # profile_pic = request.FILES.get("profile_pic")
-#             first_name = form.cleaned_data['first_name']
-#             last_name = form.cleaned_data['last_name']
-#             username = form.cleaned_data['username']
-#             email = form.cleaned_data['email']
-#             profile_pic = request.FILES.get('profile_pic')
-#             if profile_pic:
-#                 fs = FileSystemStorage()
-#                 filename = fs.save(profile_pic.name,profile_pic)
-#                 profile_pic_url = fs.url(filename)
-#             else:
-#                 profile_pic_url = None
+        form = EditUserForm(request.POST,request.FILES)
+        if form.is_valid():
+        # profile_pic = request.FILES.get("profile_pic")
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            profile_pic = request.FILES.get('profile_pic')
+            if profile_pic:
+                fs = FileSystemStorage()
+                filename = fs.save(profile_pic.name,profile_pic)
+                profile_pic_url = fs.url(filename)
+            else:
+                profile_pic_url = None
 
-#             try:
-#                 user = CustomUser.objects.get(id = user_id)
-#                 user.first_name = first_name
-#                 user.last_name = last_name
-#                 user.username = username
-#                 user.email = email
-#                 user.save()
+            try:
+                user = CustomUser.objects.get(id = user_id)
+                user.first_name = first_name
+                user.last_name = last_name
+                user.username = username
+                user.email = email
+                user.save()
 
-#                 user_model = User.objects.get(admin = user_id)
+                user_model = User.objects.get(admin = user_id)
                 
-#                 if profile_pic_url != None:
-#                     user_model.profile_pic = profile_pic_url
-#                 user_model.save()
-#                 del request.session['user_id']
-#                 messages.success(request,"Successfully Edited User")
-#                 return redirect('manage_user')
-#             except:
-#                 messages.error(request,"Failed to Edit User")
-#                 return redirect('manage_user')
-#         else:
-#             form = EditUserForm(request.POST)
-#             user = User.objects.get(admin = user_id)
-#             return render(request,"users/edit_user.html",{'form':form,'id':user_id,'username':user.admin.email})
+                if profile_pic_url != None:
+                    user_model.profile_pic = profile_pic_url
+                user_model.save()
+                del request.session['user_id']
+                messages.success(request,"Successfully Edited User")
+                return redirect('manage_user')
+            except:
+                messages.error(request,"Failed to Edit User")
+                return redirect('manage_user')
+        else:
+            form = EditUserForm(request.POST)
+            user = User.objects.get(admin = user_id)
+            return render(request,"users/edit_user.html",{'form':form,'id':user_id,'username':user.admin.email})
 

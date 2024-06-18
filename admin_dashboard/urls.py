@@ -21,7 +21,11 @@ urlpatterns = [
     path('user/user_detail/<int:id>', user.user_detail, name='user_detail'),
     path('edit_user/<int:user_id>',user.Edit_User,name="edit_user"),
 
-
+    path('candidates/', user.candidate_list, name='candidates'),
+    path('candidates/<int:candidate_id>/', user.candidate_detail, name='candidate_detail'),
+    path('candidates/<int:candidate_id>/assign_category/', user.assign_category, name='assign_category'),
+    # path('candidates/send_message/', views.send_message, name='send_message'),
+    path('candidates/<int:candidate_id>/update_status_hired/', user.update_status_hired, name='update_status_hired'),
     # # catagory web
     path("catagory/catagory_list", catagory.CatagoryList.as_view(), name="catagory_list"),
     path("catagory/catagory_update/<str:catagory_id>", catagory.CatagoryUpdate.as_view(), name="catagory_update"),

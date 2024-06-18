@@ -21,7 +21,7 @@ def send_forgot_password_link(user_id ,email, otp):
     }
     email_html_template = get_template(html_tpl_path).render(context)
 
-    subject = 'Forgot Password - LakshmiMart'
+    subject = 'Forgot Password - Pravati International'
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email,]
     email_msg=EmailMessage( subject, email_html_template, email_from, recipient_list )

@@ -34,10 +34,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length= 255, null= True, blank= True)
     password = models.TextField(null=True,blank=True)
     email = models.EmailField(null=True,blank=True,unique=True)
+    contact = models.CharField(max_length= 10, null=True,  unique=True)
 
-    contact = models.CharField(max_length= 10, null=True, blank=True, unique=True)
-
-    is_client = models.BooleanField(default=False)
+    # is_client = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
@@ -89,9 +88,15 @@ class Banner(models.Model):
 # New Models
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    email = models.EmailField(default='')
     profile_pic = models.ImageField(upload_to="user_profile_pic/", null=True, blank=True)
-    bio = models.TextField(null=True, blank=True)
+    skills = models.TextField(null=True, blank=True)
     resume = models.ImageField(upload_to="user_resume/", null=True, blank=True)
+    category = models.CharField(max_length=100, null=True, blank=True)
+    status = models.CharField(max_length=50, default='applied')  # statuses: applied, interviewed, hired, etc.
+    
+    def __str__(self):
+        return 
 
 class Catagory(models.Model):
     YESNO = (
@@ -118,6 +123,7 @@ class Job(models.Model):
     requirements = models.TextField(blank=True, null=True)
     location = models.CharField(max_length=100, null=True, blank=True, unique=True)
     posted_at = models.DateField(default=timezone.now)
+    candidates = models.ManyToManyField(UserProfile, related_name='job_posts')
 
     def save(self, *args, **kwargs):
         if not self.uid:
@@ -168,3 +174,42 @@ class ContactMessage(models.Model):
         if not self.uid:
             self.uid = utils.get_rand_number(5)
         super().save(*args, **kwargs)
+
+
+# class Employee(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     position = models.CharField(max_length=100)
+#     department = models.CharField(max_length=100)
+
+#     def __str__(self):
+#         return self.user.username
+
+class CommunicationLog(models.Model):
+    candidate = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    message = models.TextField()
+    sent_at = models.DateTimeField(auto_now_add=True)
+    medium = models.CharField(max_length=10)  # 'whatsapp' or 'sms'
+
+    def __str__(self):
+        return f"Message to {self.User.first_name} at {self.sent_at}"
+
+
+class Edit_User(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(upload_to='profile_pictures', blank=True, null=True)
+    skills = models.TextField(max_length=500, blank=True, null=True)
+    def __str__(self):
+        return self.user.username
+
+
+class Candidate(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField(default='')
+    phone = models.CharField(max_length=15)
+    resume = models.FileField(upload_to='resumes/')
+    category = models.CharField(max_length=100, null=True, blank=True)
+    status = models.CharField(max_length=50, default='applied')  # statuses: applied, interviewed, hired, etc.
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
