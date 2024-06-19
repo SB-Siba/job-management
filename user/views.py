@@ -31,25 +31,17 @@ app = "user/"
 
 
 class HomeView(View):
-    template = app + "landing_page.html"
-    un_template = app + "home1.html"
+    template = app + "home1.html"
+    un_template = app + "landing_page.html"
     def get(self, request):
         user = request.user
         if not user.is_authenticated:
 
             return render(request, self.un_template, locals())
-            
-        
-       
-        
 
         return render(request, self.template, locals())
 
-# class UserDashboard(View):
-#     template = app + "landingpage.html"
 
-#     def get(self, request):
-#         return render(request, self.template)
 class ProfileView(View):
     template = app + "userprofile.html"
 

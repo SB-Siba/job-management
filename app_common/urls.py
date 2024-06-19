@@ -10,6 +10,8 @@ urlpatterns = [
     path('logout', views.Logout.as_view(), name = "logout"),
     path('delete_account', views.DeleteAccount.as_view(), name='delete_account'),
     path('privacy_policy', views.PrivacyPolicy.as_view(), name='privacy_policy'),
+    path('sector', views.Sector.as_view(), name = "sector"),
+
 
     #authentication api
     path("api/signup",authentication.SignupApi.as_view()),

@@ -1,51 +1,90 @@
 
+
+
 {% extends 'app_common/authentication/master.html' %}
 {% load static %}
 {% block content %}
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        
+    }
+    .bg-bg {
+        background: linear-gradient(349deg, rgba(199,144,242,1) 0%, rgba(202,164,244,1) 48%, rgba(234,146,133,1) 80%);
+        width: 100%;
+        height: 100vh;
+    }
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 500px;
+        padding: 25px;
+        height: 30rem;
+    }
+    .card-body {
+        padding: 2rem;
+        
+    }
+    .form-label {
+        color: #495057;
+    }
+    .btn-primary {
+        width: 100%;
+    }
+    .text-muted {
+        color: #6c757d !important;
+    }
+    .text-primary-hover:hover {
+        color: #007bff !important;
+    }
+    .text-warning {
+        color: #ffc107 !important;
+    }
+    #CaRd{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
 
 <body>
-    <div>
-        <div class="px-5 py-5 p-lg-0 min-h-screen bg-surface-secondary d-flex flex-column justify-content-center">
-            <div class="d-flex justify-content-center">
-                <div class="col-12 col-md-9 col-lg-7 offset-lg-3 border-left-lg min-h-screen d-flex flex-column justify-content-center position-relative">
-                    <div class="py-lg-16 px-lg-20">
-                        <div class="row">
-                            <div class="col-lg-10 col-md-9 col-xl-6 mx-auto ms-xl-0">
-                                <div class="mt-10 mt-lg-5 mb-6 d-lg-block">
-                                    <h1 class="ls-tight font-bolder h2">Log In Here.</h1>
-                                </div>
-                                <form method="post" action="">
-                                    {% csrf_token %}
-                                    {% for field in form %}
-                                    <div class="mb-3">
-                                        <label for="recipient-name" class="col-form-label text-white">{{field.label}}:</label>
-                                        {{field}}
-                                    </div>
-                                    {% endfor %}
-                                    <div>
-                                        <button class="btn btn-primary w-full" type="submit">Sign in</button>
-                                    </div>
-                                    <div class="d-flex justify-content-end">
-                                        <a href="{% url 'user:password-reset' %}"
-                                            class="text-sm text-muted text-primary-hover text-underline" style="font-weight: bold;">Forgot
-                                            password?</a>
-                                    </div>
-                                    <div class="form-group mt-2">
-                                        {% include 'snippets/alert.html' %}
-                                    </div>
-                                </form>
-                            </div>
+    <div class="bg-bg d-flex align-items-center justify-content-center">
+        <div class="col-12 col-md-9 col-lg-7" id="CaRd">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="ls-tight font-bolder h2 text-center">Log In Here</h1>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="form-group">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field }}
                         </div>
-                    </div>
-                    <div class="position-lg-absolute bottom-0 end-0 my-8 mx-12 text-center text-lg-end">
-                        <small>Dont't have an account?</small>
+                        {% endfor %}
+                        <div class="form-group mt-5">
+                            <button class="btn btn-primary" type="submit">Sign in</button>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <a href="{% url 'user:password-reset' %}" class="text-sm text-muted text-primary-hover" style="font-weight: bold;">Forgot password?</a>
+                        </div>
+                        <div class="form-group mt-2">
+                            {% include 'snippets/alert.html' %}
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <small>Don't have an account?</small>
                         <a href="{% url 'user:signup' %}" class="text-warning text-sm font-semibold">Sign up</a>
                     </div>
-                    
                 </div>
             </div>
+            
         </div>
     </div>
-    <script src="{% static 'app_common/js/main.js'%}"></script>
-</body>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'app_common/js/main.js'%}"></script></body>
 {% endblock content %}
+

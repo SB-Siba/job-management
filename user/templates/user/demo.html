@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			display: flex;
+		}
+		
+		.sidebar {
+			width: 250px;
+			background-color: #2c3e50;
+			color: white;
+			padding: 20px;
+			height: 100vh;
+			position: fixed;
+		}
+		
+		.sidebar h2 {
+			text-align: center;
+		}
+		
+		.sidebar ul {
+			list-style-type: none;
+			padding: 0;
+		}
+		
+		.sidebar ul li {
+			margin: 20px 0;
+		}
+		
+		.sidebar ul li a {
+			color: white;
+			text-decoration: none;
+			display: block;
+			padding: 10px;
+			border-radius: 5px;
+			transition: background-color 0.3s;
+		}
+		
+		.sidebar ul li a:hover {
+			background-color: #34495e;
+		}
+		
+		.main-content {
+			margin-left: 250px;
+			padding: 20px;
+			width: 100%;
+			box-sizing: border-box;
+		}
+		
+		header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		
+		header input[type="search"] {
+			padding: 10px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+		}
+		
+		.cards {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 20px;
+		}
+		
+		.card {
+			background-color: #ecf0f1;
+			border-radius: 5px;
+			padding: 20px;
+			width: 30%;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			text-align: center;
+		}
+		
+		.card h3 {
+			margin: 0 0 10px;
+		}
+		
+	</style>
+    <div class="sidebar">
+        <h2>Admin Dashboard</h2>
+        <ul>
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="#analytics">Analytics</a></li>
+            <li><a href="#settings">Settings</a></li>
+            <li><a href="#profile">Profile</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Welcome, Admin</h1>
+            <input type="search" placeholder="Search...">
+        </header>
+        <section id="dashboard">
+            <h2>Dashboard</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Users</h3>
+                    <p>1,234</p>
+                </div>
+                <div class="card">
+                    <h3>Revenue</h3>
+                    <p>$12,345</p>
+                </div>
+                <div class="card">
+                    <h3>Orders</h3>
+                    <p>567</p>
+                </div>
+            </div>
+        </section>
+        <!-- Add more sections like Analytics, Settings, Profile here -->
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
