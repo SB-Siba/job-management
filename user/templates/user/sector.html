@@ -1,154 +1,270 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sector Pages</title>
-    
-</head>
-<body>
-<style>
-/* styles.css */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-}
+{% extends 'user/landing_page.html' %}
+{% load static %}
+{% block title %}
+About Page
+{% endblock title %}
+{% block main_content %}
+<section class="py-3 py-md-5">
+  <div class="container">
+      <div class="row gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
+          <div class="col-12 col-lg-6 col-xl-5">
+              <img class="img-fluid rounded" loading="lazy" src="{% static 'images/se1.jpg' %}" alt="About 1" style="width: 500px; margin-left: 70px;">
+          </div>
+          <div class="col-12 col-lg-6 col-xl-7">
+              <div class="row justify-content-xl-center">
+                  <div class="col-12 col-xl-11">
+                      <h6 style="color:#1D3557; font-family: 'Montserrat', sans-serif; margin-left: 20px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; margin-bottom: 20px;">
+                        ALL PARAMEDICAL STAFF
+                      </h6>
+                      <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px; margin-left: 20px; text-align: justify;">
+                        Paramedical staff are healthcare professionals who support medical teams by assisting in diagnostics, therapeutic 
+                        procedures, and patient care. They include lab technicians, radiographers, and emergency medical technicians, ensuring
+                         efficient hospital operations. Their expertise and support are vital in enhancing patient care quality and enabling smooth
+                          healthcare service delivery.Perform diagnostic imaging
+                          examinations, such as X-rays, MRI, and
+                          CT scans. They prepare patients for
+                          procedures and ensure the images are
+                          of high quality.Their specialized skills and training contribute to the overall healthcare delivery system, enhancing patient outcomes and satisfaction. Paramedical professionals work collaboratively with doctors and other healthcare providers to
+                           deliver comprehensive and compassionate care across various healthcare settings.
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
 
-header {
-    background-color: #000080;
-    color: white;
-    text-align: center;
-    padding: 1rem 0;
-}
+                
+          <!--   <p class="mb-5">We are a fast-growing company, but we have never lost sight of our core values. We believe in collaboration, innovation, and customer satisfaction. We are always looking for new ways to improve our products and services.</p> -->
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="py-3 py-md-5">
+    <div class="container">
+        
+        <div class="row gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
+            <div class="col-12 col-lg-6 col-xl-7">
+                <div class="row justify-content-xl-center">
+                    <div class="container mt-4">
+                        <h6 style="color:#1D3557; font-family: 'Montserrat', sans-serif; margin-left: 40px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block;  margin-bottom: 20px;">HOUSEKEEPING & SECURITY</h6>
+                       <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px; margin-left: 40px; text-align: justify; ">
+                        Our housekeeping and security services ensure a clean, safe, and well-maintained environment. Our professional housekeeping team excels in maintaining hygiene standards, performing thorough cleaning, and managing waste efficiently. They create a welcoming atmosphere, enhancing the overall appeal and comfort of your premises. Our security services provide vigilant protection, safeguarding your property and personnel with trained security personnel and advanced surveillance systems. We prioritize safety and cleanliness, allowing you to focus on your core activities with peace of mind. Trust our integrated approach for a secure, spotless,
+                         and smoothly operated environment, tailored to meet your specific needs. </p>
+                    </div>
+                </div>
+             </div>
+              <div class="col-12 col-lg-6 col-xl-5 d-flex justify-content-center">
+                <img class="img-fluid rounded" loading="lazy" src="{% static 'images/se2.jpg' %}" alt="About 1" style="width: 500px">
+              </div> 
+        </div >
+    </div>
+</section>
+<section class="py-3 py-md-5">
+  <div class="container">
+      <div class="row gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
+          <div class="col-12 col-lg-6 col-xl-5">
+              <img class="img-fluid rounded" loading="lazy" src="{% static 'images/se3.jpg' %}" alt="About 1" style="width: 500px; margin-left: 70px;">
+          </div>
+          <div class="col-12 col-lg-6 col-xl-7">
+              <div class="row justify-content-xl-center">
+                  <div class="col-12 col-xl-11">
+                      <h6 style="color:#1D3557; font-family: 'Montserrat', sans-serif; margin-left: 20px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; margin-bottom: 20px;">
+                        BEDSIDE PATIENT ATTENDANT
+                      </h6>
+                      <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px; margin-left: 20px; text-align: justify;">
+                        A bedside patient attendant provides essential care and support to patients in healthcare settings or at home. They assist with daily activities such as bathing, dressing, feeding, and mobility. Attendants monitor vital signs, administer medication, and ensure patients' comfort and safety. They also offer emotional support, engaging patients in conversation and addressing their concerns. By maintaining a clean and organized environment, they help prevent infections and promote recovery. Bedside attendants work under the supervision of medical professionals, following care plans and reporting changes in patients' conditions to ensure timely medical intervention. Their compassionate care is vital for patient well-being.
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+ <!--   <p class="mb-5">We are a fast-growing company, but we have never lost sight of our core values. We believe in collaboration, innovation, and customer satisfaction. We are always looking for new ways to improve our products and services.</p> -->
+            <div class="row gy-4 gy-md-0 gx-xxl-5X">
+              <div class="col-12 col-md-6">
+                <div class="d-flex">
+                 
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="d-flex">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="py-3 py-md-5">
+    <div class="container">
+        
+        <div class="row gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
+            <div class="col-12 col-lg-6 col-xl-7">
+                <div class="row justify-content-xl-center">
+                    <div class="container mt-4">
+                        <h6 style="color:#1D3557; font-family: 'Montserrat', sans-serif; margin-left: 40px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block;  margin-bottom: 20px;">HOME NURSING</h6>
+                       <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px; margin-left: 40px; text-align: justify; ">
+                        Our home nursing services offer professional medical care in the comfort of your home. Our nurses are skilled and empathetic.Administer medications, monitor for
+                                  side effects, and educate patients and
+                                  families about medication schedules
+                                  and uses.Help with activities of daily living (ADLs)
+                                  such as bathing, dressing, grooming,
+                                  and toileting.Provide emotional support and
+                                  companionship to reduce feelings of
+                                  isolation and loneliness. By coordinating with physicians and other healthcare providers, home nurses create personalized care plans tailored to each patient's needs, 
+                                  promoting recovery and improving quality of life while reducing hospital readmissions.
+                                   </p>
+                    </div>
+                </div>
+             </div>
+              <div class="col-12 col-lg-6 col-xl-5 d-flex justify-content-center">
+                <img class="img-fluid rounded" loading="lazy" src="{% static 'images/se5.jpg' %}" alt="About 1" style="width: 500px">
+              </div> 
+        </div >
+    </div>
+</section>
+<section class="py-3 py-md-5">
+  <div class="container">
+      <div class="row gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
+          <div class="col-12 col-lg-6 col-xl-5">
+              <img class="img-fluid rounded" loading="lazy" src="{% static 'images/se5.jpg' %}" alt="About 1" style="width: 500px; margin-left: 70px;">
+          </div>
+          <div class="col-12 col-lg-6 col-xl-7">
+              <div class="row justify-content-xl-center">
+                  <div class="col-12 col-xl-11">
+                      <h6 style="color:#1D3557; font-family: 'Montserrat', sans-serif; margin-left: 20px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; margin-bottom: 20px;">
+                        DATA ENTRY, FRONT OFFICE & BACK OFFICE
+                      </h6>
+                      <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px; margin-left: 20px; text-align: justify;">
+                         
+                Accurately enter data into various
+                databases and systems from paper
+                documents, forms, or other sources.Greet and assist visitors, patients, or
+                clients. Answer phone calls and direct
+                them to the appropriate personnel.Perform various administrative
+                functions such as data management,
+                filing, and document preparation.
+                Data entry involves inputting and managing information into computer systems. 
+                Front office roles interact directly with clients, handling inquiries and administrative tasks. 
+                Back office roles focus on internal operations like data processing and support functions. Together,
+                 they ensure smooth business operations and customer satisfaction in various organizational settings.
+                
+                
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
 
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-}
-
-.sector {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 1rem 0;
-    padding: 1rem;
-    width: 80%;
-    max-width: 800px;
-    text-align: center;
-    font-family: 'Poppins', sans-serif; font-size: 18px;
-}
-
-.sector p {
-  font-size: 1.2rem; /* Set paragraph font size */
-  line-height: 1.4; /* Set line height */
-  color: #333; /* Adjust text color */
-  margin: 0; /* Remove default margins */
-}
-
-.sector img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-}
-
-.sector h4 {
-    color: #000080;
-    text-decoration: underline;
-    margin-bottom: 1rem;
-}
-
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 1rem 0;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    
-   
-}
-
-
-</style>
-    <header>
-        <h2>OUR SERVICES</h2>
-    </header>
-    <main>
-        <section class="sector" id="paramedical-staff">
-            <h4>ALL PARAMEDICAL STAFF</h4>
-           <!-- <img src="images/paramedical.jpg" alt="Paramedical Staff"> -->
-            <p>
-              Paramedical staff are healthcare professionals who support medical teams by assisting in diagnostics, therapeutic 
-              procedures, and patient care. They include lab technicians, radiographers, and emergency medical technicians, ensuring
-               efficient hospital operations. Their expertise and support are vital in enhancing patient care quality and enabling smooth
-                healthcare service delivery.
- 
-              </p>
-        </section>
-        <section class="sector" id="housekeeping-security">
-            <h4>HOUSEKEEPING & SECURITY</h4>
-            <!-- <img src="images/housekeeping_security.jpg" alt="Housekeeping and Security"> -->
-            <p>Help patients improve movement and
-              manage pain through physical
-              exercises, manual therapy, and other
-              techniques. They work with patients
-              recovering from injuries or surgeries.</p>
-        </section>
-        <section class="sector" id="patient-attendant">
-            <h4>BEDSIDE PARIENT ATTENDANT</h4>
-             <!-- <img src="images/housekeeping_security.jpg" alt="Housekeeping and Security"> -->
-            <p>A Bedside Patient Attendant, also
-              known as a Patient Care Assistant
-              (PCA) or Nursing Assistant, plays a
-              crucial role in providing direct care
-              and support to patients in hospitals,
-              nursing homes, and other healthcare
-              facilities.
-              </p>
-        </section>
-        <section class="sector" id="home-nursing">
-            <h4>HOME NURSING</h4>
-            <!-- <img src="images/housekeeping_security.jpg" alt="Housekeeping and Security"> -->
-            <p>Our home nursing services offer professional medical care in the comfort of your home. Our nurses are skilled and empathetic.Administer medications, monitor for
-              side effects, and educate patients and
-              families about medication schedules
-              and uses.</p>
-        </section>
-        <section class="sector" id="data-entry">
-            <h4>DATA ENTRY, FRONT OFFICE & BACK OFFICE</h4>
-             <!-- <img src="images/housekeeping_security.jpg" alt="Housekeeping and Security"> -->
-            <p>Accurately enter data into various
-              databases and systems from paper
-              documents, forms, or other sources.Greet and assist visitors, patients, or
-              clients. Answer phone calls and direct
-              them to the appropriate personnel.</p>
-        </section>
-        <section class="sector" id="engineering">
-            <h4>ITI, DIPLOMA, DEGREE ENGINEER</h4>
-             <!-- <img src="images/housekeeping_security.jpg" alt="Housekeeping and Security"> -->
-            <p>A Bachelor of Engineering (B.E.) or
-              Bachelor of Technology (B.Tech) degree
-              offers comprehensive education and
-              training in various engineering
-              disciplines, focusing on both theoretical
-              concepts and practical applications.
-              </p>
-        </section>
-        <section class="sector" id="fire-safety">
-            
-            <h4>FIRE SAFETY & OFFICE BOY</h4>
-             <!-- <img src="images/housekeeping_security.jpg" alt="Housekeeping and Security"> -->
-            <p>Our fire safety services and office boys ensure safety and smooth functioning of your office environment.
-                 We provide reliable and trustworthy staff.</p>
-        </section>
-    </main>
-   
-</body>
-</html>
+        <!--   <p class="mb-5">We are a fast-growing company, but we have never lost sight of our core values. We believe in collaboration, innovation, and customer satisfaction. We are always looking for new ways to improve our products and services.</p> -->
+            <div class="row gy-4 gy-md-0 gx-xxl-5X">
+              <div class="col-12 col-md-6">
+                <div class="d-flex">
+                 
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="d-flex">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="py-3 py-md-5">
+    <div class="container">
+        
+        <div class="row gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
+            <div class="col-12 col-lg-6 col-xl-7">
+                <div class="row justify-content-xl-center">
+                    <div class="container mt-4">
+                        <h6 style="color:#1D3557; font-family: 'Montserrat', sans-serif; margin-left: 40px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block;  margin-bottom: 20px;">ITI, DIPLOMA, DEGREE ENGINEER</h6>
+                       <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px; margin-left: 40px; text-align: justify; ">
+                        Industrial Training Institutes (ITIs) offer
+technical education in various trades
+and skills that prepare students for
+employment in specific industries. ITIs
+focus on providing vocational training
+to develop skilled technicians and
+craftsmen.
+Diploma in Engineering programs offer a
+comprehensive education in engineering
+principles and practices. These programs
+bridge the gap between ITI training and a
+full engineering degree, providing more
+in-depth technical education. A Bachelor of Engineering (B.E.) or
+Bachelor of Technology (B.Tech) degree
+offers comprehensive education and
+training in various engineering
+disciplines, focusing on both theoretical
+concepts and practical applications.</p>
+                    </div>
+                </div>
+             </div>
+              <div class="col-12 col-lg-6 col-xl-5 d-flex justify-content-center">
+                <img class="img-fluid rounded" loading="lazy" src="{% static 'images/se9.jpg' %}" alt="About 1" style="width: 500px">
+              </div> 
+        </div >
+    </div>
+</section>
+<section class="py-3 py-md-5">
+  <div class="container">
+      <div class="row gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
+          <div class="col-12 col-lg-6 col-xl-5">
+              <img class="img-fluid rounded" loading="lazy" src="{% static 'images/se7.jpg' %}" alt="About 1" style="width: 500px; margin-left: 70px;">
+          </div>
+          <div class="col-12 col-lg-6 col-xl-7">
+              <div class="row justify-content-xl-center">
+                  <div class="col-12 col-xl-11">
+                      <h6 style="color:#1D3557; font-family: 'Montserrat', sans-serif; margin-left: 20px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; margin-bottom: 20px;">
+                        FIRE SAFETY & OFFICE BOY
+                      </h6>
+                      <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px; margin-left: 20px; text-align: justify;">
+              
+                        Fire safety involves implementing measures to prevent and respond to fires effectively, ensuring the safety of occupants and property. 
+                        This includes fire drills, fire extinguisher training, and maintaining emergency exits clear. An office boy supports daily office
+                         operations by handling administrative tasks like filing, photocopying, and delivering documents. They contribute to office efficiency
+                          and organization, assisting staff with basic needs and ensuring a conducive work environment. Both roles are crucial in maintaining
+                           workplace safety and operational efficiency, promoting a secure and productive atmosphere for employees and visitors alike.
+        
+        
+        
+                
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
 
 
+        <!--   <p class="mb-5">We are a fast-growing company, but we have never lost sight of our core values. We believe in collaboration, innovation, and customer satisfaction. We are always looking for new ways to improve our products and services.</p> -->
+            <div class="row gy-4 gy-md-0 gx-xxl-5X">
+              <div class="col-12 col-md-6">
+                <div class="d-flex">
+                 
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="d-flex">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock main_content %}

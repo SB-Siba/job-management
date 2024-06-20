@@ -44,7 +44,185 @@
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'admin_dashboard:job_list' %}" class="nav-link font-bold">Job List</a>
-                    </li>
+                    </li><!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Sector Pages</title>
+                        
+                    </head>
+                    <body>
+                    <style>
+                    /* styles.css */
+                    body {
+                        font-family:'Montserrat', sans-serif; 
+                        margin: 0;
+                        padding: 0;
+                        background-color: #f9f9f9;
+                    }
+                    
+                    header {
+                        background-color: #000080;
+                        color: white;
+                        text-align: center;
+                        padding: 1rem 0;
+                    }
+                    
+                    main {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        padding: 1rem;
+                    }
+                    
+                    .sector {
+                        background-color: white;
+                        border-radius: 8px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        margin: 1rem 0;
+                        padding: 1rem;
+                        width: 80%;
+                        max-width: 800px;
+                        text-align: center;
+                        font-family:'Montserrat', sans-serif;  font-size: 18px;
+                    }
+                    
+                    .sector p {
+                      font-size: 1.2rem; /* Set paragraph font size */
+                      line-height: 1.4; /* Set line height */
+                      color: #333; /* Adjust text color */
+                      margin: 0; /* Remove default margins */
+                    }
+                    
+                    .sector img {
+                        max-width: 100%;
+                        height: auto;
+                        border-radius: 8px;
+                    }
+                    
+                    .sector h4 {
+                        color: #1D3557;
+                        text-decoration: underline;
+                        margin-bottom: 1rem;
+                        font-family:'Montserrat', sans-serif; 
+                    }
+                    
+                    footer {
+                        background-color: #333;
+                        color: white;
+                        text-align: center;
+                        padding: 1rem 0;
+                        position: absolute;
+                        bottom: 0;
+                        width: 100%;
+                        
+                       
+                    }
+                    
+                    
+                    </style>
+                        <header>
+                            <h2>OUR SECTOR</h2>
+                        </header>
+                        <main>
+                    
+                            <section class="py-3 py-md-5">
+                                <div class="container">
+                                    
+                                    <div class="row gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
+                                        <div class="col-12 col-lg-6 col-xl-7">
+                                            <div class="row justify-content-xl-center">
+                                                <div class="container mt-4">
+                                                    <h4 style="color:#1D3557; font-family: 'Montserrat', sans-serif; margin-left: 20px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block;  margin-bottom: 20px;">MD'S MESSAGE</h4>
+                                                   <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px; margin-left: 20px; text-align: justify; ">At our Sector, our MD emphasizes the importance of personalized treatment
+                                                     plans tailored to each patient's unique needs and circumstances. We are dedicated to staying at the forefront of medical 
+                                                     advancements, ensuring that our patients receive the most effective and innovative care available. Whether treating respiratory
+                                                      conditions, managing chronic illnesses, or providing critical care interventions, our team is committed to excellence in every
+                                                       aspect of patient care. Our MD's message serves as a guiding principle for our hospital, inspiring us to continuously strive for excellence and to uphold the highest standards of medical care. </p>
+                                                </div>
+                                            </div>
+                                         </div>
+                                          <div class="col-12 col-lg-6 col-xl-5 d-flex justify-content-center">
+                                            <img class="img-fluid rounded" loading="lazy" src="{% static 'images/s11.jpg' %}" alt="About 1" style="width: 500px">
+                                          </div> 
+                                    </div >
+                                </div>
+                            </section>
+                            <section class="sector" id="paramedical-staff">
+                                <h4 style="color:#1D3557;  font-family:'Montserrat', sans-serif;">ALL PARAMEDICAL STAFF</h4>
+                               <!-- <img src="images/paramedical.jpg" alt="Paramedical Staff"> -->
+                                <p>
+                                  Paramedical staff are healthcare professionals who support medical teams by assisting in diagnostics, therapeutic 
+                                  procedures, and patient care. They include lab technicians, radiographers, and emergency medical technicians, ensuring
+                                   efficient hospital operations. Their expertise and support are vital in enhancing patient care quality and enabling smooth
+                                    healthcare service delivery.
+                     
+                                  </p>
+                            </section>
+                            <section class="sector" id="housekeeping-security">
+                                <h4>HOUSEKEEPING & SECURITY</h4>
+                                <!-- <img src="images/housekeeping_security.jpg" alt="Housekeeping and Security"> -->
+                                <p>Help patients improve movement and
+                                  manage pain through physical
+                                  exercises, manual therapy, and other
+                                  techniques. They work with patients
+                                  recovering from injuries or surgeries.</p>
+                            </section>
+                            <section class="sector" id="patient-attendant">
+                                <h4>BEDSIDE PARIENT ATTENDANT</h4>
+                                 <!-- <img src="images/housekeeping_security.jpg" alt="Housekeeping and Security"> -->
+                                <p>A Bedside Patient Attendant, also
+                                  known as a Patient Care Assistant
+                                  (PCA) or Nursing Assistant, plays a
+                                  crucial role in providing direct care
+                                  and support to patients in hospitals,
+                                  nursing homes, and other healthcare
+                                  facilities.
+                                  </p>
+                            </section>
+                            <section class="sector" id="home-nursing">
+                                <h4>HOME NURSING</h4>
+                                <!-- <img src="images/housekeeping_security.jpg" alt="Housekeeping and Security"> -->
+                                <p>Our home nursing services offer professional medical care in the comfort of your home. Our nurses are skilled and empathetic.Administer medications, monitor for
+                                  side effects, and educate patients and
+                                  families about medication schedules
+                                  and uses.</p>
+                            </section>
+                            <section class="sector" id="data-entry">
+                                <h4>DATA ENTRY, FRONT OFFICE & BACK OFFICE</h4>
+                                 <!-- <img src="images/housekeeping_security.jpg" alt="Housekeeping and Security"> -->
+                                <p>Accurately enter data into various
+                                  databases and systems from paper
+                                  documents, forms, or other sources.Greet and assist visitors, patients, or
+                                  clients. Answer phone calls and direct
+                                  them to the appropriate personnel.</p>
+                            </section>
+                            <section class="sector" id="engineering">
+                                <h4>ITI, DIPLOMA, DEGREE ENGINEER</h4>
+                                 <!-- <img src="images/housekeeping_security.jpg" alt="Housekeeping and Security"> -->
+                                <p>A Bachelor of Engineering (B.E.) or
+                                  Bachelor of Technology (B.Tech) degree
+                                  offers comprehensive education and
+                                  training in various engineering
+                                  disciplines, focusing on both theoretical
+                                  concepts and practical applications.
+                                  </p>
+                            </section>
+                            <section class="sector" id="fire-safety">
+                                
+                                <h4>FIRE SAFETY & OFFICE BOY</h4>
+                                 <!-- <img src="images/housekeeping_security.jpg" alt="Housekeeping and Security"> -->
+                                <p>Our fire safety services and office boys ensure safety and smooth functioning of your office environment.
+                                     We provide reliable and trustworthy staff.</p>
+                            </section>
+                        </main>
+                       
+                    </body>
+                    </html>
+                    
+                    
+                    
                 </ul>
             </div>
         </li>

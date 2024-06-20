@@ -65,15 +65,6 @@ h6 {
   color: var(--dark-color);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--title-font-family); 
-  font-weight: var(--font-weight-semibold);
-}
 
 h1 {
   font-size: var(--h1-font-size);
@@ -267,8 +258,7 @@ main {
   right: 0;
   left: 0;
   z-index: 9;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  
 }
 
 .navbar .navbar-brand,
@@ -283,7 +273,8 @@ main {
 
 .logo-image {
   width: 120px;
-  height: 20px;
+  height: 120px;
+  margin-left: 60px;
 }
 
 .navbar-brand,
@@ -308,18 +299,23 @@ main {
   position: relative;
   padding-top: 15px;
   padding-bottom: 15px;
+  
 }
 
 .navbar-expand-lg .navbar-nav .nav-link {
   padding-right: 18px;
   padding-left: 18px;
+  
+  
 }
+ /* Ensure there's no margin pushing the nav to the right */
 
 .navbar-nav .nav-link.active, 
 .navbar-nav .nav-link:hover {
   color: var(--secondary-color);
 }
 
+       
 .navbar .dropdown-menu {
   background: var(--white-color);
   box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
@@ -331,6 +327,7 @@ main {
   padding: 13px 0 10px 0;
   transition: all 0.3s;
   pointer-events: none;
+  
 }
 
 .navbar .dropdown-menu::before {
@@ -413,6 +410,7 @@ main {
   width: 30px;
   height: 35px;
   outline: none;
+  margin-left: 40px;
 }
 
 .navbar-toggler:focus {
@@ -461,6 +459,7 @@ main {
   width: 30px;
   height: 2px;
   content: '';
+ 
 }
 
 .navbar-toggler .navbar-toggler-icon::before {
@@ -1011,7 +1010,7 @@ main {
   SITE FOOTER              
 -----------------------------------------*/
 .site-footer {
-  background-image: url('../images/e-footer.jpg'), linear-gradient(#FFFFFF, #348CD2);
+  background-image: url('../images/e-footer.jpg'), linear-gradient(#a71919, #348CD2);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
