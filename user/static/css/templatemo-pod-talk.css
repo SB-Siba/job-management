@@ -48,7 +48,7 @@ https://templatemo.com/tm-584-pod-talk
 
 body {
   overflow-x: hidden;
-  background-color: var(--white-color);
+  background-color: #dee2e6;
   font-family: var(--body-font-family); 
 }
 
@@ -78,6 +78,7 @@ h2 {
 
 h3 {
   font-size: var(--h3-font-size);
+  font-family:'Montserrat', sans-serif;
 }
 
 h4 {
