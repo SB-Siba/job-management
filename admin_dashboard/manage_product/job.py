@@ -389,10 +389,7 @@ class JobDelete(View):
     def get(self,request, job_uid):
         job = self.model.objects.get(id = job_uid)
 
-        if job.image:
-            image_path = job.image.path
-            os.remove(image_path)
-
+        
         job.delete()
         messages.info(request, 'job is deleted succesfully......')
 

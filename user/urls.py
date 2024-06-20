@@ -7,6 +7,7 @@ from django.contrib.auth.views import (
     PasswordResetConfirmView,
     PasswordResetCompleteView
 )
+
 from django.contrib.auth import views as auth_view
 
 app_name = 'user'
@@ -15,14 +16,15 @@ urlpatterns = [
     #Authentication urls
     path('login', authenticate.Login.as_view(), name = "login"),
     path('signup', authenticate.Registration.as_view(), name = "signup"),
-    path("passwordChange/",auth_view.PasswordChangeView.as_view(template_name = 'user/authtemp/changepassword.html',form_class = PasswordChangeForm,success_url = '/passwordchangedone'),name='passwordchange'),
-    path("passwordchangedone/",auth_view.PasswordChangeDoneView.as_view(template_name = 'user/authtemp/changepassworddone.html'),name='passwordchangedone'),
-    path('password-reset/', PasswordResetView.as_view(template_name='user/authtemp/password_reset.html'),name='password-reset'),
-    path('password-reset/done/', PasswordResetDoneView.as_view(template_name='user/authtemp/password_reset_done.html'),name='password_reset_done'),
-    path('password-reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name='user/authtemp/password_reset_confirm.html'),name='password_reset_confirm'),
-    path('password-reset-complete/',PasswordResetCompleteView.as_view(template_name='user/authtemp/password_reset_complete.html'),name='password_reset_complete'),
+    # path("passwordChange/",auth_view.PasswordChangeView.as_view(template_name = 'user/authtemp/changepassword.html',form_class = PasswordChangeForm,success_url = '/passwordchangedone'),name='passwordchange'),
+    # path("passwordchangedone/",auth_view.PasswordChangeDoneView.as_view(template_name = 'user/authtemp/changepassworddone.html'),name='passwordchangedone'),
+    # path('password-reset/', PasswordResetView.as_view(template_name='user/authtemp/password_reset.html'),name='password-reset'),
+    # path('password-reset/done/', PasswordResetDoneView.as_view(template_name='user/authtemp/password_reset_done.html'),name='password_reset_done'),
+    # path('password-reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name='user/authtemp/password_reset_confirm.html'),name='password_reset_confirm'),
+    # path('password-reset-complete/',PasswordResetCompleteView.as_view(template_name='user/authtemp/password_reset_complete.html'),name='password_reset_complete'),
     path('logout', authenticate.Logout.as_view(), name = "logout"),
-    
+    path('forgot-password/',authenticate.ForgotPasswordView.as_view(), name='forgot_password'),
+    path('reset-password/<str:token>/',authenticate.ResetPasswordView.as_view(), name='reset_password'),
     #Page Urls
     path('',views.HomeView.as_view(),name="home"),
     # path('user_view',views.UserDashboard.as_view(),name="user_home"),
@@ -32,7 +34,8 @@ urlpatterns = [
     path('job/<int:pk>/', views.job_detail, name='job_detail'),
     path('job/<int:pk>/apply/', views.apply_for_job, name='apply_for_job'),
     path('account-details',views.AccountDetails.as_view(),name='account_details'),
-    path('contactmessage',views.contactMesage.as_view(),name="contactmessage"),
+    path('sector', views.Sector.as_view(), name = "sector"),
+    path('contact',views.contactMesage.as_view(),name="contact"),
     path('about',views.AboutPage.as_view(),name="about"),
     path('thank-you/',views.ThankYou.as_view(),name='thank_you'),
 ]

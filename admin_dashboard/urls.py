@@ -17,10 +17,9 @@ urlpatterns = [
 
     # Userlist
     path("user/userslist", user.UserList.as_view(), name="userslist"),
-    path("user/deleteuser/<int:id>", user.delete_user, name="deleteuser"),
-    path('user/user_detail/<int:id>', user.user_detail, name='user_detail'),
-    path('edit_user/<int:user_id>',user.Edit_User,name="edit_user"),
-
+    path("user/deleteuser/<int:user_id>", user.DeleteUser.as_view(), name="deleteuser"),
+    path('user/user_detail/<int:user_id>', user.UserDetailView.as_view(), name='user_detail'),
+    path('edit_user/<int:user_id>',user.Edit_User.as_view(),name="edit_userrr"),
     path('candidates/', user.candidate_list, name='candidates'),
     path('candidates/<int:candidate_id>/', user.candidate_detail, name='candidate_detail'),
     path('candidates/<int:candidate_id>/assign_category/', user.assign_category, name='assign_category'),

@@ -84,8 +84,6 @@ class ApplicationForm(forms.Form):
 class EditUserForm(forms.Form):
     model =common_models.Edit_User
     email = forms.EmailField(label="Email",max_length=50,widget=forms.EmailInput(attrs={"class":"form-control"}))
-    first_name = forms.CharField(label="First Name",max_length=50,widget=forms.TextInput(attrs={"class":"form-control"}))
-    last_name = forms.CharField(label="Last Name",max_length=50,widget=forms.TextInput(attrs={"class":"form-control"}))
+    full_name = forms.CharField(label="Full Name",max_length=50,widget=forms.TextInput(attrs={"class":"form-control"}))
     contact = forms.IntegerField(label="Contact",widget=forms.NumberInput(attrs={"class":"form-control"}))
-    profile_pic = forms.FileField(label="Profile Pic",max_length=50,widget=forms.FileInput(attrs={"class":"form-control"}),required=False)
 

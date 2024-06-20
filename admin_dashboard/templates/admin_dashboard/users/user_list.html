@@ -16,9 +16,9 @@
         </div>
     </div>
 
-    <a href="" class="btn btn-sm btn-neutral">
+    <!-- <a href="" class="btn btn-sm btn-neutral">
         <i class="bi bi-plus">ADD NEW USER</i>
-    </a>
+    </a> -->
 </header>
 
 <main class="py-6 bg-surface-secondary">
@@ -63,16 +63,14 @@
                                     </td>
                                     <td>{{user.full_name}}</td>
                                     
-                                    <td>{{user.phone}}</td>
+                                    <td>{{user.contact}}</td>
                                     <td>{{user.email}}</td>
                                     
                                     <td>
                                         <a href="{% url 'admin_dashboard:user_detail' user.id %}" class="btn btn-success">View</a>
-                                        <a href="{% url 'admin_dashboard:edit_user' user.id %}" class="btn btn-success">edit</a>
+                                        <a href="{% url 'admin_dashboard:edit_userrr' user.id %}" class="btn btn-success">edit</a>
                                         <a href="{% url 'admin_dashboard:deleteuser' user.id %}">
-                                            <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
+                                            delete
                                        </a 
                                     </td>
                                 </tr> 

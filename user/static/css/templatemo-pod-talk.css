@@ -250,7 +250,7 @@ main {
   SITE HEADER              
 -----------------------------------------*/
 .site-header {
-  background-image: url('../images/e-header.jpg');
+  background-color: #ffffff;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -262,7 +262,7 @@ main {
   NAVIGATION              
 -----------------------------------------*/
 .navbar {
-  background-image: url('../images/e-footer.jpg');
+  background-image:#ffffff;
   top: 0;
   right: 0;
   left: 0;
@@ -476,7 +476,7 @@ main {
   CAROUSEL        
 -----------------------------------------*/
 .hero-section {
-  background-image: url('../images/e-banner.jpg'), linear-gradient(#348CD2, #FFFFFF);
+  background-color: #ffffff, linear-gradient(#348CD2, #FFFFFF);
   background-repeat: no-repeat;
   background-size: 108% 76%;
   background-position: top;

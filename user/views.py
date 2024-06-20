@@ -180,13 +180,14 @@ class contactMesage(View):
         form = forms.ContactMessageForm(request.POST)  # Instantiate the form with request POST data
         if form.is_valid():  # Add parentheses to is_valid()
             user = form.cleaned_data['user']
+            email= form.cleaned_data['email']
             message = form.cleaned_data['message']
             try:
                 u_obj = get_object_or_404(User,full_name = user)
                 user_email = u_obj.email
                 subject = "Your Query Recived."
                 message = f"Dear,\nYour Query has been recived successfully.\nOur Team members look into this."
-                from_email = "forverify.noreply@gmail.com"
+                from_email = "noreplyf577@gmail.com"
                 send_mail(subject, message, from_email,[user_email], fail_silently=False)
                 contact_obj = ContactMessage(user = u_obj,message = message)
                 contact_obj.save()
@@ -214,8 +215,44 @@ class AccountDetails(View):
 
     def get(self,request):
         user = request.user
-        category_obj = Category.objects.all()
+        catagory_obj = Catagory.objects.all()
         userobj = User.objects.get(id=user.id)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        
         try:
             profileobj = UserProfile.objects.get(user=userobj)
         except UserProfile.DoesNotExist:
@@ -226,8 +263,13 @@ class AccountDetails(View):
         
         return render(request,self.template,locals())
     
-# 
 
+class Sector(View):
+    template = "user/sector.html"
+
+    def get(self,request):
+        return render(request,self.template)
+        
 class ThankYou(View):
     template = app + "thankyoupage.html"
     def get(self, request):

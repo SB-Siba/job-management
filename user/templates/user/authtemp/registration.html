@@ -80,6 +80,9 @@ background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
         <form method="post" action="">
             <div class="mt-10 mt-lg-5 mb-6 ms-5" id="RegisterHere">
                 <h1 class="ls-tight font-bolder h1">Register Here</h1>
+                <div class="form-group mt-2">
+                    {% include 'snippets/alert.html' %}
+                </div>
             </div>
             {% csrf_token %}
             {% for field in form %}
@@ -91,9 +94,7 @@ background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
             <div class="btn-Register mb-3">
                 <button class="btn btn-primary" type="submit">Register</button>
             </div>
-            <div class="form-group mt-2">
-                {% include 'snippets/alert.html' %}
-            </div>
+       
 
             <div class="text-center text-lg-center">
                 <small>Already have an account?</small>
