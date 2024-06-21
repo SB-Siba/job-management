@@ -11,6 +11,8 @@ urlpatterns = [
     path('delete_account', views.DeleteAccount.as_view(), name='delete_account'),
     path('privacy_policy', views.PrivacyPolicy.as_view(), name='privacy_policy'),
     path('sector', views.Sector.as_view(), name = "sector"),
+    path('job-opening', views.JobOpening.as_view(), name = "job-opening"),
+
 
 
     #authentication api

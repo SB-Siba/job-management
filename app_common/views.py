@@ -78,3 +78,9 @@ class Sector(View):
 
     def get(self,request):
         return render(request,self.template)
+    
+class JobOpening(View):
+    template = "user/job_opening.html"
+
+    def get(self,request):
+        return render(request,self.template)
