@@ -9,13 +9,15 @@ from django.utils import timezone
 from . import forms
 from django.contrib.auth.decorators import login_required
 from app_common.models import Job, Application
-from admin_dashboard.manage_product.forms import ApplicationForm
+from admin_dashboard.manage_product.forms import ApplicationForm ,CatagoryEntryForm
 # from app_common.checkout.serializer import CartSerializer,DirectBuySerializer,TakeSubscriptionSerializer,OrderSerializer
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 # from io import StringIO
+from django.urls import reverse_lazy
 from django.core.mail import send_mail
 import json
+# admin_dashboard/manage_product/user.py
 from app_common.models import (
     Job,
     Catagory,
@@ -50,10 +52,12 @@ class ProfileView(View):
         print(user)
         catagory_obj =Catagory.objects.all()
         userobj = User.objects.get(email=user.email)
+
         try:
             profileobj = UserProfile.objects.get(user=userobj)
         except UserProfile.DoesNotExist:
             profileobj = None
+
 
         if not user.is_authenticated:
             return redirect("user:login")
@@ -87,7 +91,7 @@ class UpdateProfileView(View):
         return render(request, self.template, locals())
 
     def post(self, request):
-        category_obj = Category.objects.all()
+        catagory_obj = Catagory.objects.all()
         form = self.form(request.POST, request.FILES)
         if form.is_valid():
             email = form.cleaned_data["email"]
@@ -137,31 +141,75 @@ class UpdateProfileView(View):
             except:
                 messages.error(request, "Error in Updating Profile")
         return render(request, self.template, locals())
+class UserJobList(View):
+    template = "user/job_list.html"
+
+    def get(self, request):
+        job_list = self.Job.objects.filter(published=True, expiry_date__gt=timezone.now()).order_by('-id')
+        paginated_data = utils.paginate(request, job_list, 50)
+        context = {
+            "job_list": job_list,
+            "data_list": paginated_data
+        }
+        return render(request, self.template, context)
 
 
-def job_list(request):
-    jobs = Job.objects.all()
-    return render(request, 'jobs/job_list.html', {'jobs': jobs})
+class UserJobSearch(View):
+    form=CatagoryEntryForm()
+    template = "user/job_list.html"
 
-def job_detail(request, pk):
-    job = get_object_or_404(Job, pk=pk)
-    return render(request, 'jobs/job_detail.html', {'job': job})
+    def post(self, request):
+        filter_by = request.POST.get("filter_by")
+        query = request.POST.get("query")
+        if filter_by == "uid":
+            job_list = self.Job.objects.filter(id=query, published=True, expiry_date__gt=timezone.now())
+        else:
+            job_list = self.Job.objects.filter(title__icontains=query, published=True, expiry_date__gt=timezone.now())
 
-@login_required
-def apply_for_job(request, pk):
-    job = get_object_or_404(Job, pk=pk)
-    if request.method == 'POST':
+        paginated_data = utils.paginate(request, job_list, 50)
+        context = {
+            "form": self.form_class,
+            "job_list": job_list,
+            "data_list": paginated_data
+        }
+        return render(request, self.template, context)
+
+
+class UserJobFilter(View):
+    template = "user/job_list.html"
+
+    def get(self, request):
+        filter_by = request.GET.get("filter_by")
+        if filter_by == "category":
+            category_id = request.GET.get("category_id")
+            job_list = self.Job.objects.filter(category_id=category_id, published=True, expiry_date__gt=timezone.now()).order_by('-id')
+        else:
+            job_list = self.Job.objects.filter(published=True, expiry_date__gt=timezone.now()).order_by('-id')
+
+        paginated_data = utils.paginate(request, job_list, 50)
+        context = {
+            "job_list": job_list,
+            "data_list": paginated_data
+        }
+        return render(request, self.template, context)
+
+
+class ApplyForJobView(View):
+    def get(self, request, pk):
+        job = get_object_or_404(Job, pk=pk, published=True)
+        form = ApplicationForm()
+        return render(request, 'jobs/apply_for_job.html', {'form': form, 'job': job})
+
+    def post(self, request, pk):
+        job = get_object_or_404(Job, pk=pk, published=True)
         form = ApplicationForm(request.POST, request.FILES)
         if form.is_valid():
-            application = form.save(commit=False)
+            application = form.save(commit(False))
+            application.candidate = request.user
             application.job = job
-            application.user = request.user
             application.save()
-            return redirect('job_list')
-    else:
-        form = ApplicationForm()
-    return render(request, 'jobs/apply_for_job.html', {'form': form, 'job': job})
-
+            return redirect('job_detail', pk=job.pk)
+        return render(request, 'jobs/apply_for_job.html', {'form': form, 'job': job})
 
 
 
@@ -170,8 +218,8 @@ class contactMesage(View):
     template = app + "contact_page.html"
 
     def get(self,request):
-        # initial = {'user': request.user.full_name}
-        form = forms.ContactMessageForm
+        initial = {'user': request.user.full_name}
+        form = forms.ContactMessageForm(initial=initial)
 
         context={"form":form}
         return render(request,self.template,context)

@@ -40,46 +40,16 @@ class CatagoryEntryForm(forms.ModelForm):
 class JobForm(forms.ModelForm):
     class Meta:
         model = common_models.Job
-        fields = [
-            'title',
-            'catagory',
-            'description',
-            'requirements',
-            'location',
-            'posted_at',
-
-        ]
-    
-    title = forms.CharField(max_length=255)
-    title.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
-
-    catagory = forms.ModelChoiceField(queryset = common_models.Catagory.objects.all())
-    catagory.widget.attrs.update({'class': 'form-control','type':'text'})
-
-
-    description = forms.CharField(widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
-    description.widget.attrs.update({'class': 'form-control','type':'text'})
-
-
-    requirements = forms.CharField(widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
-    requirements.widget.attrs.update({'class': 'form-control','type':'text'})
-
-    location = forms.CharField(max_length=255)
-    location.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
-
-
-    posted_at = forms.DateField()
-    posted_at.widget.attrs.update({'class': 'form-control','type':'date',"required":"required"})
-    posted_at = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
-
-
-   
-
+        fields = ['catagory', 'description', 'location','requirements','company_name','company_website','company_logo','vacancies','published', 'posted_at', 'expiry_date', 'job_type']
+        widgets = {
+            'posting_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'expiration_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            }
 
 class ApplicationForm(forms.Form):
     class Meta:
         model =common_models.Application
-        fields = ['resume', 'user']  
+        fields = ['user','email','contact','resume']  
 
 class EditUserForm(forms.Form):
     model =common_models.Edit_User
@@ -87,3 +57,11 @@ class EditUserForm(forms.Form):
     full_name = forms.CharField(label="Full Name",max_length=50,widget=forms.TextInput(attrs={"class":"form-control"}))
     contact = forms.IntegerField(label="Contact",widget=forms.NumberInput(attrs={"class":"form-control"}))
 
+
+class AddUserForm(forms.ModelForm):
+    class Meta:
+        model = common_models.User
+        fields = ['email', 'full_name', 'contact', 'password']  # Include necessary fields
+
+    # Optionally, you can add custom validation or widgets
+    password = forms.CharField(widget=forms.PasswordInput)

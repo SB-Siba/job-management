@@ -46,8 +46,8 @@
             <div class="container">
                 <a class="navbar-brand me-lg-5 me-0" href="{% url 'user:home' %}">
                     <!-- <p style="color: #000080; font-family: 'Poppins', sans-serif;   margin-left: 50px;"><b>PRAVATI INTERNATIONAL PVT.LTD.</b></p> -->
-                    <img style="width:100px ; height:100px" src="/static/app_common/img/logos/admin_logo.png" class="logo-image img-fluid"
-                    alt="">
+                     <img style="width:60px ; height:60px"   src="/static/app_common/img/logos/logo2.png" class="logo-image img-fluid"
+                    alt="templatemo pod talk"> 
                 {% comment %} </a>
 
                 <form action="" method="post"
@@ -63,6 +63,7 @@
                     </div>
                 </form> {% endcomment %}
                 <!-- <div id="search-suggestions"></div> -->
+                
                 <div id="search-suggestions" class="position-absolute bg-transparent border mx-auto" style="display: none;"></div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav1"
@@ -70,7 +71,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarNav1">
+                <div class="collapse navbar-collapse px-5" id="navbarNav1">
                     <ul class="navbar-nav ms-lg-auto text-black">
                         <li class="nav-item">
                             <a class="nav-link active" href="{% url 'user:home' %}">Home</a>
@@ -109,8 +110,9 @@
     <style>
         .small-card {
             width: 250px; /* Adjust the width as needed */
-            background: rgb(241,50,50);
-            background: linear-gradient(343deg, rgba(241,50,50,1) 0%, rgba(255,137,137,1) 47%, rgba(237,177,177,1) 100%);
+            {% comment %} background: rgb(241,50,50);
+            background: linear-gradient(343deg, rgba(241,50,50,1) 0%, rgba(255,137,137,1) 47%, rgba(237,177,177,1) 100%); {% endcomment %}
+            background-color: #1D3557;
             border-radius: 10px;
             display: flex; /* Use flexbox */
             justify-content: center; /* Center horizontally */
@@ -125,47 +127,95 @@
             object-fit: cover;
             border-radius: 50%; /* Circle shape for the image */
         }
-    </style>    
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-12">
-                    <div class="text-center mb-5 pb-2">
-                        <div id="carouselExample" class="carousel slide">
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <img src="{% static 'images/r1.jpg' %}" class="d-block w-100" height="600rem" width="60%" alt="...">
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <h3  style="color:#000080;  font-family: 'Lato', sans-serif;" >WELCOME TO PRAVATI INTERNATIONAL SERVICES PRIVATE LIMITED</h3>
-                                        <br>
-                                        <h5 style="color:#000080;  font-family: 'Poppins', sans-serif;"> <b>Provide emergency medical care,
-                                            stabilize patients, and transport them
-                                            to medical facilities. They respond to
-                                            emergency calls, perform CPR,
-                                            administer oxygen, and use
-                                            defibrillators.</b></h5>
+        
+                .carousel-inner img {
+                    width: 100%;
+                    height: 500px; /* Adjust height as needed */
+                }
+        
+                .carousel-caption {
+                    text-align: left;
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+                    width: 40%; /* Adjust width as needed */
+                    display: flex;
+                    align-items: center;
+                    padding: 2rem;
+                  
+                }
+        
+                .carousel-caption h4, .carousel-caption h6 {
+                    color:#b50495;
+                    font-family: 'Montserrat', sans-serif;
+                }
+        
+                .carousel-caption h5 {
+                    font-weight: bold;
+                }
+        
+                .carousel, .carousel-item, .carousel-inner {
+                    width: 100%;
+                    height: 100%;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container-fluid p-0">
+                <div class="row g-0">
+                    <div class="col-lg-12 col-12">
+                        <div class="text-center mb-5 pb-2">
+                            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img src="{% static 'images/a3a.jpg' %}" class="d-block w-100" height="550rem"  width: 100%; alt="...">
+                                        <div class="carousel-caption d-flex align-items-center">
+                                            <div>
+                                                <h4>WELCOME TO PRAVATI INTERNATIONAL SERVICES PRIVATE LIMITED</h4>
+                                                <br>
+                                                <h6>Provide emergency medical care,
+                                                    stabilize patients, and transport them
+                                                    to medical facilities. They respond to
+                                                    emergency calls, perform CPR,
+                                                    administer oxygen, and use
+                                                    defibrillators.</h6>
+                                            </div>
+                                        </div>
                                     </div>
-                                   
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="{% static 'images/r2.jpg' %}" class="d-block w-100" height="600rem" width="60%" alt="...">
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <h3  style="color: #000080;font-family: 'Lato', sans-serif;">QUALITY SERVICES</h3>
-                                        <h5 style="color: #000080;  font-family: 'Poppins', sans-serif;"><b> Greet and assist visitors, patients, or
-                                            clients. Answer phone calls and direct
-                                            them to the appropriate personnel. </b>
-                                        </h5>
+                                    <div class="carousel-item">
+                                        <img src="{% static 'images/a1a.jpg' %}" class="d-block w-100" height="550rem"  width: 100%; alt="...">
+                                        <div class="carousel-caption d-flex align-items-center">
+                                            <div>
+                                                <h4>QUALITY SERVICES</h4>
+                                                <h6>Greet and assist visitors, patients, or
+                                                    clients. Answer phone calls and direct
+                                                    them to the appropriate personnel.</h6>
+                                            </div>
+                                        </div>
                                     </div>
-                                   
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="{% static 'images/dd3.0.jpg' %}" class="d-block w-100" height="600rem" width="60%" alt="...">
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <h3 style="color: #000080;font-family: 'Lato', sans-serif;">PREFOSSIONAL TEAM</h3>
-                                        <h5 style="color: #000080; font-family: 'Poppins', sans-serif;"><b>We place our clients at the
-                                            center of everything we do, striving to exceed their
-                                            expectations and foster long-term relationships.</b></h5>
+                                    <div class="carousel-item">
+                                        <img src="{% static 'images/r5.jpg' %}" class="d-block w-100" height="550rem"  width: 100%; alt="...">
+                                        <div class="carousel-caption d-flex align-items-center">
+                                            <div>
+                                                <h4>PREFOSSIONAL TEAM</h4>
+                                                <h6>We place our clients at the
+                                                    center of everything we do, striving to exceed their
+                                                    expectations and foster long-term relationships.</h6>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Bootstrap JS -->
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+        </body>
+        </html>
+        
                                 {% comment %} <div class="carousel-item">
                                     <img src="{% static 'images/dd4.jpg' %}" class="d-block w-100" height="600rem" width="60%" alt="...">
                                     <div class="carousel-caption d-none d-md-block">
@@ -229,40 +279,45 @@
         </div>
     </section>
     <!-- About us Start-->
-    <section class="py-3 py-md-5">
+    <section class="py-1 py-md-1">
         <div class="container">
-            
-            <div class="row gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
-                <div class="col-12 col-lg-6 col-xl-7">
-                    <div class="row justify-content-xl-center">
-                        <div class="container mt-4">
-                            <h3 style="color:#000080;  font-family: 'Lato', sans-serif; margin-bottom: 1rem;text-decoration: underline;margin-left: 20px;">ABOUT US</h3>
-                          <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 20px; margin-left: 20px; "><b>Pravati International Service Private Limited is a leading provider of manpower outsourcing services, catering to a diverse
-                            range of sectors including reputed hospitals, hotels, schools, government offices, NGOs, and manufacturing  companies. Our extensive experience and
-                             commitment to excellence make us a  trusted partner for organizations seeking
-                            to enhance their operational efficiency and focus on their core activities</b> </p>
-                        </div>
+            <div class="row gy-3 gy-md-4 align-items-center">
+                <div class="col-12 col-lg-6">
+                    <div>
+                        <h3 style="color:#1D3557; font-family: 'Montserrat', sans-serif; margin-left: 30px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block;  margin-bottom: 30px;">ABOUT US</h3>
+                        
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px; margin-left: 30px; text-align: justify;">Pravati International Service Private Limited is a leading provider of manpower outsourcing services, catering to a diverse range of sectors including reputed hospitals, hotels, schools, government offices, NGOs, and manufacturing companies. Our extensive experience and commitment to excellence make us a trusted partner for organizations seeking to enhance their operational efficiency and focus on their core activities.Our mission is to deliver high quality manpower solutions that
+                            meet the unique needs of our
+                            clients, enabling them to achieve
+                            their strategic goals. We strive to
+                            provide a seamless and reliable
+                            service that ensures the right
+                            talent is placed in the right roles,
+                            contributing to the overall
+                            success of our clients.</p>
+                        
                     </div>
-                 </div>
-                  <div class="col-12 col-lg-6 col-xl-5 d-flex justify-content-center">
-                    <img class="img-fluid rounded" loading="lazy" src="{% static 'images/s9.jpg' %}" alt="About 1" style="width: 500px">
-                  </div> 
-            </div >
+                </div>
+                <div class="col-12 col-lg-6 d-flex justify-content-center">
+                    <img class="img-fluid rounded" loading="lazy" src="{% static 'images/s9.jpg' %}" alt="About 1" style="width: 100%; max-width: 500px;">
+                </div>
+            </div>
         </div>
     </section>
+    
     <!-- About us End-->
     
      <!-- Service Start-->
      <div class="container mt-4">
-        <h3 style="color:#000080;  font-family: 'Lato', sans-serif; margin-bottom: 3rem;text-decoration: underline;margin-left: 20px;">OUR SERVICES</h3>
+        <h3 style="color:#1D3557; font-family: 'Montserrat', sans-serif; margin-left: 20px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; margin-bottom: 30px;">OUR SERVICES</h3>
         <div class="row">
-            <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-square">
                 <div class="card" style="width: 100%;">
                     <img class="card-img-top" src="{% static 'images/s1.jpg' %}" alt="Service Image 1">
                     <div class="card-body">
-                        <h6 style="color: #000080; font-family: 'Poppins', sans-serif;">ALL PARAMEDICAL STAFF
-                        </h6>
-                        <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px;">Highly trained paramedical staff delivering top-notch care, ensuring patient safety and comfort at all times.</p>
+                        <p style="color: #1D3557; font-family: 'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">ALL PARAMEDICAL STAFF
+                        </p>
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Highly trained paramedical staff delivering top-notch care, ensuring patient safety and comfort at all times.</p>
                        
                             <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
                        
@@ -273,8 +328,8 @@
                 <div class="card" style="width: 100%;">
                     <img class="card-img-top" src="{% static 'images/m1.jpg' %}" alt="Service Image 2">
                     <div class="card-body">
-                        <h6  style="color: #000080; font-family: 'Poppins', sans-serif;">HOUSEKEEPING & SECURITY</h6>
-                        <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px;">Ensuring cleanliness and safety with professional housekeeping and reliable security services for all environments.</p>
+                        <p  style="color: #1D3557; font-family: 'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">HOUSEKEEPING & SECURITY</p>
+                        <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Ensuring cleanliness and safety with professional housekeeping and reliable security services for all environments.</p>
                        
                             <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
                         
@@ -285,9 +340,9 @@
                 <div class="card" style="width: 100%;">
                     <img class="card-img-top" src="{% static 'images/m2.jpg' %}" alt="Service Image 3">
                     <div class="card-body">
-                        <h6 style="color: #000080; font-family: 'Poppins', sans-serif;">BEDSIDE PARIENT ATTENDANT
-                        </h6>
-                        <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px;">Providing compassionate care and support, ensuring patient comfort and well-being with professional bedside assistance.</p>
+                        <hp style="color: #1D3557; font-family: 'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">BEDSIDE PARIENT ATTENDANT
+                        </p>
+                        <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Providing compassionate care and support, ensuring patient comfort and well-being with professional bedside assistance.</p>
                             
                         <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
                     </div>
@@ -297,9 +352,9 @@
                 <div class="card" style="width: 100%;">
                     <img class="card-img-top" src="{% static 'images/m3.jpg' %}" alt="Service Image 4">
                     <div class="card-body">
-                        <h6  style="color: #000080; font-family: 'Poppins', sans-serif;">HOME NURSING
-                        </h6>
-                        <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px;"> home nursing services offering personalized care, medical assistance, and support for patients in the comfort of their homes.</p>
+                        <p style="color:#1D3557; font-family:'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">HOME NURSING
+                        </p>
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;"> home nursing services offering personalized care, medical assistance, and support for patients in the comfort of their homes.</p>
                         
                         <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
                     </div>
@@ -309,9 +364,9 @@
                 <div class="card" style="width: 100%;">
                     <img class="card-img-top" src="{% static 'images/m5.jpg' %}" alt="Service Image 2">
                     <div class="card-body">
-                        <h6  style="color: #000080; font-family: 'Poppins', sans-serif;">DATA ENTRY, FRONT OFFICE & BACK OFFICE
-                        </h6>
-                        <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px;">Efficient data entry, organized front office, and streamlined back office operations for optimal business functionality.</p>
+                        <p style="color: #1D3557; font-family:'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">DATA ENTRY, FRONT OFFICE & BACK OFFICE
+                        </p>
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Efficient data entry, organized front office, and streamlined back office operations for optimal business functionality.</p>
                         
                             <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
                        
@@ -322,8 +377,8 @@
                 <div class="card" style="width: 100%;">
                     <img class="card-img-top" src="{% static 'images/m4.jpg' %}" alt="Service Image 2">
                     <div class="card-body">
-                        <h6  style="color: #000080; font-family: 'Poppins', sans-serif;">ITI, DIPLOMA, DEGREE ENGINEER</h6>
-                        <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px;">ITI for technical skills, Diploma for intermediate expertise, Degree Engineer for advanced engineering knowledge.</p>
+                        <p  style="color: #1D3557; font-family: 'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">ITI, DIPLOMA, DEGREE ENGINEER</p>
+                        <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">ITI for technical skills, Diploma for intermediate expertise, Degree Engineer for advanced engineering knowledge.</p>
                         {% comment %} <div class="mt-auto d-flex justify-content-center"> {% endcomment %}<br>
                             <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
                         {% comment %} </div> {% endcomment %}
@@ -334,9 +389,9 @@
                 <div class="card" style="width: 100%;">
                     <img class="card-img-top" src="{% static 'images/m6.jpg' %}" alt="Service Image 2">
                     <div class="card-body">
-                        <h6  style="color: #000080; font-family: 'Poppins', sans-serif;">FIRE SAFETY & OFFICE BOY
-                        </h6>
-                        <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px;">Fire Safety ensures workplace safety; Office Boy supports daily office tasks, ensuring smooth operations and cleanliness.       </p>
+                        <p  style="color: #1D3557; font-family:'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">FIRE SAFETY & OFFICE BOY
+                        </p>
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Fire Safety ensures workplace safety; Office Boy supports daily office tasks, ensuring smooth operations and cleanliness.       </p>
                       <br>
                             <a href="#" class="btn btn-primary" style="background-color:#D05329;border:none">More Details</a>
                         
@@ -347,13 +402,13 @@
     </div>
     
     <div class="container mt-4">
-        <h3 style="color:#000080;  font-family: 'Lato', sans-serif; margin-bottom: 2rem;text-decoration: underline;margin-left: 20px;">INDUSTRIES WE SERVE</h3>
+        <h3 style="color:#1D3557; font-family: 'Montserrat', sans-serif; margin-left: 20px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; margin-bottom: 30px;">INDUSTRIES WE SERVE</h3>
         <div class="row">
             <div class="col-6 col-md-4 col-lg-2 mb-4">
                 <div class="card small-card">
                     <img class="card-img-top small-card-img" src="{% static 'images/s2.jpg' %}" alt="Healthcare Industry">
                     <div class="card-body">
-                        <h6 class="card-title" style="text-align: center;font-family: 'Poppins',">HOSPITAL</h6>
+                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Montserrat',">HOSPITAL</h6>
                         <p class="card-text" style="color:#fff; font-family: 'Poppins',">Local hospital celebrates milestone, saving lives with cutting-edge technology, dedicated staff, and compassionate care.</p>
                     </div>
                 </div>
@@ -362,7 +417,7 @@
                 <div class="card small-card">
                     <img class="card-img-top small-card-img" src="{% static 'images/s3.jpg' %}" alt="Healthcare Industry">
                     <div class="card-body">
-                        <h6 class="card-title" style="text-align: center;font-family: 'Poppins',">HOTEL</h6>
+                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Montserrat',,">HOTEL</h6>
                         <p class="card-text" style="color:#fff; font-family: 'Poppins',">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
                     </div>
                 </div>
@@ -371,7 +426,7 @@
                 <div class="card small-card">
                     <img class="card-img-top small-card-img" src="{% static 'images/s4.jpg' %}" alt="Healthcare Industry">
                     <div class="card-body">
-                        <h6 class="card-title" style="text-align: center;font-family: 'Poppins',">SCHOOL</h6>
+                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Montserrat',">SCHOOL</h6>
                         <p class="card-text" style="color:#fff; font-family: 'Poppins',">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
                     </div>
                 </div>
@@ -380,7 +435,7 @@
                 <div class="card small-card">
                     <img class="card-img-top small-card-img" src="{% static 'images/s5.jpg' %}" alt="Healthcare Industry">
                     <div class="card-body">
-                        <h6 class="card-title" style="text-align: center;font-family: 'Poppins',">GOVT. OFFICES</h6>
+                        <h6 class="card-title" style="color:#fff;text-align: center;font-family:'Montserrat',">GOVT. OFFICES</h6>
                         <p class="card-text" style="color:#fff; font-family: 'Poppins',">Government Offices Streamline Services with New Online Portal for Efficiency.</p>
                     </div>
                 </div>
@@ -389,7 +444,7 @@
                 <div class="card small-card">
                     <img class="card-img-top small-card-img" src="{% static 'images/s6.jpg' %}" alt="Healthcare Industry">
                     <div class="card-body">
-                        <h6 class="card-title" style="text-align: center;font-family: 'Poppins',">NGO
+                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Montserrat',">NGO
                         </h6>
                         <p class="card-text" style="color:#fff; font-family: 'Poppins',">NGO Launches Initiative to Empower Underprivileged Youth through Education</p>
                     </div>
@@ -399,7 +454,7 @@
                 <div class="card small-card">
                     <img class="card-img-top small-card-img" src="{% static 'images/s7.jpg' %}" alt="Healthcare Industry">
                     <div class="card-body">
-                        <h6 class="card-title" style="text-align: center;font-family: 'Poppins',">MANUFACTURING
+                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Montserrat',">MANUFACTURING
                             COMPANY</h6>
                         <p class="card-text" style="color:#fff; font-family: 'Poppins',">Manufacturing Company Unveils Eco-Friendly Production Line, Reducing Carbon Footprint.</p>
                     </div>
@@ -429,17 +484,17 @@
         <!-- Single item -->
         <div class="carousel-item active">
           <div class="container">
-            <h3  style="color:#000080; font-family: 'Lato', sans-serif; margin-bottom: 2rem; text-decoration: underline; text-align: left;margin-left: 20px;">CUSTOMER SPEECH
-            </h3>
+            <h3 style="color:#1D3557; font-family: 'Montserrat', sans-serif; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; text-align: left; margin-bottom: 20px;">CUSTOMER SPEECH</h3>
+          
             <div class="row">
               <div class="col-lg-4">
                 <img class="rounded-circle shadow-1-strong mb-4"
                   src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp" alt="avatar"
-                  style="width: 150px;" />
-                <h5 class="mb-3">Anita Dash</h5>
+                  style="width: 100px;height: 100px;" />
+                <h5  style="color:#1D3557; font-family: 'Montserrat',">Anita Dash</h5>
                 
-                <p class="text-muted">
-                  <i class="fas fa-quote-left pe-2"></i>
+                <p class=>
+                  <i style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px;"></i>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod eos id
                   officiis hic tenetur quae quaerat ad velit ab hic tenetur.
                 </p>
@@ -455,11 +510,11 @@
               <div class="col-lg-4 d-none d-lg-block">
                 <img class="rounded-circle shadow-1-strong mb-4"
                   src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp" alt="avatar"
-                  style="width: 150px;" />
-                <h5 class="mb-3">Rohit Kumar</h5>
+                  style="width: 100px;height: 100px;" />
+                <h5  style="color:#1D3557; font-family: 'Montserrat',">Rohit Kumar</h5>
                
-                <p class="text-muted">
-                  <i class="fas fa-quote-left pe-2"></i>
+                <p class=>
+                  <i style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px;"></i>
                   Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
                   suscipit laboriosam, nisi ut aliquid commodi.
                 </p>
@@ -477,11 +532,11 @@
               <div class="col-lg-4 d-none d-lg-block">
                 <img class="rounded-circle shadow-1-strong mb-4"
                   src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" alt="avatar"
-                  style="width: 150px;" />
-                <h5 class="mb-3">Pooja Sharma</h5>
+                  style="width: 100px;height: 100px;" />
+                <h5  style="color:#1D3557; font-family: 'Montserrat',">Pooja Sharma</h5>
                 
-                <p class="text-muted">
-                  <i class="fas fa-quote-left pe-2"></i>
+                <p class=>
+                  <i style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px;"></i>
                   At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
                   praesentium voluptatum deleniti atque corrupti.
                 </p>
@@ -736,12 +791,12 @@
     
 
 
-    <footer class="site-footer mt-0 pt-0 mb-0 pb-0">
-        
-        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-            
+    <footer class="site-footer mt-0 pt-0 mb-0 pb-0 bg-white ">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom bg-white">
+            <!-- Left -->
             <div class="me-5 d-none d-lg-block">
-                <span class="fw-bold">Get connected with us on social networks : </span>
+                <h6 style="color:#1D3557; font-family: 'Montserrat',">Get connected with us on social networks : <h6>
             </div>
             
 
@@ -765,19 +820,19 @@
         
 
         <!-- Section: Links  -->
-        <section class="bg-white">
-            <div class="container text-center text-md-start mt-5">
+        <section class= >
+            <div class="container text-center text-md-start mt-5 ">
                 <!-- Grid row -->
                 <div class="row mt-3">
                     <!-- Grid column -->
                     <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                         <!-- Content -->
-                        <h6 class="text-uppercase fw-bold mb-2">
+                        <h6 style="color:#1D3557; font-family: 'Montserrat',">
                      <!--    <img src="{% static 'images/audio_logo.png' %}" class="logo-image img-fluid mb-2"  
                         alt="templatemo pod talk" style="height: 50px; width: 50px;"> --><br>Pravati International Pvt.Ltd.
                         </h6>
                         <p class="text-black">
-                            Always believe yourself
+                            {% comment %} Always believe yourself {% endcomment %}
                         </p>
                     </div>
                     <!-- Grid column -->
@@ -785,67 +840,67 @@
                     <!-- Grid column -->
                     <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
                         <!-- Links -->
-                        <h6 class="text-uppercase fw-bold mb-4">
+                        <h6  style="color:#1D3557; font-family: 'Montserrat',">
                            Our Services
                         </h6>
                         <ul class="custom-bullets">
                         <p class="text-black">
-                            <li>      <a href="#!" class="text-reset">All Paramedical Staff</a>    </li> 
+                            <li>      <a href="#!" style="color:#808080; font-family: 'Poppins', sans-serif;">All Paramedical Staff</a>    </li> 
                         </p>
                         <p class="text-black">
-                            <li>    <a href="#!" class="text-reset">Housekeeping & Security</a> </li> 
+                            <li>    <a href="#!"  style="color:#808080; font-family: 'Poppins', sans-serif;">Housekeeping & Security</a> </li> 
                         </p>
                         <p class="text-black">
-                            <li>   <a href="#!" class="text-reset">BedSide Patient Attendant</a> </li> 
+                            <li>   <a href="#!"style="color:#808080; font-family: 'Poppins', sans-serif;">BedSide Patient Attendant</a> </li> 
                         </p>
                         <p class="text-black">
-                            <li>  <a href="#!" class="text-reset">Home Nursing</a> </li> 
+                            <li>  <a href="#!" style="color:#808080; font-family: 'Poppins', sans-serif;t">Home Nursing</a> </li> 
                         </p>
                         <p class="text-black">
-                            <li>   <a href="#!" class="text-reset">Data Entry, Font Office & Back Office</a> </li> 
+                            <li>   <a href="#!" style="color:#808080; font-family: 'Poppins', sans-serif;t">Data Entry, Font Office & Back Office</a> </li> 
                         </p>
                          <p class="text-black">
-                            <li>    <a href="#!" class="text-reset">ITI, Diploma, Degree Engineer</a> </li> 
+                            <li>    <a href="#!"style="color:#808080; font-family: 'Poppins', sans-serif;">ITI, Diploma, Degree Engineer</a> </li> 
                         </p>
                         <p class="text-black">
-                            <li>        <a href="#!" class="text-reset">Fire Safeyt & Office Boy</a> </li> 
+                            <li>        <a href="#!" style="color:#808080; font-family: 'Poppins', sans-serif;">Fire Safeyt & Office Boy</a> </li> 
                         </p>
                     </div>
                     <!-- Grid column -->
 
                     <!-- Grid column -->
-                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-5">
                         <!-- Links -->
-                        <h6 class="text-uppercase fw-bold mb-4">
+                        <h6  style="color:#1D3557; font-family: 'Montserrat',">
                             Useful links
                         </h6>
                         <p class="text-black">
                             <ul class="custom-bullets">
-                                <li>      <a href="#!" class="text-reset">Home</a> </li> 
+                                <li>      <a href="#!" style="color:#808080; font-family: 'Poppins', sans-serif;">Home</a> </li> 
                         </p>
                         <p class="text-black">
-                            <li>       <a href="#!" class="text-reset">About Us</a> </li> 
+                            <li>       <a href="#!" style="color:#808080; font-family: 'Poppins', sans-serif;">About Us</a> </li> 
                         </p>
                         <p class="text-black">
-                            <li>     <a href="#!" class="text-reset">Sector</a> </li> 
+                            <li>     <a href="#!" style="color:#808080; font-family: 'Poppins', sans-serif;">Sector</a> </li> 
                         </p>
                         <p class="text-black">
-                            <li>        <a href="#!" class="text-reset">Contact</a> </li> 
+                            <li>        <a href="#!" style="color:#808080; font-family: 'Poppins', sans-serif;">Contact</a> </li> 
                         </p>
                     </div>
                     <!-- Grid column -->
 
                     <!-- Grid column -->
-                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                    <div  class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4 ">
                         <!-- Links -->
-                        <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
-                        <p class="text-black"><i class="fas fa-home me-3"></i>Friends Colony Mangalabag, Cuttack - 753001</p>
-                        <p class="text-black">
+                        <h6 style="color:#1D3557; font-family: 'Montserrat',">Contact</h6>
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif;"><i class="fas fa-home me-3"></i>Friends Colony Mangalabag, Cuttack - 753001</p>
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif;">
                             <i class="fas fa-envelope me-3"></i>
                           pravatiservices643@gmail.com
                                               </p>
-                        <p class="text-black"><i class="fas fa-phone me-3"></i> +91 9114790643</p>
-                        <p class="text-black"><i class="fas fa-phone me-3"></i> +91 9668790643</p>
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif;"><i class="fas fa-phone me-3"></i> +91 9114790643</p>
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif;"><i class="fas fa-phone me-3"></i> +91 9668790643</p>
                     <!--   <p class="text-black"><i class="fas fa-print me-3"></i> + 01 234 567 89</p>  --> 
                        
                     </div>

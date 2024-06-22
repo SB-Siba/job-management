@@ -4937,6 +4937,23 @@ fieldset:disabled .btn {
     border-bottom-right-radius: var(--bs-card-inner-border-radius);
     border-bottom-left-radius: var(--bs-card-inner-border-radius)
 }
+ .custom-card {
+        width: 100%;
+        max-width: 200px; /* Adjust the max-width as needed */
+        height: 100%;
+        max-height: 350px; /* Adjust the max-height as needed */
+    }
+    .custom-card img {
+        height: 120px; /* Adjust the image height as needed */
+        object-fit: cover;
+    }
+    .custom-card .card-body {
+        display: flex;
+        flex-direction: column;
+    }
+    .custom-card .btn {
+        margin-top: auto; /* Pushes the button to the bottom of the card body */
+    }
 
 .card-group>.card {
     margin-bottom: var(--bs-card-group-margin)
@@ -9188,9 +9205,8 @@ fieldset:disabled .btn {
 
 .bg-white {
     --bs-bg-opacity: 1;
-    background-color: rgba(var(--bs-white-rgb), var(--bs-bg-opacity)) !important
+    background-color: #e9ecef !important;
 }
-
 .bg-body {
     --bs-bg-opacity: 1;
     background-color: rgba(var(--bs-body-bg-rgb), var(--bs-bg-opacity)) !important

@@ -149,7 +149,7 @@ class ResetPasswordView(View):
                     user.token = None  # Clear the token after password reset
                     user.save()
                     messages.success( request,"Password reset successfully.")
-                    return redirect('authentication:login')
+                    return redirect('user:login')
                 else:
                     return HttpResponse("Invalid token.")
             except User.DoesNotExist:

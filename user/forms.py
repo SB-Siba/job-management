@@ -41,10 +41,10 @@ class UpdateProfileForm(forms.Form):
 
     # password = forms.CharField(label='Password',widget=forms.PasswordInput(attrs= {'autocomplete':'current-password','class':'form-control','placeholder':'Only if you want to change then type here.'}),required=False)
 
-    profile_pic = forms.FileField(label='Select an image file', required=False)
+    profile_pic = forms.FileField(label='Select a profile picture', required=False)
     profile_pic.widget.attrs.update({'class': 'form-control', 'type': 'file'})
 
-    resume = forms.FileField(label='Select an pdf file', required=False)
+    resume = forms.FileField(label='Select a resume', required=False)
     resume.widget.attrs.update({'class': 'form-control', 'type': 'file'})
     
 

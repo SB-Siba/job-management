@@ -20,34 +20,31 @@ urlpatterns = [
     path("user/deleteuser/<int:user_id>", user.DeleteUser.as_view(), name="deleteuser"),
     path('user/user_detail/<int:user_id>', user.UserDetailView.as_view(), name='user_detail'),
     path('edit_user/<int:user_id>',user.Edit_User.as_view(),name="edit_userrr"),
-    path('candidates/', user.candidate_list, name='candidates'),
-    path('candidates/<int:candidate_id>/', user.candidate_detail, name='candidate_detail'),
-    path('candidates/<int:candidate_id>/assign_category/', user.assign_category, name='assign_category'),
-    # path('candidates/send_message/', views.send_message, name='send_message'),
-    path('candidates/<int:candidate_id>/update_status_hired/', user.update_status_hired, name='update_status_hired'),
+    path('add_user/', user.AddUserView.as_view(), name='add_user'),
+    # path('candidates/', user.candidate_list, name='candidates'),
+    # path('candidates/<int:candidate_id>/', user.candidate_detail, name='candidate_detail'),
+    # path('candidates/<int:candidate_id>/assign_category/', user.assign_category, name='assign_category'),
+    # # path('candidates/send_message/', views.send_message, name='send_message'),
+    # path('candidates/<int:candidate_id>/update_status_hired/', user.update_status_hired, name='update_status_hired'),
     # # catagory web
     path("catagory/catagory_list", catagory.CatagoryList.as_view(), name="catagory_list"),
     path("catagory/catagory_update/<str:catagory_id>", catagory.CatagoryUpdate.as_view(), name="catagory_update"),
     path("catagory/catagory_delete/<str:catagory_id>", catagory.CatagoryDelete.as_view(), name="catagory_delete"),
 
     # # catagory api
-    # path("catagory/catagory_list_api", catagory.CatagotyListApi.as_view()),
-    path("catagory_Job_list/<str:catagory_id>", job.CatagoryJobFilter.as_view()),
-    path("api_Job_filter", job.ApiJobList.as_view()),
-    path("api_Job_detail/<str:Job_uid>", job.ApiJobDetail.as_view()),
+    
+    
 
     # #product web
-    path("job/job_list", job.JobList.as_view(), name="job_list"),
-    path("job/job_search", job.JobSearch.as_view(), name="job_search"),
-    path("job/job_filter", job.JobFilter.as_view(), name="job_filter"),
-    path("job/job_add", job.JobAdd.as_view(), name="job_add"),
-    path("job/job_update/<str:job_uid>", job.JobUpdate.as_view(), name="job_update"),
-    path("job/job_delete/<str:job_uid>", job.JobDelete.as_view(), name="job_delete"),
-    
+    path("job/job_list/", job.JobList.as_view(), name="job_list"),
+    path("job/job_search/", job.JobSearch.as_view(), name="job_search"),
+    path('job/job_filter/', job.JobFilter.as_view(), name='job_filter'),
+    path('job/job_detail/<int:job_uid>/', job.JobDetail.as_view(), name='job_detail'),
+    path('job/job_add/', job.JobAdd.as_view(), name='job_add'),
+    path('job/job_update/<int:job_uid>/', job.JobUpdate.as_view(), name='job_update'),
+    path('job/job_delete/<int:job_uid>/', job.JobDelete.as_view(), name='job_delete'),
     # #product_api
-    path("catagory_job_list/<str:catagory_id>", job.CatagoryJobFilter.as_view()),
-    path("api_job_filter", job.ApiJobList.as_view()),
-    path("api_job_detail/<str:job_uid>", job.ApiJobDetail.as_view()),
+    
 
     
 

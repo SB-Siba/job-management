@@ -1,0 +1,37 @@
+{% extends "user/index.html" %}
+{% load static %}
+{% block content %}
+  <h1>Job Listings</h1>
+  <ul>
+    {% for job in jobs %}
+      <li>
+        <h2><a href="{% url 'job-detail' job.pk %}">{{ job.title }}</a></h2>
+        <p>{{ job.description }}</p>
+        <p><strong>Location:</strong> {{ job.location }}</p>
+        <p><strong>Posted by:</strong> {{ job.posted_by.username }}</p>
+        <p><strong>Posted on:</strong> {{ job.created_at }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <!-- Pagination -->
+  {% if is_paginated %}
+    <div class="pagination">
+      <span class="step-links">
+        {% if page_obj.has_previous %}
+          <a href="?page=1">&laquo; first</a>
+          <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">next</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+      </span>
+    </div>
+  {% endif %}
+{% endblock %}

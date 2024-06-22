@@ -2,21 +2,13 @@
 {% load static %}
 {% block content %}
 
-<main class="py-6 bg-surface-secondary">
-
-    <div class="container-fluid">
-        <div class="vstack gap-4">
-            <div class="card create_test">
-                <form action="" method="post" enctype="multipart/form-data">
-                    {% include 'snippets/alert.html' %}
-                    {% csrf_token %}
-                    {{form.as_p}}
-                    <br>
-                    <center><button type="submit" class="btn btn-success">Add User</button></center>
-                </form>
-
-            </div>
-        </div>
-    </div>
-</main>
+<body>
+    <h1>Add New User</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add User</button>
+    </form>
+    <a href="{% url 'admin_dashboard:userslist' %}">Back to User List</a>
+</body>
 {% endblock content %}

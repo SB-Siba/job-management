@@ -15,10 +15,10 @@
             </div>
         </div>
     </div>
-
-    <!-- <a href="" class="btn btn-sm btn-neutral">
+    
+    <a href="{% url 'admin_dashboard:add_user' %}" class="btn btn-sm btn-neutral">
         <i class="bi bi-plus">ADD NEW USER</i>
-    </a> -->
+    </a>
 </header>
 
 <main class="py-6 bg-surface-secondary">
@@ -26,21 +26,6 @@
     
     <div class="container-fluid">
         <div class="vstack gap-4">
-            <!-- <div class="d-flex justify-content-between flex-column flex-sm-row gap-3">
-                <div class="hstack gap-2">
-                    <div class="input-group input-group-sm input-group-inline">
-
-                    </div>
-
-                </div>
-                <div class="btn-group">
-                    <a data-bs-toggle="modal" data-bs-target="#create_catagory" class="btn btn-sm btn-neutral">
-                        <i class="bi bi-plus">Create New Catagory</i>
-                     </a>
-
-                </div>
-            </div> -->
-            
             <div class="card">
                 <div class="table-responsive">
                     <table class="table table-hover table-nowrap">
@@ -69,9 +54,7 @@
                                     <td>
                                         <a href="{% url 'admin_dashboard:user_detail' user.id %}" class="btn btn-success">View</a>
                                         <a href="{% url 'admin_dashboard:edit_userrr' user.id %}" class="btn btn-success">edit</a>
-                                        <a href="{% url 'admin_dashboard:deleteuser' user.id %}">
-                                            delete
-                                       </a 
+                                        <a href="{% url 'admin_dashboard:deleteuser' user.id %}" class="btn btn-success">delete</a 
                                     </td>
                                 </tr> 
                             {% endfor %}
