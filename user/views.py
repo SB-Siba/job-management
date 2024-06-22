@@ -210,16 +210,13 @@ class ApplyForJobView(View):
             application.save()
             return redirect('job_detail', pk=job.pk)
         return render(request, 'jobs/apply_for_job.html', {'form': form, 'job': job})
-
-
-
     
 class contactMesage(View):
     template = app + "contact_page.html"
 
     def get(self,request):
-        initial = {'user': request.user.full_name}
-        form = forms.ContactMessageForm(initial=initial)
+        # initial = {'user': request.user.full_name}
+        form = forms.ContactMessageForm()
 
         context={"form":form}
         return render(request,self.template,context)
@@ -264,43 +261,7 @@ class AccountDetails(View):
     def get(self,request):
         user = request.user
         catagory_obj = Catagory.objects.all()
-        userobj = User.objects.get(id=user.id)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        
+        userobj = User.objects.get(id=user.id) 
         try:
             profileobj = UserProfile.objects.get(user=userobj)
         except UserProfile.DoesNotExist:
@@ -317,7 +278,15 @@ class Sector(View):
 
     def get(self,request):
         return render(request,self.template)
-        
+
+
+class JobOpening(View):
+    template = "user/job_opening.html"
+
+    def get(self,request):
+        return render(request,self.template)
+
+
 class ThankYou(View):
     template = app + "thankyoupage.html"
     def get(self, request):

@@ -40,6 +40,7 @@ urlpatterns = [
     # path('job/<int:pk>/apply/', views.apply_for_job, name='apply_for_job'),
     path('account-details',views.AccountDetails.as_view(),name='account_details'),
     path('sector', views.Sector.as_view(), name = "sector"),
+    path('job-opening', views.JobOpening.as_view(), name = "job-opening"),
     path('contact',views.contactMesage.as_view(),name="contact"),
     path('about',views.AboutPage.as_view(),name="about"),
     path('thank-you/',views.ThankYou.as_view(),name='thank_you'),

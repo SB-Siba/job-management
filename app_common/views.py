@@ -73,3 +73,4 @@ class PrivacyPolicy(View):
         return render(request, self.template, context)
 
 
+
