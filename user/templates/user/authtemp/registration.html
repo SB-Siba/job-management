@@ -1,243 +1,114 @@
-
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+ 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Page</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="color-scheme" content="dark light">
+    <title>Registration Form</title>
+    <link rel="stylesheet" type="text/css" href="/static/app_common/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/static/app_common/css/utilities.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <script defer="defer" data-domain="webpixels.works" src="https://plausible.io/js/script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
     <style>
-        body {
+        body, html {
+            height: 100%;
             margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        }
+        .bg-bg {
             background-color: #9393fa;
-            font-family: 'Montserrat', sans-serif;
-        }
-        .container {
-            background:#2d3748;
-            padding: 40px 60px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 16px;
-            max-width: 400px;
             width: 100%;
+            height: 100vh;
         }
-        .container h2 {
-            text-align: center;
-            margin-bottom: 1rem;
-            color:white;
-            font-weight: 600;
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            padding: 25px;
+            height: auto;
         }
-        .form-group {
-            margin-bottom: 1.5rem;
+        .card-body {
+            padding: 2rem;
         }
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color:white;
-            font-weight: 600;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-            color: #333;
-        }
-        .form-group input:focus {
-            border-color: #1D3557;
-            outline: none;
-        }
-        .form-group button {
-            width: 100%;
-            padding: 10px;
-            background-color: #2f2fed;
-            border: none;
-            border-radius: 4px;
+        .form-label {
             color: #fff;
-            font-size: 16px;
-            cursor: pointer;
         }
-        .form-group button:hover {
-            background-color: #1a2e49;
+        .btn-primary {
+            width: 100%;
         }
-       
-            .custom-small-text {
-                color:white; /* Change to the desired color */
-                margin-left:50px;
-                font-family: 'Montserrat', sans-serif;
-                font-size:16px;
-            }
-        
-            .custom-link-text {
-                color: yellow; /* Change to the desired color */
-                margin-left:10px;
-            }
-        
-        
+        .text-muted {
+            color: #6c757d !important;
+        }
+        .text-primary-hover:hover {
+            color: #007bff !important;
+        }
+        .text-warning {
+            color: #ffc107 !important;
+        }
+        #CaRd {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h2>Register Here</h2>
-        <form id="registrationForm">
-            <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
-            </div>
-            <div class="form-group">
-                <label for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
-            </div>
-            <div class="form-group">
-                <button type="submit">Register</button>
-            </div>
-        </form>
-        <div class="text-center mt-3">
-            <small class="custom-small-text">All Ready Registered User</small>
-            <a href="{% url 'user:signup' %}" class="custom-link-text text-sm font-semibold">Login Here</a>
-        </div>
-        
-    </div>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-{% comment %} {% extends 'app_common/authentication/master.html' %}
-{% load static %}
-{% block content %}
-<style>
-    .gradient-custom-3 {
-/* fallback for old browsers */
-background: #84fab0;
-
-/* Chrome 10-25, Safari 5.1-6 */
-background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
-
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5))
-}
-.gradient-custom-4 {
-/* fallback for old browsers */
-background: #84fab0;
-
-/* Chrome 10-25, Safari 5.1-6 */
-background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
-
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
-}
-.container{
-    padding: 60px;
-}
-.btn{
-    width: 200px;
-   
-}
-.btn-Register{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-}
-.form-control {
-    width:25rem;
-    
-
-
-}
-.h1 {
-            color: #1D3557; /* Text color for heading */
-            font-size: 24px; /* Font size for heading */
-            margin-bottom: 1rem;
-        }
-.form-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.center-form {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-.form-container {
-            width: 100%;
-            max-width: 500px; /* Adjust the max-width as needed */
-            padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-        }
-#RegisterHere{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-section{
-    background-color: #4158D0;
-background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-
-        }
-
-</style>
 
 <body>
-    <section class="vh-60 bg-image">
-  <div class="center-form">
-    <div class="form-container">
-       
-        <form method="post" action="">
-            <div class="mt-10 mt-lg-5 mb-6 ms-5" id="RegisterHere">
-                <h1 class="ls-tight font-bolder h1">Register Here</h1>
-            </div>
-            {% csrf_token %}
-            {% for field in form %}
-                <div class="mb-2">
-                    {{field.label}}
-                    {{field}}
+    <div class="bg-bg d-flex align-items-center justify-content-center">
+        <div class="col-12 col-md-9 col-lg-7" id="CaRd">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="ls-tight font-bolder h2 text-center">Register Here</h1>
+                    <form method="post" action="">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="7dtv8aRqW4IS8tLQXQGc1f06TQuI6rL63hXHFtXk6RP7qsokMGd156efE1iY3f8Q">
+                        
+                        <div class="form-group">
+                            <label for="id_fullName" class="form-label">Full Name</label>
+                            <input type="text" name="fullName" class="form-control" required id="id_fullName">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="id_email" class="form-label">Email Address</label>
+                            <input type="email" name="email" class="form-control" required id="id_email">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="id_mobile" class="form-label">Mobile Number</label>
+                            <input type="tel" name="mobile" class="form-control" required id="id_mobile">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="id_password" class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" required id="id_password">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="id_confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" name="confirmPassword" class="form-control" required id="id_confirmPassword">
+                        </div>
+                        
+                        <div class="form-group mt-5">
+                            <button class="btn btn-primary" type="submit">Register</button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <small class="custom-small-text">Already have an account?</small>
+                        <a href="/login" class="text-warning text-sm font-semibold">Log in</a>
+                    </div>
                 </div>
-            {% endfor %}
-            <div class="btn-Register mb-3">
-                <button class="btn btn-primary" type="submit">Register</button>
             </div>
-            <div class="form-group mt-2">
-                {% include 'snippets/alert.html' %}
-            </div>
-
-            <div class="text-center text-lg-center">
-                <small>Already have an account?</small>
-                <a href="{% url 'user:login' %}" class="text-warning text-sm font-semibold">Log In</a>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-</section>
-    <script src="{% static 'app_common/js/main.js'%}"></script>
-   
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/static/app_common/js/main.js"></script>
 </body>
-{% endblock content %} {% endcomment %}
+
+</html>

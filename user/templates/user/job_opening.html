@@ -9,10 +9,7 @@ About Page
     <style>
         .sjb-banner {
             height: 300px; /* Adjust the height of the banner */
-            background-image: url('static/images/banner.jpg'); /* Update with your banner image path */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            width: 100%; /* Ensure the banner takes the full width */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -20,8 +17,17 @@ About Page
             color: #31b7f5;
             font-size: 36px;
             font-weight: bold;
-            background-color: #31b7f5;
+            background-color: #31b7f5; /* This can be used as a fallback background color */
+            overflow: hidden; /* Ensure the image does not overflow */
         }
+        
+        .sjb-banner img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover; /* This ensures the image covers the banner area */
+            object-position: center; /* This centers the image within the banner */
+        }
+        
 
         /* Container and Form */
         .sjb-filters {
@@ -111,8 +117,8 @@ About Page
         }
 
         .sjb-card {
-            flex: 0 0 40%; /* Adjust the width of the card side */
-            max-width: 40%; /* Ensure card does not exceed this width */
+            flex: 0 0 35%; /* Adjust the width of the card side */
+            max-width: 35%; /* Ensure card does not exceed this width */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -129,20 +135,20 @@ About Page
         .sjb-card-content {
             padding: 20px;
             margin-bottom: 20px;
-            f font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         .sjb-card-content h5 {
             font-size: 24px;
             margin-bottom: 10px;
-            margin-left: 30px;
+            margin-left: 10px;
             font-family: 'Montserrat', sans-serif;
         }
 
         .sjb-card-content p {
             font-size: 16px;
             line-height: 1.6;
-            margin-left: 30px;
+            margin-left: 10px;
             font-family: 'Poppins', sans-serif;
             
         }
@@ -167,7 +173,7 @@ About Page
 
 <!-- Banner -->
 <div class="sjb-banner">
-    <img src="{% static 'images/banner.jpg' %}" alt="Banner Image" style="max-width: 100%; height: auto;">
+    <img src="{% static 'images/j2.jpg' %}" alt="Banner Image">
 </div>
 
 <div class="sjb-filters sjb-filters-v1">
@@ -206,6 +212,7 @@ About Page
                     <select name="selected_jobtype" id="jobtype" class="form-control">
                         <option value="-1">Job Type</option>
                         <option class="level-0" value="full-time">Full-Time</option>
+                        <option class="level-0" value="full-time">Part-Time</option>
                     </select>
                 </div>
             </div>
@@ -231,35 +238,21 @@ About Page
 </div>
 
 <!-- Card and Text Section -->
-<div class="sjb-card-container" ">
+<div class="sjb-card-container">
     <!-- Card side -->
-    <div class="sjb-card">
-        <img src="{% static 'images/r5.jpg' %}" class="card-img-top" alt="Card Image" style="width: 60%; height:40%;  margin-top: 50px;margin-left: 50px;">
-        <div class="sjb-card-content">
-            <h5 class="card-title">Our Services</h5>
-            <p class="card-text">Our Services is to deliver high quality manpower solutions that
-meet the unique needs of our
-clients, enabling them to achieve
-their strategic goals</p>
-            <a href="#" class="btn btn-primary" style="margin-left: 150px;">Job Details  </a>
+    <div class="card sjb-card">
+        <img src="{% static 'images/j1.jpg' %}" class="card-img-top" alt="Card Image">
+        <div class="card-body sjb-card-content">
+            <h5 class="card-title">Job Details</h5>
+            <p class="card-text">Our team comprises industry experts who understand the unique requirements of each sector we serve.</p>
+            <a href="#" class="btn btn-primary" style=" margin-left: 10px;">Job Details</a>
         </div>
     </div>
 
     <!-- Text side -->
-    <div class="sjb-text" style="width: 50%; padding: 10px;">
-        <h3>About Our Services</h3>
-        <p>Pravati International Service Private
-Limited is a leading provider of manpower
-outsourcing services, catering to a diverse
-range of sectors including reputed
-hospitals, hotels, schools, government
-offices, NGOs, and manufacturing
-companies. </p>
-        <p>Our extensive experience and
-commitment to excellence make us a
-trusted partner for organizations seeking
-to enhance their operational efficiency and
-focus on their core activities.</p>
+    <div class="sjb-text">
+        <h3>Job Details</h3>
+        <p>Our team comprises industry experts who understand the unique requirements of each sector we serve.</p>
     </div>
 </div>
 
