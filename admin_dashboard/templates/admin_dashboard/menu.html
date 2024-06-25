@@ -41,7 +41,7 @@
                 <div class="collapse" id="usersList">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a href="{% url 'admin_dashboard:userslist' %}" class="nav-link font-bold">Add User</a>
+                            <a href="{% url 'admin_dashboard:add_user' %}" class="nav-link font-bold">Add User</a>
                         </li>
                         <li class="nav-item">
                             <a href="{% url 'admin_dashboard:userslist' %}" class="nav-link font-bold"> View All Users</a>
@@ -62,10 +62,10 @@
                             <div class="collapse" id="job1List">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link font-bold">Category List</a>
+                                        <a href="{% url 'admin_dashboard:catagory_list' %}" class="nav-link font-bold">Category List</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link font-bold">Category Add</a>
+                                        <a href="" class="nav-link font-bold">Category Add</a>
                                     </li>
                                 </ul>
                             </div>
@@ -75,10 +75,10 @@
                             <div class="collapse" id="job2List">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link font-bold">Job List</a>
+                                        <a href="{% url 'admin_dashboard:job_list' %}" class="nav-link font-bold">Job List</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link font-bold">Job Add</a>
+                                        <a href="" class="nav-link font-bold">Job Add</a>
                                     </li>
                                 </ul>
                             </div>
