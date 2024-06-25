@@ -1,231 +1,83 @@
 {% extends 'admin_dashboard/starter.html' %}
 {% load static %}
 {% block content %}
-{% load admin_dash %} 
+{% load admin_dash %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #f4f4f9;
-            
-        }
-        h3 {
-            color:blue;
-        }
+<style>
+    .bg-surface-secondary {
+        --x-bg-opacity: 1;
+        background-color: #b5b3bd !important;
         
-        .sidebar {
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 250px;
-            background-color: #343a40;
-            color: #fff;
-            padding-top: 20px;
-        }
-        .sidebar a {
-            padding: 15px;
-            text-decoration: none;
-            font-size: 18px;
-            color: #ddd;
-            display: block;
-        }
-        .sidebar a:hover {
-            background-color: #495057;
-            color: #fff;
-        }
-        .main-content {
-            margin-left: 20px;
-            margin-right: 20px;
-            padding: 20px;
-        }
-        .header {
-            height: 60px;
-            background-color: #007bff;
-            color: white;
-            text-align: center;
-            line-height: 80px;
-            position: fixed;
-            width: calc(100% - 250px);
-            left: 250px;
-            top: 0;
-        }
-        .card {
-            margin-bottom: 20px;
-        }
-        .section {
-            margin-top: 80px;
-        }
-    </style>
-</head>
-<body>
+    } 
+   
+   
+</style>
 
-<div class="sidebar">
-    <h3 class="text-center">Admin Dashboard</h3>
-    <a href="#dashboard">Dashboard</a>
-    <a href="#user-management">User Management</a>
-    <a href="#analytics-reports">Analytics & Reports</a>
-    <a href="#settings">Settings</a>
-    <a href="#logout">Logout</a>
-</div>
-
-<div class="header">
-    Admin Dashboard
-</div>
-
-<div class="main-content">
+<div class="main-content bg-surface-secondary">
     <div class="container-fluid">
         <!-- Dashboard Overview Section -->
         <div id="dashboard" class="section">
-            <h3>Dashboard Overview</h3>
+            <h3>Dashboard Overview</h3><br>
             <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <div class="card bg-primary text-white">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h5 class="card-title">Total Employees</h5>
-                                    <h3 class="card-text">1,234</h3>
+                <!-- First Row: Column with Box 1 and Box 2, and Box 3 next to it -->
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <div class="card" style="height: 170px;">
+                                <div class="card-body">
+                                    <!-- Content for the first card -->
+                                   Total Job
                                 </div>
-                                <div>
-                                    <i class="fas fa-users fa-3x"></i>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <div class="card" style="height: 170px;">
+                                <div class="card-body">
+                                    <!-- Content for the second card -->
+                                   Overview
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="card bg-success text-white">
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="card" style="height: 360px;">
                         <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h5 class="card-title">Total Active </h5>
-                                    <h3 class="card-text">1156</h3>
-                                </div>
-                                <div>
-                                    <i class="fas fa-briefcase fa-3x"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="card bg-warning text-white">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h5 class="card-title">Pending Tasks</h5>
-                                    <h3 class="card-text">87</h3>
-                                </div>
-                                <div>
-                                    <i class="fas fa-tasks fa-3x"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="card bg-danger text-white">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h5 class="card-title">Issues Reported</h5>
-                                    <h3 class="card-text">12</h3>
-                                </div>
-                                <div>
-                                    <i class="fas fa-exclamation-triangle fa-3x"></i>
-                                </div>
-                            </div>
+                            <!-- Content for the third card -->
+                           Total Active
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- User Management Section -->
-        <div id="user-management" class="section">
-            <h3>User Management</h3>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Manage Users</h5>
-                    <p>Total Users: 500</p>
-                    <p>Active Users: 450</p>
-                    <p>Inactive Users: 50</p>
-                    <button class="btn btn-primary">Add New User</button>
-                    <button class="btn btn-secondary">View All Users</button>
+            <div class="row">
+                <!-- Second Row: Three Boxes with different heights -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card" style="height: 300px;">
+                        <div class="card-body">
+                            <!-- Content for the fourth card -->
+                            Box 4 Content
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Analytics & Reports Section -->
-        <div id="analytics-reports" class="section">
-            <h3>Analytics & Reports</h3>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Performance Overview</h5>
-                    <p>Monthly Active Users: 300</p>
-                    <p>New Users This Month: 30</p>
-                    <canvas id="userChart" width="400" height="200"></canvas>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card" style="height: 300px;">
+                        <div class="card-body">
+                            <!-- Content for the fifth card -->
+                            Box 5 Content
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card" style="height: 300px;">
+                        <div class="card-body">
+                            <!-- Content for the sixth card -->
+                            Box 6 Content
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Including necessary scripts -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<script>
-    // Chart.js initialization
-    var ctx = document.getElementById('userChart').getContext('2d');
-    var userChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: '# of New Users',
-                data: [12, 19, 3, 5, 2, 3, 7],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 99, 132, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(255, 99, 132, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-</script>
-</body>
-</html>
 
 {% endblock content %}
