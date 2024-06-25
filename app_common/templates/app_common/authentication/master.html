@@ -17,7 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   </head>
   {% block content %}
-  <body>
+  <!-- <body>
     <div>
       <div class="px-5 py-5 p-lg-0 min-h-screen bg-surface-secondary d-flex flex-column justify-content-center">
         <div class="d-flex justify-content-center">
@@ -54,7 +54,7 @@
                       <input type="password" class="form-control" id="password" autocomplete="current-password">
                     </div>
                     <div>
-                      <a href="{% url 'app_common:login ' %}" class="btn btn-primary w-full">Sign in</a>
+                      <a href="{% url 'user:login ' %}" class="btn btn-primary w-full">Sign in</a>
                     </div>
                   </form>
                 </div>
@@ -69,6 +69,6 @@
       </div>
     </div>
     <script src="{% static 'app_common/js/main.js'%}"></script>
-  </body>
+  </body> -->
   {% endblock content %}
 </html>

@@ -7,24 +7,29 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from . import forms
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from app_common.models import Job, Application
-from admin_dashboard.manage_product.forms import ApplicationForm
+# from app_common.models import Job, Application
+from admin_dashboard.manage_product.forms import ApplicationForm ,CatagoryEntryForm
 # from app_common.checkout.serializer import CartSerializer,DirectBuySerializer,TakeSubscriptionSerializer,OrderSerializer
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 # from io import StringIO
+from django.urls import reverse_lazy
 from django.core.mail import send_mail
 import json
+# admin_dashboard/manage_product/user.py
 from app_common.models import (
     Job,
     Catagory,
     UserProfile,
-    User,Application,
+    User,
+    Application,
+    ContactMessage,
     
 )
 
-from helpers.utils import dict_filter  # Import dict_filter function
+from helpers.utils import dict_filter,paginate # Import dict_filter function
 import json
 
 app = "user/"
@@ -33,13 +38,22 @@ app = "user/"
 class HomeView(View):
     template = app + "home1.html"
     un_template = app + "landing_page.html"
+
     def get(self, request):
         user = request.user
         if not user.is_authenticated:
-
             return render(request, self.un_template, locals())
 
-        return render(request, self.template, locals())
+        job_list = Job.objects.filter(published=True, expiry_date__gt=timezone.now()).order_by('-uid')
+        paginated_data = paginate(request, job_list, 50)
+        form = ApplicationForm()  # This form will be used for the application modal/form
+        context = {
+            "job_list": job_list,
+            "data_list": paginated_data,
+            "form": form
+        }
+
+        return render(request, self.template, context)
 
 
 class ProfileView(View):
@@ -50,10 +64,12 @@ class ProfileView(View):
         print(user)
         catagory_obj =Catagory.objects.all()
         userobj = User.objects.get(email=user.email)
+
         try:
             profileobj = UserProfile.objects.get(user=userobj)
         except UserProfile.DoesNotExist:
             profileobj = None
+
 
         if not user.is_authenticated:
             return redirect("user:login")
@@ -73,12 +89,12 @@ class UpdateProfileView(View):
     
         profileObj, created = UserProfile.objects.get_or_create(user=userobj)
        
-        print(profileObj)
+        # print(profileObj)
         initial_data = {
             "email": userobj.email,
             "full_name": userobj.full_name,
             "contact": userobj.contact,
-            "skills": profileObj.bio,
+            "skills": profileObj.skills,
             "profile_pic": profileObj.profile_pic,
             "Resume": profileObj.resume,
         }
@@ -87,7 +103,7 @@ class UpdateProfileView(View):
         return render(request, self.template, locals())
 
     def post(self, request):
-        category_obj = Category.objects.all()
+        catagory_obj = Catagory.objects.all()
         form = self.form(request.POST, request.FILES)
         if form.is_valid():
             email = form.cleaned_data["email"]
@@ -127,7 +143,7 @@ class UpdateProfileView(View):
 
                 
                         
-                if len(password) > 0:
+                if len(password) > 6:
                     userobj.set_password(password)
                     messages.success(request, "Password Changed Successfully")
 
@@ -139,66 +155,139 @@ class UpdateProfileView(View):
         return render(request, self.template, locals())
 
 
-def job_list(request):
-    jobs = Job.objects.all()
-    return render(request, 'jobs/job_list.html', {'jobs': jobs})
+class UserJobSearch(View):
+    form=CatagoryEntryForm()
+    template = app + "jobs/job_list.html"
 
-def job_detail(request, pk):
-    job = get_object_or_404(Job, pk=pk)
-    return render(request, 'jobs/job_detail.html', {'job': job})
+    def post(self, request):
+        filter_by = request.POST.get("filter_by")
+        query = request.POST.get("query")
+        if filter_by == "uid":
+            job_list = self.Job.objects.filter(id=query, published=True, expiry_date__gt=timezone.now())
+        else:
+            job_list = self.Job.objects.filter(title__icontains=query, published=True, expiry_date__gt=timezone.now())
 
-@login_required
-def apply_for_job(request, pk):
-    job = get_object_or_404(Job, pk=pk)
-    if request.method == 'POST':
-        form = ApplicationForm(request.POST, request.FILES)
-        if form.is_valid():
-            application = form.save(commit=False)
-            application.job = job
-            application.user = request.user
-            application.save()
-            return redirect('job_list')
-    else:
+        paginated_data = utils.paginate(request, job_list, 50)
+        context = {
+            "form": self.form_class,
+            "job_list": job_list,
+            "data_list": paginated_data
+        }
+        return render(request, self.template, context)
+
+
+class UserJobFilter(View):
+    template = app + "jobs/job_list.html"
+
+    def get(self, request):
+        filter_by = request.GET.get("filter_by")
+        if filter_by == "category":
+            category_id = request.GET.get("catagory_id")
+            job_list = self.Job.objects.filter(category_id=category_id, published=True, expiry_date__gt=timezone.now()).order_by('-id')
+        else:
+            job_list = self.Job.objects.filter(published=True, expiry_date__gt=timezone.now()).order_by('-id')
+
+        paginated_data = utils.paginate(request, job_list, 50)
+        context = {
+            "job_list": job_list,
+            "data_list": paginated_data
+        }
+        return render(request, self.template, context)
+
+
+class ApplyForJobView(View):
+    template = app + 'job_apply.html'
+    model = Application
+    def get(self, request, pk):
+        job = get_object_or_404(Job, pk=pk)
         form = ApplicationForm()
-    return render(request, 'jobs/apply_for_job.html', {'form': form, 'job': job})
+        return render(request, self.template, {'job': job, 'form': form})
 
-#
-
+    def post(self, request, pk):
+        job = get_object_or_404(Job, pk=pk)
+        form = ApplicationForm(request.POST, request.FILES)
+        resume = request.POST['resume']
+        full_name = request.POST['full_name']
+        email = request.POST['email']
+        contact = request.POST['contact']
+        applied_obj = self.model(job = job,email = email,user = request.user,contact = contact,resume = resume)
+        applied_obj.save()
+        
+        return redirect('user:home')  # Redirect back to the job list view
 
     
-class contactMesage(View):
-    template = app + "contact_page.html"
+class ApplicationSuccess(View):
+    template = "user/application_success.html"
 
     def get(self,request):
-        # initial = {'user': request.user.full_name}
-        form = forms.ContactMessageForm
+        return render(request,self.template)
 
-        context={"form":form}
-        return render(request,self.template,context)
-    
-    def post(self,request):
-        form = forms.ContactMessageForm(request.POST)  # Instantiate the form with request POST data
-        if form.is_valid():  # Add parentheses to is_valid()
+class ContactMessage(View):
+    template = app + "contact_page.html"
+
+    def get(self, request):
+        form = forms.ContactMessageForm()
+        context = {"form": form}
+        return render(request, self.template, context)
+
+    def post(self, request):
+        form = forms.ContactMessageForm(request.POST)
+        if form.is_valid():
             user = form.cleaned_data['user']
-            message = form.cleaned_data['message']
+            email = form.cleaned_data['email']
+            message_content = form.cleaned_data['message']
             try:
-                u_obj = get_object_or_404(User,full_name = user)
+                u_obj = get_object_or_404(User, username=user)
                 user_email = u_obj.email
-                subject = "Your Query Recived."
-                message = f"Dear,\nYour Query has been recived successfully.\nOur Team members look into this."
-                from_email = "forverify.noreply@gmail.com"
-                send_mail(subject, message, from_email,[user_email], fail_silently=False)
-                contact_obj = ContactMessage(user = u_obj,message = message)
+                subject = "Your Query Received"
+                message = (
+                    f"Dear {user},\n\n"
+                    "Your query has been received successfully.\n"
+                    "Our team members will look into this.\n\n"
+                    "Best regards,\n"
+                    "Support Team"
+                )
+                from_email = "noreplyf577@gmail.com"
+                send_mail(subject, message, from_email, [user_email], fail_silently=False)
+                contact_obj = ContactMessage(user=u_obj, message=message_content)
                 contact_obj.save()
-                messages.info(request,"Your Message has been sent successfully.")
+                messages.info(request, "Your message has been sent successfully.")
                 return redirect("user:home")
             except Exception as e:
-                print (e)
-                messages.warning(request,"There was an error while sending your message.")
-                return self.get(request)
-        else:   # If the form is not valid, re-render the form with errors
-            return self.get(request)
-        
+                print(e)
+                messages.warning(request, "There was an error while sending your message.")
+                context = {"form": form}
+                return render(request, self.template, context)
+        else:
+            context = {"form": form}
+            return render(request, self.template, context)
+
+
+
+class InboxView(LoginRequiredMixin, View):
+    template_name = 'user_app/inbox.html'
+
+    def get(self, request):
+        # Fetch messages for the logged-in user
+        received_messages = ContactMessage.objects.filter(user=request.user).order_by('-created_at')
+        context = {
+            'received_messages': received_messages,
+        }
+        return render(request, self.template_name, context)
+class MessageDetailView(LoginRequiredMixin, View):
+    template_name = 'user_app/message_detail.html'
+
+    def get(self, request, pk):
+        # Fetch the specific message by primary key (pk)
+        message = get_object_or_404(ContactMessage, pk=pk)
+        if message.user == request.user:
+            if message.status == 'pending':
+                message.status = 'read'
+                message.save()
+            return render(request, self.template_name, {'message': message})
+        else:
+            messages.warning(request, "You are not authorized to view this message.")
+            return redirect('user_app:inbox')       
 
 class AboutPage(View):
     template = app + "about.html"
@@ -214,8 +303,8 @@ class AccountDetails(View):
 
     def get(self,request):
         user = request.user
-        category_obj = Category.objects.all()
-        userobj = User.objects.get(id=user.id)
+        catagory_obj = Catagory.objects.all()
+        userobj = User.objects.get(id=user.id) 
         try:
             profileobj = UserProfile.objects.get(user=userobj)
         except UserProfile.DoesNotExist:
@@ -226,7 +315,20 @@ class AccountDetails(View):
         
         return render(request,self.template,locals())
     
-# 
+
+class Sector(View):
+    template = "user/sector.html"
+
+    def get(self,request):
+        return render(request,self.template)
+
+
+class JobOpening(View):
+    template = "user/job_opening.html"
+
+    def get(self,request):
+        return render(request,self.template)
+
 
 class ThankYou(View):
     template = app + "thankyoupage.html"

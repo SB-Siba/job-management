@@ -13,6 +13,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .manager import MyAccountManager
+from django.core.mail import send_mail
 
  
 def document_path(self, filename):
@@ -30,27 +31,29 @@ def user_logo_path(self, filename):
     myuuid = uuid.uuid4()
     return 'user/logo/{basename}{randomstring}{ext}'.format(basename= basefilename, randomstring= str(myuuid), ext= file_extension)
 
-class User(AbstractBaseUser, PermissionsMixin): 
+class User(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length= 255, null= True, blank= True)
-    password = models.TextField(null=True,blank=True)
     email = models.EmailField(null=True,blank=True,unique=True)
-
-    contact = models.CharField(max_length= 10, null=True, blank=True, unique=True)
-
-    is_client = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
+    password = models.TextField(null=True,blank=True)
+    contact = models.CharField(max_length= 10, null=True, blank=True)
+ 
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
-    
-    address = models.JSONField(default= dict, null=True, blank=True)
-    otp = models.CharField(max_length= 10, null=True, blank=True)
-    
-    # billing details
-    USERNAME_FIELD = "email"	
+    is_staff = models.BooleanField(default=False)
+ 
+    wallet = models.FloatField(default=0.0)
+   
+    token = models.CharField(max_length=100, null=True, blank=True)
+ 
+    # we are storing some extra data in the meta data field
+    meta_data = models.JSONField(default= dict)
+ 
+    USERNAME_FIELD = "email"    
     REQUIRED_FIELDS = ["password"]
-
+ 
     objects = MyAccountManager()
-
+ 
+   
 
 
     @property
@@ -70,28 +73,46 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-    
 
-def banner_image_path(self, filename):
-    basefilename, file_extension= os.path.splitext(filename)
-    myuuid = uuid.uuid4()
-    return 'banner/{basename}{randomstring}{ext}'.format(basename= basefilename, randomstring= str(myuuid), ext= file_extension)
-
-class Banner(models.Model):
-    YESNO = (
-        ("yes","yes"),
-        ("no","no")
-    )
-    image = models.ImageField(upload_to=banner_image_path, null=True, blank=True)
-    show = models.CharField(max_length=255, choices= YESNO, default= 'yes')
-    sl_no = models.PositiveIntegerField(default=0)
+    def send_reset_password_email(self):
+        token = self.generate_reset_password_token()
+        reset_link = f"http://35.154.55.245/reset-password/{token}/"
+        subject = 'Reset your password'
+        message = f'Hi {self.full_name},\n\nTo reset your password, please click the link below:\n\n{reset_link}\n\nIf you did not request this, please ignore this email.'
+        send_mail(subject, message, 'noreplyf577@gmail.com', [self.email])
+       
+       
+       
+    def generate_reset_password_token(self):
+        token = str(uuid.uuid4())
+        self.token = token
+        self.save()
+        return token
+   
+    def reset_password(self, token, new_password):
+        # Check if the token is valid (you may want to implement token validation logic here)
+        if self.token == token:
+            # Set the new password and save the user
+            self.set_password(new_password)
+            self.token = None  # Clear the token after password reset
+            self.save()
+            return True
+        else:
+            return False   
 
 # New Models
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    email = models.EmailField(default='')
+    contact = models.CharField(max_length=15, null=True, blank=True, unique=True, default=None)
     profile_pic = models.ImageField(upload_to="user_profile_pic/", null=True, blank=True)
-    bio = models.TextField(null=True, blank=True)
+    skills = models.TextField(null=True, blank=True)
     resume = models.ImageField(upload_to="user_resume/", null=True, blank=True)
+    catagory = models.CharField(max_length=100, null=True, blank=True)
+    
+    def __str__(self):
+        return self.UserProfile
+
 
 class Catagory(models.Model):
     YESNO = (
@@ -107,64 +128,113 @@ class Catagory(models.Model):
 
 
 class Job(models.Model):
-    YESNO = (
-        ("yes","yes"),
-        ("no","no")
-    )
+
+    FULL_TIME = 'FT'
+    PART_TIME = 'PT'
+    CONTRACT = 'CT'
+    INTERNSHIP = 'IN'
+    
+    JOB_TYPE_CHOICES = [
+        (FULL_TIME, 'Full-Time'),
+        (PART_TIME, 'Part-Time'),
+        (CONTRACT, 'Contract'),
+        (INTERNSHIP, 'Internship'),
+    ]
     uid=models.CharField(max_length=255, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True, unique=True)
+    title = models.CharField(max_length=255, null=True, blank=True)
     catagory = models.ForeignKey(Catagory, on_delete=models.SET_NULL, blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    requirements = models.TextField(blank=True, null=True)
-    location = models.CharField(max_length=100, null=True, blank=True, unique=True)
+    description = models.CharField(max_length =300,blank=True, null=True)
+    requirements = models.CharField(max_length =100,blank=True, null=True)
+    location = models.CharField(max_length=100, null=True, blank=True)
     posted_at = models.DateField(default=timezone.now)
-
-    def save(self, *args, **kwargs):
-        if not self.uid:
-            self.uid = utils.get_rand_number(5)
+    published_date = models.DateTimeField(null=True, blank=True)
+    published = models.BooleanField(default=False)
+    expiry_date = models.DateTimeField(null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    company_name = models.CharField(max_length=255, default='Default Company')
+    company_website = models.URLField(blank=True, null=True)
+    company_logo = models.ImageField(upload_to='company_logos/', blank=True, null=True)
+    vacancies = models.PositiveIntegerField(default=1)
+    job_type = models.CharField(max_length=2, choices=JOB_TYPE_CHOICES, default=FULL_TIME)
+   
         
-        super().save(*args, **kwargs)
-
     def __str__(self):
         return self.title
+ 
+    
 
 class Application(models.Model):
+    # uid=models.CharField(max_length=255, null=True, blank=True)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    resume = models.FileField(upload_to='resumes/')
-    cover_letter = models.TextField()
+    email = models.EmailField(default='')
+    contact = models.IntegerField(null=True, blank=True, unique=True, default=0)
+    resume = models.FileField(upload_to='resumes/', blank=True, null=True)
     applied_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, default='Pending')
 
-    def save(self, *args, **kwargs):
-        if not self.uid:
-            self.uid = utils.get_rand_number(5)
         
-        super().save(*args, **kwargs)
+    @property
+    def user_full_name(self):
+        return self.user.get_full_name()
 
+    @property
+    def user_email(self):
+        return self.user.email
+
+    @property
+    def user_contact(self):
+        return self.user.profile.contact_number 
 
     def __str__(self):
-        return f'{self.user.username} - {self.job.title}'
+        return f'{self.user.full_name} - {self.job.catagory} ' 
     
- 
 
- 
+
 class ContactMessage(models.Model):
     STATUS = (
-        ("pending","pending"),
-        ("read","read"),
-        ("resolved","resolved"),
+        ("pending", "Pending"),
+        ("read", "Read"),
+        ("resolved", "Resolved"),
     )
-    uid=models.CharField(max_length=255, null=True, blank=True)
-    user = models.ForeignKey(User, on_delete= models.CASCADE, null= True, blank= True)
-    # order_number = models.CharField(max_length=255, null= True, blank= True)
-    message = models.TextField(null= True, blank= True)
-    status = models.CharField(max_length=255,choices=STATUS, default= 'new')
-    reply = models.TextField(null=True, blank= True)
+    uid = models.CharField(max_length=255, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    message = models.TextField(null=True, blank=True)
+    status = models.CharField(max_length=255, choices=STATUS, default='pending')
+    reply = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-
 
     def save(self, *args, **kwargs):
         if not self.uid:
             self.uid = utils.get_rand_number(5)
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.uid} - {self.user} - {self.status}"
+
+# class Employee(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     position = models.CharField(max_length=100)
+#     department = models.CharField(max_length=100)
+
+#     def __str__(self):
+#         return self.user.username
+
+class CommunicationLog(models.Model):
+    candidate = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    message = models.TextField()
+    sent_at = models.DateTimeField(auto_now_add=True)
+    medium = models.CharField(max_length=10)  # 'whatsapp' or 'sms'
+
+    def __str__(self):
+        return f"Message to {self.User.first_name} at {self.sent_at}"
+
+
+class Edit_User(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(upload_to='profile_pictures', blank=True, null=True)
+    skills = models.TextField(max_length=500, blank=True, null=True)
+    def __str__(self):
+        return self.user.username
+
+

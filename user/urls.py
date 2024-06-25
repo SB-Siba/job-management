@@ -7,6 +7,7 @@ from django.contrib.auth.views import (
     PasswordResetConfirmView,
     PasswordResetCompleteView
 )
+
 from django.contrib.auth import views as auth_view
 
 app_name = 'user'
@@ -22,17 +23,28 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name='user/authtemp/password_reset_confirm.html'),name='password_reset_confirm'),
     path('password-reset-complete/',PasswordResetCompleteView.as_view(template_name='user/authtemp/password_reset_complete.html'),name='password_reset_complete'),
     path('logout', authenticate.Logout.as_view(), name = "logout"),
-    
+    path('forgot-password/',authenticate.ForgotPasswordView.as_view(), name='forgot_password'),
+    # path('reset-password/<str:token>/',authenticate.ResetPasswordView.as_view(), name='reset_password'),
     #Page Urls
     path('',views.HomeView.as_view(),name="home"),
     # path('user_view',views.UserDashboard.as_view(),name="user_home"),
     path('profile',views.ProfileView.as_view(),name="profile"),
     path('updateprofile',views.UpdateProfileView.as_view(),name="updateprofile"),
     # path('add_user/',views.ADD_USER,name="add_user"),
-    path('job/<int:pk>/', views.job_detail, name='job_detail'),
-    path('job/<int:pk>/apply/', views.apply_for_job, name='apply_for_job'),
+    # path('user/jobs', views.UserJobList.as_view(), name='job_list'),
+    # path('<int:pk>/', views.JobDetailView.as_view(), name='job-detail'),
+    path('user/job-search/', views.UserJobSearch.as_view(), name='job_search'),
+    path('user/job-filter/', views.UserJobFilter.as_view(), name='job_filter'),
+    path('user/<int:pk>/apply/', views.ApplyForJobView.as_view(), name='job-apply'),
+    path('application-success/', views.ApplicationSuccess.as_view(), name='application_success'),
+    # path('job/<int:pk>/', views.job_detail, name='job_detail'),
+    # path('job/<int:pk>/apply/', views.apply_for_job, name='apply_for_job'),
     path('account-details',views.AccountDetails.as_view(),name='account_details'),
-    path('contactmessage',views.contactMesage.as_view(),name="contactmessage"),
+    path('sector', views.Sector.as_view(), name = "sector"),
+    path('job-opening', views.JobOpening.as_view(), name = "job-opening"),
+    path('contact',views.ContactMessage.as_view(),name="contact"),
+    path('inbox/', views.InboxView.as_view(), name='inbox'),
+    path('message/<int:pk>/', views.MessageDetailView.as_view(), name='message_detail'),
     path('about',views.AboutPage.as_view(),name="about"),
     path('thank-you/',views.ThankYou.as_view(),name='thank_you'),
 ]

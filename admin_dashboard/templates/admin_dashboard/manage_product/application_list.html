@@ -1,0 +1,86 @@
+<!-- admin/application_list.html -->
+{% block content %}
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    table th ,td{
+        width: 150px;
+        border: 1px solid red;
+    text-align: center;
+    }
+
+</style>
+<h2>Application List</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>User Full Name</th>
+
+
+            <th>User Contact</th>
+
+            <th>Job Catagory</th>
+
+            <th>company_name</th>
+
+            <th>Email</th>
+
+            <th>Contact</th>
+
+            <!-- <th>Resume</th> -->
+            <th>Applied At</th>
+            <th>Resume</th>
+
+
+            <th>Status</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for application in application_list %}
+            <tr>
+                <td>{{ application.user.full_name }}</td>
+
+
+                <td>{{ application.user.contact }}</td>
+
+                <td>{{ application.job.catagory }}</td>
+
+                <td>{{application.job.company_name}}</td>
+
+                <td>{{ application.email }}</td>
+
+                <td>{{ application.contact }}</td>
+
+                <td>{{ application.applied_at }}</td>
+                <a href="{{application.resume}}"><td>Resume</td></a>
+                <td>{{ application.status }}</td>
+
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if data_list.has_other_pages %}
+    <ul class="pagination">
+        {% if data_list.has_previous %}
+            <li><a href="?page={{ data_list.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        {% for page_number in data_list.paginator.page_range %}
+            {% if data_list.number == page_number %}
+                <li class="active"><span>{{ page_number }}</span></li>
+            {% else %}
+                <li><a href="?page={{ page_number }}">{{ page_number }}</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if data_list.has_next %}
+            <li><a href="?page={{ data_list.next_page_number }}">Next</a></li>
+        {% endif %}
+    </ul>
+{% endif %}
+
+{% endblock content %}

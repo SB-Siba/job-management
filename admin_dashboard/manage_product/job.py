@@ -9,7 +9,8 @@ import json
 from helpers import utils, api_permission
 from django.forms.models import model_to_dict
 import os
-
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
 # for api
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -42,286 +43,111 @@ class JobList(View):
             "data_list":paginated_data
         }
         return render(request, self.template, context)
-    
+    def post(self, request):
+        job_id = request.POST.get("job_id")
+        job = get_object_or_404(common_model.Job, id=job_id)
 
+        return redirect("admin_dashboard:job_list")
 
-class JobList(View):
-    model = common_model.Job
-    template = app + "job_list.html"
+@method_decorator(utils.super_admin_only, name='dispatch')
+class JobPublish(View):
+    model =common_model.Job
 
-    def get(self,request):
-        job_list = self.model.objects.all().order_by('-id')
-        
-        paginated_data = utils.paginate(
-            request, job_list, 50
-        )
-        context = {
-            "job_list":job_list,
-            "data_list":paginated_data
-        }
-        return render(request, self.template, context)
+    def get(self, request, job_id):
+        job = get_object_or_404(self.model, id=job_id)
+        job.published = True
+        job.published_date = timezone.now()
+        job.save()
+        messages.success(request, f'Job {job.company_name} published successfully.')
+        return redirect('admin_dashboard:job_list')
 
 
 @method_decorator(utils.super_admin_only, name='dispatch')
-class ApplicationList(View):
-    model = common_model.Application
-    template = app + "job_list.html"
+class JobUnpublish(View):
+    model =common_model.Job
 
-    def get(self,request):
-        application_list = self.model.objects.all().order_by('-id')
-        
-        paginated_data = utils.paginate(
-            request, application_list, 50
-        )
-        context = {
-            "application_list":application_list,
-            "data_list":paginated_data
-        }
-        return render(request, self.template, context)
-    
-
-
-class ApplicationList(View):
-    model = common_model.Application
-    template = app + "job_list.html"
-
-    def get(self,request):
-        application_list = self.model.objects.all().order_by('-id')
-        
-        paginated_data = utils.paginate(
-            request, application_list, 50
-        )
-        context = {
-            "application_list":application_list,
-            "data_list":paginated_data
-        }
-        return render(request, self.template, context)
-
+    def get(self, request, job_id):
+        job = get_object_or_404(self.model, id=job_id)
+        job.published = False
+        job.published_date = None
+        job.save()
+        messages.success(request, f'Job {job.company_name} unpublished successfully.')
+        return redirect('admin_dashboard:job_list')
 
 @method_decorator(utils.super_admin_only, name='dispatch')
-class JobSearch(View):
-    model = common_model.Job
-    form_class = forms.CatagoryEntryForm
-    template = app + "job_list.html"
+class JobDetail(View):
+    model =common_model.Job
+    template = app +"job_detail.html"
 
-    def post(self,request):
-        filter_by = request.POST.get("filter_by")
-        query = request.POST.get("query")
-        job_list = []
-        if filter_by == "uid":
-            job_list = self.model.objects.filter(id = query)
-        else:
-            job_list = self.model.objects.filter(title__icontains = query)
-
-        paginated_data = utils.paginate(
-            request, job_list, 50
-        )
-        context = {
-            "form": self.form_class,
-            "job_list":job_list,
-            "data_list":paginated_data
-        }
-        return render(request, self.template, context)
-
-
-
-class JobSearch(View):
-    model = common_model.Job
-    form_class = forms.CatagoryEntryForm
-    template = app + "job_list.html"
-
-    def post(self,request):
-        filter_by = request.POST.get("filter_by")
-        query = request.POST.get("query")
-        job_list = []
-        if filter_by == "uid":
-            job_list = self.model.objects.filter(id = query)
-        else:
-            job_list = self.model.objects.filter(title__icontains = query)
-
-        paginated_data = utils.paginate(
-            request, job_list, 50
-        )
-        context = {
-            "form": self.form_class,
-            "job_list":job_list,
-            "data_list":paginated_data
-        }
-        return render(request, self.template, context)
-
-@method_decorator(utils.super_admin_only, name='dispatch')
-class JobFilter(View):
-    model = common_model.Job
-    template = app + "job_list.html"
-
-    def get(self,request):
-        filter_by = request.GET.get("filter_by")
-
-
-        if filter_by == "show_as_new":
-            job_list = self.model.objects.filter(show_as_new="yes").order_by('-id')
-
-
-        elif filter_by == "hide":
-            job_list = self.model.objects.filter(hide="yes").order_by('-id')        
-
-        else:
-            job_list = self.model.objects.filter().order_by('-id')
-
-        paginated_data = utils.paginate(
-            request, job_list, 50
-        )
-
-        context = {
-            "job_list":job_list,
-            "data_list":paginated_data
-        }
-        return render(request, self.template, context)
-    
-
-class JobFilter(View):
-    model = common_model.Job
-    template = app + "job_list.html"
-
-    def get(self,request):
-        filter_by = request.GET.get("filter_by")
-
-        if filter_by == "show_as_new":
-            job_list = self.model.objects.filter(show_as_new="yes").order_by('-id')
-
-        elif filter_by == "hide":
-            job_list = self.model.objects.filter(hide="yes").order_by('-id')        
-
-        else:
-            job_list = self.model.objects.filter().order_by('-id')
-
-        paginated_data = utils.paginate(
-            request, job_list, 50
-        )
-
-        context = {
-            "job_list":job_list,
-            "data_list":paginated_data
-        }
-        return render(request, self.template, context)
-    
-
-@method_decorator(utils.super_admin_only, name='dispatch')
-class APIJobFilter(View):
-    model = common_model.Job
-    template = app + "job_list.html"
-
-    def get(self,request):
-        filter_by = request.GET.get("filter_by", None)
-
-        if filter_by == "show_as_new":
-            job_list = self.model.objects.filter(show_as_new="yes").order_by('-id')
-
-        elif filter_by == "hide":
-            job_list = self.model.objects.filter(hide="yes").order_by('-id') 
-
-        elif filter_by == "catagory":
-            job_list = self.model.objects.filter(catagory="yes").order_by('-id')      
-
-        else:
-            job_list = self.model.objects.filter().order_by('-id')
-
-        paginated_data = utils.paginate(
-            request, job_list, 50
-        )
-        
-        context = {
-            "job_list":job_list,
-            "data_list":paginated_data
-        }
-        return render(request, self.template, context)
-
-
-
-class CatagoryJobFilter(APIView):
-    permission_classes = [api_permission.is_authenticated]
-    serializer_class= job_serializer.jobSerializer
-    model= common_model.Job
-    pagination_class = utils.CustomPagination(50)
-
-
-    @swagger_auto_schema(
-        tags=["job"],
-        operation_description="job List as per catagory...",
-    )
-    def get(self,request, catagory_id ):
-        
-        job_list = self.model.objects.filter(category__id = catagory_id).order_by('-id')
-
-        paginator = self.pagination_class
-        page = paginator.paginate_queryset(job_list, request)
-        serialized_data= self.serializer_class(page, many=True).data
-
-        return Response({
-            'status': 200,
-            'job_list': serialized_data,
-            'pagination_meta_data': paginator.pagination_meta_data(),
-
-        })
-
-
-class ApiJobList(APIView):
-
-    permission_classes = [api_permission.is_authenticated]
-    serializer_class= job_serializer.jobSerializer
-    model= common_model.Job
-    pagination_class = utils.CustomPagination(50)
-
-    @swagger_auto_schema(
-        tags=["job"],
-        operation_description="It will return job list. Available filters: ['hide','all']",
-        manual_parameters=swagger_doc.job_filter,
-    )
-    def get(self, request):
-
-        filter_by = request.GET.get("filter_by", None)
-
-        if filter_by == "show_as_new":
-            job_list = self.model.objects.filter(show_as_new="yes").order_by('-id')
-
-        elif filter_by == "hide":
-            job_list = self.model.objects.filter(hide="yes").order_by('-id')        
-
-        else:
-            job_list = self.model.objects.filter().order_by('-id')
-
-        paginator = self.pagination_class
-        page = paginator.paginate_queryset(job_list, request)
-        serialized_data= self.serializer_class(page, many=True).data
-
-        return Response({
-            'status': 200,
-            'job_list': serialized_data,
-            'pagination_meta_data': paginator.pagination_meta_data(),
-
-        })
-
-
-class ApiJobDetail(APIView):
-
-    permission_classes = [api_permission.is_authenticated]
-    serializer_class= job_serializer.jobSerializer
-    model= common_model.Job
-
-    @swagger_auto_schema(
-        tags=["job"],
-        operation_description="job Detail API",
-    )
     def get(self, request, job_uid):
+        job = get_object_or_404(self.model, id=job_uid)
+        context = {
+            "job": job,
+        }
+        return render(request, self.template, context)
+        
+@method_decorator(utils.super_admin_only, name='dispatch')
+class ApplicationList(View):
+    model = common_model.Application
+    template = app + "application_list.html"
 
-        job = self.model.objects.get(id = job_uid)
-        serialized_data= self.serializer_class(job).data
+    def get(self, request):
+        application_list = self.model.objects.all().order_by('-id')
+        paginated_data = utils.paginate(request, application_list, 50)
+        context = {
+            "application_list": application_list,
+            "data_list": paginated_data
+        }
+        return render(request, self.template, context)
 
-        return Response({
-            'status': 200,
-            'job': serialized_data,
 
-        })
+@method_decorator(utils.super_admin_only, name='dispatch')
+class JobSearch(View):
+    model =common_model.Job
+    form_class = forms.CatagoryEntryForm
+    template = app + "job_list.html"
+
+    def post(self, request):
+        filter_by = request.POST.get("filter_by")
+        query = request.POST.get("query")
+        if filter_by == "uid":
+            job_list = self.model.objects.filter(id=query)
+        else:
+             job_list = self.model.objects.filter(catagory__title__icontains=query)
+
+        paginated_data = utils.paginate(request, job_list, 50)
+        context = {
+            "form": self.form_class,
+            "job_list": job_list,
+            "data_list": paginated_data
+        }
+        return render(request, self.template, context)
+
+
+
+    
+@method_decorator(utils.super_admin_only, name='dispatch')
+class JobFilter(View):
+    model = common_model.Job
+    template =  app + "job_list.html"
+
+    def get(self, request):
+        filter_by = request.GET.get("filter_by")
+        if filter_by == "catagory":
+            catagory_id = request.GET.get("catagory_id")
+            job_list = self.model.objects.filter(catagory_id=catagory_id).order_by('-id')
+        else:
+            job_list = self.model.objects.all().order_by('-id')
+
+        paginated_data = utils.paginate(request, job_list, 50)
+        context = {
+            "job_list": job_list,
+            "data_list": paginated_data
+        }
+        return render(request, self.template, context)
+
+    
+     
 
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobAdd(View):
@@ -329,20 +155,19 @@ class JobAdd(View):
     form_class = forms.JobForm
     template = app + "job_add.html"
 
-    def get(self,request):
+    def get(self, request):
         job_list = self.model.objects.all().order_by('-id')
         context = {
-            "job_list" : job_list,
+            "job_list": job_list,
             "form": self.form_class,
         }
         return render(request, self.template, context)
-    
-    def post(self, request):
 
+    def post(self, request):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, f"job is added successfully.....")
+            messages.success(request, f"Job added successfully.")
         else:
             for field, errors in form.errors.items():
                 for error in errors:
@@ -355,45 +180,42 @@ class JobAdd(View):
 class JobUpdate(View):
     model = common_model.Job
     form_class = forms.JobForm
-    template = app + "job_update.html"
+    template_name = app + "job_update.html"
 
-    def get(self,request, job_uid):
-        job = self.model.objects.get(id = job_uid)
- 
+    def get(self, request, job_uid):
+        job = get_object_or_404(self.model, id=job_uid)
         context = {
-            "job" : job,
+            "job": job,
             "form": self.form_class(instance=job),
         }
-        return render(request, self.template, context)
-    
-    def post(self,request, job_uid):
+        return render(request, self.template_name, context)
 
-        job = self.model.objects.get(id = job_uid)
+    def post(self, request, job_uid):
+        job = get_object_or_404(self.model, id=job_uid)
         form = self.form_class(request.POST, request.FILES, instance=job)
-
         if form.is_valid():
             form.save()
-            messages.success(request, f"job ({job_uid}) is updated successfully.....")
+            messages.success(request, f"Job ({job_uid}) updated successfully.")
+            return redirect("admin_dashboard:job_detail", job_uid=job_uid)
         else:
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f'{field}: {error}')
 
-        return redirect("admin_dashboard:job_update", job_uid = job_uid)
+        context = {
+            "job": job,
+            "form": form,
+        }
+        return render(request, self.template_name, context)
 
 
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobDelete(View):
     model = common_model.Job
 
-    def get(self,request, job_uid):
-        job = self.model.objects.get(id = job_uid)
-
-        if job.image:
-            image_path = job.image.path
-            os.remove(image_path)
-
+    def get(self, request, job_uid):
+        job = get_object_or_404(self.model, id=job_uid)
         job.delete()
-        messages.info(request, 'job is deleted succesfully......')
+        messages.info(request, 'Job deleted successfully.')
 
         return redirect("admin_dashboard:job_list")

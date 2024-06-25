@@ -56,7 +56,11 @@ https://templatemo.com/tm-584-pod-talk
 </head>
 
 <body>
-
+    {% if user.is_authenticated %}
+        <div class="welcome-message">
+            Welcome, {{ user.full_name}} !
+        </div>
+    {% endif %}
     <main>
         <nav class="navbar navbar-expand-lg">
             <div class="container">
@@ -101,7 +105,7 @@ https://templatemo.com/tm-584-pod-talk
                                 <li><a class="dropdown-item" href="{% url 'user:profile' %}">Account Details</a></li>
                                 
                                 <li><a class="dropdown-item" href="">Applied Job</a></li>
-                                <li><a class="dropdown-item" href="{% url 'user:passwordchange' %}">Change Password</a></li>
+                                <li><a class="dropdown-item" href="">Change Password</a></li>
                                 <li>
                                     <button class="form-control btn btn-link text-decoration-none text-black"><a
                                             href="{% url 'user:logout' %}"
