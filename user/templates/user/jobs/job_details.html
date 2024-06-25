@@ -4,7 +4,7 @@
   <h1>{{ job.title }}</h1>
   <p>{{ job.description }}</p>
   <p><strong>Location:</strong> {{ job.location }}</p>
-  <p><strong>Posted by:</strong> {{ job.posted_by.username }}</p>
-  <p><strong>Posted on:</strong> {{ job.created_at }}</p>
+  <p><strong>Posted by:</strong> {{ job.company_name }}</p>
+  <p><strong>Posted on:</strong> {{ job.published_at }}</p>
   <a href="{% url 'job-apply' job.pk %}">Apply for this job</a>
 {% endblock %}

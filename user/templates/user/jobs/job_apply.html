@@ -1,8 +1,10 @@
-
-{% block main_content %} 
-
-<body>
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #9393fa;
@@ -89,8 +91,8 @@
             padding-right: 30px;
         }
     </style>
-
-
+</head>
+<body>
 
 <div class="container">
     <div class="description">
@@ -103,20 +105,40 @@
     </div>
 
     <div class="upload-form">
-        <form action="" method="post">
-            {% csrf_token %}
-            {% for field in form %}
-            <div class="mb-2">
-            {{field.label}}
-            {{field}}
+        <form action="/submit_job" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="category" required>
+                    <option value="" disabled selected>Select Category</option>
+                    <option value="housekeeping">Nursing</option>
+                    <option value="nurse">Data Entry</option>
+                    <option value="fireman">Housekeeping</option>
+                    <option value="security">Security</option>
+                    <option value="security">fireman</option>
+                </select>
             </div>
-            {% endfor %}
-            <div class="form-group mt-5">
-                <button class="btn btn-primary" type="submit">Apply Now</button>
+            <div class="form-group">
+                <label for="candidate_name">Candidate Name</label>
+                <input type="text" id="candidate_name" name="candidate_name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="cv">Upload CV (PDF, DOC)</label>
+                <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Apply Job</button>
             </div>
         </form>
     </div>
 </div>
 
 </body>
-{% endblock main_content %}
+</html>

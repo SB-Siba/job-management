@@ -5,38 +5,27 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>{% block title %}Home Page{% endblock title %}</title>
 
     <!-- CSS FILES -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+2VbM5rtGx8e8vgKVSuFy4K47R6JwSwUKF1WDEw" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+2VbM5rtGx8e8vgKVSuFy4K47R6JwSwUKF1WDEw" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-fPOxyf8a+pV/h5vN8yrRtSKfPe/DMAqz6Z5s5Pp63ZZhVkZf5VIJ2ZlC8kr7U5UZ"
-        crossorigin="anonymous"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Sono:wght@200;300;400;500;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Sono:wght@200;300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css' %}">
     <link rel="stylesheet" href="{% static 'css/templatemo-pod-talk.css' %}">
- 
+
+    <!-- JavaScript Files -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js" integrity="sha512-DjVn6YYFZJNS+JeSXZfQ2URFQ1TOH14NqxFCOOYDYePyoTYuGIdPGnHEy9blLVJYijmBntjN2y5XTTZ4pTw60w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fPOxyf8a+pV/h5vN8yrRtSKfPe/DMAqz6Z5s5Pp63ZZhVkZf5VIJ2ZlC8kr7U5UZ" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -45,29 +34,10 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a class="navbar-brand me-lg-5 me-0" href="{% url 'user:home' %}">
-                    <!-- <p style="color: #000080; font-family: 'Poppins', sans-serif;   margin-left: 50px;"><b>PRAVATI INTERNATIONAL PVT.LTD.</b></p> -->
-                     <img style="width:60px ; height:60px"   src="/static/app_common/img/logos/logo2.png" class="logo-image img-fluid"
-                    alt="templatemo pod talk"> 
-                {% comment %} </a>
+                    <img style="width:60px ; height:60px" src="/static/app_common/img/logos/logo2.png" class="logo-image img-fluid" alt="templatemo pod talk">
+                </a>
 
-                <form action="" method="post"
-                    class="custom-form search-form flex-fill me-3" role="search">
-                    {% csrf_token %}
-                    <div class="input-group input-group-lg">
-                        <input name="search-box" type="search" class="form-control" id="search"
-                            placeholder="Find Your Services" aria-label="Search">
-
-                        <button type="submit" class="form-control" id="submit">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </form> {% endcomment %}
-                <!-- <div id="search-suggestions"></div> -->
-                
-                <div id="search-suggestions" class="position-absolute bg-transparent border mx-auto" style="display: none;"></div>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav1"
-                    aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -76,35 +46,25 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="{% url 'user:home' %}">Home</a>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'user:about' %}">About Us</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'user:sector' %}">Sectors</a>
-                           
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'user:job-opening' %}">Job Opening</a>
-                           
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'user:contact' %}">Contact</a>
                         </li>
-                     
-                    
-                        <li class="nav-item dropdown hhh">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">logged-in</a>
-                                <ul class="dropdown-menu dropdown-menu-light"
-                                aria-labelledby="navbarLightDropdownMenuLink1">
-                                <li><a class="dropdown-item" href="{% url 'user:login' %}">login</a></li>
-                                <li><a class="dropdown-item" href="{% url 'user:signup' %}">signup</a></li>
-
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="false">logged-in</a>
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink1">
+                                <li><a class="dropdown-item" href="{% url 'user:login' %}">Login</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:signup' %}">Signup</a></li>
                             </ul>
                         </li>
-                        
-
                     </ul>
                 </div>
             </div>

@@ -46,10 +46,21 @@ class JobForm(forms.ModelForm):
             'expiration_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             }
 
-class ApplicationForm(forms.Form):
+class ApplicationForm(forms.ModelForm):
     class Meta:
         model =common_models.Application
-        fields = ['user','email','contact','resume']  
+        fields = ['full_name','email','contact','resume']  
+    full_name = forms.CharField(max_length=255)
+    full_name.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
+    
+    email = forms.EmailField(max_length=255)
+    email.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Email',"required":"required"})
+
+    contact = forms.IntegerField()
+    contact.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Mobile Number',"required":"required"})
+
+    resume = forms.FileField(required=False)  # ImageField for uploading images
+    resume.widget.attrs.update({'class': 'form-control'})
 
 class EditUserForm(forms.Form):
     model =common_models.Edit_User

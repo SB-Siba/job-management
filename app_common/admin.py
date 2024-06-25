@@ -40,18 +40,8 @@ class JobAdmin(admin.ModelAdmin):
 @admin.register(models.Application)
 class ApplicationAdmin(admin.ModelAdmin):
     list_display = ('job', 'user_full_name', 'user_email','user_contact', 'applied_at')
-    search_fields = ('user_full_name', 'user_email', 'user_contact', 'job__title')
-    def get_user_full_name(self, obj):
-        return obj.user.get_full_name()
-    get_user_full_name.short_description = 'Full Name'
+    search_fields = ('user_full_name', 'user_email', 'user_contact', 'job__catagory')
     
-    def get_user_email(self, obj):
-        return obj.user.email
-    get_user_email.short_description = 'Email'
-    
-    def get_user_contact(self, obj):
-        return obj.user.profile.contact_number  # Adjust as per your profile model
-    get_user_contact.short_description = 'Contact Number'
 
 
 @admin.register(models.ContactMessage)

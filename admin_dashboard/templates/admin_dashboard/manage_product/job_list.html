@@ -86,10 +86,11 @@
                                         </td>
 
                                         <td>
+                                            {{job.id}}
                                             {% if job.published %}
-                                                <button type="submit" name="action" value="unpublish">Unpublish</button>
+                                            <a href="{% url 'admin_dashboard:job_unpublish' job.id %}">Unpublish</a>
                                             {% else %}
-                                                <button type="submit" name="action" value="publish">Publish</button>
+                                            <a href="{% url 'admin_dashboard:job_publish' job.id %}">Publish</a>
                                             {% endif %}
                                             <input type="hidden" name="job_id" value="{{ job.id }}">
                                             <a href="{% url 'admin_dashboard:job_update' job.id %}">Edit</a>

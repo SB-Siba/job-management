@@ -10,7 +10,7 @@ from helpers import utils, api_permission
 from django.forms.models import model_to_dict
 import os
 from django.shortcuts import get_object_or_404
-
+from django.utils import timezone
 # for api
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -44,19 +44,35 @@ class JobList(View):
         }
         return render(request, self.template, context)
     def post(self, request):
-        action = request.POST.get("action")
         job_id = request.POST.get("job_id")
         job = get_object_or_404(common_model.Job, id=job_id)
 
-        if action == "publish":
-            job.publish()
-            messages.success(request, f"Job '{job.company_name}' published successfully.")
-        elif action == "unpublish":
-            job.unpublish()
-            messages.success(request, f"Job '{job.company_name}' unpublished successfully.")
-
         return redirect("admin_dashboard:job_list")
 
+@method_decorator(utils.super_admin_only, name='dispatch')
+class JobPublish(View):
+    model =common_model.Job
+
+    def get(self, request, job_id):
+        job = get_object_or_404(self.model, id=job_id)
+        job.published = True
+        job.published_date = timezone.now()
+        job.save()
+        messages.success(request, f'Job {job.company_name} published successfully.')
+        return redirect('admin_dashboard:job_list')
+
+
+@method_decorator(utils.super_admin_only, name='dispatch')
+class JobUnpublish(View):
+    model =common_model.Job
+
+    def get(self, request, job_id):
+        job = get_object_or_404(self.model, id=job_id)
+        job.published = False
+        job.published_date = None
+        job.save()
+        messages.success(request, f'Job {job.company_name} unpublished successfully.')
+        return redirect('admin_dashboard:job_list')
 
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobDetail(View):
@@ -73,7 +89,7 @@ class JobDetail(View):
 @method_decorator(utils.super_admin_only, name='dispatch')
 class ApplicationList(View):
     model = common_model.Application
-    template = "admin/application_list.html"
+    template = app + "application_list.html"
 
     def get(self, request):
         application_list = self.model.objects.all().order_by('-id')

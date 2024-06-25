@@ -16,9 +16,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     
     <style>
-        body, html {
-            height: 100%;
+        *{
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body, html {
+            height: 100vh;
+           
         }
         .bg-bg {
             background-color: #9393fa;
@@ -29,8 +35,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 500px;
-            padding: 25px;
-            height: auto;
+            height: 98vh;
         }
         .card-body {
             padding: 2rem;
@@ -68,7 +73,7 @@
                         <input type="hidden" name="csrfmiddlewaretoken" value="7dtv8aRqW4IS8tLQXQGc1f06TQuI6rL63hXHFtXk6RP7qsokMGd156efE1iY3f8Q">
                             {% csrf_token %}
                             {% for field in form %}
-                            <div class="mb-2">
+                            <div>
                             {{field.label}}
                             {{field}}
                             </div>

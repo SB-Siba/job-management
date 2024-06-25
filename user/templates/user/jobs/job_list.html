@@ -1,37 +1,28 @@
 {% extends "user/index.html" %}
 {% load static %}
 {% block content %}
-  <h1>Job Listings</h1>
-  <ul>
-    {% for job in jobs %}
-      <li>
-        <h2><a href="{% url 'job-detail' job.pk %}">{{ job.title }}</a></h2>
-        <p>{{ job.description }}</p>
-        <p><strong>Location:</strong> {{ job.location }}</p>
-        <p><strong>Posted by:</strong> {{ job.posted_by.username }}</p>
-        <p><strong>Posted on:</strong> {{ job.created_at }}</p>
-      </li>
-    {% endfor %}
-  </ul>
-
-  <!-- Pagination -->
-  {% if is_paginated %}
-    <div class="pagination">
-      <span class="step-links">
-        {% if page_obj.has_previous %}
-          <a href="?page=1">&laquo; first</a>
-          <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-          <a href="?page={{ page_obj.next_page_number }}">next</a>
-          <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-      </span>
+<div class="job-list-container">
+    <div class="job-list">
+        {% for job in job_list %}
+        <div class="job-item">
+            <div class="job-header">
+                <h3 class="job-title">{{ job.catagory }}</h3>
+                <p class="job-company">{{ job.company_name}}</p>
+                <p class="job-location">{{ job.location }}</p>
+            </div>
+            <div class="job-meta">
+                <p class="job-type">{{ job.job_type }}</p>
+            </div>
+            <div class="job-description">
+                <p>{{ job.description }}</p>
+            </div>
+            <div class="job-footer">
+                <p>Active {{ job.published_at|timesince }} ago</p>
+                <a href="{% url 'apply_job' job.id %}" class="btn btn-primary">Apply now</a>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-  {% endif %}
+    <!-- {% include 'app_common/pagination.html' with page_obj=job_list %} -->
+</div>
 {% endblock %}

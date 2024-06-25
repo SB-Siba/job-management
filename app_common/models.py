@@ -141,12 +141,13 @@ class Job(models.Model):
         (INTERNSHIP, 'Internship'),
     ]
     uid=models.CharField(max_length=255, null=True, blank=True)
-    # title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True)
     catagory = models.ForeignKey(Catagory, on_delete=models.SET_NULL, blank=True, null=True)
     description = models.CharField(max_length =300,blank=True, null=True)
     requirements = models.CharField(max_length =100,blank=True, null=True)
     location = models.CharField(max_length=100, null=True, blank=True)
     posted_at = models.DateField(default=timezone.now)
+    published_date = models.DateTimeField(null=True, blank=True)
     published = models.BooleanField(default=False)
     expiry_date = models.DateTimeField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -156,18 +157,6 @@ class Job(models.Model):
     vacancies = models.PositiveIntegerField(default=1)
     job_type = models.CharField(max_length=2, choices=JOB_TYPE_CHOICES, default=FULL_TIME)
    
-
-    def publish(self, days_active=30):
-        self.published = True
-        self.published_at = timezone.now()
-        self.expiry_date = self.published_at + timedelta(days=days_active)
-        self.save()
-
-    def unpublish(self):
-        self.published = False
-        self.published_at = None
-        self.expiry_date = None
-        self.save()
         
     def __str__(self):
         return self.title
@@ -175,20 +164,16 @@ class Job(models.Model):
     
 
 class Application(models.Model):
-    uid=models.CharField(max_length=255, null=True, blank=True)
+    # uid=models.CharField(max_length=255, null=True, blank=True)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     email = models.EmailField(default='')
     contact = models.IntegerField(null=True, blank=True, unique=True, default=0)
-    resume = models.FileField(upload_to='resumes/')
+    resume = models.FileField(upload_to='resumes/', blank=True, null=True)
     applied_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, default='Pending')
 
-    def save(self, *args, **kwargs):
-        if not self.uid:
-            self.uid = utils.get_rand_number(5)
         
-        super().save(*args, **kwargs)
     @property
     def user_full_name(self):
         return self.user.get_full_name()
@@ -202,31 +187,30 @@ class Application(models.Model):
         return self.user.profile.contact_number 
 
     def __str__(self):
-        return f'{self.user.full_name} - {self.job.title} ' 
+        return f'{self.user.full_name} - {self.job.catagory} ' 
     
 
 
- 
 class ContactMessage(models.Model):
     STATUS = (
-        ("pending","pending"),
-        ("read","read"),
-        ("resolved","resolved"),
+        ("pending", "Pending"),
+        ("read", "Read"),
+        ("resolved", "Resolved"),
     )
-    uid=models.CharField(max_length=255, null=True, blank=True)
-    user = models.ForeignKey(User, on_delete= models.CASCADE, null= True, blank= True)
-    # order_number = models.CharField(max_length=255, null= True, blank= True)
-    message = models.TextField(null= True, blank= True)
-    status = models.CharField(max_length=255,choices=STATUS, default= 'new')
-    reply = models.TextField(null=True, blank= True)
+    uid = models.CharField(max_length=255, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    message = models.TextField(null=True, blank=True)
+    status = models.CharField(max_length=255, choices=STATUS, default='pending')
+    reply = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-
 
     def save(self, *args, **kwargs):
         if not self.uid:
             self.uid = utils.get_rand_number(5)
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return f"{self.uid} - {self.user} - {self.status}"
 
 # class Employee(models.Model):
 #     user = models.OneToOneField(User, on_delete=models.CASCADE)
