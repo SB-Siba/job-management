@@ -1,6 +1,6 @@
 from django.db import models
 import io
-from PIL import Image
+# from PIL import Image
 import os
 import uuid
 from django.core.files import File
