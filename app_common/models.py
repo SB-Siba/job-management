@@ -74,32 +74,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
-    def send_reset_password_email(self):
-        token = self.generate_reset_password_token()
-        reset_link = f"http://35.154.55.245/reset-password/{token}/"
-        subject = 'Reset your password'
-        message = f'Hi {self.full_name},\n\nTo reset your password, please click the link below:\n\n{reset_link}\n\nIf you did not request this, please ignore this email.'
-        send_mail(subject, message, 'noreplyf577@gmail.com', [self.email])
-       
-       
-       
-    def generate_reset_password_token(self):
-        token = str(uuid.uuid4())
-        self.token = token
-        self.save()
-        return token
-   
-    def reset_password(self, token, new_password):
-        # Check if the token is valid (you may want to implement token validation logic here)
-        if self.token == token:
-            # Set the new password and save the user
-            self.set_password(new_password)
-            self.token = None  # Clear the token after password reset
-            self.save()
-            return True
-        else:
-            return False   
-
+ 
 # New Models
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -115,10 +90,7 @@ class UserProfile(models.Model):
 
 
 class Catagory(models.Model):
-    YESNO = (
-        ("yes","yes"),
-        ("no","no")
-    )
+
     title=models.CharField(max_length=255, null=True, blank=True, unique=True)
     description=models.TextField()
 
@@ -193,24 +165,23 @@ class Application(models.Model):
 
 class ContactMessage(models.Model):
     STATUS = (
-        ("pending", "Pending"),
-        ("read", "Read"),
-        ("resolved", "Resolved"),
+        ("pending","pending"),
+        ("read","read"),
+        ("resolved","resolved"),
     )
-    uid = models.CharField(max_length=255, null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    message = models.TextField(null=True, blank=True)
-    status = models.CharField(max_length=255, choices=STATUS, default='pending')
-    reply = models.TextField(null=True, blank=True)
+    uid=models.CharField(max_length=255, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete= models.CASCADE, null= True, blank= True)
+    # order_number = models.CharField(max_length=255, null= True, blank= True)
+    message = models.TextField(null= True, blank= True)
+    status = models.CharField(max_length=255,choices=STATUS, default= 'new')
+    reply = models.TextField(null=True, blank= True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
 
     def save(self, *args, **kwargs):
         if not self.uid:
             self.uid = utils.get_rand_number(5)
         super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"{self.uid} - {self.user} - {self.status}"
 
 # class Employee(models.Model):
 #     user = models.OneToOneField(User, on_delete=models.CASCADE)

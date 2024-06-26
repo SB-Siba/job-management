@@ -44,9 +44,7 @@
                     <!-- <button data-bs-toggle="modal" data-bs-target="#select_filter" class="btn btn-sm btn-neutral">
                         <i class="fa-solid fa-filter fa-shake" style="color: #098cf1;"></i>
                     </button> -->
-                    <a href="{% url 'admin_dashboard:job_add' %}" class="btn btn-sm btn-neutral">
-                        <i class="bi bi-plus">Create New Job</i>
-                    </a>
+                
 
                 </div>
             </div>
@@ -157,32 +155,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="create_catagory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add New User</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form action="" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% for field in form %}
-            <div class="mb-3">
-              <label for="recipient-name" class="col-form-label">{{field.label}}:</label>
-              {{field}}
-            </div>
-            {% endfor %}
 
-            <center>
-                <button class="btn btn-primary" type="submit"> Add User </button>
-            </center>
-          </form>
-        </div>
-        
-      </div>
-    </div>
-  </div>
 
 {% endblock content %}
 {% block js %}

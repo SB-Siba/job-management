@@ -1,4 +1,4 @@
-{% extends 'user/landing_page.html' %}
+{% extends 'user/index.html' %}
 {% load static %}
 {% block title %}
 Contact Page
@@ -21,40 +21,13 @@ Contact Page
   <div  id="form-message-success" class="mb-4 "  style="color:#1D3557;  font-family:'Montserrat', sans-serif; margin-bottom: 1rem;margin-top: 40px;">
   
   </div>
-  <form method="POST" id="contactForm" name="contactForm" class="contactForm ">
-  <div  class="row">
-  <div class="col-md-6">
-  <div class="form-group">
-  <label class="label" for="name">Full Name</label>
-  <input type="text" class="form-control" name="name" id="name" placeholder="Name">
-  </div>
-  </div>
-  <div class="col-md-6">
-  <div class="form-group">
-  <label class="label" for="email">Email Address</label>
-  <input type="email" class="form-control" name="email" id="email" placeholder="Email">
-  </div>
-  </div>
-  <div class="col-md-12">
-  <div class="form-group">
-  <label class="label" for="subject">Subject</label>
-  <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject">
-  </div>
-  </div>
-  <div class="col-md-12">
-  <div class="form-group">
-  <label class="label" for="#">Message</label>
-  <textarea name="message" class="form-control" id="message" cols="30" rows="4" placeholder="Message"></textarea>
-  </div>
-  </div>
-  <div class="col-md-12">
-  <div class="form-group"style="margin-top: 20px;">
-  <input type="submit" value="Send Message" class="btn btn-primary">
-  <div class="submitting"></div>
-  </div>
-  </div>
-  </div>
-  </form>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.as_p}}
+    <div>
+        <button class="btn btn-primary w-100" type="submit">Send Message</button>
+    </div>
+</form>
   </div>
   </div>
   <div class="col-lg-4 col-md-5 d-flex align-items-stretch">

@@ -111,7 +111,7 @@ class UpdateProfileView(View):
             contact = form.cleaned_data["contact"]
             skills = form.cleaned_data["skills"]
             profile_picture = form.cleaned_data["profile_pic"]
-            password = form.cleaned_data["password"]
+            # password = form.cleaned_data["password"]
             resume = form.cleaned_data["resume"]
 
             user = request.user
@@ -121,7 +121,6 @@ class UpdateProfileView(View):
                 userobj.email = email
                 userobj.full_name = full_name
                 userobj.contact = contact
-
                 profile_object = UserProfile.objects.filter(user=user)
 
                 if profile_picture is None:
@@ -215,79 +214,53 @@ class ApplyForJobView(View):
         
         return redirect('user:home')  # Redirect back to the job list view
 
-    
+class AppliedJobsView(View):
+    template_name = app + 'jobs/applied_jobs.html'
+
+    def get(self, request):
+        applied_jobs = Application.objects.filter(user=request.user)
+        return render(request, self.template_name, {'applied_jobs': applied_jobs})
+
 class ApplicationSuccess(View):
     template = "user/application_success.html"
 
     def get(self,request):
         return render(request,self.template)
 
-class ContactMessage(View):
+class contactMesage(View):
     template = app + "contact_page.html"
 
-    def get(self, request):
-        form = forms.ContactMessageForm()
-        context = {"form": form}
-        return render(request, self.template, context)
+    def get(self,request):
+        initial = {'user': request.user.full_name}
+        form = forms.ContactMessageForm(initial=initial)
 
-    def post(self, request):
-        form = forms.ContactMessageForm(request.POST)
-        if form.is_valid():
+        context={"form":form}
+        return render(request,self.template,context)
+    
+    def post(self,request):
+        form = forms.ContactMessageForm(request.POST)  # Instantiate the form with request POST data
+        if form.is_valid():  # Add parentheses to is_valid()
             user = form.cleaned_data['user']
-            email = form.cleaned_data['email']
-            message_content = form.cleaned_data['message']
+            query_message = form.cleaned_data['message']
             try:
-                u_obj = get_object_or_404(User, username=user)
+                u_obj = get_object_or_404(User,full_name = user)
                 user_email = u_obj.email
-                subject = "Your Query Received"
-                message = (
-                    f"Dear {user},\n\n"
-                    "Your query has been received successfully.\n"
-                    "Our team members will look into this.\n\n"
-                    "Best regards,\n"
-                    "Support Team"
-                )
-                from_email = "noreplyf577@gmail.com"
-                send_mail(subject, message, from_email, [user_email], fail_silently=False)
-                contact_obj = ContactMessage(user=u_obj, message=message_content)
+                subject = "Your Query Recived."
+                message = f"Dear,\nYour Query has been recived successfully.\nOur Team members look into this."
+                from_email = "forverify.noreply@gmail.com"
+                send_mail(subject, message, from_email,[user_email], fail_silently=False)
+                contact_obj = ContactMessage(user = u_obj,message =query_message)
                 contact_obj.save()
-                messages.info(request, "Your message has been sent successfully.")
-                return redirect("user:home")
+                messages.info(request,"Your Message has been sent successfully.")
+                return redirect("shoppingsite:home")
             except Exception as e:
-                print(e)
-                messages.warning(request, "There was an error while sending your message.")
-                context = {"form": form}
-                return render(request, self.template, context)
-        else:
-            context = {"form": form}
-            return render(request, self.template, context)
-
-
-
-class InboxView(LoginRequiredMixin, View):
-    template_name = 'user_app/inbox.html'
-
-    def get(self, request):
-        # Fetch messages for the logged-in user
-        received_messages = ContactMessage.objects.filter(user=request.user).order_by('-created_at')
-        context = {
-            'received_messages': received_messages,
-        }
-        return render(request, self.template_name, context)
-class MessageDetailView(LoginRequiredMixin, View):
-    template_name = 'user_app/message_detail.html'
-
-    def get(self, request, pk):
-        # Fetch the specific message by primary key (pk)
-        message = get_object_or_404(ContactMessage, pk=pk)
-        if message.user == request.user:
-            if message.status == 'pending':
-                message.status = 'read'
-                message.save()
-            return render(request, self.template_name, {'message': message})
-        else:
-            messages.warning(request, "You are not authorized to view this message.")
-            return redirect('user_app:inbox')       
+                print (e)
+                messages.warning(request,"There was an error while sending your message.")
+                return self.get(request)
+        else:   # If the form is not valid, re-render the form with errors
+            return self.get(request)
+        
+     
 
 class AboutPage(View):
     template = app + "about.html"
@@ -297,14 +270,13 @@ class AboutPage(View):
         return render(request,self.template)
 
 
-
 class AccountDetails(View):
     template = app + "accountdetails.html"
 
     def get(self,request):
         user = request.user
         catagory_obj = Catagory.objects.all()
-        userobj = User.objects.get(id=user.id) 
+        userobj = User.objects.get(id=user.id)
         try:
             profileobj = UserProfile.objects.get(user=userobj)
         except UserProfile.DoesNotExist:

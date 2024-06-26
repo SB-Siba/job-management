@@ -57,9 +57,7 @@ urlpatterns = [
     path('credential/change_user_status', credential.UserActiveInactive.as_view(), name="change_user_status"),
 
     # contact message
-    path("contact_messages/all_mesages/",messages.AdminInbox.as_view(), name="all_contact_message"),
-    path("contact_messages/contact_message_detail/<str:uid>",messages.AdminMessageDetail.as_view(), name="contact_message_detail"),
-    path("contact_messages/contact_message_reply/<str:uid>",messages.AdminMessageReply.as_view(), name="contact_message_reply"),
-
-
+    path("contact_messages/all_mesages/",messages.ContactMessageList.as_view(), name="all_contact_message"),
+    path("contact_messages/contact_message_detail/<str:uid>",messages.ContactMessageDetail.as_view(), name="contact_message_detail"),
+    path("contact_messages/contact_message_reply/<str:uid>",messages.ContactMessagereply.as_view(), name="contact_message_reply"),
 ]

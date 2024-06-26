@@ -19,36 +19,60 @@ app = "admin_dashboard/contact_messages/"
 
 
 @method_decorator(utils.super_admin_only, name='dispatch')
-class AdminInbox(View):
-    template_name = 'admin_app/inbox.html'
-    model = common_model.ContactMessage()
-    def get(self, request):
-        received_messages = model.objects.filter(status='pending').order_by('-created_at')
-        paginated_messages = paginate(request, received_messages, 50)
-        return render(request, self.template_name, {'received_messages': paginated_messages})
-
-@method_decorator(utils.super_admin_only, name='dispatch')
-class AdminMessageDetail(View):
-    template_name = 'admin_app/message_detail.html'
-    model = common_model.ContactMessage()
-    def get(self, request, uid):
-        message = get_object_or_404(model, uid=uid)
-        if message.status == 'pending':
-            message.status = 'read'
-            message.save()
-        form = MessageReply(instance=message)
-        return render(request, self.template_name, {'message': message, 'form': form})
-
-@method_decorator(utils.super_admin_only, name='dispatch')
-class AdminMessageReply(View):
+class ContactMessageList(View):
+    model = common_model.ContactMessage
     form_class = MessageReply
-    model = common_model.ContactMessage()
-    def post(self, request, uid):
-        message = get_object_or_404(model, uid=uid)
-        form = self.form_class(request.POST, instance=message)
+    template = app + "message_list.html"
+
+    def get(self,request):
+        message_list = self.model.objects.all().order_by('-id')
+        paginated_data = utils.paginate(request, message_list, 50)
+
+        context = {
+            "message_list": paginated_data,
+            "form": self.form_class,
+        }
+        return render(request, self.template, context)
+    
+
+@method_decorator(utils.super_admin_only, name='dispatch')
+class ContactMessageDetail(View):
+    model = common_model.ContactMessage
+
+    def get(self, request, uid):
+        try:
+            message = self.model.objects.get(uid=uid)
+            data = {
+                'uid': message.uid,
+                'user': message.user.id if message.user else None,
+                'message': message.message,
+                'status': message.status,
+                'reply': message.reply,
+                'created_at': message.created_at.isoformat() if message.created_at else None,
+                # Add any other fields you need to include in the JSON response
+            }
+            return JsonResponse(data, safe=False)
+        except self.model.DoesNotExist:
+            return JsonResponse({'error': 'Message not found'}, status=404)
+
+
+@method_decorator(utils.super_admin_only, name='dispatch')
+class ContactMessagereply(View):
+    model = common_model.ContactMessage
+    form_class = MessageReply
+
+    def post(self,request, uid):
+
+        message = self.model.objects.get(uid = uid)
+        form = self.form_class(json.loads(request.body), instance= message)
         if form.is_valid():
             form.save()
-            return JsonResponse({'status': 'success'}, status=200)
+            return JsonResponse(200, safe=False)
         else:
-            error_list = [f'{field}: {error}' for field, errors in form.errors.items() for error in errors]
-            return JsonResponse({'errors': error_list}, status=400)
+            error_list = []
+            for field, errors in form.errors.items():
+                for error in errors:
+                    error_list.append(f'{field}: {error}')
+            print(error_list)
+            return JsonResponse(error_list, safe=False)
+        

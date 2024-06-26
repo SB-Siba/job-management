@@ -95,17 +95,17 @@ https://templatemo.com/tm-584-pod-talk
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link active" href="/">Contact</a>
+                            <a class="nav-link active" href="{% url 'user:contactmessage' %}">Contact</a>
                         </li>
 
                         <li class="nav-item dropdown hhh">
                             <a class="nav-link dropdown-toggle" href="#"id="navbarLightDropdownMenuLink1" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">{{ request.user.full_name }}</a>
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink1">
-                                <li><a class="dropdown-item" href="{% url 'user:profile' %}">Account Details</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:account_details' %}">Account Details</a></li>
                                 
-                                <li><a class="dropdown-item" href="">Applied Job</a></li>
-                                <li><a class="dropdown-item" href="">Change Password</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:applied_jobs' %}">Applied Job</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:passwordchange' %}">Change Password</a></li>
                                 <li>
                                     <button class="form-control btn btn-link text-decoration-none text-black"><a
                                             href="{% url 'user:logout' %}"
