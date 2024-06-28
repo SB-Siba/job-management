@@ -136,15 +136,19 @@ class Job(models.Model):
     
 
 class Application(models.Model):
-    # uid=models.CharField(max_length=255, null=True, blank=True)
+    STATUS_CHOICES = [
+        ('Applied', 'Applied'),
+        ('Interviewed', 'Interviewed'),
+        ('Hired', 'Hired'),
+        ('Rejected', 'Rejected'),
+     ]
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     email = models.EmailField(default='')
     contact = models.IntegerField(null=True, blank=True, unique=True, default=0)
     resume = models.FileField(upload_to='resumes/', blank=True, null=True)
     applied_at = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=20, default='Pending')
-
+    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='Applied')
         
     @property
     def user_full_name(self):
@@ -159,7 +163,7 @@ class Application(models.Model):
         return self.user.profile.contact_number 
 
     def __str__(self):
-        return f'{self.user.full_name} - {self.job.catagory} ' 
+        return f'{self.user.full_name} applied for {self.job.catagory} ' 
     
 
 

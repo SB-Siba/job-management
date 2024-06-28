@@ -40,7 +40,7 @@ class CatagoryEntryForm(forms.ModelForm):
 class JobForm(forms.ModelForm):
     class Meta:
         model = common_models.Job
-        fields = ['catagory', 'description', 'location','requirements','company_name','company_website','company_logo','vacancies','published', 'posted_at', 'expiry_date', 'job_type']
+        fields = ['title','catagory', 'description', 'location','requirements','company_name','company_website','company_logo','vacancies','published', 'posted_at', 'expiry_date', 'job_type']
         widgets = {
             'posting_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'expiration_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),

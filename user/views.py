@@ -42,6 +42,7 @@ class HomeView(View):
     def get(self, request):
         user = request.user
         if not user.is_authenticated:
+            jobs = Job.objects.all()
             return render(request, self.un_template, locals())
 
         job_list = Job.objects.filter(published=True, expiry_date__gt=timezone.now()).order_by('-uid')
@@ -180,9 +181,9 @@ class UserJobFilter(View):
 
     def get(self, request):
         filter_by = request.GET.get("filter_by")
-        if filter_by == "category":
-            category_id = request.GET.get("catagory_id")
-            job_list = self.Job.objects.filter(category_id=category_id, published=True, expiry_date__gt=timezone.now()).order_by('-id')
+        if filter_by == "catagory":
+            catagory_id = request.GET.get("catagory_id")
+            job_list = self.Job.objects.filter(catagory_id=catagory_id, published=True, expiry_date__gt=timezone.now()).order_by('-id')
         else:
             job_list = self.Job.objects.filter(published=True, expiry_date__gt=timezone.now()).order_by('-id')
 
@@ -220,9 +221,17 @@ class AppliedJobsView(View):
     def get(self, request):
         applied_jobs = Application.objects.filter(user=request.user)
         return render(request, self.template_name, {'applied_jobs': applied_jobs})
-
+    def post(self, request):
+       
+        return redirect('user:applied_jobs')
 class ApplicationSuccess(View):
     template = "user/application_success.html"
+
+    def get(self,request):
+        return render(request,self.template)
+
+class Contact(View):
+    template = app + "login"
 
     def get(self,request):
         return render(request,self.template)
@@ -252,7 +261,7 @@ class contactMesage(View):
                 contact_obj = ContactMessage(user = u_obj,message =query_message)
                 contact_obj.save()
                 messages.info(request,"Your Message has been sent successfully.")
-                return redirect("shoppingsite:home")
+                return redirect("user:home")
             except Exception as e:
                 print (e)
                 messages.warning(request,"There was an error while sending your message.")

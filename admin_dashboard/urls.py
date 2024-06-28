@@ -28,6 +28,7 @@ urlpatterns = [
     # path('candidates/<int:candidate_id>/update_status_hired/', user.update_status_hired, name='update_status_hired'),
     # # catagory web
     path("catagory/catagory_list", catagory.CatagoryList.as_view(), name="catagory_list"),
+    path('catagory/catagory_add/', catagory.CatagoryAdd.as_view(), name='catagory_add'),
     path("catagory/catagory_update/<str:catagory_id>", catagory.CatagoryUpdate.as_view(), name="catagory_update"),
     path("catagory/catagory_delete/<str:catagory_id>", catagory.CatagoryDelete.as_view(), name="catagory_delete"),
 
@@ -44,7 +45,7 @@ urlpatterns = [
     path('job/job_filter/', job.JobFilter.as_view(), name='job_filter'),
     path('job/job_detail/<int:job_uid>/', job.JobDetail.as_view(), name='job_detail'),
     path('job/job_add/', job.JobAdd.as_view(), name='job_add'),
-    path('job/job_update/<int:job_uid>/', job.JobUpdate.as_view(), name='job_update'),
+    path('job/job_update/<int:job_id>/', job.JobUpdate.as_view(), name='job_update'),
     path('job/job_delete/<int:job_uid>/', job.JobDelete.as_view(), name='job_delete'),
     # #product_api
     

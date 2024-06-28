@@ -36,15 +36,24 @@ class JobAdmin(admin.ModelAdmin):
         queryset.update(published=False)
     unpublish_jobs.short_description = 'Unpublish selected jobs'
 
+@admin.action(description='Mark selected candidates as Hired')
+def make_hired(modeladmin, request, queryset):
+    queryset.update(status='Hired')
     
 @admin.register(models.Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    list_display = ('job', 'user_full_name', 'user_email','user_contact', 'applied_at')
+    list_display = ('job', 'user_full_name', 'user_email','user_contact', 'applied_at','status')
+    actions = [make_hired]
+    list_filter = ('status', 'job')
     search_fields = ('user_full_name', 'user_email', 'user_contact', 'job__catagory')
-    
+ 
 
 
 @admin.register(models.ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
     search_fields = ("uid",)
-    list_display = ("uid","id",)
+    list_display = ("uid","id","email", "created_at")
+
+    def email(self, obj):
+        return obj.email
+    email.short_description = 'Email'

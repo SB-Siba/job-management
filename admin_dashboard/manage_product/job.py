@@ -81,8 +81,10 @@ class JobDetail(View):
 
     def get(self, request, job_uid):
         job = get_object_or_404(self.model, id=job_uid)
+        applications_count = common_model.Application.objects.filter(job=job).count()
         context = {
             "job": job,
+            'applications_count': applications_count
         }
         return render(request, self.template, context)
         
@@ -100,7 +102,15 @@ class ApplicationList(View):
         }
         return render(request, self.template, context)
 
-
+    def post(self, request):
+        application_list = self.model.objects.all().order_by('-id')
+        for application in application_list:
+            new_status = request.POST.get(f'status_{application.id}')
+            if new_status:
+                application.status = new_status
+                application.save()
+        messages.success(request, 'The statuses of the selected candidates have been updated.')
+        return redirect('admin_dashboard:application_list')
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobSearch(View):
     model =common_model.Job
@@ -182,21 +192,21 @@ class JobUpdate(View):
     form_class = forms.JobForm
     template_name = app + "job_update.html"
 
-    def get(self, request, job_uid):
-        job = get_object_or_404(self.model, id=job_uid)
+    def get(self, request, job_id):
+        job = get_object_or_404(self.model, id=job_id)
         context = {
             "job": job,
             "form": self.form_class(instance=job),
         }
         return render(request, self.template_name, context)
 
-    def post(self, request, job_uid):
-        job = get_object_or_404(self.model, id=job_uid)
+    def post(self, request, job_id):
+        job = get_object_or_404(self.model, id=job_id)
         form = self.form_class(request.POST, request.FILES, instance=job)
         if form.is_valid():
             form.save()
             messages.success(request, f"Job ({job_uid}) updated successfully.")
-            return redirect("admin_dashboard:job_detail", job_uid=job_uid)
+            return redirect("admin_dashboard:job_detail", job_id)
         else:
             for field, errors in form.errors.items():
                 for error in errors:

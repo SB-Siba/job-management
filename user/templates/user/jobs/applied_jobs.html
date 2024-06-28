@@ -1,13 +1,13 @@
-<!-- {% extends 'user/index.html' %} -->
+{% extends 'user/index.html' %}
 
 {% block content %}
   <h2>Jobs You Have Applied For</h2>
   <ul>
     {% for application in applied_jobs %}
       <li>
-        <strong>{{ application.job.title }}</strong>
+        <strong>{{ application.job.catagory.title }}</strong>
         <br>
-        Applied on: {{ application.created_at }}
+        Applied on: {{ application.applied_at }}
         <br>
         Status: {{ application.status }}
       </li>

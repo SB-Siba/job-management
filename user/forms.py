@@ -69,9 +69,16 @@ class UpdateProfileForm(forms.Form):
     resume.widget.attrs.update({'class': 'form-control', 'type': 'file'})
     
 class ContactMessageForm(forms.Form):
+    user = forms.CharField(max_length=255, required=False)
+    user.widget.attrs.update({'class': 'form-control', 'type': 'text', "readonly": "readonly"})
 
-    user = forms.CharField(max_length=255)
-    user.widget.attrs.update({'class': 'form-control','type':'text',"required":"required","readonly":"readonly"})
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control', 
+            'placeholder': 'Enter Your Email'
+        }),
+        required=True
+    )
 
     message = forms.CharField(
         widget=forms.Textarea(attrs={
@@ -79,6 +86,4 @@ class ContactMessageForm(forms.Form):
             'placeholder': 'Enter Your Message'
         }),
         required=True
-
     )
-

@@ -240,15 +240,16 @@ Job Opening
 <!-- Card and Text Section -->
 <div class="sjb-card-container">
     <!-- Card side -->
+     {%for job in jobs %}
     <div class="card sjb-card">
         <img src="{% static 'images/j1.jpg' %}" class="card-img-top" alt="Card Image">
         <div class="card-body sjb-card-content">
-            <h5 class="card-title">Job Details</h5>
+            <h5 class="card-title">{{ job.catagory }}</h5>
             <p class="card-text">Our team comprises industry experts who understand the unique requirements of each sector we serve.</p>
-            <a href="#" class="btn btn-primary" style=" margin-left: 10px;">Job Details</a>
+            <a href="" class="btn btn-primary" style=" margin-left: 10px;">Job Details</a>
         </div>
     </div>
-
+    {% endfor %}
     <!-- Text side -->
     <div class="sjb-text">
         <h3>Job Details</h3>

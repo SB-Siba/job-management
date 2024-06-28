@@ -32,6 +32,7 @@ class CatagoryList(View):
     template = app + "catagory_list.html"
 
     def get(self,request):
+        
         catagory_list = self.model.objects.all().order_by('-id')
         catagorys = []
         product_count = []
@@ -52,6 +53,33 @@ class CatagoryList(View):
         if form.is_valid():
             form.save()
             messages.success(request, f"{request.POST['title']} is added to list.....")
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f'{field}: {error}')
+
+        return redirect("admin_dashboard:catagory_list")
+
+
+@method_decorator(utils.super_admin_only, name='dispatch')
+class CatagoryAdd(View):
+    model = common_model.Catagory
+    form_class = forms.CatagoryEntryForm
+    template = app + "catagory_add.html"
+
+    def get(self, request):
+        catagory_list = self.model.objects.all().order_by('-id')
+        context = {
+            "catagory_list": catagory_list,
+            "form": self.form_class,
+        }
+        return render(request, self.template, context)
+
+    def post(self, request):
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Catagory added successfully.")
         else:
             for field, errors in form.errors.items():
                 for error in errors:
