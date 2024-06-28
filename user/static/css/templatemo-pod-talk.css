@@ -1011,7 +1011,7 @@ main {
   SITE FOOTER              
 -----------------------------------------*/
 .site-footer {
-  background-image: url('../images/e-footer.jpg'), linear-gradient(#a71919, #348CD2);
+
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
