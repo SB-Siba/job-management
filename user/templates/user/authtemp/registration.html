@@ -36,6 +36,8 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 500px;
+            padding: 25px;
+            height: auto;
             height: 98vh;
         }
         .card-body {
@@ -71,18 +73,20 @@
                 <div class="card-body">
                     <h1 class="ls-tight font-bolder h2 text-center">Register Here</h1>
                     <form method="post" action="">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="7dtv8aRqW4IS8tLQXQGc1f06TQuI6rL63hXHFtXk6RP7qsokMGd156efE1iY3f8Q">
-                            {% csrf_token %}
-                            {% for field in form %}
-                            <div>
-                            {{field.label}}
-                            {{field}}
-                            </div>
-                            {% endfor %}
-                        
+                        <div class="form-group mt-2">
+                            {% include 'snippets/alert.html' %}
+                        </div>
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="form-group">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                        {% endfor %}
                         <div class="form-group mt-5">
                             <button class="btn btn-primary" type="submit">Register</button>
                         </div>
+                        
                     </form>
                     <div class="text-center mt-3">
                         <small class="custom-small-text">Already have an account?</small>

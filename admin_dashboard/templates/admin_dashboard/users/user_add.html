@@ -1,14 +1,78 @@
 {% extends 'admin_dashboard/starter.html' %}
 {% load static %}
 {% block content %}
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New User</title>
+    <link rel="stylesheet" href="{% static 'app_common/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'app_common/css/styles.css' %}">
+    <style>
+        .custom-card-header {
+            background-color: #0c8 !important;
+            color: white !important;
+        }
+        .custom-card-header h2 {
+            color: white !important;
+        }
+        .custom-btn {
+            background-color: #0c8 !important;
+            border-color: #0c8 !important;
+            color: white !important;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+        .btn-secondary.custom-back-btn {
+            background-color: #0c8 !important;
+            border-color: #0c8 !important;
+            color: white !important;
+        }
+    </style>
+</head>
 <body>
-    <h1>Add New User</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Add User</button>
-    </form>
-    <a href="{% url 'admin_dashboard:userslist' %}">Back to User List</a>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header custom-card-header text-white">
+                        <h2 class="text-center">Add New User</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="mbBqZz2ee5Yk0HpvUsx21zHqWQhj5Y8iCoOEpgCcEYgW5E9EnUWHT848CSlNrUrh">
+                            <div class="form-group">
+                                <label for="id_full_name">Full Name</label>
+                                <input type="text" class="form-control" name="full_name" maxlength="255" id="id_full_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="id_email">Email</label>
+                                <input type="email" class="form-control" name="email" maxlength="254" id="id_email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="id_contact">Contact</label>
+                                <input type="text" class="form-control" name="contact" maxlength="15" id="id_contact" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="id_password">Password</label>
+                                <input type="password" class="form-control" name="password" required id="id_password">
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn custom-btn">Add User</button>
+                            </div>
+                        </form>
+                        <div class="text-center mt-3">
+                            <a href="{% url 'admin_dashboard:userslist' %}" class="btn btn-secondary custom-back-btn">Back to User List</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'app_common/js/jquery.min.js' %}"></script>
+    <script src="{% static 'app_common/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'app_common/js/main.js' %}"></script>
 </body>
+</html>
 {% endblock content %}
