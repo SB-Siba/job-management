@@ -36,15 +36,23 @@ app = "user/"
 
 
 class HomeView(View):
-    template = app + "home1.html"
-    un_template = app + "landing_page.html"
+    template_client = app +'client_home.html'
+    template_user = app + 'home1.html'
+    unauthenticated_template = app + 'landing_page.html'
 
     def get(self, request):
         user = request.user
         if not user.is_authenticated:
             jobs = Job.objects.all()
-            return render(request, self.un_template, locals())
+            return render(request, self.unauthenticated_template, {'jobs': jobs})
 
+        if hasattr(user, 'client_profile'):
+            client = user.client_profile
+            jobs = client.jobs.all()  # Assuming you have a related_name='jobs' in Client model
+            applications = Application.objects.filter(job__client=client)  # Adjust as per your Application model setup
+            return render(request, self.template_client, {'client': client, 'jobs': jobs, 'applications': applications})
+
+        # If user is authenticated but not a client, treat as candidate
         job_list = Job.objects.filter(published=True, expiry_date__gt=timezone.now()).order_by('-uid')
         paginated_data = paginate(request, job_list, 50)
         form = ApplicationForm()  # This form will be used for the application modal/form
@@ -54,7 +62,7 @@ class HomeView(View):
             "form": form
         }
 
-        return render(request, self.template, context)
+        return render(request, self.template_user, context)
 
 
 class ProfileView(View):
@@ -279,22 +287,22 @@ class AboutPage(View):
         return render(request,self.template)
 
 
-class AccountDetails(View):
-    template = app + "accountdetails.html"
+# class AccountDetails(View):
+#     template = app + "accountdetails.html"
 
-    def get(self,request):
-        user = request.user
-        catagory_obj = Catagory.objects.all()
-        userobj = User.objects.get(id=user.id)
-        try:
-            profileobj = UserProfile.objects.get(user=userobj)
-        except UserProfile.DoesNotExist:
-            profileobj = None
+#     def get(self,request):
+#         user = request.user
+#         catagory_obj = Catagory.objects.all()
+#         userobj = User.objects.get(id=user.id)
+#         try:
+#             profileobj = UserProfile.objects.get(user=userobj)
+#         except UserProfile.DoesNotExist:
+#             profileobj = None
 
-        if not user.is_authenticated:
-            return redirect("user:login")
+#         if not user.is_authenticated:
+#             return redirect("user:login")
         
-        return render(request,self.template,locals())
+#         return render(request,self.template,locals())
     
 
 class Sector(View):

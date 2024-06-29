@@ -76,3 +76,8 @@ class AddUserForm(forms.ModelForm):
 
     # Optionally, you can add custom validation or widgets
     password = forms.CharField(widget=forms.PasswordInput)
+
+class ClientForm(forms.ModelForm):
+    class Meta:
+        model = common_models.Client
+        fields = ['name', 'address', 'phone_no', 'email']
