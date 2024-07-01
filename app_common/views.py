@@ -73,8 +73,4 @@ class PrivacyPolicy(View):
         return render(request, self.template, context)
 
 
-class Sector(View):
-    template = "user/sector.html"
 
-    def get(self,request):
-        return render(request,self.template)

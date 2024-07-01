@@ -1,6 +1,8 @@
 from django import forms
 from app_common import models as common_models
 
+
+
 class MessageReply(forms.ModelForm):
     class Meta:
         model = common_models.ContactMessage

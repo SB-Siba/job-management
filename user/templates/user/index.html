@@ -90,7 +90,9 @@ https://templatemo.com/tm-584-pod-talk
                             <a class="nav-link active" href="/">Home</a>
                         </li>
 
-
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/">Contact</a>
+                        </li>
 
                         <li class="nav-item dropdown hhh">
                             <a class="nav-link dropdown-toggle" href="#"id="navbarLightDropdownMenuLink1" role="button"
@@ -98,7 +100,7 @@ https://templatemo.com/tm-584-pod-talk
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink1">
                                 <li><a class="dropdown-item" href="{% url 'user:profile' %}">Account Details</a></li>
                                 
-                                <li><a class="dropdown-item" href="">Applied Job</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:applied_jobs' %}">Applied Job</a></li>
                                 <li><a class="dropdown-item" href="{% url 'user:passwordchange' %}">Change Password</a></li>
                                 <li>
                                     <button class="form-control btn btn-link text-decoration-none text-black"><a

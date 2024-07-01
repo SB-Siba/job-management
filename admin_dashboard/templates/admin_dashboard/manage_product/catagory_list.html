@@ -29,12 +29,7 @@
                     </div>
 
                 </div>
-                <div class="btn-group">
-                    <a data-bs-toggle="modal" data-bs-target="#create_catagory" class="btn btn-sm btn-neutral">
-                        <i class="bi bi-plus">Create New Catagory</i>
-                     </a>
-
-                </div>
+                
             </div>
             
             <div class="card">
@@ -42,22 +37,22 @@
                     <table class="table table-hover table-nowrap">
                         <thead class="table-light">
                             <tr>
-                                <th scope="col">Title</th>
+                                <th scope="col">Name</th>
                                 <!-- <th scope="col">Description</th> -->
-                                <th scope="col">Product Count</th>
+                                <th scope="col">Job Count</th>
                                 <th scope="col">Action</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody id="test_table_tbody">
-                            {% for catagory,count in catagory_product_count_zip %}
+                            {% for catagory,product_count in catagory_product_count_zip %}
                                 <tr>
                                     <td>
                                         <a class="text-heading text-primary-hover font-semibold" href="#">{{catagory.title}}</a>
                                     </td>
-                                    <!-- <td>{{catagory.description|truncatewords:10}}</td> -->
+                                    <!-- <td>{{catagory.description}}</td> -->
                                     
-                                    <td>{{count}}</td>
+                                    <td>{{product_count}}</td>
                                     
                                     <td >
                                         <a href="{% url 'admin_dashboard:catagory_update' catagory.id %}" class="btn btn-sm btn-square btn-neutral">
@@ -85,32 +80,7 @@
 
 
 <!-- test create modal -->
-<div class="modal fade" id="create_catagory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add New Catagory</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form action="" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% for field in form %}
-            <div class="mb-3">
-              <label for="recipient-name" class="col-form-label">{{field.label}}:</label>
-              {{field}}
-            </div>
-            {% endfor %}
 
-            <center>
-                <button class="btn btn-primary" type="submit"> Create Catagory </button>
-            </center>
-          </form>
-        </div>
-        
-      </div>
-    </div>
-  </div>
 
 {% endblock content %}
- -->
+

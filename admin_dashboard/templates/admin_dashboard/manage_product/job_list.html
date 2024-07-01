@@ -30,7 +30,7 @@
                         <select style="width: 6rem;" name="filter_by" class="form-select"
                             aria-label="Default select example">
                             <option selected value="uid">id</option>
-                            <option value="name">Name</option>
+                            <option value="name">Catagory</option>
                         </select>
 
                         <input type="text" name="query" placeholder="Serch Here" class="form-control" required />
@@ -42,12 +42,10 @@
                     </div>
                 </form>
                 <div class="btn-group">
-                    <button data-bs-toggle="modal" data-bs-target="#select_filter" class="btn btn-sm btn-neutral">
+                    <!-- <button data-bs-toggle="modal" data-bs-target="#select_filter" class="btn btn-sm btn-neutral">
                         <i class="fa-solid fa-filter fa-shake" style="color: #098cf1;"></i>
-                    </button>
-                    <a href="{% url 'admin_dashboard:job_add' %}" class="btn btn-sm btn-neutral">
-                        <i class="bi bi-plus">Create New Job</i>
-                    </a>
+                    </button> -->
+                
 
                 </div>
             </div>
@@ -55,46 +53,56 @@
             <div class="card">
                 <div class="table-responsive">
                     <table class="table table-hover table-nowrap">
-                        <thead class="table-light">
-                            <tr>
-                                <th scope="col">JOB ID</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <form method="post" action="">
-                            {% csrf_token %}
-                            <tbody id="test_table_tbody">
-                                {% for job in job_list %}
-                                <tr {% if job.stock <= 10 %} style="background: #f6a4a4;" {% endif %}>
-                                    <td>
-                                        <a class="text-heading text-primary-hover font-semibold"
-                                            href="{% url 'admin_dashboard:job_update' job.id %}">
-                                            {{job.id}}
-                                        </a>
-                                    </td>
-                                    <td>{{job.title}}</td>
-                                    <td>{{job.category}}</td>
-                                    <!-- <td>{{job.book_discount_price}}</td> -->
-                                    <td>
-                                        <a href="{% url 'admin_dashboard:job_update' job.id %}"
-                                            class="btn btn-sm btn-square btn-neutral">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                        <a onclick="delete_job(this)" p_name="{{job.name}}" p_uid="{{job.id}}">
-                                            <button type="button"
-                                                class="btn btn-sm btn-square btn-neutral text-danger-hover">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </a>
-    
-                                    </td>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Catagory</th>
+                                    <th>Description</th>
+                                    <th>Posted Date</th>
+                                    <th>Vacancies</th>
+                                    <th>Company_logo</th>
+                                    <th>Actions</th>
                                 </tr>
+                            </thead>
+                        <form method="post">
+                        {% csrf_token %}
+                        
+                            <tbody>
+                                {% for job in job_list %}
+                                    <tr>
+                                        <td><a href="{% url 'admin_dashboard:job_detail' job_uid=job.id %}">{{ job.id }}</a></td>
+                                        <td>{{ job.title }}</td>
+                                        <td>{{ job.catagory }}</td>
+                                        <td>{{ job.description }}</td>
+                                        <td>{{ job.posted_at }}</td>
+                                        <td>{{ job.vacancies}}</td>
+                                        <td>
+                                            {% if job.company_logo %}
+                                                <img src="{{ job.company_logo.url }}" width="100" class="rounded-circle">
+                                            {% else %}
+                                            No logo available
+                                            {% endif %}
+                                        </td>
+                                        
+                                                  
+                                        <td>
+                                            {{job.id}}
+                                            {% if job.published %}
+                                            <a href="{% url 'admin_dashboard:job_unpublish' job.id %}">Unpublish</a>
+                                            {% else %}
+                                            <a href="{% url 'admin_dashboard:job_publish' job.id %}">Publish</a>
+                                            {% endif %}
+                                            <input type="hidden" name="job_id" value="{{ job.id }}">
+                                            <a href="{% url 'admin_dashboard:job_update' job.id %}">Edit</a>
+                                            <a href="{% url 'admin_dashboard:job_delete' job.id %}">Delete</a>
+                                        </td>
+                                    </tr>
                                 {% endfor %}
-    
                             </tbody>
-                        </form>
+                        </table>
+                    </form>
 
                     </table>
 
@@ -142,7 +150,6 @@
                 <div style="display:flex;" class="job_filter">
                     <a href="{% url 'admin_dashboard:job_filter' %}?filter_by=trending">Trending</a>
                     <a href="{% url 'admin_dashboard:job_filter' %}?filter_by=show_as_new">New jobs</a>
-                    <a href="{% url 'admin_dashboard:job_filter' %}?filter_by=display_as_bestseller">Best-Seller</a>
                     <a href="{% url 'admin_dashboard:job_filter' %}?filter_by=hide">Hidden</a>
                     <a href="{% url 'admin_dashboard:job_filter' %}?filter_by=all">All</a>
                 </div>
@@ -152,32 +159,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="create_catagory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add New User</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form action="" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% for field in form %}
-            <div class="mb-3">
-              <label for="recipient-name" class="col-form-label">{{field.label}}:</label>
-              {{field}}
-            </div>
-            {% endfor %}
 
-            <center>
-                <button class="btn btn-primary" type="submit"> Add User </button>
-            </center>
-          </form>
-        </div>
-        
-      </div>
-    </div>
-  </div>
 
 {% endblock content %}
 {% block js %}

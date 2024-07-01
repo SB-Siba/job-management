@@ -5,18 +5,6 @@ Account Details
 {% endblock title %}
 {% block main_content %}
 <section class="mt-2">
-    <div class="container">
-        <h4>{{request.user.full_name}}'s Account</h4>
-        <div class="row">
-            <div class="col-sm-3 border-end">
-                <ul class="list-unstyled">
-                    <li class="d-grid active"><a href="{% url 'user:account_details' %}" class="btn btn-secondary mb-1">Profile</a></li>
-                    <li class="d-grid"><a href="{% url 'user:subscription_details' %}" class="btn btn-secondary mb-1">View Subscription Details</a></li>
-                    <li class="d-grid"><a href="{% url 'user:orders' %}" class="btn btn-secondary mb-1">Orders</a></li>
-                    <li class="d-grid"><a href="{% url 'user:listen_history' %}" class="btn btn-secondary mb-1">Listen History</a></li>
-                </ul>
-            </div>
-    
             <div class="col-sm-8 offset-sm-1">
                 <div class="container h-100 mt-2">
                     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -37,14 +25,13 @@ Account Details
                                 <span>contact : {{ userobj.contact }}</span>
                                 
                                 <div class="px-4 mt-1">
-                                    <p class="fonts">{{ profileobj.bio }}</p>
+                                    <p class="fonts">skills :{{ profileobj.skills }}</p>
                                 
                                 </div>
                                 
                                 <div class="buttons">
                                     
                                     <a href="{% url 'user:updateprofile' %}" class="btn btn-primary px-4">Update Profile</a>
-                                    <a href="{% url 'user:alladdress' %}" class="btn btn-primary px-4 ms-3">Address</a>
                                 </div>
                                 
                                 

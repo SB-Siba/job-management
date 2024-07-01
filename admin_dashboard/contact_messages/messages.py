@@ -10,12 +10,13 @@ import json
 # -------------------------------------------- custom import
 from helpers import utils
 from app_common import models as common_model
-from app_common.contact.serializer import ContactMessageSerializer
+# from app_common.contact.serializer import ContactMessageSerializer
 from .forms import MessageReply
 
 app = "admin_dashboard/contact_messages/"
 
 # ================================================== product management ==========================================
+
 
 @method_decorator(utils.super_admin_only, name='dispatch')
 class ContactMessageList(View):
@@ -38,10 +39,21 @@ class ContactMessageList(View):
 class ContactMessageDetail(View):
     model = common_model.ContactMessage
 
-
-    def get(self,request, uid):
-        message = self.model.objects.get(uid = uid)
-        return JsonResponse(ContactMessageSerializer(message).data, safe=False)
+    def get(self, request, uid):
+        try:
+            message = self.model.objects.get(uid=uid)
+            data = {
+                'uid': message.uid,
+                'user': message.user.id if message.user else None,
+                'message': message.message,
+                'status': message.status,
+                'reply': message.reply,
+                'created_at': message.created_at.isoformat() if message.created_at else None,
+                # Add any other fields you need to include in the JSON response
+            }
+            return JsonResponse(data, safe=False)
+        except self.model.DoesNotExist:
+            return JsonResponse({'error': 'Message not found'}, status=404)
 
 
 @method_decorator(utils.super_admin_only, name='dispatch')
@@ -63,3 +75,4 @@ class ContactMessagereply(View):
                     error_list.append(f'{field}: {error}')
             print(error_list)
             return JsonResponse(error_list, safe=False)
+        

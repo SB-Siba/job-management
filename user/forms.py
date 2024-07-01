@@ -1,28 +1,19 @@
 from django import forms
-from django.contrib.auth.forms import PasswordChangeForm,UserCreationForm
+from django.contrib.auth.forms import PasswordChangeForm,PasswordResetForm,SetPasswordForm
 from app_common import models as common_models
-
+from django.contrib.auth import password_validation
 class SignUpForm(forms.Form):
     full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.',
                              widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    phone_number = forms.IntegerField(help_text='Required. Enter a valid contact number .',
-                             widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    # phone_number = forms.IntegerField(help_text='Required. Enter a valid contact number .',
+    #                          widget=forms.NumberInput(attrs={'class': 'form-control'}))
     
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     # Resume=forms.FileField(widget=forms.FileInput(attrs={'class': 'form-control'}))
 
 
-class Client_SignUpForm(forms.Form):
-    full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.',
-                             widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    phone_number = forms.IntegerField(max_value=10 ,help_text='Required. Enter a valid contact number .',
-                             widget=forms.NumberInput(attrs={'class': 'form-control'}))
-
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 class LoginForm(forms.Form):
     email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -33,6 +24,27 @@ class PasswordChangeForm(PasswordChangeForm):
     new_password1 = forms.CharField(label='New Password',widget=forms.PasswordInput(attrs= {'autocomplete':'current-password','class':'form-control'}))
     new_password2 = forms.CharField(label='Cofirm Password',widget=forms.PasswordInput(attrs= {'autocomplete':'current-password','class':'form-control'}))
 
+class CustomPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(
+        max_length=254,
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control text-black',
+            'placeholder': 'Email Address'
+        })
+    )
+
+class CustomSetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label="New Password",
+        widget=forms.PasswordInput(attrs={'autocomplete':'new-password','class': 'form-control text-black'}),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = forms.CharField(
+        label="Confirm Password",
+        widget=forms.PasswordInput(attrs={'autocomplete':'new-password','class': 'form-control text-black'}),
+        strip=False,
+    )
 
 class UpdateProfileForm(forms.Form):
     
@@ -50,18 +62,23 @@ class UpdateProfileForm(forms.Form):
 
     # password = forms.CharField(label='Password',widget=forms.PasswordInput(attrs= {'autocomplete':'current-password','class':'form-control','placeholder':'Only if you want to change then type here.'}),required=False)
 
-    profile_pic = forms.FileField(label='Select an image file', required=False)
+    profile_pic = forms.FileField(label='Select a profile picture', required=False)
     profile_pic.widget.attrs.update({'class': 'form-control', 'type': 'file'})
 
-    resume = forms.FileField(label='Select an pdf file', required=False)
+    resume = forms.FileField(label='Select a resume', required=False)
     resume.widget.attrs.update({'class': 'form-control', 'type': 'file'})
     
-
-
 class ContactMessageForm(forms.Form):
+    user = forms.CharField(max_length=255, required=False)
+    user.widget.attrs.update({'class': 'form-control', 'type': 'text', "readonly": "readonly"})
 
-    user = forms.CharField(max_length=255)
-    user.widget.attrs.update({'class': 'form-control','type':'text',"required":"required","readonly":"readonly"})
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control', 
+            'placeholder': 'Enter Your Email'
+        }),
+        required=True
+    )
 
     message = forms.CharField(
         widget=forms.Textarea(attrs={
@@ -70,5 +87,3 @@ class ContactMessageForm(forms.Form):
         }),
         required=True
     )
-
-
