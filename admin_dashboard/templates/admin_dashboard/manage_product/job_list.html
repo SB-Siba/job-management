@@ -57,6 +57,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Title</th>
                                     <th>Catagory</th>
                                     <th>Description</th>
                                     <th>Posted Date</th>
@@ -72,18 +73,20 @@
                                 {% for job in job_list %}
                                     <tr>
                                         <td><a href="{% url 'admin_dashboard:job_detail' job_uid=job.id %}">{{ job.id }}</a></td>
+                                        <td>{{ job.title }}</td>
                                         <td>{{ job.catagory }}</td>
                                         <td>{{ job.description }}</td>
                                         <td>{{ job.posted_at }}</td>
                                         <td>{{ job.vacancies}}</td>
                                         <td>
                                             {% if job.company_logo %}
-                                                <img src="{{ job.company_logo.url }}" alt="Company Logo" style="max-width: 100px; max-height: 100px;">
+                                                <img src="{{ job.company_logo.url }}" width="100" class="rounded-circle">
                                             {% else %}
-                                                No logo available
+                                            No logo available
                                             {% endif %}
                                         </td>
-
+                                        
+                                                  
                                         <td>
                                             {{job.id}}
                                             {% if job.published %}

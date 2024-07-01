@@ -40,7 +40,7 @@ class CatagoryEntryForm(forms.ModelForm):
 class JobForm(forms.ModelForm):
     class Meta:
         model = common_models.Job
-        fields = ['title','catagory', 'description', 'location','requirements','company_name','company_website','company_logo','vacancies','published', 'posted_at', 'expiry_date', 'job_type']
+        fields = ['title','catagory', 'description','location','requirements','company_name','company_website','company_logo','vacancies','published', 'posted_at', 'expiry_date', 'job_type']
         widgets = {
             'posting_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'expiration_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
@@ -78,6 +78,10 @@ class AddUserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
 
 class ClientForm(forms.ModelForm):
+    
+
     class Meta:
-        model = common_models.Client
-        fields = ['name', 'address', 'phone_no', 'email']
+        model = common_models.User
+        fields = ['email', 'full_name', 'contact', 'password']
+
+    password = forms.CharField(widget=forms.PasswordInput)

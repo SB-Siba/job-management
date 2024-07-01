@@ -104,15 +104,15 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link font-bold" href="#" data-bs-toggle="collapse" data-bs-target="#employeeManagement" role="button" aria-expanded="false" aria-controls="employeeManagement">
-                    <i class="fas fa-users"></i> Employee Management
+                    <i class="fas fa-users"></i> Client Management
                 </a>
                 <div class="collapse" id="employeeManagement">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a href="#" class="nav-link font-bold"><i class="fas fa-list"></i> Employee Listing Page</a>
+                            <a href="{% url 'admin_dashboard:client_list' %}" class="nav-link font-bold"><i class="fas fa-list"></i> Client Listing Page</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link font-bold"><i class="fas fa-file-alt"></i> Employee Details Page</a>
+                            <a href="{% url 'admin_dashboard:client_create' %}" class="nav-link font-bold"><i class="fas fa-file-alt"></i> Client Add</a>
                         </li>
                     </ul>
                 </div>

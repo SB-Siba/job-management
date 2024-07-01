@@ -37,17 +37,16 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header custom-card-header text-white">
-                        <h2 class="text-center">Add New User</h2>
+                        <h2 class="text-center">Add Client</h2>
                     </div>
                     <div class="card-body">
-                        <form method="post" enctype="multipart/form-data">
-                            {% include 'snippets/alert.html' %}
+                        <form method="post">
                             {% csrf_token %}
                             {{ form.as_p }}
                             <button type="submit">Save</button>
                         </form>
                         <div class="text-center mt-3">
-                            <a href="{% url 'admin_dashboard:userslist' %}" class="btn btn-secondary custom-back-btn">Back to User List</a>
+                            <a href="{% url 'admin_dashboard:client_list' %}" class="btn btn-secondary custom-back-btn">Back to Client List</a>
                         </div>
                     </div>
                 </div>

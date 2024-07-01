@@ -41,7 +41,7 @@ class UserList(View):
     template = app + "user_list.html"
 
     def get(self,request):
-        user_obj = self.model.objects.filter(is_superuser=False).order_by("id")
+        user_obj = self.model.objects.filter(is_superuser=False,is_staff=False).order_by("id")
         return render(request,self.template,{"user_obj":user_obj})
     
 class AddUserView(View):

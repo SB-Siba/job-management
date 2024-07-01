@@ -6,7 +6,8 @@
         {% for job in job_list %}
         <div class="job-item">
             <div class="job-header">
-                <h3 class="job-title">{{ job.catagory }}</h3>
+                <h3 class="job-title">{{ job.title }}</h3>
+                <h4 class="job-catagory">{{ job.catagory }}</h4>
                 <p class="job-company">{{ job.company_name}}</p>
                 <p class="job-location">{{ job.location }}</p>
             </div>

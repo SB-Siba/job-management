@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 from .credentials import credential
-from .manage_product import user,catagory,job
+from .manage_product import user,catagory,job,client
 
 
 # from .order import order
@@ -34,7 +34,9 @@ urlpatterns = [
 
     # # catagory api
     
-    
+    #client list
+    path('clients/', client.AdminClientListView.as_view(), name='client_list'),
+    path('clients/create/', client.AdminClientCreateView.as_view(), name='client_create'),
 
     # #product web
     path("job/job_list/", job.JobList.as_view(), name="job_list"),

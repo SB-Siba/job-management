@@ -97,15 +97,6 @@ class Catagory(models.Model):
     def __str__(self):
         return self.title
 
-class Client(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    address = models.TextField()
-    phone_no = models.CharField(max_length=20)
-    email = models.EmailField()
-
-    def __str__(self):
-        return self.name
 
 class Job(models.Model):
 
@@ -122,7 +113,7 @@ class Job(models.Model):
     ]
     uid=models.CharField(max_length=255, null=True, blank=True)
     title = models.CharField(max_length=255, null=True, blank=True)
-    client = models.ForeignKey(Client, on_delete=models.CASCADE , default='Client')
+    # client = models.ForeignKey(Client, on_delete=models.SET_NULL, blank=True, null=True )
     catagory = models.ForeignKey(Catagory, on_delete=models.SET_NULL, blank=True, null=True)
     description = models.CharField(max_length =300,blank=True, null=True)
     requirements = models.CharField(max_length =100,blank=True, null=True)

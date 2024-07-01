@@ -36,7 +36,7 @@ app = "user/"
 
 
 class HomeView(View):
-    template_client = app +'client_home.html'
+    template_client = app + 'client_home.html'
     template_user = app + 'home1.html'
     unauthenticated_template = app + 'landing_page.html'
 
@@ -46,11 +46,19 @@ class HomeView(View):
             jobs = Job.objects.all()
             return render(request, self.unauthenticated_template, {'jobs': jobs})
 
+        welcome_message = f"Welcome, {user.full_name}!"
+
         if hasattr(user, 'client_profile'):
             client = user.client_profile
             jobs = client.jobs.all()  # Assuming you have a related_name='jobs' in Client model
             applications = Application.objects.filter(job__client=client)  # Adjust as per your Application model setup
-            return render(request, self.template_client, {'client': client, 'jobs': jobs, 'applications': applications})
+            context = {
+                'client': client,
+                'jobs': jobs,
+                'applications': applications,
+                'welcome_message': welcome_message
+            }
+            return render(request, self.template_client, context)
 
         # If user is authenticated but not a client, treat as candidate
         job_list = Job.objects.filter(published=True, expiry_date__gt=timezone.now()).order_by('-uid')
@@ -59,7 +67,8 @@ class HomeView(View):
         context = {
             "job_list": job_list,
             "data_list": paginated_data,
-            "form": form
+            "form": form,
+            'welcome_message': welcome_message
         }
 
         return render(request, self.template_user, context)
@@ -72,7 +81,7 @@ class ProfileView(View):
         user = request.user
         print(user)
         catagory_obj =Catagory.objects.all()
-        userobj = User.objects.get(email=user.email)
+        userobj = User.objects.get(email=user.email,contact=user.contact)
 
         try:
             profileobj = UserProfile.objects.get(user=userobj)
