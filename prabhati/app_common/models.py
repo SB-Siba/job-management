@@ -88,11 +88,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     email = models.EmailField(default='')
-    contact = models.CharField(max_length=15, null=True, blank=True, unique=True, default=None)
     profile_pic = models.ImageField(upload_to="user_profile_pic/", null=True, blank=True)
     skills = models.TextField(null=True, blank=True)
-    resume = models.ImageField(upload_to="user_resume/", null=True, blank=True)
-    catagory = models.CharField(max_length=100, null=True, blank=True)
+    resume = models.FileField(upload_to="user_resume/", null=True, blank=True)
+    
     
     
 

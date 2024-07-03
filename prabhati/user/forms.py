@@ -47,9 +47,7 @@ class CustomSetPasswordForm(SetPasswordForm):
     )
 
 class UpdateProfileForm(forms.Form):
-    class Meta:
-        model = common_models.User
-        fields = ['catagory']
+    
     email = forms.EmailField(max_length=255)
     email.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Email',"required":"required"})
 
@@ -64,11 +62,14 @@ class UpdateProfileForm(forms.Form):
 
     # password = forms.CharField(label='Password',widget=forms.PasswordInput(attrs= {'autocomplete':'current-password','class':'form-control','placeholder':'Only if you want to change then type here.'}),required=False)
 
-    profile_pic = forms.FileField(label='Select an image file', required=False)
+    profile_pic = forms.FileField(label='Select Your Profile', required=False)
     profile_pic.widget.attrs.update({'class': 'form-control', 'type': 'file'})
 
-    resume = forms.FileField(label='Select an image file', required=False)
+    resume = forms.FileField(label='Select your Resume', required=False)
     resume.widget.attrs.update({'class': 'form-control', 'type': 'file'})
+
+    catagory = forms.ModelChoiceField(queryset=common_models.Catagory.objects.all(), empty_label=None)  # Use your Property queryset here
+    catagory.widget.attrs.update({'class': 'form-control', 'required': 'required'})
 
 class ContactMessageForm(forms.Form):
     user = forms.CharField(max_length=255, required=False)

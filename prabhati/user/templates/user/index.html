@@ -27,7 +27,7 @@
             </a></li>
         </ul>
         <div class="profile">
-            <div class="profile-my"><a href="{% url 'user:account_details' %}">{{ request.user.full_name }}</a></div>
+            <div class="profile-my"><a href="{% url 'user:profile' %}">{{ request.user.full_name }}</a></div>
             <img src="https://i.imgur.com/bDLhJiP.jpg" alt="Default Profile Picture" class="rounded-circle">
         </div>
     </div>

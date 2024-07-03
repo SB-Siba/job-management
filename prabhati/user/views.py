@@ -74,102 +74,86 @@ class HomeView(View):
         return render(request, self.template_user, context)
 
 
+@method_decorator(login_required, name='dispatch')
 class ProfileView(View):
     template = app + "userprofile.html"
 
     def get(self, request):
         user = request.user
-        print(user)
         catagory_obj = Catagory.objects.all()
-        userobj = User.objects.get(email=user.email)
+        print(catagory_obj)
         try:
-            profileobj = UserProfile.objects.get(user=userobj)
+            profile_obj = UserProfile.objects.get(user=user)
+            print(profile_obj,"hiehfipajdfpofj;ahfihiwfwkhw")
         except UserProfile.DoesNotExist:
-            profileobj = None
+            profile_obj = None
 
-        if not user.is_authenticated:
-            return redirect("shoppingsite:login")
+        return render(request, self.template, {'user': user, 'catagory_obj': catagory_obj, 'profile_obj': profile_obj})
 
-        return render(request, self.template, locals())
-
-
+@method_decorator(login_required, name='dispatch')
 class UpdateProfileView(View):
-    template = app + "update_profile.html"
-    form = forms.UpdateProfileForm
+    template = "user/update_profile.html"
+    form_class = forms.UpdateProfileForm
 
     def get(self, request):
         user = request.user
         catagory_obj = Catagory.objects.all()
-        userobj = User.objects.get(email=user.email)
-        print(userobj)
-    
-        profileObj, created = UserProfile.objects.get_or_create(user=userobj)
-       
-        print(profileObj)
-        initial_data = {
-            "email": userobj.email,
-            "full_name": userobj.full_name,
-            "contact": userobj.contact,
-            "catagory": userobj.catagory,
-            "skills": profileObj.skills,
-            "profile_pic": profileObj.profile_pic,
-            "resume": profileObj.resume,
-        }
-        form = self.form(initial=initial_data)
+        try:
+            profile_obj = UserProfile.objects.get(user=user)
+        except UserProfile.DoesNotExist:
+            profile_obj = None
 
-        return render(request, self.template, locals())
+        initial_data = {
+            "email": user.email,
+            "full_name": user.full_name,
+            "contact": user.contact,
+            "skills": profile_obj.skills if profile_obj else '',
+            "profile_pic": profile_obj.profile_pic if profile_obj else None,
+            "resume": profile_obj.resume if profile_obj else None,
+            "catagory": user.catagory if user.catagory else None,  # Assuming 'category' field in User model
+        }
+        form = self.form_class(initial=initial_data)
+
+        return render(request, self.template, {'form': form, 'catagory_obj': catagory_obj})
+
     def post(self, request):
-        catagory_obj = Catagory.objects.all()
-        form = self.form(request.POST, request.FILES)
+        form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             email = form.cleaned_data["email"]
             full_name = form.cleaned_data["full_name"]
             contact = form.cleaned_data["contact"]
-            bio = form.cleaned_data["skills"]
+            skills = form.cleaned_data["skills"]
             profile_picture = form.cleaned_data["profile_pic"]
-            # password = form.cleaned_data["password"]
             resume = form.cleaned_data["resume"]
+            catagory = form.cleaned_data["catagory"]
+
             user = request.user
 
             try:
-                userobj = User.objects.get(email=user.email)
-                userobj.email = email
-                userobj.full_name = full_name
-                userobj.contact = contact
-                userobj.catagory = catagoruy
+                user_obj = User.objects.get(email=user.email)
+                user_obj.email = email
+                user_obj.full_name = full_name
+                user_obj.contact = contact
+                user_obj.catagory = catagory  # Update category
+                user_obj.save()
 
+                profile_obj, created = UserProfile.objects.get_or_create(user=user_obj)
+                profile_obj.skills = skills
+                if profile_picture:
+                    profile_obj.profile_pic = profile_picture
+                if resume:
+                    profile_obj.resume = resume
+                profile_obj.save()
 
-                profile_object = UserProfile.objects.filter(user=user)
+                return redirect("user:profile")
 
-                if profile_picture is None:
-                    picture = ""
-                    for i in profile_object:
-                        picture = i.profile_pic
-                else:
-                    picture = profile_picture
+            except Exception as e:
+                print(e)
+                # Handle error messages or logging here if needed
 
-                if len(profile_object) == 0:
-                    profileobj = UserProfile(user=user, skills=skills, profile_pic=picture)
-                    profileobj.save()
-                else:
-                    for i in profile_object:
-                        i.user = user
-                        i.profile_pic = picture
-                        i.skills = skills
-                        i.resume = resume
-                        i.save()
-
-                if len(password) > 0:
-                    userobj.set_password(password)
-                    messages.success(request, "Password Changed Successfully")
-
-                userobj.save()
-                return redirect("user:account_details")
-
-            except:
-                messages.error(request, "Error in Updating Profile")
-        return render(request, self.template, locals())
-
+        catagory_obj = Catagory.objects.all()
+        print(catagory_obj)
+        return render(request, self.template, {'form': form, 'catagory_obj': catagory_obj})
 
 class UserJobSearch(View):
     form=CatagoryEntryForm()
@@ -295,22 +279,22 @@ class AboutPage(View):
         return render(request,self.template)
 
 
-class AccountDetails(View):
-    template = app + "accountdetails.html"
+# class AccountDetails(View):
+#     template = app + "accountdetails.html"
 
-    def get(self,request):
-        user = request.user
-        catagory_obj = Catagory.objects.all()
-        userobj = User.objects.get(id=user.id)
-        try:
-            profileobj = UserProfile.objects.get(user=userobj)
-        except UserProfile.DoesNotExist:
-            profileobj = None
+#     def get(self,request):
+#         user = request.user
+#         catagory_obj = Catagory.objects.all()
+#         userobj = User.objects.get(id=user.id)
+#         try:
+#             profileobj = UserProfile.objects.get(user=userobj)
+#         except UserProfile.DoesNotExist:
+#             profileobj = None
 
-        if not user.is_authenticated:
-            return redirect("user:login")
+#         if not user.is_authenticated:
+#             return redirect("user:login")
         
-        return render(request,self.template,locals())
+#         return render(request,self.template,locals())
     
 
 class Sector(View):
