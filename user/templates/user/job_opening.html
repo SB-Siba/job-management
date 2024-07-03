@@ -113,7 +113,7 @@ Job Opening
             border-radius: 5px;
             overflow: hidden;
             padding: 20px;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .sjb-card {
@@ -129,27 +129,27 @@ Job Opening
             max-width: 55%; /* Ensure text does not exceed this width */
             padding: 20px;
             margin-bottom: 150px;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .sjb-card-content {
             padding: 20px;
             margin-bottom: 20px;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .sjb-card-content h5 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            margin-left: 10px;
             font-family: 'Montserrat', sans-serif;
         }
 
+        .sjb-card-content h5 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            margin-left: 10px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
         .sjb-card-content p {
-            font-size: 16px;
+            font-size: 15px;
             line-height: 1.6;
             margin-left: 10px;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             
         }
 
@@ -163,7 +163,7 @@ Job Opening
                 flex: 1 1 auto;
                 width: 100%;
                 max-width: 100%;
-                font-family: 'Poppins', sans-serif;
+                font-family: 'Montserrat', sans-serif;
                 
             }
         }
@@ -173,7 +173,7 @@ Job Opening
 
 <!-- Banner -->
 <div class="sjb-banner">
-    <img src="{% static 'images/j2.jpg' %}" alt="Banner Image">
+    <img src="{% static 'images/sr.jpg' %}" alt="Banner Image">
 </div>
 
 <div class="sjb-filters sjb-filters-v1">
@@ -244,7 +244,7 @@ Job Opening
     <div class="card sjb-card">
         <img src="{% static 'images/j1.jpg' %}" class="card-img-top" alt="Card Image">
         <div class="card-body sjb-card-content">
-            <h5 class="card-title">{{ job.catagory }}</h5>
+            <h6 class="card-title">Job Details</h6>
             <p class="card-text">Our team comprises industry experts who understand the unique requirements of each sector we serve.</p>
             <a href="" class="btn btn-primary" style=" margin-left: 10px;">Job Details</a>
         </div>
@@ -252,7 +252,7 @@ Job Opening
     {% endfor %}
     <!-- Text side -->
     <div class="sjb-text">
-        <h3>Job Details</h3>
+        <h6>Job Details</h6>
         <p>Our team comprises industry experts who understand the unique requirements of each sector we serve.</p>
     </div>
 </div>

@@ -1,0 +1,10 @@
+{% extends "user/index.html" %}
+{% load static %}
+{% block content %}
+  <h1>Apply for {{ object.job.title }}</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit Application</button>
+  </form>
+{% endblock %}

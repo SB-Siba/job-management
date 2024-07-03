@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="/static/css/landing.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h4>Pravati International</h4>
+        <ul>
+            <li>
+                <a class="nav-link font-bold" style="background:none" href="{% url 'user:home' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
+                <i class="fas fa-headset"></i> Home
+            </a>
+            </li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">My Job</a></li>
+            <li><a href="#">Apply For Job</a></li>
+            <li>
+                <a class="nav-link font-bold"style="background:none" href="{% url 'user:logout' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
+                <i class="fas fa-sign-out-alt"></i> Log Out
+            </a></li>
+        </ul>
+        <div class="profile">
+            <div class="profile-my"><a href="{% url 'user:account_details' %}">{{ request.user.full_name }}</a></div>
+            <img src="https://i.imgur.com/bDLhJiP.jpg" alt="Default Profile Picture" class="rounded-circle">
+        </div>
+    </div>
+    <div class="main-content">
+        <header>
+            <form id="custom-search-form" class="form-search form-horizontal">
+                <div class="input-append">
+                    <input type="text" class="search-query" placeholder="Search">
+                    <button type="submit" class="btn"><i class="icon-search"></i></button>
+                </div>
+            </form>
+        </header>
+        <div class="content">
+            {% block main_content %}{% endblock main_content %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,4 +1,5 @@
 {% load static %}
+
 <!doctype html>
 <html lang="en">
 
@@ -21,7 +22,10 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css' %}">
     <link rel="stylesheet" href="{% static 'css/templatemo-pod-talk.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <!-- JavaScript Files -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js" integrity="sha512-DjVn6YYFZJNS+JeSXZfQ2URFQ1TOH14NqxFCOOYDYePyoTYuGIdPGnHEy9blLVJYijmBntjN2y5XTTZ4pTw60w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -77,6 +81,14 @@
     </main>
     {% block main_content %}
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+        .navbar-nav .nav-link {
+            font-family: "Lato", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size:18px
+}
+        
         .small-card {
             width: 250px; /* Adjust the width as needed */
             {% comment %} background: rgb(241,50,50);
@@ -113,21 +125,70 @@
                     padding: 2rem;
                   
                 }
-        
+                
                 .carousel-caption h4, .carousel-caption h6 {
-                    color:#b50495;
-                    font-family: 'Montserrat', sans-serif;
+                    color: #b50495;
+                    font-family: 'Open Sans', sans-serif;
                 }
-        
+                
                 .carousel-caption h5 {
                     font-weight: bold;
+                    font-family: 'Open Sans', sans-serif;
                 }
-        
+                
                 .carousel, .carousel-item, .carousel-inner {
                     width: 100%;
                     height: 100%;
                 }
+                
             </style>
+
+</head>
+
+<body>
+    <main>
+        <nav class="navbar navbar-expand-lg" style="background-color:white">
+            <div class="container">
+                <a class="navbar-brand me-lg-5 me-0" href="{% url 'user:home' %}">
+                    <img style="width:100px; height:100px" src="/static/app_common/img/logos/logo2.png" class="logo-image img-fluid" alt="templatemo pod talk">
+                </a>
+        
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+        
+                <div class="collapse navbar-collapse px-5" id="navbarNav1">
+                    <ul class="navbar-nav ms-lg-auto text-black">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'user:home' %}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'user:about' %}">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'sector' %}active{% endif %}" href="{% url 'user:sector' %}">Sectors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'job-opening' %}active{% endif %}" href="{% url 'user:job-opening' %}">Job Opening</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'contactmessage' %}active{% endif %}" href="{% url 'user:contact' %}">Contact</a>
+                        </li>
+                        <li class="nav-item dropdown hhh">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="false">login</a>
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink1">
+                                <li><a class="dropdown-item" href="{% url 'user:login' %}">login</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:signup' %}">signup</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+    </main>
+    {% block main_content %}
+    
         </head>
         <body>
             <div class="container-fluid p-0">
@@ -137,17 +198,17 @@
                             <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <img src="{% static 'images/f11.svg' %}" class="d-block w-100" height="550rem"  width: 100%; alt="...">
+                                        <img src="{% static 'images/fe2.jpg' %}" class="d-block w-100" height="550rem"  width: 100%; alt="...">
                                         <div class="carousel-caption d-flex align-items-center">
                                             <div>
-                                                {% comment %} <h4>WELCOME TO PRAVATI INTERNATIONAL SERVICES PRIVATE LIMITED</h4> {% endcomment %}
+                                                 {% comment %} <h4>WELCOME TO PRAVATI INTERNATIONAL SERVICES PRIVATE LIMITED</h4> 
                                                 <br>
-                                                {% comment %} <h6>Provide emergency medical care,
+                                                <h6>Provide emergency medical care,
                                                     stabilize patients, and transport them
                                                     to medical facilities. They respond to
                                                     emergency calls, perform CPR,
                                                     administer oxygen, and use
-                                                    defibrillators.</h6> {% endcomment %}
+                                                    defibrillators.</h6>  {% endcomment %}
                                             </div>
                                         </div>
                                     </div>
@@ -163,7 +224,7 @@
                                         </div>
                                     </div>
                                     <div class="carousel-item">
-                                        <img src="{% static 'images/f4.jpg' %}" class="d-block w-100" height="550rem"  width: 100%; alt="...">
+                                        <img src="{% static 'images/fe1.jpg' %}" class="d-block w-100" height="550rem"  width: 100%; alt="...">
                                         <div class="carousel-caption d-flex align-items-center">
                                             <div>
                                                 {% comment %} <h4>PREFOSSIONAL TEAM</h4>
@@ -308,9 +369,9 @@
             <div class="row gy-3 gy-md-4 align-items-center">
                 <div class="col-12 col-lg-6">
                     <div>
-                        <h3 style="color:#1D3557; font-family: 'Montserrat', sans-serif; margin-left: 30px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block;  margin-bottom: 30px;">ABOUT US</h3>
+                        <h3 style="color:#1D3557; font-family: 'Open Sans', sans-serif; margin-left: 30px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block;  margin-bottom: 30px;">ABOUT US</h3>
                         
-                        <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px; margin-left: 30px; text-align: justify;">Pravati International Service Private Limited is a leading provider of manpower outsourcing services, catering to a diverse range of sectors including reputed hospitals, hotels, schools, government offices, NGOs, and manufacturing companies. Our extensive experience and commitment to excellence make us a trusted partner for organizations seeking to enhance their operational efficiency and focus on their core activities.Our mission is to deliver high quality manpower solutions that
+                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 16px; margin-left: 30px; text-align: justify;">Pravati International Service Private Limited is a leading provider of manpower outsourcing services, catering to a diverse range of sectors including reputed hospitals, hotels, schools, government offices, NGOs, and manufacturing companies. Our extensive experience and commitment to excellence make us a trusted partner for organizations seeking to enhance their operational efficiency and focus on their core activities.Our mission is to deliver high quality manpower solutions that
                             meet the unique needs of our
                             clients, enabling them to achieve
                             their strategic goals. We strive to
@@ -333,15 +394,15 @@
     
      <!-- Service Start-->
      <div class="container mt-4">
-        <h3 style="color:#1D3557; font-family: 'Montserrat', sans-serif; margin-left: 20px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; margin-bottom: 30px;">OUR SERVICES</h3>
+        <h3 style="color:#1D3557; font-family: 'Open Sans', sans-serif; margin-left: 30px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; margin-bottom: 50px;">OUR SERVICES</h3>
         <div class="row">
             <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-square">
                 <div class="card" style="width: 100%;">
                     <img class="card-img-top" src="{% static 'images/s1.jpg' %}" alt="Service Image 1">
                     <div class="card-body">
-                        <p style="color: #1D3557; font-family: 'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">ALL PARAMEDICAL STAFF
+                        <p style="color: #000000; font-family: 'Open Sans', sans-serif;font-size: 17px;font-weight: bold;">PARAMEDICAL STAFF
                         </p>
-                        <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Highly trained paramedical staff delivering top-notch care, ensuring patient safety and comfort at all times.</p>
+                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 15px; ">Highly trained paramedical staff delivering top-notch care, ensuring patient safety and comfort at all times.</p>
                         <br>
                             <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
                        
@@ -352,8 +413,8 @@
                 <div class="card" style="width: 100%;">
                     <img class="card-img-top" src="{% static 'images/m1.jpg' %}" alt="Service Image 2">
                     <div class="card-body">
-                        <p  style="color: #1D3557; font-family: 'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">HOUSEKEEPING</p>
-                        <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Maintaining cleanliness and order through professional services, ensuring hygienic, comfortable, and welcoming environments in various settings.</p>
+                        <p style="color: #000000; font-family: 'Open Sans', sans-serif;font-size: 17px;font-weight: bold;">HOUSEKEEPING</p>
+                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 15px; ">Maintaining cleanliness and order through professional services, ensuring hygienic, comfortable, and welcoming environments in various settings.</p>
                        
                             <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
                         
@@ -364,9 +425,9 @@
                 <div class="card" style="width: 100%;">
                     <img class="card-img-top" src="{% static 'images/m2.jpg' %}" alt="Service Image 3">
                     <div class="card-body">
-                        <hp style="color: #1D3557; font-family: 'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">BEDSIDE PARIENT ATTENDANT
+                        <p style="color: #000000; font-family: 'Open Sans', sans-serif;font-size: 17px;font-weight: bold;">BEDSIDE PATIENT ATTENDANT
                         </p>
-                        <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Providing compassionate care and support, ensuring patient comfort and well-being with professional bedside assistance.</p>
+                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 15px; ">Providing compassionate care and support, ensuring patient comfort and well-being with professional bedside assistance.</p>
                             <br>
                         <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
                     </div>
@@ -376,9 +437,9 @@
                 <div class="card" style="width: 100%;">
                     <img class="card-img-top" src="{% static 'images/m3.jpg' %}" alt="Service Image 4">
                     <div class="card-body">
-                        <p style="color:#1D3557; font-family:'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">HOME NURSING
+                        <p style="color: #000000; font-family: 'Open Sans', sans-serif;font-size: 17px;font-weight: bold;">HOME NURSING
                         </p>
-                        <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;"> home nursing services offering personalized care, medical assistance, and support for patients in the comfort of their homes.</p>
+                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 15px; "> home nursing services offering personalized care, medical assistance, and support for patients in the comfort of their homes.</p>
                         <br>
                         <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
                     </div>
@@ -388,9 +449,9 @@
                 <div class="card" style="width: 100%;">
                     <img class="card-img-top" src="{% static 'images/m5.jpg' %}" alt="Service Image 2">
                     <div class="card-body">
-                        <p style="color: #1D3557; font-family:'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">DATA ENTRY, FRONT  & BACK OFFICE
+                        <p style="color: #000000; font-family: 'Open Sans', sans-serif;font-size: 17px;font-weight: bold;">DATA ENTRY, FRONT  & BACK OFFICE
                         </p>
-                        <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Efficient data entry, organized front office, and streamlined back office operations for optimal business functionality.</p>
+                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 15px; ">Efficient data entry, organized front office, and streamlined back office operations for optimal business functionality.</p>
                         <br>
                         <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
                        
@@ -401,8 +462,8 @@
                 <div class="card" style="width: 100%;">
                     <img class="card-img-top" src="{% static 'images/m4.jpg' %}" alt="Service Image 2">
                     <div class="card-body">
-                        <p  style="color: #1D3557; font-family: 'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">ITI, DIPLOMA, DEGREE ENGINEER</p>
-                        <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">ITI for technical skills, Diploma for intermediate expertise, Degree Engineer for advanced engineering knowledge.</p>
+                        <p style="color: #000000; font-family: 'Open Sans', sans-serif;font-size: 17px;font-weight: bold;">ITI, DIPLOMA, DEGREE ENGINEER</p>
+                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 15px; ">ITI for technical skills, Diploma for intermediate expertise, Degree Engineer for advanced engineering knowledge.</p>
                         {% comment %} <div class="mt-auto d-flex justify-content-center"> {% endcomment %}<br>
                             <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
                         {% comment %} </div> {% endcomment %}
@@ -413,9 +474,9 @@
                 <div class="card" style="width: 100%;">
                     <img class="card-img-top" src="{% static 'images/m6.jpg' %}" alt="Service Image 2">
                     <div class="card-body">
-                        <p  style="color: #1D3557; font-family:'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">FIRE SAFETY & OFFICE BOY
+                        <p style="color: #000000; font-family: 'Open Sans', sans-serif;font-size: 17px;font-weight: bold;">FIRE SAFETY & OFFICE BOY
                         </p>
-                        <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Fire Safety ensures workplace safety; Office Boy supports daily office tasks, ensuring smooth operations and cleanliness.       </p>
+                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 15px; ">Fire Safety ensures workplace safety; Office Boy supports daily office tasks, ensuring smooth operations and cleanliness.       </p>
                       <br>
                             <a href="#" class="btn btn-primary" style="background-color:#D05329;border:none">More Details</a>
                         
@@ -426,9 +487,9 @@
                 <div class="card" style="width: 100%;">
                     <img class="card-img-top" src="{% static 'images/sec2.jpg' %}" alt="Service Image 2">
                     <div class="card-body">
-                        <p  style="color: #1D3557; font-family:'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">SECURITY
+                        <p style="color: #000000; font-family: 'Open Sans', sans-serif;font-size: 17px;font-weight: bold;">SECURITY
                         </p>
-                        <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">
+                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 15px; ">
                             Security: Ensuring safety and protection for individuals, property, and information through professional services.  </p>
                       <br>
                             <a href="#" class="btn btn-primary" style="background-color:#D05329;border:none">More Details</a>
@@ -440,14 +501,14 @@
     </div>
     
     <div class="container mt-4">
-        <h3 style="color:#1D3557; font-family: 'Montserrat', sans-serif; margin-left: 20px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; margin-bottom: 30px;">INDUSTRIES WE SERVE</h3>
+        <h3 style="color:#1D3557; font-family: 'Open Sans', sans-serif; margin-left: 30px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; margin-bottom: 50px;">INDUSTRIES WE SERVE</h3>
         <div class="row">
             <div class="col-6 col-md-4 col-lg-2 mb-4">
                 <div class="card small-card">
                     <img class="card-img-top small-card-img" src="{% static 'images/s2.jpg' %}" alt="Healthcare Industry">
                     <div class="card-body">
-                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Montserrat',">HOSPITAL</h6>
-                        <p class="card-text" style="color:#fff; font-family: 'Poppins',">Local hospital celebrates milestone, saving lives with cutting-edge technology, dedicated staff, and compassionate care.</p>
+                        <h6 class="card-title"  style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">HOSPITAL</h6>
+                        <p class="card-text" style="color:#fff; font-family: 'Montserrat', sans-serif; font-size: 15px;">Local hospital celebrates milestone, saving lives with cutting-edge technology, dedicated staff, and compassionate care.</p>
                     </div>
                 </div>
             </div>
@@ -455,8 +516,8 @@
                 <div class="card small-card">
                     <img class="card-img-top small-card-img" src="{% static 'images/s3.jpg' %}" alt="Healthcare Industry">
                     <div class="card-body">
-                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Montserrat',,">HOTEL</h6>
-                        <p class="card-text" style="color:#fff; font-family: 'Poppins',">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
+                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">HOTEL</h6>
+                        <p class="card-text" style="color:#fff; font-family: 'Montserrat', sans-serif; font-size: 15px;">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
                     </div>
                 </div>
             </div>
@@ -464,8 +525,8 @@
                 <div class="card small-card">
                     <img class="card-img-top small-card-img" src="{% static 'images/s4.jpg' %}" alt="Healthcare Industry">
                     <div class="card-body">
-                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Montserrat',">SCHOOL</h6>
-                        <p class="card-text" style="color:#fff; font-family: 'Poppins',">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
+                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">SCHOOL</h6>
+                        <p class="card-text" style="color:#fff;font-family: 'Montserrat', sans-serif; font-size: 15px;">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
                     </div>
                 </div>
             </div>
@@ -473,8 +534,8 @@
                 <div class="card small-card">
                     <img class="card-img-top small-card-img" src="{% static 'images/s5.jpg' %}" alt="Healthcare Industry">
                     <div class="card-body">
-                        <h6 class="card-title" style="color:#fff;text-align: center;font-family:'Montserrat',">GOVT. OFFICES</h6>
-                        <p class="card-text" style="color:#fff; font-family: 'Poppins',">Government Offices Streamline Services with New Online Portal for Efficiency.</p>
+                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">GOVT. OFFICES</h6>
+                        <p class="card-text" style="color:#fff;font-family: 'Montserrat', sans-serif; font-size: 15px;">Government Offices Streamline Services with New Online Portal for Efficiency.</p>
                     </div>
                 </div>
             </div>
@@ -482,9 +543,9 @@
                 <div class="card small-card">
                     <img class="card-img-top small-card-img" src="{% static 'images/s6.jpg' %}" alt="Healthcare Industry">
                     <div class="card-body">
-                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Montserrat',">NGO
+                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">NGO
                         </h6>
-                        <p class="card-text" style="color:#fff; font-family: 'Poppins',">NGO Launches Initiative to Empower Underprivileged Youth through Education</p>
+                        <p class="card-text" style="color:#fff; font-family: 'Montserrat', sans-serif; font-size: 15px;">NGO Launches Initiative to Empower Underprivileged Youth through Education</p>
                     </div>
                 </div>
             </div>
@@ -492,9 +553,9 @@
                 <div class="card small-card">
                     <img class="card-img-top small-card-img" src="{% static 'images/s7.jpg' %}" alt="Healthcare Industry">
                     <div class="card-body">
-                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Montserrat',">MANUFACTURING
+                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">MANUFACTURING
                             COMPANY</h6>
-                        <p class="card-text" style="color:#fff; font-family: 'Poppins',">Manufacturing Company Unveils Eco-Friendly Production Line, Reducing Carbon Footprint.</p>
+                        <p class="card-text" style="color:#fff;font-family: 'Montserrat', sans-serif; font-size: 15px;">Manufacturing Company Unveils Eco-Friendly Production Line, Reducing Carbon Footprint.</p>
                     </div>
                 </div>
             </div>
@@ -522,17 +583,17 @@
         <!-- Single item -->
         <div class="carousel-item active">
           <div class="container">
-            <h3 style="color:#1D3557; font-family: 'Montserrat', sans-serif; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; text-align: left; margin-bottom: 20px;">CUSTOMER SPEECH</h3>
+            <h3  style="color:#1D3557; font-family: 'Open Sans', sans-serif; margin-left: 30px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; text-align: left; margin-bottom: 40px;margin-top: 40px;">CUSTOMER SPEECH</h3>
           
             <div class="row">
               <div class="col-lg-4">
                 <img class="rounded-circle shadow-1-strong mb-4"
                   src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp" alt="avatar"
                   style="width: 100px;height: 100px;" />
-                <h5  style="color:#1D3557; font-family: 'Montserrat',">Anita Dash</h5>
+                <h5  style="color:#1D3557;font-family: 'Open Sans', sans-serif;">Anita Dash</h5>
                 
                 <p class=>
-                  <i style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px;"></i>
+                  <i style="color:#808080; font-family: 'Montserrat', sans-serif; font-size: 15px;"></i>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod eos id
                   officiis hic tenetur quae quaerat ad velit ab hic tenetur.
                 </p>
@@ -549,10 +610,10 @@
                 <img class="rounded-circle shadow-1-strong mb-4"
                   src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp" alt="avatar"
                   style="width: 100px;height: 100px;" />
-                <h5  style="color:#1D3557; font-family: 'Montserrat',">Rohit Kumar</h5>
+                <h5  style="color:#1D3557; font-family: 'Open Sans', sans-serif;">Rohit Kumar</h5>
                
                 <p class=>
-                  <i style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px;"></i>
+                  <i style="color:#808080; font-family: 'Montserrat', sans-serif; font-size: 15px;"></i>
                   Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
                   suscipit laboriosam, nisi ut aliquid commodi.
                 </p>
@@ -571,10 +632,10 @@
                 <img class="rounded-circle shadow-1-strong mb-4"
                   src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" alt="avatar"
                   style="width: 100px;height: 100px;" />
-                <h5  style="color:#1D3557; font-family: 'Montserrat',">Pooja Sharma</h5>
+                <h5  style="color:#1D3557; font-family: 'Open Sans', sans-serif;">Pooja Sharma</h5>
                 
                 <p class=>
-                  <i style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 18px;"></i>
+                  <i style="color:#808080; font-family: 'Montserrat', sans-serif; font-size: 15px;"></i>
                   At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
                   praesentium voluptatum deleniti atque corrupti.
                 </p>
@@ -773,7 +834,7 @@
 
     <footer class="site-footer mt-0 pt-0 mb-0 pb-0 ">
         <!-- Section: Social media -->
-        <section class="d-flex justify-content-center justify-content-lg-between p-0 border-bottom bg-white">
+        <section class="d-flex justify-content-center justify-content-lg-between p-0 border-bottom  bg-black">
             <!-- Left -->
             {% comment %} <div class="me-5 d-none d-lg-block">
                 <h6 style="color:#1D3557; font-family: 'Montserrat',">Get connected with us on social networks : <h6>
@@ -801,15 +862,15 @@
 
         <!-- Section: Links  -->
         <section class= >
-            <div class="container text-center text-md-start mt-5 ">
+            <div class="container text-center text-md-start mt-5 bg-white">
                 <!-- Grid row -->
                 <div class="row mt-3">
                     <!-- Grid column -->
                     <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                         <!-- Content -->
-                        <h6 style="color:#1D3557; font-family: 'Montserrat',">
+                        <h6 style="color:#1D3557;font-family: 'Open Sans', sans-serif;">
                      <!--    <img src="{% static 'images/audio_logo.png' %}" class="logo-image img-fluid mb-2"  
-                        alt="templatemo pod talk" style="height: 50px; width: 50px;"> --><br>Pravati International Pvt.Ltd.
+                        alt="templatemo pod talk" style="height: 50px; width: 50px;"> -->Pravati International Pvt.Ltd.
                         </h6>
                         <p class="text-black">
                             {% comment %} Always believe yourself {% endcomment %}
@@ -818,84 +879,44 @@
                     <!-- Grid column -->
 
                     <!-- Grid column -->
-                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-3">
                         <!-- Links -->
-                        <h6  style="color:#1D3557; font-family: 'Montserrat',">
-                           Our Services
+                        <h6 style="color:#1D3557; font-family: 'Open Sans', sans-serif;">
+                            Our Services
                         </h6>
                         <ul class="custom-bullets">
-                        <p class="text-black">
-                            <li>      <a href="#!" style="color:#808080; font-family: 'Poppins', sans-serif;">All Paramedical Staff</a>    </li> 
-                        </p>
-                        <p class="text-black">
-                            <li>    <a href="#!"  style="color:#808080; font-family: 'Poppins', sans-serif;">Housekeeping & Security</a> </li> 
-                        </p>
-                        <p class="text-black">
-                            <li>   <a href="#!"style="color:#808080; font-family: 'Poppins', sans-serif;">BedSide Patient Attendant</a> </li> 
-                        </p>
-                        <p class="text-black">
-                            <li>  <a href="#!" style="color:#808080; font-family: 'Poppins', sans-serif;t">Home Nursing</a> </li> 
-                        </p>
-                        <p class="text-black">
-                            <li>   <a href="#!" style="color:#808080; font-family: 'Poppins', sans-serif;t">Data Entry, Font Office & Back Office</a> </li> 
-                        </p>
-                         <p class="text-black">
-                            <li>    <a href="#!"style="color:#808080; font-family: 'Poppins', sans-serif;">ITI, Diploma, Degree Engineer</a> </li> 
-                        </p>
-                        <p class="text-black">
-                            <li>        <a href="#!" style="color:#808080; font-family: 'Poppins', sans-serif;">Fire Safeyt & Office Boy</a> </li> 
-                        </p>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">All Paramedical Staff</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">Housekeeping & Security</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">BedSide Patient Attendant</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">Home Nursing</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">Data Entry, Font Office & Back Office</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">ITI, Diploma, Degree Engineer</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">Fire Safety & Office Boy</a></li>
+                        </ul>
                     </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-5">
+                    
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-3">
                         <!-- Links -->
-                        <h6  style="color:#1D3557; font-family: 'Montserrat',">
+                        <h6 style="color:#1D3557; font-family: 'Open Sans', sans-serif;">
                             Useful links
                         </h6>
-                        <p class="text-black">
-                            <ul class="custom-bullets">
-                                <li>      <a href="#!" style="color:#808080; font-family: 'Poppins', sans-serif;">Home</a> </li> 
-                        </p>
-                        <p class="text-black">
-                            <li>       <a href="#!" style="color:#808080; font-family: 'Poppins', sans-serif;">About Us</a> </li> 
-                        </p>
-                        <p class="text-black">
-                            <li>     <a href="#!" style="color:#808080; font-family: 'Poppins', sans-serif;">Sector</a> </li> 
-                        </p>
-                        <p class="text-black">
-                            <li>        <a href="#!" style="color:#808080; font-family: 'Poppins', sans-serif;">Contact</a> </li> 
-                        </p>
+                        <ul class="custom-bullets">
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">Home</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">About Us</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">Sector</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">Contact</a></li>
+                        </ul>
                     </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div  class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4 ">
+                    
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-3">
                         <!-- Links -->
-                        <h6 style="color:#1D3557; font-family: 'Montserrat',">Contact</h6>
-                        <p style="color:#808080; font-family: 'Poppins', sans-serif;"><i class="fas fa-home me-3"></i>Friends Colony Mangalabag, Cuttack - 753001</p>
-                        <p style="color:#808080; font-family: 'Poppins', sans-serif;">
-                            <i class="fas fa-envelope me-3"></i>
-                                                                pravatiservices643@gmail.com
-                                              </p>
-                        <p style="color:#808080; font-family: 'Poppins', sans-serif;"><i class="fas fa-phone me-3"></i> +91 9114790643</p>
-                        <p style="color:#808080; font-family: 'Poppins', sans-serif;"><i class="fas fa-phone me-3"></i> +91 9668790643</p>
-                    <!--   <p class="text-black"><i class="fas fa-print me-3"></i> + 01 234 567 89</p>  --> 
-                       
+                        <h6 style="color:#1D3557; font-family: 'Open Sans', sans-serif;">Contact</h6>
+                        <p style="color: #000000; font-family: 'Montserrat', sans-serif;"><i class="fas fa-home me-3"></i>Friends Colony Mangalabag, Cuttack - 753001</p>
+                        <p style="color: #000000; font-family: 'Montserrat', sans-serif;"><i class="fas fa-envelope me-3"></i>pravatiservices643@gmail.com</p>
+                        <p style="color: #000000; font-family: 'Montserrat', sans-serif;"><i class="fas fa-phone me-3"></i>+91 9114790643</p>
+                        <p style="color: #000000; font-family: 'Montserrat', sans-serif;"><i class="fas fa-phone me-3"></i>+91 9668790643</p>
                     </div>
-                    <!-- Grid column -->
-                </div>
-                <!-- Grid row -->
-            </div>
-        </section>
-        <!-- Section: Links  -->
-
-        <!-- Copyright -->
-        <div class="text-center p-0" style="background-color: rgba(0, 0, 0, 0.05);">
-           
-     <!--       <a class="text-reset fw-bold" href="https://mdbootstrap.com/">MDBootstrap.com</a>   -->
-        </div>
+                    
         <!-- Copyright -->
     </footer>
 

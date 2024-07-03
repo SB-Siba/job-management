@@ -1,275 +1,118 @@
-#secondpage-1 {
-    height: 80vh;
-    width: 100%;
-    /* margin-top: 60px; */
-}
-
-#secondpage-1>.black-1 {
-    height: 99%;
-    width: 100%;
-    position: relative;
-    top: 5px;
+body {
+    font-family: 'Lato', sans-serif;
     display: flex;
-    /* background-color: #ffac1d; */
+    height: 100vh;
+    margin: 0;
 }
 
-#secondpage-1>.black-1>#box1-1 {
-    height: 100%;
-    width: 40%;
-    text-align: left;
-    font-family: poppins;
-    margin-top: 50px;
-    margin-left: 40px;
-    margin-right: 40px;
-
+.sidebar {
+    background-color: #000;
+    color: #ecf0f1;
+    padding: 30px;
+    width: 230px;
+    box-sizing: border-box;
 }
 
-#secondpage-1>.black-1>#box2-1 {
-    height: 100%;
-    width: 60%;
-    object-fit: cover;
-    background-color: #ffffff;
-
-}
-
-.bdcyugu {
-    margin-top: 3%;
-    height: 80%;
-    width: 100%;
-    object-fit: cover;
-    background-size: cover;
-    overflow: hidden;
-}
-
-/* end banner */
-
-/*start home page-1*/
-
-#secondpage {
-    height: 80vh;
-    width: 100%;
-    margin-top: 60px;
-
-}
-
-#secondpage>.black {
-    height: 100%;
-    width: 100%;
-
-    position: relative;
-    top: 5px;
-    display: flex;
-    align-items: center;
-}
-
-#secondpage>.black>#box1 {
-    height: 100%;
-    width: 40%;
-
-    text-align: right;
-    font-family: poppins;
-    margin-top: 50px;
-    margin-left: 40px;
-    margin-right: 40px;
-}
-
-#secondpage>.black>#box2 {
-    height: 100%;
-    width: 60%;
-
-}
-
-/* end home page-1*/
-
-/* start home page-2  */
-
-.page-2 {
-    height: 70vh;
-    width: 100%;
-
-}
-
-.page-2>nav {
-    height: 100px;
-    width: 100%;
-
+.sidebar h2 {
     text-align: center;
-    font-size: 40px;
-    font-family: poppins;
 }
 
-article>#con {
-    height: 80vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-
-}
-
-section>article>#con>.a {
-    height: 75%;
-    width: 30%;
-    text-align: center
-}
-
-section>article>#con>.e>.aa {
-    height: 15%;
-    width: 100%;
-    background-size: cover;
-    background-position: center;
-}
-
-.pic {
-    height: 70%;
-    width: 40px;
-
-}
-
-.page-2>article>#con>.a>#uu {
-    height: 20px;
-    width: 80%;
-    margin-top: 5px;
-    margin-left: 28px;
-    font-weight: bold;
-    font-size: 21px;
-    line-height: 1.3em;
-    text-align: center;
-    font-family: poppins;
-
-}
-
-.page-2>article>#con>.a>#kk {
-    height: 200px;
-    width: 80%;
-    margin-top: 15px;
-    margin-left: 28px;
-    text-align: center;
-    font-size: medium;
-
-    font-family: poppins;
-}
-
-
-/* end home page-2  */
-
-/* start home page-3  */
-
-
-.qqq {
-    height: 20vh;
-    width: 100%;
-
-}
-
-.www {
-    height: 50%;
-    width: 100%;
-
-    text-align: center;
-    /* font-family: poppins; */
-}
-
-.eee {
-    height: 30%;
-    width: 100%;
-
-    text-align: center;
-    /* font-family: poppins; */
-}
-
-/* end home page-3 */
-
-/* start home page-4  */
-
-.rrr {
-    height: 75vh;
-    width: 100%;
-
-}
-
-.carousel-fade {
-    margin-left: -15.7;
-}
-
-.carousel-inner {
-    height: 70vh;
-    width: 101.3%;
-}
-
-.carousel-item {
-    height: 70vh;
-    width: 100%;
-    overflow: hidden;
-
-}
-
-.carousel-item>.d-block {
-    max-width: 100%;
-    max-height: 100%;
-    display: block;
-    margin: auto;
-}
-
-.lpo {
-    height: 50px;
-    width: 100%;
-    font-size: 30px;
-    color: aliceblue;
-    padding-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.mnbvcc {
-    background-color: #000000;
-    /* max-height: 1000px; */
-}
-
-.faq-container {
-
-    padding-top: 20px;
-    max-width: 950px;
-    margin: 0 auto;
-}
-
-.faq-item {
-
-    margin-bottom: 30px;
-}
-
-.question {
-    cursor: pointer;
-    padding: 8px;
-    /* background-color: #f1f1f1; */
-    /* border-radius: 5px; */
-    margin: 10px;
-    color: aliceblue;
-}
-
-.question:hover {
-    color: #ffac1d;
-}
-
-.answer {
-    display: none;
+.sidebar ul {
+    list-style-type: none;
     padding: 10px;
-    border: 1px solid #ffac1d;
-    border-radius: 5px;
-    color: aliceblue;
 }
 
-.question::after {
-    content: '\25B6';
-    /* Unicode character for right-pointing arrow */
-    float: right;
+.sidebar ul li {
+    margin: 20px 0;
+    margin-left: 10px;
 }
 
-.question.open::after {
-    content: '\25BC';
-    /* Unicode character for down-pointing arrow */
+.sidebar ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-weight: bold; 
 }
 
-.answer.show {
-    display: block;
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: #dfdfe7;
+    padding: 10px;
+    color: #ecf0f1;
+    display: flex;
+    justify-content: flex-end; 
+}
+
+header input[type="text"] {
+    width: 400px;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 0;
+    box-shadow: none; 
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.content {
+    padding: 20px;
+    flex: 1;
+    overflow-y: auto;
+}
+ .profile {
+            margin-top: 380px; /* Pushes the profile section to the bottom */
+            text-align: center;
+            
+        }
+        .profile-my a {
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        .profile img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+        /* landing.css */
+/* Styles for Search Box */
+.form-search {
+    margin-top: 20px; /* Adjust as needed */
+}
+
+.input-append {
+    position: relative;
+    display: inline-block;
+    width: auto; /* Adjust width as needed */
+}
+
+.search-query {
+    width: 200px; /* Adjust width as needed */
+    padding: 8px 12px; /* Adjust padding as needed */
+    font-size: 16px; /* Adjust font size as needed */
+    border: 1px solid #ccc; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+}
+
+.btn {
+    padding: 8px 12px; /* Adjust padding as needed */
+    background-color: #007bff; /* Button background color */
+    color: #fff; /* Button text color */
+    border: 1px solid transparent; /* Transparent border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer;
+}
+
+.btn i {
+    margin-right: 5px; /* Adjust icon spacing */
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Hover background color */
 }

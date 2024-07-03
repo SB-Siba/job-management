@@ -1,0 +1,138 @@
+/* Main CSS */
+body {
+    font-family: 'Lato', sans-serif;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    overflow: hidden; /* Prevent body from scrolling */
+}
+
+.sidebar {
+    background-color: #000;
+    color: #ecf0f1;
+    padding: 30px;
+    width: 230px;
+    box-sizing: border-box;
+    position: fixed; /* Fix the sidebar position */
+    height: 100vh; /* Make it span the full height */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+.sidebar h2 {
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 10px;
+}
+
+.sidebar ul li {
+    margin: 20px 0;
+    margin-left: 15px;
+}
+
+.sidebar ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.main-content {
+    margin-left: 230px; /* Adjust according to sidebar width */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+header {
+    background-color: #dfdfe7;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end; /* Align content to the right */
+    align-items: center; /* Center vertically */
+}
+
+header input[type="text"] {
+    width: 400px;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 0;
+    box-shadow: none;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.content {
+    padding: 20px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.profile {
+    margin-top: 100px; /* Pushes the profile section to the bottom */
+    text-align: center;
+}
+
+.profile-my a {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+.profile img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+/* Styles for Search Box */
+.form-search {
+    margin-top: 10px;
+    margin-bottom: 10px; /* Adjust as needed */
+}
+
+.input-append {
+    position: relative;
+    display: inline-block;
+    width: auto; /* Adjust width as needed */
+}
+
+.search-query {
+    width: 200px; /* Adjust width as needed */
+    padding: 8px 12px; /* Adjust padding as needed */
+    font-size: 16px; /* Adjust font size as needed */
+    border: 1px solid #ccc; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+}
+
+.btn {
+    padding: 8px 12px; /* Adjust padding as needed */
+    background-color: #007bff; /* Button background color */
+    color: #fff; /* Button text color */
+    border: 1px solid transparent; /* Transparent border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer;
+}
+
+.btn i {
+    margin-right: 5px; /* Adjust icon spacing */
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Hover background color */
+}
+
+.card {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.card-header, .card-footer {
+    background-color: #f8f9fa;
+}
