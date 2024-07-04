@@ -82,9 +82,13 @@ class JobDetail(View):
     def get(self, request, job_uid):
         job = get_object_or_404(self.model, id=job_uid)
         applications_count = common_model.Application.objects.filter(job=job).count()
+        employees = common_model.Application.objects.filter(job=job,status='Hired')
+        client = job.client
         context = {
             "job": job,
-            'applications_count': applications_count
+            'applications_count': applications_count,
+            "employees": employees,
+            "client": client,
         }
         return render(request, self.template, context)
         

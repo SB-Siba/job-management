@@ -29,5 +29,10 @@
             {% endfor %}
         </tbody>
     </table>
+    <ul>
+        {% for client in clients %}
+          <li><a href="{% url 'admin_dashboard:client_detail' client.id %}">{{ client.full_name }}</a></li>
+        {% endfor %}
+      </ul>
 </body>
 {% endblock content %}

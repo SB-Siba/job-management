@@ -82,40 +82,16 @@
             <td>{{ job.updated_at }}</td>
         </tr>
 
-      
+        <tr>
+            <th>Client</th>
+            <td>{{ job.client.full_name }}</td>
+        </tr>
+
+        
+       
     
     </table>
-    <h2>Applied Candidates</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Contact</th>
-                <th>Resume</th>
-                <th>Applied At</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for application in applications %}
-                <tr>
-                    <td>{{ application.user_full_name }}</td>
-                    <td>{{ application.user_email }}</td>
-                    <td>{{ application.contact }}</td>
-                    <td>
-                        {% if application.resume %}
-                            <a href="{{ application.resume.url }}">Download</a>
-                        {% else %}
-                            No resume uploaded
-                        {% endif %}
-                    </td>
-                    <td>{{ application.applied_at }}</td>
-                    <td>{{ application.status }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    
     <a href="{% url 'admin_dashboard:job_update' job.id %}">Edit Job</a>
     <a href="{% url 'admin_dashboard:job_list' %}">Back to Job List</a>
 </body>

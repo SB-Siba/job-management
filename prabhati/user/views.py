@@ -62,6 +62,8 @@ class HomeView(View):
 
         # If user is authenticated but not a client, treat as candidate
         job_list = Job.objects.filter(published=True, expiry_date__gt=timezone.now()).order_by('-id')
+        if user.catagory:
+            job_list = job_list.filter(catagory=user.catagory)
         paginated_data = paginate(request, job_list, 50)
         form = ApplicationForm()  # This form will be used for the application modal/form
         context = {
@@ -84,7 +86,7 @@ class ProfileView(View):
         print(catagory_obj)
         try:
             profile_obj = UserProfile.objects.get(user=user)
-            print(profile_obj,"hiehfipajdfpofj;ahfihiwfwkhw")
+            # print(profile_obj,"hiehfipajdfpofj;ahfihiwfwkhw")
         except UserProfile.DoesNotExist:
             profile_obj = None
 
@@ -107,10 +109,10 @@ class UpdateProfileView(View):
             "email": user.email,
             "full_name": user.full_name,
             "contact": user.contact,
-            "skills": profile_obj.skills if profile_obj else '',
-            "profile_pic": profile_obj.profile_pic if profile_obj else None,
-            "resume": profile_obj.resume if profile_obj else None,
-            "catagory": user.catagory if user.catagory else None,  # Assuming 'category' field in User model
+            "skills": profile_obj.skills ,
+            "profile_pic": profile_obj.profile_pic ,
+            "resume": profile_obj.resume ,
+            "catagory": user.catagory  # Assuming 'category' field in User model
         }
         form = self.form_class(initial=initial_data)
 

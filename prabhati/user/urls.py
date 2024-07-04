@@ -28,8 +28,8 @@ urlpatterns = [
     #Page Urls
     path('',views.HomeView.as_view(),name="home"),
     # path('user_view',views.UserDashboard.as_view(),name="user_home"),
-    path('profile',views.ProfileView.as_view(),name="profile"),
-    path('updateprofile',views.UpdateProfileView.as_view(),name="updateprofile"),
+    path('profile/',views.ProfileView.as_view(),name="profile"),
+    path('updateprofile/',views.UpdateProfileView.as_view(),name="updateprofile"),
     # path('add_user/',views.ADD_USER,name="add_user"),
     # path('user/jobs', views.UserJobList.as_view(), name='job_list'),
     # path('<int:pk>/', views.JobDetailView.as_view(), name='job-detail'),

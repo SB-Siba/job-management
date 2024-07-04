@@ -34,7 +34,6 @@
         <thead>
             <tr>
                 <th>User Full Name</th>
-                <th>User Contact</th>
                 <th>Job Category</th>
                 <th>Company Name</th>
                 <th>Email</th>
@@ -47,8 +46,7 @@
         <tbody>
             {% for application in application_list %}
                 <tr>
-                    <td>{{ application.user.get_full_name }}</td>
-                    <td>{{ application.user.contact }}</td>
+                    <td>{{ application.user.full_name }}</td>
                     <td>{{ application.job.catagory }}</td>
                     <td>{{ application.job.company_name }}</td>
                     <td>{{ application.email }}</td>

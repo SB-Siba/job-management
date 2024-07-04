@@ -10,27 +10,33 @@ Profile
         <div class="card">
           <div class="rounded-top text-white d-flex flex-row" style="background-color: #000;">
             <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px; height: 150px;">
-                {% if profileobj.profile_pic %}
-                    <img src="{{ profileobj.profile_pic.url }}"
-                    alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                {% if profile_obj.profile_pic %}
+                    <img src="{{ profile_obj.profile_pic.url }}"
+                    alt="Generic placeholder image" width="100" class="rounded-circle"
                     style="width: 150px; height: 150px; z-index: 1">
                 {% else %}
                     <img src="{% static 'user/noimage.jpg' %}"
-                    alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                    alt="Generic placeholder image"  width="100" class="rounded-circle"
                     style="width: 150px; height: 150px; z-index: 1">
                 {% endif %}
             </div>
-            <div class="ms-3" style="margin-top: 17%;">
-              <h5 class="text-white">{{ user.full_name }}</h5>
-              <p class="text-white border-top mb-0">e-mail : {{ user.email }}</p>
-              <p class="text-white mb-0">contact : {{ user.contact }}</p>
-              <p class="text-white mb-0">category : {{ user.catagory }}</p> <!-- Category display -->
-            </div>
+              <div class="ms-3" style="margin-top: 17%;">
+                <h5 class="text-white">{{ user.full_name }}</h5>
+                <p class="text-white border-top mb-0">Email : {{ user.email }}</p>
+                <p class="text-white mb-0">contact : {{ user.contact }}</p>
+                <p class="text-white mb-0">category : {{ user.catagory }}</p> <!-- Category display -->
+              </div>
           </div>
           <div class="card-body p-4 text-black" style="background-color: beige;">
             <div class="mb-2">
               <label for="" class="fw-bold">Skills : </label>
-              <p class="lead fw-normal mb-1 border-bottom">{{ profileobj.skills }}</p>
+              <p class="lead fw-normal mb-1 border-bottom">{{ profile_obj.skills }}</p>
+              {% if profile_obj.resume %}
+              <div class="mb-2">
+                <label for="" class="fw-bold">Resume : </label>
+                <a href="{{ profile_obj.resume.url }}" target="_blank" class="lead fw-normal mb-1 border-bottom">View Resume</a>
+              </div>
+              {% endif %}
             </div>
             <a href="{% url 'user:updateprofile' %}" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                 style="z-index: 1;">
