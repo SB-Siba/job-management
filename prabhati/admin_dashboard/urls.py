@@ -37,6 +37,7 @@ urlpatterns = [
     #client list
     path('clients/', client.AdminClientListView.as_view(), name='client_list'),
     path('clients/create/', client.AdminClientCreateView.as_view(), name='client_create'),
+    path('client/<client_id>/', client.ClientDetailView.as_view(), name='client_detail'),
 
     # #product web
     path("job/job_list/", job.JobList.as_view(), name="job_list"),

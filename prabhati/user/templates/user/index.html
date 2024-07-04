@@ -20,7 +20,7 @@
             </li>
             <li><a href="#">Profile</a></li>
             <li><a href="#">My Job</a></li>
-            <li><a href="#">Apply For Job</a></li>
+            <li><a href="">Apply For Job</a></li>
             <li>
                 <a class="nav-link font-bold"style="background:none" href="{% url 'user:logout' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
                 <i class="fas fa-sign-out-alt"></i> Log Out
@@ -28,8 +28,13 @@
         </ul>
         <div class="profile">
             <div class="profile-my"><a href="{% url 'user:profile' %}">{{ request.user.full_name }}</a></div>
-            <img src="https://i.imgur.com/bDLhJiP.jpg" alt="Default Profile Picture" class="rounded-circle">
+            {% if profileobj.profile_pic %}
+                <img src="{{ profile_obj.profile_pic.url }}" width="100" class="rounded-circle">
+            {% else %}
+                <img src="https://i.imgur.com/bDLhJiP.jpg" height="100" width="100" class="rounded-circle">      
+            {% endif %}
         </div>
+        
     </div>
     <div class="main-content">
         <header>

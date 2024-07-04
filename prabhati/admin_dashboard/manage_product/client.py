@@ -41,7 +41,32 @@ class AdminClientCreateView(View):
             client.set_password(form.cleaned_data['password'])
             client.save()
             messages.success(request, 'Client has been successfully added.')
-            return redirect('admin_dashboard:client_list ')
+            return redirect('admin_dashboard:client_list')
         else:
             messages.error(request, 'There was an error adding the client. Please check the details and try again.')
             return render(request, self.template, {'form': form})
+
+
+@method_decorator(utils.super_admin_only, name='dispatch')
+class ClientDetailView(View):
+    template_name = app + 'client_detail.html'
+
+    def get(self, request, client_id):
+        client = get_object_or_404(common_model.User, id=client_id, is_staff=True, is_superuser=False)
+        jobs = common_model.Job.objects.filter(client=client)
+
+        total_applications = 0
+        total_employees = 0
+        for job in jobs:
+            applications_count = common_model.Application.objects.filter(job=job).count()
+            hired_count = common_model.Application.objects.filter(job=job, status='Hired').count()
+            total_applications += applications_count
+            total_employees += hired_count
+
+        context = {
+            'client': client,
+            'jobs': jobs,
+            'total_applications': total_applications,
+            'total_employees': total_employees,
+        }
+        return render(request, self.template_name, context)

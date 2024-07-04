@@ -119,4 +119,38 @@ class Edit_User(View):
         return redirect("admin_dashboard:user_detail",user_id)
 
 
+class EmployeeList(View):
+    model = common_model.User
+    template = app + "employee_list.html"
+
+    def get(self, request):
+        employees = self.model.objects.filter(is_employee=True).order_by("id")
+        return render(request, self.template, {"employees": employees})
+
+class AdminEmployeeAssignView(View):
+    template_name = 'admin_employee_assign.html'
+
+    def get(self, request, user_id):
+        user = get_object_or_404(User, pk=user_id)
+        jobs = Job.objects.filter(application__user=user)  # Get jobs where the user has applied
+        context = {
+            'user': user,
+            'jobs': jobs,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, user_id):
+        user = get_object_or_404(User, pk=user_id)
+        job_id = request.POST.get('job_id')
+        job = get_object_or_404(Job, pk=job_id)
+
+        # Mark user as an employee
+        user.is_employee = True
+        user.save()
+
+        # Optionally, you can perform additional actions like notifying the user or updating job-related information
+        
+        messages.success(request, f'{user.full_name} has been assigned as an employee.')
+
+        return redirect('admin_dashboard:employee_list')
 

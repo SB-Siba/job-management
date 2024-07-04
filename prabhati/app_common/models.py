@@ -100,10 +100,10 @@ class UserProfile(models.Model):
 
 class Job(models.Model):
 
-    FULL_TIME = 'FT'
-    PART_TIME = 'PT'
-    CONTRACT = 'CT'
-    INTERNSHIP = 'IN'
+    FULL_TIME = 'Full-Time'
+    PART_TIME = 'Part-Time'
+    CONTRACT = 'Contract'
+    INTERNSHIP = 'Internship'
     
     JOB_TYPE_CHOICES = [
         (FULL_TIME, 'Full-Time'),
@@ -112,7 +112,7 @@ class Job(models.Model):
         (INTERNSHIP, 'Internship'),
     ]
     title = models.CharField(max_length=255, null=True, blank=True)
-    # client = models.ForeignKey(Client, on_delete=models.SET_NULL, blank=True, null=True )
+    client = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, limit_choices_to={'is_staff': True})
     catagory = models.ForeignKey(Catagory, on_delete=models.SET_NULL, blank=True, null=True)
     description = models.CharField(max_length =300,blank=True, null=True)
     location = models.CharField(max_length=100, null=True, blank=True)
@@ -125,7 +125,7 @@ class Job(models.Model):
     company_website = models.URLField(blank=True, null=True)
     company_logo = models.ImageField(upload_to='company_logos/', blank=True, null=True)
     vacancies = models.PositiveIntegerField(default=1)
-    job_type = models.CharField(max_length=2, choices=JOB_TYPE_CHOICES, default=FULL_TIME)
+    job_type = models.CharField(max_length=20, choices=JOB_TYPE_CHOICES, default=FULL_TIME)
    
         
     def __str__(self):
