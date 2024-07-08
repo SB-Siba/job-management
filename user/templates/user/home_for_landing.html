@@ -1,0 +1,805 @@
+{% extends 'user/landing_page.html' %} {% load static %} {% block title %}
+home_for_landing {% endblock title %} {% block main_content %}
+
+<div class="container-fluid p-0">
+  <div class="row g-0">
+    <div class="col-lg-12 col-12">
+      <div class="text-center mb-5 pb-2">
+        <div
+          id="carouselExample"
+          class="carousel slide"
+          data-bs-ride="carousel"
+          data-bs-interval="3000"
+        >
+          <div id="carouselExampleCaptions" class="carousel slide">
+            <div class="carousel-indicators">
+              <button
+                type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="0"
+                class="active"
+                aria-current="true"
+                aria-label="Slide 1"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="1"
+                aria-label="Slide 2"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="2"
+                aria-label="Slide 3"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="3"
+                aria-label="Slide 4"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="4"
+                aria-label="Slide 5"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="5"
+                aria-label="Slide 6"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="6"
+                aria-label="Slide 7"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="7"
+                aria-label="Slide 8"
+              ></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="box-1" style="height: 70vh; width: 100%">
+                  <img
+                    src="{% static 'images/f4.jpg' %}"
+                    class="d-block w-100"
+                    alt="..."
+                    style="height: 70vh"
+                  />
+                  <div class="overlaytext px-0 py-0 mx-0 my-0">
+                    
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="box-1" style="height: 70vh; width: 100%">
+                  <img
+                    src="{% static 'images/f3.jpg' %}"
+                    class="d-block w-100"
+                    alt="..."
+                    style="height: 70vh"
+                  />
+                  <div class="overlaytext px-0 py-0 mx-0 my-0">
+
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="box-1" style="height: 70vh; width: 100%">
+                  <img
+                    src="{% static 'images/f11.svg' %}"
+                    class="d-block w-100"
+                    alt="..."
+                    style="height: 70vh"
+                  />
+                  <div class="overlaytext px-0 py-0 mx-0 my-0">
+
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="box-1" style="height: 70vh; width: 100%">
+                  <img
+                    src="{% static 'images/f5.jpg' %}"
+                    class="d-block w-100"
+                    alt="..."
+                    style="height: 70vh"
+                  />
+                  <div class="overlaytext px-0 py-0 mx-0 my-0">
+                    
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="box-1" style="height: 70vh; width: 100%">
+                  <img
+                    src="{% static 'images/j2.jpg' %}"
+                    class="d-block w-100"
+                    alt="..."
+                    style="height: 70vh"
+                  />
+                  <div class="overlaytext px-0 py-0 mx-0 my-0">
+                    
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="box-1" style="height: 70vh; width: 100%">
+                  <img
+                    src="{% static 'images/f7.jpg' %}"
+                    class="d-block w-100"
+                    alt="..."
+                    style="height: 70vh"
+                  />
+                  <div class="overlaytext px-0 py-0 mx-0 my-0">
+                    
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="box-1" style="height: 70vh; width: 100%">
+                  <img
+                    src="{% static 'images/f8.jpg' %}"
+                    class="d-block w-100"
+                    alt="..."
+                    style="height: 70vh"
+                  />
+                  <div class="overlaytext px-0 py-0 mx-0 my-0">
+                    
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="box-1" style="height: 70vh; width: 100%">
+                  <img
+                    src="{% static 'images/j1.jpg' %}"
+                    class="d-block w-100"
+                    alt="..."
+                    style="height: 70vh"
+                  />
+                  <div class="overlaytext px-0 py-0 mx-0 my-0">
+                    
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExample"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExample"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="py-1 py-md-1">
+  <div class="container">
+    <div class="row gy-3 gy-md-4 align-items-center">
+      <div class="col-12 col-lg-6">
+        <div class="big-box-1">
+          <h3
+            style="
+              color: #1d3557;
+              font-family: metal;
+              margin-left: 30px;
+              border-bottom: 2px solid #1d3557;
+              padding-bottom: 5px;
+              display: inline-block;
+              margin-bottom: 30px;
+            "
+          >
+            ABOUT US
+          </h3>
+
+          <p
+            style="
+              color: #808080;
+              font-family: merrywether;
+              font-size: 15px;
+              margin-left: 30px;
+              text-align: justify;
+            "
+          >
+            Pravati International Service Private Limited is a leading provider
+            of manpower outsourcing services, catering to a diverse range of
+            sectors including reputed hospitals, hotels, schools, government
+            offices, NGOs, and manufacturing companies. Our extensive experience
+            and commitment to excellence make us a trusted partner for
+            organizations seeking to enhance their operational efficiency and
+            focus on their core activities.Our mission is to deliver high
+            quality manpower solutions that meet the unique needs of our
+            clients, enabling them to achieve their strategic goals. We strive
+            to provide a seamless and reliable service that ensures the right
+            talent is placed in the right roles, contributing to the overall
+            success of our clients.
+          </p>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 d-flex justify-content-center">
+        <img
+          class="img-fluid rounded"
+          loading="lazy"
+          src="{% static 'images/s9.jpg' %}"
+          alt="About 1"
+          style="width: 100%; max-width: 500px; box-shadow: 0px 0px 5px black"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container mt-4">
+  <div class="px-4">
+    <h3
+      style="
+        color: #1d3557;
+        font-family: metal;
+        margin-left: 20px;
+        border-bottom: 2px solid #1d3557;
+        padding-bottom: 5px;
+        display: inline-block;
+        margin-bottom: 30px;
+      "
+    >
+      OUR SERVICES
+    </h3>
+  </div>
+
+  <div class="cardsss">
+    <div class="card">
+      <div class="card__image-holder">
+        <img
+          class="card__image"
+          src="{% static 'images/s1.jpg' %}"
+          alt="wave"
+        />
+      </div>
+      <div class="card-title">
+        <a href="#" class="toggle-info btn">
+          <span class="left"></span>
+          <span class="right"></span>
+        </a>
+        <h2>ALL PARAMEDICAL STAFF</h2>
+      </div>
+      <div class="card-flap flap1">
+        <div class="card-description">
+          Highly trained paramedical staff delivering top-notch care, ensuring
+          patient safety and comfort at all times.
+        </div>
+        <div class="card-flap flap2">
+          <div class="card-actions">
+            <a href="#" class="btn">Read more</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card__image-holder">
+        <img
+          class="card__image"
+          src="{% static 'images/m2.jpg' %}"
+          alt="beach"
+        />
+      </div>
+      <div class="card-title">
+        <a href="#" class="toggle-info btn">
+          <span class="left"></span>
+          <span class="right"></span>
+        </a>
+        <h2>HOUSEKEEPING</h2>
+      </div>
+      <div class="card-flap flap1">
+        <div class="card-description">
+          Maintaining cleanliness and order through professional services,
+          ensuring hygienic, comfortable, and welcoming environments in various
+          settings.
+        </div>
+        <div class="card-flap flap2">
+          <div class="card-actions">
+            <a href="#" class="btn">Read more</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card__image-holder">
+        <img
+          class="card__image"
+          src="{% static 'images/m3.jpg' %}"
+          alt="mountain"
+        />
+      </div>
+      <div class="card-title">
+        <a href="#" class="toggle-info btn">
+          <span class="left"></span>
+          <span class="right"></span>
+        </a>
+        <h2>BEDSIDE PARIENT ATTENDANT</h2>
+      </div>
+      <div class="card-flap flap1">
+        <div class="card-description">
+          Providing compassionate care and support, ensuring patient comfort and
+          well-being with professional bedside assistance.
+        </div>
+        <div class="card-flap flap2">
+          <div class="card-actions">
+            <a href="#" class="btn">Read more</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card__image-holder">
+        <img
+          class="card__image"
+          src="{% static 'images/m4.jpg' %}"
+          alt="water"
+        />
+      </div>
+      <div class="card-title">
+        <a href="#" class="toggle-info btn">
+          <span class="left"></span>
+          <span class="right"></span>
+        </a>
+        <h2>DATA ENTRY, FRONT & BACK OFFICE</h2>
+      </div>
+      <div class="card-flap flap1">
+        <div class="card-description">
+          Efficient data entry, organized front office, and streamlined back
+          office operations for optimal business functionality.
+        </div>
+        <div class="card-flap flap2">
+          <div class="card-actions">
+            <a href="#" class="btn">Read more</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card__image-holder">
+        <img
+          class="card__image"
+          src="{% static 'images/m6.jpg' %}"
+          alt="river"
+        />
+      </div>
+      <div class="card-title">
+        <a href="#" class="toggle-info btn">
+          <span class="left"></span>
+          <span class="right"></span>
+        </a>
+        <h2>ITI, DIPLOMA, DEGREE ENGINEER</h2>
+      </div>
+      <div class="card-flap flap1">
+        <div class="card-description">
+          ITI for technical skills, Diploma for intermediate expertise, Degree
+          Engineer for advanced engineering knowledge.
+        </div>
+        <div class="card-flap flap2">
+          <div class="card-actions">
+            <a href="#" class="btn">Read more</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card__image-holder">
+        <img
+          class="card__image"
+          src="{% static 'images/m1.jpg' %}"
+          alt="underwater"
+        />
+      </div>
+      <div class="card-title">
+        <a href="#" class="toggle-info btn">
+          <span class="left"></span>
+          <span class="right"></span>
+        </a>
+        <h2>SECURITY</h2>
+      </div>
+      <div class="card-flap flap1">
+        <div class="card-description">
+          Security: Ensuring safety and protection for individuals, property,
+          and information through professional services.
+        </div>
+        <div class="card-flap flap2">
+          <div class="card-actions">
+            <a href="#" class="btn">Read more</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card__image-holder">
+        <img
+          class="card__image"
+          src="{% static 'images/sec2.jpg' %}"
+          alt="kite"
+        />
+      </div>
+      <div class="card-title">
+        <a href="#" class="toggle-info btn">
+          <span class="left"></span>
+          <span class="right"></span>
+        </a>
+        <h2>FIRE SAFETY & OFFICE BOY</h2>
+      </div>
+      <div class="card-flap flap1">
+        <div class="card-description">
+          Fire Safety ensures workplace safety; Office Boy supports daily office
+          tasks, ensuring smooth operations and cleanliness.
+        </div>
+        <div class="card-flap flap2">
+          <div class="card-actions">
+            <a href="#" class="btn">Read more</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card__image-holder">
+        <img
+          class="card__image"
+          src="{% static 'images/m5.jpg' %}"
+          alt="field"
+        />
+      </div>
+      <div class="card-title">
+        <a href="#" class="toggle-info btn">
+          <span class="left"></span>
+          <span class="right"></span>
+        </a>
+            <h2>HOME NURSING</h2>
+      </div>
+      <div class="card-flap flap1">
+        <div class="card-description">
+          home nursing services offering personalized care, medical assistance,
+          and support for patients in the comfort of their homes.
+        </div>
+        <div class="card-flap flap2">
+          <div class="card-actions">
+            <a href="#" class="btn">Read more</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card"></div>
+  </div>
+</div>
+
+<div class="bubble">
+  <div class="px-4">
+    <h3
+      style="
+        color: white;
+        font-family: metal;
+        margin-left: 30px;
+        border-bottom: 2px solid white;
+        padding-top: 20px;
+        display: inline-block;
+        margin-bottom: 0px;
+      "
+    >
+      INDUSTRIES WE SERVE
+    </h3>
+  </div>
+  <div class="container-y pb-5">
+    <div class="card-y">
+      <div class="content-y">
+        <div class="imgBx">
+          <img
+            class="card-img-top small-card-img"
+            src="{% static 'images/s2.jpg' %}"
+            alt="Healthcare Industry"
+          />
+        </div>
+        <div class="contentBx">
+          <h3
+            class="card-title-x"
+            style="
+              color: #fff;
+              text-align: center;
+              font-family: metal;
+              font-size: 18px;
+            "
+          >
+            HOSPITAL
+          </h3>
+        </div>
+      </div>
+      <ul class="sci">
+        <li>
+          <p
+            class="card-text-x"
+            style="color: #fff; font-family: merriwether; font-size: 17px"
+          >
+            Local hospital excels in lifesaving tech, dedicated staff,
+            compassionate care .
+          </p>
+        </li>
+      </ul>
+    </div>
+    <div class="card-y">
+      <div class="content-y">
+        <div class="imgBx">
+          <img
+            class="card-img-top small-card-img"
+            src="{% static 'images/s3.jpg' %}"
+            alt="Healthcare Industry"
+          />
+        </div>
+        <div class="contentBx">
+          <h3
+            class="card-title-x"
+            style="
+              color: #fff;
+              text-align: center;
+              font-family: metal;
+              font-size: 18px;
+            "
+          >
+            HOTEL
+          </h3>
+        </div>
+      </div>
+      <ul class="sci">
+        <li>
+          <p
+            class="card-text-x"
+            style="color: #fff; font-family: merriwether; font-size: 17px"
+          >
+            Exceptional healthcare services ensure patient safety and efficient
+            medical solutions .
+          </p>
+        </li>
+      </ul>
+    </div>
+    <div class="card-y">
+      <div class="content-y">
+        <div class="imgBx">
+          <img
+            class="card-img-top small-card-img"
+            src="{% static 'images/s4.jpg' %}"
+            alt="Healthcare Industry"
+          />
+        </div>
+        <div class="contentBx">
+          <h3
+            class="card-title-x"
+            style="
+              color: #fff;
+              text-align: center;
+              font-family: metal;
+              font-size: 18px;
+            "
+          >
+            SCHOOL
+          </h3>
+        </div>
+      </div>
+      <ul class="sci">
+        <li>
+          <p
+            class="card-text-x"
+            style="color: #fff; font-family: merriwether; font-size: 17px"
+          >
+            Exceptional healthcare services ensure patient safety, efficiency,
+            and innovative, effective medical solutions.
+          </p>
+        </li>
+      </ul>
+    </div>
+    <div class="card-y">
+      <div class="content-y">
+        <div class="imgBx">
+          <img
+            class="card-img-top small-card-img"
+            src="{% static 'images/s5.jpg' %}"
+            alt="Healthcare Industry"
+          />
+        </div>
+        <div class="contentBx">
+          <h3
+            class="card-title-x"
+            style="
+              color: #fff;
+              text-align: center;
+              font-family: metal;
+              font-size: 18px;
+            "
+          >
+            GOVT. OFFICES
+          </h3>
+        </div>
+      </div>
+      <ul class="sci">
+        <li>
+          <p
+            class="card-text-x"
+            style="color: #fff; font-family: merriwether; font-size: 17px"
+          >
+            Government Offices Streamline Services with New Online Portal for
+            Efficiency.
+          </p>
+        </li>
+      </ul>
+    </div>
+    <div class="card-y">
+      <div class="content-y">
+        <div class="imgBx">
+          <img
+            class="card-img-top small-card-img"
+            src="{% static 'images/s6.jpg' %}"
+            alt="Healthcare Industry"
+          />
+        </div>
+        <div class="contentBx">
+          <h3
+            class="card-title-x"
+            style="
+              color: #fff;
+              text-align: center;
+              font-family: metal;
+              font-size: 18px;
+            "
+          >
+            NGO
+          </h3>
+        </div>
+      </div>
+      <ul class="sci">
+        <li>
+          <p
+            class="card-text-x"
+            style="color: #fff; font-family: merriwether; font-size: 17px"
+          >
+            NGO Launches Initiative to Empower Underprivileged Youth through
+            Education
+          </p>
+        </li>
+      </ul>
+    </div>
+    <div class="card-y">
+      <div class="content-y">
+        <div class="imgBx">
+          <img
+            class="card-img-top small-card-img"
+            src="{% static 'images/s7.jpg' %}"
+            alt="Healthcare Industry"
+          />
+        </div>
+        <div class="contentBx">
+          <h3
+            class="card-title-x"
+            style="
+              color: #fff;
+              text-align: center;
+              font-family: metal;
+              font-size: 18px;
+            "
+          >
+            MANUFACTURING COMPANY
+          </h3>
+        </div>
+      </div>
+      <ul class="sci">
+        <li>
+          <p
+            class="card-text-x"
+            style="color: #fff; font-family: merriwether; font-size: 17px"
+          >
+            Manufacturing Company Unveils Eco-Friendly Production Line, Reducing
+            Carbon Footprint.
+          </p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="px-5">
+    <h3
+      class=""
+      style="
+        color: #1d3557;
+        font-family: metal;
+        border-bottom: 2px solid #1d3557;
+        padding-bottom: 5px;
+        display: inline-block;
+        text-align: left;
+        margin-bottom: 20px;
+      "
+    >
+      CUSTOMER SPEECH
+    </h3>
+  </div>
+  <div class="col-md-12 d-flex justify-content-center pb-5">
+    <div class="snip1390">
+      <img
+        src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample3.jpg"
+        alt="profile-sample3"
+        class="profile"
+      />
+      <div>
+        <h2>Eleanor Crisp</h2>
+        <h4>UX Design</h4>
+        <blockquote>
+          Dad buried in landslide! Jubilant throngs fill streets! Stunned father
+          inconsolable - demands recount!
+        </blockquote>
+      </div>
+    </div>
+    <div class="snip1390 hover">
+      <img
+        src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample5.jpg"
+        alt="profile-sample5"
+        class="profile"
+      />
+      <div>
+        <h2>Gordon Norman</h2>
+        <h4>Accountant</h4>
+        <blockquote>
+          Wormwood : Calvin, how about you? Calvin : Hard to say ma'am. I think
+          my cerebellum has just fused.
+        </blockquote>
+      </div>
+    </div>
+    <div class="snip1390">
+      <img
+        src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample6.jpg"
+        alt="profile-sample6"
+        class="profile"
+      />
+      <div>
+        <h2>Sue Shei</h2>
+        <h4>Public Relations</h4>
+        <blockquote>
+          The strength to change what I can, the inability to accept what I
+          can't and the incapacity to tell the difference.
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock main_content %}

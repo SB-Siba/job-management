@@ -38,7 +38,7 @@ app = "user/"
 class HomeView(View):
     template_client = app + 'client_home.html'
     template_user = app + 'home1.html'
-    unauthenticated_template = app + 'landing_page.html'
+    unauthenticated_template = app + 'home_for_landing.html'
 
     def get(self, request):
         user = request.user
