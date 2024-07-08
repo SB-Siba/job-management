@@ -44,7 +44,8 @@ class HomeView(View):
         user = request.user
         if not user.is_authenticated:
             jobs = Job.objects.all()
-            return render(request, self.unauthenticated_template, {'jobs': jobs})
+            print(jobs)
+            return render(request, self.unauthenticated_template,locals())
 
         welcome_message = f"Welcome, {user.full_name}!"
 
@@ -109,9 +110,9 @@ class UpdateProfileView(View):
             "email": user.email,
             "full_name": user.full_name,
             "contact": user.contact,
-            "skills": profile_obj.skills ,
-            "profile_pic": profile_obj.profile_pic ,
-            "resume": profile_obj.resume ,
+            "skills": profile_obj.skills if profile_obj else '',
+            "profile_pic": profile_obj.profile_pic if profile_obj else None,
+            "resume": profile_obj.resume if profile_obj else None,
             "catagory": user.catagory  # Assuming 'category' field in User model
         }
         form = self.form_class(initial=initial_data)

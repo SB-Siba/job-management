@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import PasswordChangeForm,PasswordResetForm,SetPasswordForm
 from app_common import models as common_models
 from django.contrib.auth import password_validation
+from django.core.validators import RegexValidator
 class SignUpForm(forms.Form):
     full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.',
@@ -54,7 +55,7 @@ class UpdateProfileForm(forms.Form):
     full_name = forms.CharField(max_length=255)
     full_name.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Full Name',"required":"required"})
 
-    contact = forms.IntegerField()
+    contact = forms.CharField(max_length=10, validators=[RegexValidator(regex='^\d{10}$', message='Contact number must be exactly 10 digits')])
     contact.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Mobile Number',"required":"required"})
 
     skills = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"1"}))

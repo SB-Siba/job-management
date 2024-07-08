@@ -238,22 +238,28 @@ Job Opening
 </div>
 
 <!-- Card and Text Section -->
-<div class="sjb-card-container">
-    <!-- Card side -->
-     {%for job in jobs %}
-    <div class="card sjb-card">
-        <img src="{% static 'images/j1.jpg' %}" class="card-img-top" alt="Card Image">
-        <div class="card-body sjb-card-content">
-            <h6 class="card-title">Job Details</h6>
-            <p class="card-text">Our team comprises industry experts who understand the unique requirements of each sector we serve.</p>
-            <a href="" class="btn btn-primary" style=" margin-left: 10px;">Job Details</a>
+<div class="container">
+    <div class="row">
+        {% for job in jobs %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ job.title }}</h3>
+                    <h4 class="card-subtitle mb-2 text-muted">{{ job.catagory }}</h4>
+                    <p class="card-text">{{ job.company_name }}</p>
+                    <p class="card-text">{{ job.location }}</p>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ job.job_type }}</p>
+                    <p class="card-text">{{ job.description }}</p>
+                </div>
+                <div class="card-footer">
+                    <p class="card-text">Active {{ job.published_date|timesince }} ago</p>
+                    <a href="{% url 'user:job-apply' job.id %}" class="btn btn-primary">Apply now</a>
+                </div>
+            </div>
         </div>
-    </div>
-    {% endfor %}
-    <!-- Text side -->
-    <div class="sjb-text">
-        <h6>Job Details</h6>
-        <p>Our team comprises industry experts who understand the unique requirements of each sector we serve.</p>
+        {% endfor %}
     </div>
 </div>
 {% endblock main_content %}
