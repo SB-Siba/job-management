@@ -14,6 +14,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .manager import MyAccountManager
 from django.core.mail import send_mail
+from django.core.validators import RegexValidator
 
  
 def document_path(self, filename):
@@ -44,7 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length= 255, null= True, blank= True)
     email = models.EmailField(null=True,blank=True,unique=True)
     password = models.TextField(null=True,blank=True)
-    contact = models.CharField(max_length= 10, null=True, blank=True)
+    contact = models.CharField(max_length=15,validators=[RegexValidator(regex='^\d{10,15}$', message='Contact number must be between 10 and 15 digits')])
     catagory = models.ForeignKey(Catagory, on_delete=models.SET_NULL, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
@@ -143,7 +144,7 @@ class Application(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     email = models.EmailField(default='')
-    contact = models.IntegerField(null=True, blank=True, unique=True, default=0)
+    contact = models.CharField(max_length=15,validators=[RegexValidator(regex='^\d{10,15}$', message='Contact number must be between 10 and 15 digits')])
     resume = models.FileField(upload_to='resumes/', blank=True, null=True)
     applied_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='Applied')
