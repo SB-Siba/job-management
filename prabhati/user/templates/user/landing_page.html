@@ -22,87 +22,698 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css' %}">
     <link rel="stylesheet" href="{% static 'css/templatemo-pod-talk.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}">
 
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <!-- JavaScript Files -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js" integrity="sha512-DjVn6YYFZJNS+JeSXZfQ2URFQ1TOH14NqxFCOOYDYePyoTYuGIdPGnHEy9blLVJYijmBntjN2y5XTTZ4pTw60w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fPOxyf8a+pV/h5vN8yrRtSKfPe/DMAqz6Z5s5Pp63ZZhVkZf5VIJ2ZlC8kr7U5UZ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
-        .navbar-nav .nav-link {
-            font-family: "Lato", sans-serif;
-  font-weight: 600;
-  font-style: normal;
-  font-size:16px
-}
+      .gfg { 
+          position: absolute; 
+          top: 80%; 
+          left: 40%; 
+          text-align: center; 
+          color: rgb(248, 248, 228); 
+          font-size: 25px; 
+          font-weight: 700; 
+      } 
         
-        .small-card {
-            width: 250px; /* Adjust the width as needed */
-            background-color: #1D3557;
-            border-radius: 10px;
-            display: flex; /* Use flexbox */
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
-            height: 350px; /* Set card height */
-            overflow: hidden;
-            padding: 20px;
+      .box-1:hover .overlaytext { 
+          bottom: 0; 
+          height: 100%; 
+          width: 100%; 
+      } 
+        
+      .overlaytext { 
+          position: absolute; 
+          bottom: 50%; 
+          left: 0; 
+          right: 0; 
+          overflow: hidden; 
+          width: 100%; 
+          height: 0; 
+          transition: .8s ease; 
+          background-repeat: no-repeat; 
+          background-size: cover; 
+          background-position: center;
+          background-image: url('{% static "images/Heading.png" %}');
+
+      } 
+        
+      .box-1 { 
+          position: relative; 
+          width: 50%; 
+      } 
+        
+      img { 
+          width: 100%; 
+          height: auto; 
+      }
+
+
+      .big-box-1::before {  
+          transform: scaleX(0);
+          transform-origin: bottom right;
         }
-        .small-card-img {
-            height: 100px;
-            width: 100px;
-            object-fit: cover;
-            border-radius: 50%; /* Circle shape for the image */
+        
+        .big-box-1:hover::before {
+          transform: scaleX(1);
+          transform-origin: bottom left;
         }
         
-                .carousel-inner img {
-                    width: 100%;
-                    height: 500px; /* Adjust height as needed */
-                }
+        .big-box-1::before {
+          content: " ";
+          display: block;
+          position: absolute;
+          top: 0; right: 0; bottom: 0; left: 0;
+          inset: 0 0 0 0;
+          background: hsl(200 100% 80%);
+          z-index: -1;
+          transition: transform .3s ease;
+          border-radius: 15px;
+        }
         
-                .carousel-caption {
-                    text-align: left;
-                    left: 0;
-                    top: 0;
-                    bottom: 0;
-                    width: 40%; /* Adjust width as needed */
-                    display: flex;
-                    align-items: center;
-                    padding: 2rem;
-                  
-                }
-                
-                .carousel-caption h4, .carousel-caption h6 {
-                    color: #b50495;
-                    font-family: 'Open Sans', sans-serif;
-                }
-                
-                .carousel-caption h5 {
-                    font-weight: bold;
-                    font-family: 'Open Sans', sans-serif;
-                }
-                
-                .carousel, .carousel-item, .carousel-inner {
-                    width: 100%;
-                    height: 100%;
-                }
-                
-            </style>
+        .big-box-1 {
+          position: relative;
+          padding: 10px;
+          padding-right: 20px;
+          
+        }
 
 
 
 
-</head>
+
+        a.btn {
+          background: teal;
+          border-radius: 4px;
+            box-shadow: 0 2px 0px 0 rgba(0,0,0,0.25);
+          color: rgb(255, 255, 255);
+          display: inline-block;
+          padding: 6px 30px 8px;
+          position: relative;
+          text-decoration: none;
+            transition: all 0.1s 0s ease-out;
+        }
+        
+        .no-touch a.btn:hover {
+          background: lighten(teal,2.5);
+          box-shadow: 0px 8px 2px 0 rgba(0, 0, 0, 0.075);
+          transform: translateY(-2px);
+          transition: all 0.25s 0s ease-out;
+        }
+        
+        .no-touch a.btn:active,
+        a.btn:active {
+          background: darken(teal,2.5);
+          box-shadow: 0 1px 0px 0 rgba(255,255,255,0.25);
+          transform: translate3d(0,1px,0);
+          transition: all 0.025s 0s ease-out;
+        }
+        
+        div.cardsss {
+          margin: 20px auto;
+          max-width: 960px;
+          text-align: center;
+        }
+        
+        div.card {
+          background: white;
+          display: inline-block;
+          margin: 8px;
+          max-width: 300px;
+          perspective: 1000;
+          position: relative;
+          text-align: left;
+          transition: all 0.3s 0s ease-in;
+          width: 300px;
+          z-index: 1;
+        
+          img {
+            max-width: 300px;
+          }
+          
+          .card__image-holder {
+            background: rgba(0,0,0,0.1);
+            height: 0;
+            padding-bottom: 75%;
+          }
+        
+          div.card-title {
+            background: white;
+            padding: 6px 15px 10px;
+            position: relative;
+            z-index: 0;
+            
+            a.toggle-info {
+              border-radius: 32px;
+              height: 32px;
+              padding: 0;
+              position: absolute;
+              right: 15px;
+              top: 10px;
+              width: 32px;
+              
+              span {
+                background: white;
+                display: block;
+                height: 2px;
+                position: absolute;
+                top: 16px;
+                transition: all 0.15s 0s ease-out;
+                width: 12px;
+              }
+              
+              span.left {
+                right: 14px;
+                transform: rotate(43deg);
+              }
+              span.right {
+                left: 14px;
+                transform: rotate(-43deg);
+              }
+            }
+            
+            h2 {
+              height: 30px;
+              font-size: 14px;
+              font-family: metal;
+              color: #1D3557;
+              font-weight: 700;
+              letter-spacing: -0.05em;
+              margin: 0;
+              padding: 0;
+              
+              
+            }
+          }
+        
+          div.card-description {
+            padding: 0 15px 10px;
+            position: relative;
+            font-family: merriwether;
+            font-size: 13px;
+          }
+        
+          div.card-actions {
+              box-shadow: 0 2px 0px 0 rgba(0,0,0,0.075);
+            padding: 10px 15px 20px;
+            text-align: center;
+            font-family: metal;
+          }
+          
+          div.card-flap {
+            background: darken(white,15);
+            position: absolute;
+            width: 100%;
+            transform-origin: top;
+            transform: rotateX(-90deg);
+          }
+          div.flap1 {
+            transition: all 0.3s 0.3s ease-out;
+            z-index: -1;
+          }
+          div.flap2 {
+            transition: all 0.3s 0s ease-out;
+            z-index: -2;
+          }
+          
+        }
+        
+        div.cardsss.showing {
+          div.card {
+            cursor: pointer;
+            opacity: 0.6;
+            transform: scale(0.88);
+          }
+        }
+        
+        .no-touch  div.cardsss.showing {
+          div.card:hover {
+            opacity: 0.94;
+            transform: scale(0.92);
+          }
+        }
+        
+        div.card.show {
+          opacity: 1 !important;
+          transform: scale(1) !important;
+        
+          div.card-title {
+            a.toggle-info {
+              background: salmon !important;
+              span {
+                top: 15px;
+              }
+              span.left {
+                right: 10px;
+              }
+              span.right {
+                left: 10px;
+              }
+            }
+          }
+          div.card-flap {
+            background: white;
+            transform: rotateX(0deg);
+          }
+          div.flap1 {
+            transition: all 0.3s 0s ease-out;
+          }
+          div.flap2 {
+            transition: all 0.3s 0.2s ease-out;
+          }
+        }
+
+        .toggle-info.btn:hover {
+                  span.left {
+                      background: teal;
+                  }
+                  span.right {
+                      background: teal;
+                  }
+              }
+          
+      
+
+
+
+      /* .small-card-x {
+          width: 250px; 
+          background-color: #1D3557;
+          border-radius: 10px;
+          
+          justify-content: center; 
+          align-items: center; 
+          height: 350px; 
+          overflow: hidden;
+          padding: 20px;
+      }
+      .small-card-img {
+          height: 100px;
+          width: 100px;
+          object-fit: cover;
+          border-radius: 50%; 
+      }   */
+
+
+     
+     .bubble
+     {
+      background-color: black;
+     } 
+      .container-y {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
+          margin: 40px 0;
+      }
+      
+      .container-y .card-y {
+          position: relative;
+          width: 300px;
+          height: 400px;
+          background: rgba(255, 255, 255, 0.05);
+          margin: 20px;
+          box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.5);
+          border-radius: 15px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          backdrop-filter: blur(10px);
+      }
+      
+      .container-y .card-y .content-y {
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          transition: 0.5s;
+      }
+      
+      .container-y .card-y:hover .content-y {
+          transform: translateY(-45px);
+      }
+      
+      .container-y .card-y .content-y .imgBx {
+          position: relative;
+          width: 150px;
+          height: 150px;
+          overflow: hidden;
+      }
+      
+      .container-y .card-y .content-y .imgBx img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+      }
+      
+      .container-y .card-y .content-y .contentBx h3 {
+          color: #fff;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          font-weight: 500;
+          font-size: 18px;
+          text-align: center;
+          margin: 20px 0 10px;
+          line-height: 1.1em;
+      }
+      
+      .container-y .card-y .content-y .contentBx h3 span {
+          font-size: 12px;
+          font-weight: 300;
+          text-transform: initial;
+      }
+      
+      .container-y .card-y .sci {
+          position: absolute;
+          bottom: 35px;
+          display: flex;
+      }
+      
+      .container-y .card-y .sci li {
+          list-style: none;
+          margin-top: 0 10px;
+          padding-top: 10px ;
+          transform: translateY(40px);
+          transition: 0.5s;
+          opacity: 0;
+      }
+      
+      .container-y .card-y:hover .sci li {
+          transform: translateY(0px);
+          opacity: 1;
+      }
+      
+      .container-y .card-y .sci li a {
+          color: #fff;
+          font-size: 20px;
+      }
+
+
+
+
+
+      .snip1390 {
+          font-family: metal;
+          position: relative;
+          overflow: hidden;
+          margin: 10px;
+          min-width: 230px;
+          max-width: 315px;
+          width: 100%;
+          color: #000000;
+          text-align: center;
+          font-size: 16px;
+          background-color: #2C3447;
+          border-radius: 15px;
+          padding: 30px;
+          background-image: linear-gradient(-25deg, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+        }
+        .snip1390 *,
+        .snip1390 *:before,
+        .snip1390 *:after {
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+          -webkit-transition: all 0.35s ease;
+          transition: all 0.35s ease;
+        }
+        .snip1390 figcaption {
+          width: 100%;
+        }
+        .snip1390 h2,
+        .snip1390 h4,
+        .snip1390 blockquote {
+          margin: 0;
+        }
+        .snip1390 h2,
+        .snip1390 h4 {
+          font-weight: 50;
+          font-size: 18px;
+        }
+        .snip1390 h2 {
+          color: #ffffff;
+        }
+        .snip1390 h4 {
+          color: #a6a6a6;
+        }
+        .snip1390 blockquote {
+          font-size: 1em;
+          padding: 45px 20px 40px 50px;
+          margin-top: 30px;
+          background-color: #ffffff;
+          border-radius: 5px;
+          box-shadow: inset -1.4px -1.4px 2px rgba(0, 0, 0, 0.3);
+          text-align: left;
+          position: relative;
+        }
+        .snip1390 blockquote:before {
+          font-family: 'FontAwesome';
+          content: "\201C";
+          position: absolute;
+          font-size: 70px;
+          opacity: 0.25;
+          font-style: normal;
+          top: 0px;
+          left: 20px;
+        }
+        .snip1390 .profile {
+          width: 100px;
+          border-radius: 50%;
+          display: inline-block;
+          box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.4);
+          margin-bottom: 10px;
+          border: solid 5px #A6A5
+        }
+
+        /*-----------footer----------------*/
+        .new_footer_area {
+          background: #fbfbfd;
+      }
+      
+      
+      .new_footer_top {
+          padding: 120px 0px 270px;
+          position: relative;
+            overflow-x: hidden;
+      }
+      .new_footer_area .footer_bottom {
+          padding-top: 5px;
+          padding-bottom: 50px;
+      }
+      .footer_bottom {
+          font-size: 14px;
+          font-weight: 300;
+          line-height: 20px;
+          color: #7f88a6;
+          padding: 27px 0px;
+      }
+      .new_footer_top .company_widget p {
+          font-size: 16px;
+          font-weight: 300;
+          line-height: 28px;
+          color: #6a7695;
+          margin-bottom: 20px;
+      }
+      .new_footer_top .company_widget .f_subscribe_two .btn_get {
+          border-width: 1px;
+          margin-top: 20px;
+      }
+      .btn_get_two:hover {
+          background: transparent;
+          color: #5e2ced;
+      }
+      .btn_get:hover {
+          color: #fff;
+          background: #6754e2;
+          border-color: #6754e2;
+          -webkit-box-shadow: none;
+          box-shadow: none;
+      }
+      a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
+          text-decoration: none;
+          outline: none;
+      }
+      
+      
+      
+      .new_footer_top .f_widget.about-widget .f_list li a:hover {
+          color: #5e2ced;
+      }
+      .new_footer_top .f_widget.about-widget .f_list li {
+          margin-bottom: 11px;
+      }
+      .f_widget.about-widget .f_list li:last-child {
+          margin-bottom: 0px;
+      }
+      .f_widget.about-widget .f_list li {
+          margin-bottom: 15px;
+      }
+      .f_widget.about-widget .f_list {
+          margin-bottom: 0px;
+      }
+      .new_footer_top .f_social_icon a {
+          width: 44px;
+          height: 44px;
+          line-height: 43px;
+          background: transparent;
+          border: 1px solid #e2e2eb;
+          font-size: 24px;
+      }
+      .f_social_icon a {
+          width: 46px;
+          height: 46px;
+          border-radius: 50%;
+          font-size: 14px;
+          line-height: 45px;
+          color: #858da8;
+          display: inline-block;
+          background: #ebeef5;
+          text-align: center;
+          -webkit-transition: all 0.2s linear;
+          -o-transition: all 0.2s linear;
+          transition: all 0.2s linear;
+      }
+      .ti-facebook:before {
+          content: "\e741";
+      }
+      .ti-twitter-alt:before {
+          content: "\e74b";
+      }
+      .ti-vimeo-alt:before {
+          content: "\e74a";
+      }
+      .ti-pinterest:before {
+          content: "\e731";
+      }
+      
+      .btn_get_two {
+          -webkit-box-shadow: none;
+          box-shadow: none;
+          background: #5e2ced;
+          border-color: #5e2ced;
+          color: #fff;
+      }
+      
+      .btn_get_two:hover {
+          background: transparent;
+          color: #5e2ced;
+      }
+      
+      .new_footer_top .f_social_icon a:hover {
+          background: #5e2ced;
+          border-color: #5e2ced;
+        color:white;
+      }
+      .new_footer_top .f_social_icon a + a {
+          margin-left: 4px;
+      }
+      .new_footer_top .f-title {
+          margin-bottom: 30px;
+          color: #263b5e;
+      }
+      .f_600 {
+          font-weight: 600;
+      }
+      .f_size_18 {
+          font-size: 18px;
+      }
+      h1, h2, h3, h4, h5, h6 {
+          color: #4b505e;
+      }
+      .new_footer_top .f_widget.about-widget .f_list li a {
+          color: #6a7695;
+      }
+      
+      
+      .new_footer_top .footer_bg {
+          position: absolute;
+          bottom: 0;
+          background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEigB8iI5tb8WSVBuVUGc9UjjB8O0708X7Fdic_4O1LT4CmLHoiwhanLXiRhe82yw0R7LgACQ2IhZaTY0hhmGi0gYp_Ynb49CVzfmXtYHUVKgXXpWvJ_oYT8cB4vzsnJLe3iCwuzj-w6PeYq_JaHmy_CoGoa6nw0FBo-2xLdOPvsLTh_fmYH2xhkaZ-OGQ/s16000/footer_bg.png") no-repeat scroll center 0;
+          width: 100%;
+          height: 266px;
+      }
+      
+      .new_footer_top .footer_bg .footer_bg_one {
+          background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEia0PYPxwT5ifToyP3SNZeQWfJEWrUENYA5IXM6sN5vLwAKvaJS1pQVu8mOFFUa_ET4JuHNTFAxKURFerJYHDUWXLXl1vDofYXuij45JZelYOjEFoCOn7E6Vxu0fwV7ACPzArcno1rYuVxGB7JY6G7__e4_KZW4lTYIaHSLVaVLzklZBLZnQw047oq5-Q/s16000/volks.gif") no-repeat center center;
+          width: 330px;
+          height: 105px;
+        background-size:100%;
+          position: absolute;
+          bottom: 0;
+          left: 30%;
+          -webkit-animation: myfirst 22s linear infinite;
+          animation: myfirst 22s linear infinite;
+      }
+      
+      .new_footer_top .footer_bg .footer_bg_two {
+          background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhyLGwEUVwPK6Vi8xXMymsc-ZXVwLWyXhogZxbcXQYSY55REw_0D4VTQnsVzCrL7nsyjd0P7RVOI5NKJbQ75koZIalD8mqbMquP20fL3DxsWngKkOLOzoOf9sMuxlbyfkIBTsDw5WFUj-YJiI50yzgVjF8cZPHhEjkOP_PRTQXDHEq8AyWpBiJdN9SfQA/s16000/cyclist.gif") no-repeat center center;
+          width: 88px;
+          height: 100px;
+        background-size:100%;
+          bottom: 0;
+          left: 38%;
+          position: absolute;
+          -webkit-animation: myfirst 30s linear infinite;
+          animation: myfirst 30s linear infinite;
+      }
+      
+      
+      
+      @-moz-keyframes myfirst {
+        0% {
+          left: -25%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+      
+      @-webkit-keyframes myfirst {
+        0% {
+          left: -25%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+      
+      @keyframes myfirst {
+        0% {
+          left: -25%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+          
+  </style>
+  </head>
 
 <body>
     <main>
-        <nav class="navbar navbar-expand-lg"style = "background-color:#E9ECEF">
-            <div class="container">
-                <a class="navbar-brand me-lg-5 me-0" href="{% url 'user:home' %}">
-                    <img style="width:90px; height:90px" src="/static/app_common/img/logos/logo2.png" class="logo-image img-fluid" alt="templatemo pod talk">
-                </a>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container" style="height: 80px; width: 100%;">
+                
+                    <a class="navbar-brand me-lg-5 me-0" href="{% url 'user:home' %}">
+                        <img src="/static/app_common/img/logos/logo2.png" class="logo-image img-fluid" style="height: 80px; width: 80px;" alt="templatemo pod talk">
+                    </a>
+                
     
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -122,20 +733,17 @@
                         <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.url_name == 'job-opening' %}active{% endif %}" href="{% url 'user:job-opening' %}">Job Opening</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'contactmessage' %}active{% endif %}" href="{% url 'user:contactmessage' %}">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'user:login' %}">Login</a>
-                        </li>
-                        
                         <li class="nav-item dropdown hhh">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="false">login Here</a>
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink1">
                                 <li><a class="dropdown-item" href="{% url 'user:login' %}">login</a></li>
                                 <li><a class="dropdown-item" href="{% url 'user:signup' %}">signup</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'contactmessage' %}active{% endif %}" href="{% url 'user:contactmessage' %}">Contact</a>
+                        </li>
+                        
                     </ul>
                     
 
@@ -143,400 +751,177 @@
             </div>
         </nav>
     </main>
-    {% block main_content %}
     
-
-   
-    <section>
-       
-            <div class="container-fluid p-0">
-                <div class="row g-0">
-                    <div class="col-lg-12 col-12">
-                        <div class="text-center mb-5 pb-2">
-                            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <img src="{% static 'images/fe2.jpg' %}" class="d-block w-100" height="550rem"  width: 100%; alt="...">
-                                        <div class="carousel-caption d-flex align-items-center">
-                                            <div>
-                                                 {% comment %} <h4>WELCOME TO PRAVATI INTERNATIONAL SERVICES PRIVATE LIMITED</h4> 
-                                                <br>
-                                                <h6>Provide emergency medical care,
-                                                    stabilize patients, and transport them
-                                                    to medical facilities. They respond to
-                                                    emergency calls, perform CPR,
-                                                    administer oxygen, and use
-                                                    defibrillators.</h6>  {% endcomment %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="{% static 'images/f3.jpg' %}" class="d-block w-100" height="550rem"  width: 100%; alt="...">
-                                        <div class="carousel-caption d-flex align-items-center">
-                                            <div>
-                                                {% comment %} <h4>QUALITY SERVICES</h4>
-                                                <h6>Greet and assist visitors, patients, or
-                                                    clients. Answer phone calls and direct
-                                                    them to the appropriate personnel.</h6> {% endcomment %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="{% static 'images/fe1.jpg' %}" class="d-block w-100" height="550rem"  width: 100%; alt="...">
-                                        <div class="carousel-caption d-flex align-items-center">
-                                            <div>
-                                                {% comment %} <h4>PREFOSSIONAL TEAM</h4>
-                                                <h6>We place our clients at the
-                                                    center of everything we do, striving to exceed their
-                                                    expectations and foster long-term relationships.</h6> {% endcomment %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                     <div class="carousel-item">
-                                        <img src="{% static 'images/f5.jpg' %}" class="d-block w-100" height="550rem"  width: 100%; alt="...">
-                                        <div class="carousel-caption d-flex align-items-center">
-                                            <div>
-                                                {% comment %} <h4>PREFOSSIONAL TEAM</h4>
-                                                <h6>We place our clients at the
-                                                    center of everything we do, striving to exceed their
-                                                    expectations and foster long-term relationships.</h6> {% endcomment %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="{% static 'images/f7.jpg' %}" class="d-block w-100" height="550rem"  width: 100%; alt="...">
-                                        <div class="carousel-caption d-flex align-items-center">
-                                            <div>
-                                                {% comment %} <h4>PREFOSSIONAL TEAM</h4>
-                                                <h6>We place our clients at the
-                                                    center of everything we do, striving to exceed their
-                                                    expectations and foster long-term relationships.</h6> {% endcomment %}
-                                            </div>
-                                        </div>
-                                    </div> 
-                                    <div class="carousel-item">
-                                        <img src="{% static 'images/f8.jpg' %}" class="d-block w-100" height="550rem"  width: 100%; alt="...">
-                                        <div class="carousel-caption d-flex align-items-center">
-                                            {% comment %} <div>
-                                                <h4>PREFOSSIONAL TEAM</h4>
-                                                <h6>We place our clients at the
-                                                    center of everything we do, striving to exceed their
-                                                    expectations and foster long-term relationships.</h6>
-                                            </div> {% endcomment %}
-                                        </div>
-                                    </div> 
-                                    <div class="carousel-item">
-                                        <img src="{% static 'images/j14.jpg' %}" class="d-block w-100" height="550rem"  width: 100%; alt="...">
-                                        <div class="carousel-caption d-flex align-items-center">
-                                            {% comment %} <div>
-                                                <h4>PREFOSSIONAL TEAM</h4>
-                                                <h6>We place our clients at the
-                                                    center of everything we do, striving to exceed their
-                                                    expectations and foster long-term relationships.</h6>
-                                            </div> {% endcomment %}
-                                        </div>
-                                    </div> 
-                                    <div class="carousel-item">
-                                        <img src="{% static 'images/j13.jpg' %}" class="d-block w-100" height="550rem"  width: 100%; alt="...">
-                                        <div class="carousel-caption d-flex align-items-center">
-                                            {% comment %} <div>
-                                                <h4>SECURITY</h4>
-                                                <h6>Expert Guidance on Establishing and Operating a Successful Security Company, 
-                                                    Ensuring Top-Level Protection and
-                                                     Peace of Mind for Your Clients. Secure Your Path to Success Today!</h6>
-                                            </div> {% endcomment %}
-                                        </div>
-                                    </div> 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-            <!-- Bootstrap JS -->
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-     
-                                {% comment %} <div class="carousel-item">
-                                    <img src="{% static 'images/dd4.jpg' %}" class="d-block w-100" height="600rem" width="60%" alt="...">
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <h5  style="color: #03fcad;">Innovative Solutions</h5>
-                                        <p  style="color: #03fcad;"><b>Perform various administrative
-                                            functions such as data management,
-                                            filing, and document preparation.</b></p>
-                                    </div>
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="{% static 'images/dd5.0.jpg' %}" class="d-block w-100" height="600rem" width="60%" alt="...">
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <h5  style="color: #03fcad;">Customer Satisfaction</h5>
-                                        <p  style="color: #03fcad;"><b>Greet and assist visitors, patients, or
-                                            clients. Answer phone calls and direct
-                                            them to the appropriate personnel.<b/>
-                                            </p>
-                                    </div>
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="{% static 'images/dd6.jpg' %}" class="d-block w-100" height="600rem" width="60%" alt="...">
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <h5 style="color:#DB484A">Reliable Support</h5>
-                                        <p  style="color:#D71315"><b>We place our clients at the
-                                            center of everything we do, striving to exceed their
-                                            expectations and foster long-term relationships.</b>
-                                            </p>
-                                    </div>
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="{% static 'images/dd7.1.jpg' %}" class="d-block w-100" height="600rem" width="60%" alt="...">
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <h5 style="color:#DB484A">Comprehensive Services</h5>
-                                        <p  style="color:#D71315"><b>Perform various administrative
-                                            functions such as data management,
-                                            filing, and document preparation.</b></p>
-                                    </div>
-                                </div> {% endcomment %}
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                            
-                     <!--   </div>
-                        <h3 class="text-black">WELCOME TO PRAVATI INTERNATIONAL</h3>
-                        <h3 class="text-black">SERVICES PRIVATE LIMITED</h3>
-                
-                        <!-- <a href="#section_2" class="btn custom-btn smoothscroll mt-3">Click Here</a> -->
-                    </div> 
-                
-                   
-                </div>
-                
     
-            </div>
-        </div>
-    </section>
-    <!-- About us Start-->
-    <section class="py-1 py-md-1">
-        <div class="container">
-            <div class="row gy-3 gy-md-4 align-items-center">
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <h3 style="color:#1D3557; font-family: 'Open Sans', sans-serif; margin-left: 30px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block;  margin-bottom: 30px;">ABOUT US</h3>
-                        
-                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 16px; margin-left: 30px; text-align: justify;">Pravati International Service Private Limited is a leading provider of manpower outsourcing services, catering to a diverse range of sectors including reputed hospitals, hotels, schools, government offices, NGOs, and manufacturing companies. Our extensive experience and commitment to excellence make us a trusted partner for organizations seeking to enhance their operational efficiency and focus on their core activities.Our mission is to deliver high quality manpower solutions that
-                            meet the unique needs of our
-                            clients, enabling them to achieve
-                            their strategic goals. We strive to
-                            provide a seamless and reliable
-                            service that ensures the right
-                            talent is placed in the right roles,
-                            contributing to the overall
-                            success of our clients.</p>
-                        
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6 d-flex justify-content-center">
-                    <img class="img-fluid rounded" loading="lazy" src="{% static 'images/s9.jpg' %}" alt="About 1" style="width: 100%; max-width: 500px;">
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- About us End-->
-    
-     <!-- Service Start-->
-     <div class="container mt-4">
-        <h3 style="color:#1D3557; font-family: 'Open Sans', sans-serif; margin-left: 30px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; margin-bottom: 50px;">OUR SERVICES</h3>
-        <div class="row">
-            <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-square">
-                <div class="card" style="width: 100%;">
-                    <img class="card-img-top" src="{% static 'images/s1.jpg' %}" alt="Service Image 1">
-                    <div class="card-body">
-                        <p style="color: #000000; font-family: 'Open Sans', sans-serif;font-size: 17px;font-weight: bold;">PARAMEDICAL STAFF
-                        </p>
-                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 15px; ">Highly trained paramedical staff delivering top-notch care, ensuring patient safety and comfort at all times.</p>
-                        <br>
-                            <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
-                       
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
-                <div class="card" style="width: 100%;">
-                    <img class="card-img-top" src="{% static 'images/m1.jpg' %}" alt="Service Image 2">
-                    <div class="card-body">
-                        <p style="color: #000000; font-family: 'Open Sans', sans-serif;font-size: 17px;font-weight: bold;">HOUSEKEEPING</p>
-                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 15px; ">Maintaining cleanliness and order through professional services, ensuring hygienic, comfortable, and welcoming environments in various settings.</p>
-                       
-                            <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
-                        
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
-                <div class="card" style="width: 100%;">
-                    <img class="card-img-top" src="{% static 'images/m2.jpg' %}" alt="Service Image 3">
-                    <div class="card-body">
-                        <p style="color: #000000; font-family: 'Open Sans', sans-serif;font-size: 17px;font-weight: bold;">BEDSIDE PATIENT ATTENDANT
-                        </p>
-                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 15px; ">Providing compassionate care and support, ensuring patient comfort and well-being with professional bedside assistance.</p>
-                            <br>
-                        <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
-                <div class="card" style="width: 100%;">
-                    <img class="card-img-top" src="{% static 'images/m3.jpg' %}" alt="Service Image 4">
-                    <div class="card-body">
-                        <p style="color: #000000; font-family: 'Open Sans', sans-serif;font-size: 17px;font-weight: bold;">HOME NURSING
-                        </p>
-                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 15px; "> home nursing services offering personalized care, medical assistance, and support for patients in the comfort of their homes.</p>
-                        <br>
-                        <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
-                <div class="card" style="width: 100%;">
-                    <img class="card-img-top" src="{% static 'images/m5.jpg' %}" alt="Service Image 2">
-                    <div class="card-body">
-                        <p style="color: #000000; font-family: 'Open Sans', sans-serif;font-size: 17px;font-weight: bold;">DATA ENTRY, FRONT  & BACK OFFICE
-                        </p>
-                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 15px; ">Efficient data entry, organized front office, and streamlined back office operations for optimal business functionality.</p>
-                        <br>
-                        <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
-                       
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
-                <div class="card" style="width: 100%;">
-                    <img class="card-img-top" src="{% static 'images/m4.jpg' %}" alt="Service Image 2">
-                    <div class="card-body">
-                        <p style="color: #000000; font-family: 'Open Sans', sans-serif;font-size: 17px;font-weight: bold;">ITI, DIPLOMA, DEGREE ENGINEER</p>
-                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 15px; ">ITI for technical skills, Diploma for intermediate expertise, Degree Engineer for advanced engineering knowledge.</p>
-                        {% comment %} <div class="mt-auto d-flex justify-content-center"> {% endcomment %}<br><br>
-                            <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
-                        {% comment %} </div> {% endcomment %}
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
-                <div class="card" style="width: 100%;">
-                    <img class="card-img-top" src="{% static 'images/m6.jpg' %}" alt="Service Image 2">
-                    <div class="card-body">
-                        <p style="color: #000000; font-family: 'Open Sans', sans-serif;font-size: 17px;font-weight: bold;">FIRE SAFETY & OFFICE BOY
-                        </p>
-                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 15px; ">Fire Safety ensures workplace safety; Office Boy supports daily office tasks, ensuring smooth operations and cleanliness.       </p>
-                      <br><br>
-                            <a href="#" class="btn btn-primary" style="background-color:#D05329;border:none">More Details</a>
-                        
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
-                <div class="card" style="width: 100%;">
-                    <img class="card-img-top" src="{% static 'images/sec2.jpg' %}" alt="Service Image 2">
-                    <div class="card-body">
-                        <p style="color: #000000; font-family: 'Open Sans', sans-serif;font-size: 17px;font-weight: bold;">SECURITY
-                        </p>
-                        <p style="color: #000000; font-family: 'Montserrat', sans-serif; font-size: 15px; ">
-                            Security: Ensuring safety and protection for individuals, property, and information through professional services.  </p>
-                      <br><br>
-                            <a href="#" class="btn btn-primary" style="background-color:#D05329;border:none">More Details</a>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="container mt-4">
-        <h3 style="color:#1D3557; font-family: 'Open Sans', sans-serif; margin-left: 30px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; margin-bottom: 50px;">INDUSTRIES WE SERVE</h3>
+    <!-- <div class="container-x mt-4">
+        <h3 style="color:#1D3557; font-family: metal; margin-left: 30px; border-bottom: 2px solid #1D3557; padding-bottom: 5px; display: inline-block; margin-bottom: 50px;">INDUSTRIES WE SERVE</h3>
         <div class="row">
             <div class="col-6 col-md-4 col-lg-2 mb-4">
-                <div class="card small-card">
+                <div class="card-x small-card-x">
                     <img class="card-img-top small-card-img" src="{% static 'images/s2.jpg' %}" alt="Healthcare Industry">
-                    <div class="card-body">
-                        <h6 class="card-title"  style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">HOSPITAL</h6>
-                        <p class="card-text" style="color:#fff; font-family: 'Montserrat', sans-serif; font-size: 15px;">Local hospital celebrates milestone, saving lives with cutting-edge technology, dedicated staff, and compassionate care.</p>
+                    <div class="card-body-x">
+                        <h6 class="card-title-x"  style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">HOSPITAL</h6>
+                        <p class="card-text-x" style="color:#fff; font-family: 'Montserrat', sans-serif; font-size: 15px;">Local hospital celebrates milestone, saving lives with cutting-edge technology, dedicated staff, and compassionate care.</p>
                     </div>
                 </div>
             </div>
             <div class="col-16 col-md-4 col-lg-2 mb-4">
-                <div class="card small-card">
+                <div class="card-x small-card-x">
                     <img class="card-img-top small-card-img" src="{% static 'images/s3.jpg' %}" alt="Healthcare Industry">
-                    <div class="card-body">
-                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">HOTEL</h6>
-                        <p class="card-text" style="color:#fff; font-family: 'Montserrat', sans-serif; font-size: 15px;">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
+                    <div class="card-body-x">
+                        <h6 class="card-title-x" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">HOTEL</h6>
+                        <p class="card-text-x" style="color:#fff; font-family: 'Montserrat', sans-serif; font-size: 15px;">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
                     </div>
                 </div>
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-4">
-                <div class="card small-card">
+                <div class="card-x small-card-x">
                     <img class="card-img-top small-card-img" src="{% static 'images/s4.jpg' %}" alt="Healthcare Industry">
-                    <div class="card-body">
-                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">SCHOOL</h6>
-                        <p class="card-text" style="color:#fff;font-family: 'Montserrat', sans-serif; font-size: 15px;">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
+                    <div class="card-body-x">
+                        <h6 class="card-title-x" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">SCHOOL</h6>
+                        <p class="card-text-x" style="color:#fff;font-family: 'Montserrat', sans-serif; font-size: 15px;">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
                     </div>
                 </div>
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-4">
-                <div class="card small-card">
+                <div class="card-x small-card-x">
                     <img class="card-img-top small-card-img" src="{% static 'images/s5.jpg' %}" alt="Healthcare Industry">
-                    <div class="card-body">
-                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">GOVT. OFFICES</h6>
-                        <p class="card-text" style="color:#fff;font-family: 'Montserrat', sans-serif; font-size: 15px;">Government Offices Streamline Services with New Online Portal for Efficiency.</p>
+                    <div class="card-body-x">
+                        <h6 class="card-title-x" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">GOVT. OFFICES</h6>
+                        <p class="card-text-x" style="color:#fff;font-family: 'Montserrat', sans-serif; font-size: 15px;">Government Offices Streamline Services with New Online Portal for Efficiency.</p>
                     </div>
                 </div>
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-4">
-                <div class="card small-card">
+                <div class="card-x small-card-x">
                     <img class="card-img-top small-card-img" src="{% static 'images/s6.jpg' %}" alt="Healthcare Industry">
-                    <div class="card-body">
-                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">NGO
+                    <div class="card-body-x">
+                        <h6 class="card-title-x" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">NGO
                         </h6>
-                        <p class="card-text" style="color:#fff; font-family: 'Montserrat', sans-serif; font-size: 15px;">NGO Launches Initiative to Empower Underprivileged Youth through Education</p>
+                        <p class="card-text-x" style="color:#fff; font-family: 'Montserrat', sans-serif; font-size: 15px;">NGO Launches Initiative to Empower Underprivileged Youth through Education</p>
                     </div>
                 </div>
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-4">
-                <div class="card small-card">
+                <div class="card-x small-card-x">
                     <img class="card-img-top small-card-img" src="{% static 'images/s7.jpg' %}" alt="Healthcare Industry">
-                    <div class="card-body">
-                        <h6 class="card-title" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">MANUFACTURING
+                    <div class="card-body-x">
+                        <h6 class="card-title-x" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">MANUFACTURING
                             COMPANY</h6>
-                        <p class="card-text" style="color:#fff;font-family: 'Montserrat', sans-serif; font-size: 15px;">Manufacturing Company Unveils Eco-Friendly Production Line, Reducing Carbon Footprint.</p>
+                        <p class="card-text-x" style="color:#fff;font-family: 'Montserrat', sans-serif; font-size: 15px;">Manufacturing Company Unveils Eco-Friendly Production Line, Reducing Carbon Footprint.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- ..................................................................................................................-->
-    <!-- Carousel wrapper -->
-    <div id="carouselMultiItemExample" data-mdb-carousel-init class="carousel slide carousel-dark text-center" data-mdb-ride="carousel">
-      <!-- Controls -->
-      {% comment %} <div class="d-flex justify-content-center mb-4">
-        <button data-mdb-button-init class="carousel-control-prev position-relative" type="button"
-          data-mdb-target="#carouselMultiItemExample" data-mdb-slide="prev">
-          <span class="carousel-control-prev-icon text-body" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button data-mdb-button-init class="carousel-control-next position-relative" type="button"
-          data-mdb-target="#carouselMultiItemExample" data-mdb-slide="next">
-          <span class="carousel-control-next-icon text-body" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div> {% endcomment %}
-      <!-- Inner -->
-      <div class="carousel-inner py-4">
-        <!-- Single item -->
+     -->
+
+
+   <!-- <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-square">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/s1.jpg' %}" alt="Service Image 1">
+                <div class="card-body">
+                    <p style="color: #1D3557; font-family: 'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">ALL PARAMEDICAL STAFF
+                    </p>
+                    <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Highly trained paramedical staff delivering top-notch care, ensuring patient safety and comfort at all times.</p>
+                    <br>
+                        <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/m1.jpg' %}" alt="Service Image 2">
+                <div class="card-body">
+                    <p  style="color: #1D3557; font-family: 'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">HOUSEKEEPING</p>
+                    <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Maintaining cleanliness and order through professional services, ensuring hygienic, comfortable, and welcoming environments in various settings.</p>
+                   
+                        <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/m2.jpg' %}" alt="Service Image 3">
+                <div class="card-body">
+                    <hp style="color: #1D3557; font-family: 'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">BEDSIDE PARIENT ATTENDANT
+                    </p>
+                    <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Providing compassionate care and support, ensuring patient comfort and well-being with professional bedside assistance.</p>
+                        <br>
+                    <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/m3.jpg' %}" alt="Service Image 4">
+                <div class="card-body">
+                    <p style="color:#1D3557; font-family:'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">HOME NURSING
+                    </p>
+                    <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;"> home nursing services offering personalized care, medical assistance, and support for patients in the comfort of their homes.</p>
+                    <br>
+                    <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/m5.jpg' %}" alt="Service Image 2">
+                <div class="card-body">
+                    <p style="color: #1D3557; font-family:'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">DATA ENTRY, FRONT  & BACK OFFICE
+                    </p>
+                    <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Efficient data entry, organized front office, and streamlined back office operations for optimal business functionality.</p>
+                    <br>
+                    <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/m4.jpg' %}" alt="Service Image 2">
+                <div class="card-body">
+                    <p  style="color: #1D3557; font-family: 'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">ITI, DIPLOMA, DEGREE ENGINEER</p>
+                    <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">ITI for technical skills, Diploma for intermediate expertise, Degree Engineer for advanced engineering knowledge.</p>
+                    {% comment %} <div class="mt-auto d-flex justify-content-center"> {% endcomment %}<br>
+                        <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
+                    {% comment %} </div> {% endcomment %}
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/m6.jpg' %}" alt="Service Image 2">
+                <div class="card-body">
+                    <p  style="color: #1D3557; font-family:'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">FIRE SAFETY & OFFICE BOY
+                    </p>
+                    <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Fire Safety ensures workplace safety; Office Boy supports daily office tasks, ensuring smooth operations and cleanliness.       </p>
+                  <br>
+                        <a href="#" class="btn btn-primary" style="background-color:#D05329;border:none">More Details</a>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/sec2.jpg' %}" alt="Service Image 2">
+                <div class="card-body">
+                    <p  style="color: #1D3557; font-family:'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">SECURITY
+                    </p>
+                    <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">
+                        Security: Ensuring safety and protection for individuals, property, and information through professional services.  </p>
+                  <br>
+                        <a href="#" class="btn btn-primary" style="background-color:#D05329;border:none">More Details</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>  -->
+   
+      <!-- <div class="carousel-inner py-4">
+        
         <div class="carousel-item active">
           <div class="container">
             <h3  style="color:#1D3557; font-family: 'Open Sans', sans-serif; margin-left: 30px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; text-align: left; margin-bottom: 40px;margin-top: 40px;">CUSTOMER SPEECH</h3>
@@ -607,7 +992,7 @@
           </div>
         </div>
     
-        <!-- Single item -->
+      
         <div class="carousel-item">
           <div class="container">
             <div class="row">
@@ -676,7 +1061,7 @@
           </div>
         </div>
     
-        <!-- Single item -->
+       
         <div class="carousel-item">
           <div class="container">
             <div class="row">
@@ -744,77 +1129,139 @@
             </div>
           </div>
         </div>
-      </div>
-      <!-- Inner -->
-    </div>
-    <!-- Carousel wrapper -->
-    <!--.......................................................................................................................-->
-    <section class="latest-podcast-section section-padding pb-0" id="section_2">
-        <div class="container">
-            <div class="row justify-content-center">
+      </div> -->
+      
     
+    
+    
+    {% block main_content %}
+      
+    {% endblock main_content %}
+
+    <footer class="new_footer_area bg_color">
+        <div class="new_footer_top">
+            <div class="container px-4">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="f_widget company_widget wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Get in Touch</h3>
+                            <p>Don’t miss any updates of our new templates and extensions.!</p>
+                            <form action="#" class="f_subscribe_two mailchimp" method="post" novalidate="true" _lpchecked="1">
+                                <input type="text" name="EMAIL" class="form-control memail" placeholder="Email">
+                                <button class="btn btn_get btn_get_two" type="submit">Subscribe</button>
+                                <p class="mchimp-errmessage" style="display: none;"></p>
+                                <p class="mchimp-sucmessage" style="display: none;"></p>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Download</h3>
+                            <ul class="list-unstyled f_list">
+                                <li><a href="#">Company</a></li>
+                                <li><a href="#">Android App</a></li>
+                                <li><a href="#">ios App</a></li>
+                                <li><a href="#">Desktop</a></li>
+                                <li><a href="#">Projects</a></li>
+                                <li><a href="#">My tasks</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Help</h3>
+                            <ul class="list-unstyled f_list">
+                                <li><a href="#">FAQ</a></li>
+                                <li><a href="#">Term &amp; conditions</a></li>
+                                <li><a href="#">Reporting</a></li>
+                                <li><a href="#">Documentation</a></li>
+                                <li><a href="#">Support Policy</a></li>
+                                <li><a href="#">Privacy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="f_widget social-widget pl_70 wow fadeInLeft" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Team Solutions</h3>
+                            <div class="f_social_icon">
+                                <a href="#" class="fab fa-facebook"></a>
+                                <a href="#" class="fab fa-twitter"></a>
+                                <a href="#" class="fab fa-linkedin"></a>
+                                <a href="#" class="fab fa-pinterest"></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-    
-    
+            </div>
+            <div class="footer_bg">
+                <div class="footer_bg_one"></div>
+                <div class="footer_bg_two"></div>
             </div>
         </div>
-    </section>
-    <!-- Category wise products -->
-    
-              
-                        {% for category in category_obj %}
-                        <div><a href="{% url 'admin_dashboard:catagory_list' %}" class="category-link" data-category="{{ category.title }}">{{ category.title }}</a>
-                        </div>
-                        {% endfor %}
+        <div class="footer_bottom">
+            <div class="container px-4">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-sm-7">
+                        <p class="mb-0 f_400">© Pravati International 2024 All rights reserved.</p>
+                    </div>
+                    <div class="col-lg-6 col-sm-5 text-right">
+                        <p class="d-flex justify-content-end">Made with <i class="icon_heart"></i> in <a href="http://cakecounter.com" target="_blank">Techaviait</a></p>
                     </div>
                 </div>
             </div>
         </div>
-    
-        <div class="container" >
-            <div class="row" id="productList">
-                
-            </div>
-        </div>
-    
-    </section>
-    
-    
-            </div>
-        </div>
-    </section>
-    {% endblock main_content %}
-    
+    </footer>
 
 
-    <footer class="site-footer mt-0 pt-0 mb-0 pb-0 ">
-        <!-- Section: Social media -->
+    {% block js_block %}
+    
+    <!-- <footer class="site-footer mt-0 pt-0 mb-0 pb-0 ">
        
+        <section class="d-flex justify-content-center justify-content-lg-between p-0 border-bottom bg-white">
+            
+            {% comment %} <div class="me-5 d-none d-lg-block">
+                <h6 style="color:#1D3557; font-family: 'Montserrat',">Get connected with us on social networks : <h6>
+            </div> {% endcomment %}
+           
+
+            {% comment %} <div>
+                <a href="" class="me-4 text-reset">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="" class="me-4 text-reset">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="me-4 text-reset">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="" class="me-4 text-reset">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div> {% endcomment %}
+            
+        </section>
         
 
-        <!-- Section: Links  -->
+       
         <section class= >
-            <div class="container text-center text-md-start mt-5 bg-white">
-                <!-- Grid row -->
+            <div class="container text-center text-md-start mt-5 ">
+                
                 <div class="row mt-3">
-                    <!-- Grid column -->
+                   
                     <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                        <!-- Content -->
-                        <h6 style="color:#1D3557;font-family: 'Open Sans', sans-serif;">
-                     <!--    <img src="{% static 'images/audio_logo.png' %}" class="logo-image img-fluid mb-2"  
-                        alt="templatemo pod talk" style="height: 50px; width: 50px;"> -->Pravati International Pvt.Ltd.
+                        
+                        <h6 style="color:#1D3557; font-family: 'Montserrat',">
+                     <br>Pravati International Pvt.Ltd.
                         </h6>
                         <p class="text-black">
                             {% comment %} Always believe yourself {% endcomment %}
                         </p>
                     </div>
-                    <!-- Grid column -->
-
-                    <!-- Grid column -->
-                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-3">
-                        <!-- Links -->
-                        <h6 style="color:#1D3557; font-family: 'Open Sans', sans-serif;">
-                            Our Services
+                    
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                       
+                        <h6  style="color:#1D3557; font-family: 'Montserrat',">
+                           Our Services
                         </h6>
                         <ul class="custom-bullets">
                             <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">All Paramedical Staff</a></li>
@@ -827,9 +1274,9 @@
                         </ul>
                     </div>
                     
-                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-3">
-                        <!-- Links -->
-                        <h6 style="color:#1D3557; font-family: 'Open Sans', sans-serif;">
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-5">
+                        
+                        <h6  style="color:#1D3557; font-family: 'Montserrat',">
                             Useful links
                         </h6>
                         <ul class="custom-bullets">
@@ -839,21 +1286,36 @@
                             <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">Contact</a></li>
                         </ul>
                     </div>
-                    
-                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-3">
-                        <!-- Links -->
-                        <h6 style="color:#1D3557; font-family: 'Open Sans', sans-serif;">Contact</h6>
-                        <p style="color: #000000; font-family: 'Montserrat', sans-serif;"><i class="fas fa-home me-3"></i>Friends Colony Mangalabag, Cuttack - 753001</p>
-                        <p style="color: #000000; font-family: 'Montserrat', sans-serif;"><i class="fas fa-envelope me-3"></i>pravatiservices643@gmail.com</p>
-                        <p style="color: #000000; font-family: 'Montserrat', sans-serif;"><i class="fas fa-phone me-3"></i>+91 9114790643</p>
-                        <p style="color: #000000; font-family: 'Montserrat', sans-serif;"><i class="fas fa-phone me-3"></i>+91 9668790643</p>
+                   
+                    <div  class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4 ">
+                        
+                        <h6 style="color:#1D3557; font-family: 'Montserrat',">Contact</h6>
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif;"><i class="fas fa-home me-3"></i>Friends Colony Mangalabag, Cuttack - 753001</p>
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif;">
+                            <i class="fas fa-envelope me-3"></i>
+                                                                pravatiservices643@gmail.com
+                                              </p>
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif;"><i class="fas fa-phone me-3"></i> +91 9114790643</p>
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif;"><i class="fas fa-phone me-3"></i> +91 9668790643</p>
+                  
+                       
                     </div>
-                    
-        <!-- Copyright -->
-    </footer>
+                  
+                </div>
+               
+            </div>
+        </section>
+       
 
+        
+        <div class="text-center p-0" style="background-color: rgba(0, 0, 0, 0.05);">
+           
 
-    {% block js_block %}
+        </div>
+        
+    </footer> -->
+
+   
 
     
     <!-- JAVASCRIPT FILES -->
@@ -900,7 +1362,54 @@
                 }
             });
         });
+
+
+
+
+
+
+
+
+
+
+
+        $(document).ready(function() {
+            var zindex = 10;
+          
+            $("div.card").click(function(e) {
+              e.preventDefault();
+          
+              var isShowing = false;
+          
+              if ($(this).hasClass("show")) {
+                isShowing = true;
+              }
+          
+              if ($("div.cardsss").hasClass("showing")) {
+                // A card is already in view
+                $("div.card.show").removeClass("show");
+          
+                if (isShowing) {
+                  // This card was showing - reset the grid
+                  $("div.cardsss").removeClass("showing");
+                } else {
+                  // This card isn't showing - get in with it
+                  $(this).css({ zIndex: zindex }).addClass("show");
+                }
+          
+                zindex++;
+              } else {
+                // No cards in view
+                $("div.cardsss").addClass("showing");
+                $(this).css({ zIndex: zindex }).addClass("show");
+          
+                zindex++;
+              }
+            });
+          });
+          
     </script>
+    
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>

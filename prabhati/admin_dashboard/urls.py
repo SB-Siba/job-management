@@ -41,15 +41,17 @@ urlpatterns = [
 
     # #product web
     path("job/job_list/", job.JobList.as_view(), name="job_list"),
-    path('jobs/<int:job_id>/publish/', job.JobPublish.as_view(), name='job_publish'),
-    path('jobs/<int:job_id>/unpublish/', job.JobUnpublish.as_view(), name='job_unpublish'),
+    # path('jobs/<int:job_id>/publish/', job.JobPublish.as_view(), name='job_publish'),
+    # path('jobs/<int:job_id>/unpublish/', job.JobUnpublish.as_view(), name='job_unpublish'),
     path('applications/', job.ApplicationList.as_view(), name='application_list'),
     path("job/job_search/", job.JobSearch.as_view(), name="job_search"),
     path('job/job_filter/', job.JobFilter.as_view(), name='job_filter'),
-    path('job/job_detail/<int:job_uid>/', job.JobDetail.as_view(), name='job_detail'),
+    path('job/job_detail/<int:job_id>/', job.JobDetail.as_view(), name='job_detail'),
     path('job/job_add/', job.JobAdd.as_view(), name='job_add'),
-    path('job/job_update/<int:job_id>/', job.JobUpdate.as_view(), name='job_update'),
-    path('job/job_delete/<int:job_uid>/', job.JobDelete.as_view(), name='job_delete'),
+    path('jobs/<int:job_id>/edit/', job.JobEdit.as_view(), name='job_edit'),
+
+    # path('job/job_update/<int:job_id>/', job.JobUpdate.as_view(), name='job_update'),
+    path('job/job_delete/<int:job_id>/', job.JobDelete.as_view(), name='job_delete'),
     # #product_api
     
 

@@ -38,7 +38,7 @@ app = "user/"
 class HomeView(View):
     template_client = app + 'client_home.html'
     template_user = app + 'home1.html'
-    unauthenticated_template = app + 'landing_page.html'
+    unauthenticated_template = app + 'home_for_landing.html'
 
     def get(self, request):
         user = request.user
@@ -49,17 +49,17 @@ class HomeView(View):
 
         welcome_message = f"Welcome, {user.full_name}!"
 
-        if hasattr(user, 'client_profile'):
-            client = user.client_profile
-            jobs = client.jobs.all()  # Assuming you have a related_name='jobs' in Client model
-            applications = Application.objects.filter(job__client=client)  # Adjust as per your Application model setup
-            context = {
-                'client': client,
-                'jobs': jobs,
-                'applications': applications,
-                'welcome_message': welcome_message
-            }
-            return render(request, self.template_client, context)
+        if user.is_staff:  # Check if user is marked as client (is_staff)
+            # client = get_object_or_404(ClientProfile, user=user)  # Get the client profile
+            # jobs = client.jobs.all()  # Assuming you have a related_name='jobs' in Client model
+            # applications = Application.objects.filter(job__client=client)  # Adjust as per your Application model setup
+            # context = {
+            #     # 'client': client,
+            #     'jobs': jobs,
+            #     'applications': applications,
+            #     'welcome_message': f"Welcome, {user.full_name}!"
+            # }
+            return render(request, self.template_client)
 
         # If user is authenticated but not a client, treat as candidate
         job_list = Job.objects.filter(published=True, expiry_date__gt=timezone.now()).order_by('-id')
@@ -313,6 +313,52 @@ class JobOpening(View):
     def get(self,request):
         return render(request,self.template)
 
+
+@method_decorator(login_required, name='dispatch')
+class PostJob(View):
+    template_name = app + 'client/post_job.html'
+    def get(self, request):
+        form = JobForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = JobForm(request.POST, request.FILES)
+        if form.is_valid():
+            job = form.save(commit=False)
+            job.client = request.user
+            job.save()
+            messages.success(request, f'Job "{job.title}" posted successfully.')
+            return redirect('client_job_list')
+        return render(request, self.template_name, {'form': form})
+
+
+@method_decorator(login_required, name='dispatch')
+class ClientJobList(View):
+    template_name = app + 'client/job_list.html'
+    
+    def get(self, request):
+        job_list = Job.objects.filter(client=request.user).order_by('-id')
+        paginated_data = paginate(request, job_list, 50)
+        context = {
+            "job_list": job_list,
+            "data_list": paginated_data
+        }
+        return render(request, self.template_name, context)
+
+
+@method_decorator(login_required, name='dispatch')
+class JobDetail(View):
+    template_name = app + 'client/job_detail.html'
+    
+    def get(self, request, job_id):
+        job = get_object_or_404(Job, id=job_id)
+        if job.client != request.user:
+            messages.error(request, "You do not have permission to view this job.")
+            return redirect('client_job_list')
+        context = {
+            "job": job
+        }
+        return render(request, self.template_name, context)
 
 class ThankYou(View):
     template = app + "thankyoupage.html"

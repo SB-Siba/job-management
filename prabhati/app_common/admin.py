@@ -23,8 +23,8 @@ class CatagoryAdmin(admin.ModelAdmin):
 
 @admin.register(models.Job)
 class JobAdmin(admin.ModelAdmin):
-    list_display = ('catagory', 'company_name', 'location', 'vacancies', 'published', 'posted_at', 'updated_at')
-    list_filter = ('published', 'location')
+    list_display = ('catagory', 'company_name', 'location', 'vacancies',  'posted_at', 'updated_at')
+    list_filter = ('catagory','location')
     search_fields = ('title', 'description', 'location', 'company_name')
     actions = ['publish_jobs', 'unpublish_jobs']
 
