@@ -1,0 +1,20 @@
+{% load static %}
+<div class="">
+    {% comment %} <a class="d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+      <div class="d-none d-sm-block ms-3">
+        <span class="h6">{{request.user.email}}</span>
+      </div> {% endcomment %}
+      {% comment %} <div class="d-none d-md-block ms-md-2">
+        <i class="bi bi-chevron-down text-muted text-xs"></i>
+      </div>
+    </a> {% endcomment %}
+    {% comment %} <div class="dropdown-menu dropdown-menu-end">
+      <div class="dropdown-divider">
+      </div>
+      <div class="dropdown-divider">
+      </div> {% endcomment %}
+      {% comment %} <a class="dropdown-item" href="{% url 'user:logout' %}">
+        <i class="bi bi-box-arrow-up me-3">
+        </i>Logout </a> {% endcomment %}
+    </div>
+  

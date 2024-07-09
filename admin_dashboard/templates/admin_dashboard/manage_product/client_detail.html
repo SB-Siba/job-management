@@ -1,0 +1,19 @@
+{% extends 'admin_dashboard/starter.html' %}
+{% block content %}
+  <h1>{{ client.full_name }}'s Details</h1>
+  
+  <h2>Jobs</h2>
+  <ul>
+    {% for job in jobs %}
+      <li>
+        <strong>{{ job.title }}</strong>
+        <br>
+        <p>Total Applications: {{ total_applications }}</p>
+        
+        <p>Total Employees: {{ total_employees }}</p>
+      </li>
+    {% empty %}
+      <li>No jobs found for this client.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

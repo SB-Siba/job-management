@@ -1,0 +1,1420 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>{% block title %}Home Page{% endblock title %}</title>
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+2VbM5rtGx8e8vgKVSuFy4K47R6JwSwUKF1WDEw" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Sono:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/templatemo-pod-talk.css' %}">
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- JavaScript Files -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js" integrity="sha512-DjVn6YYFZJNS+JeSXZfQ2URFQ1TOH14NqxFCOOYDYePyoTYuGIdPGnHEy9blLVJYijmBntjN2y5XTTZ4pTw60w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fPOxyf8a+pV/h5vN8yrRtSKfPe/DMAqz6Z5s5Pp63ZZhVkZf5VIJ2ZlC8kr7U5UZ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    
+    <style>
+      .gfg { 
+          position: absolute; 
+          top: 80%; 
+          left: 40%; 
+          text-align: center; 
+          color: rgb(248, 248, 228); 
+          font-size: 25px; 
+          font-weight: 700; 
+      } 
+        
+      .box-1:hover .overlaytext { 
+          bottom: 0; 
+          height: 100%; 
+          width: 100%; 
+      } 
+        
+      .overlaytext { 
+          position: absolute; 
+          bottom: 50%; 
+          left: 0; 
+          right: 0; 
+          overflow: hidden; 
+          width: 100%; 
+          height: 0; 
+          transition: .8s ease; 
+          background-repeat: no-repeat; 
+          background-size: cover; 
+          background-position: center;
+          background-image: url('{% static "images/Heading.png" %}');
+
+      } 
+        
+      .box-1 { 
+          position: relative; 
+          width: 50%; 
+      } 
+        
+      img { 
+          width: 100%; 
+          height: auto; 
+      }
+
+
+      .big-box-1::before {  
+          transform: scaleX(0);
+          transform-origin: bottom right;
+        }
+        
+        .big-box-1:hover::before {
+          transform: scaleX(1);
+          transform-origin: bottom left;
+        }
+        
+        .big-box-1::before {
+          content: " ";
+          display: block;
+          position: absolute;
+          top: 0; right: 0; bottom: 0; left: 0;
+          inset: 0 0 0 0;
+          background: hsl(200 100% 80%);
+          z-index: -1;
+          transition: transform .3s ease;
+          border-radius: 15px;
+        }
+        
+        .big-box-1 {
+          position: relative;
+          padding: 10px;
+          padding-right: 20px;
+          
+        }
+
+
+
+
+
+        a.btn {
+          background: teal;
+          border-radius: 4px;
+            box-shadow: 0 2px 0px 0 rgba(0,0,0,0.25);
+          color: rgb(255, 255, 255);
+          display: inline-block;
+          padding: 6px 30px 8px;
+          position: relative;
+          text-decoration: none;
+            transition: all 0.1s 0s ease-out;
+        }
+        
+        .no-touch a.btn:hover {
+          background: lighten(teal,2.5);
+          box-shadow: 0px 8px 2px 0 rgba(0, 0, 0, 0.075);
+          transform: translateY(-2px);
+          transition: all 0.25s 0s ease-out;
+        }
+        
+        .no-touch a.btn:active,
+        a.btn:active {
+          background: darken(teal,2.5);
+          box-shadow: 0 1px 0px 0 rgba(255,255,255,0.25);
+          transform: translate3d(0,1px,0);
+          transition: all 0.025s 0s ease-out;
+        }
+        
+        div.cardsss {
+          margin: 20px auto;
+          max-width: 960px;
+          text-align: center;
+        }
+        
+        div.card {
+          background: white;
+          display: inline-block;
+          margin: 8px;
+          max-width: 300px;
+          perspective: 1000;
+          position: relative;
+          text-align: left;
+          transition: all 0.3s 0s ease-in;
+          width: 300px;
+          z-index: 1;
+        
+          img {
+            max-width: 300px;
+          }
+          
+          .card__image-holder {
+            background: rgba(0,0,0,0.1);
+            height: 0;
+            padding-bottom: 75%;
+          }
+        
+          div.card-title {
+            background: white;
+            padding: 6px 15px 10px;
+            position: relative;
+            z-index: 0;
+            
+            a.toggle-info {
+              border-radius: 32px;
+              height: 32px;
+              padding: 0;
+              position: absolute;
+              right: 15px;
+              top: 10px;
+              width: 32px;
+              
+              span {
+                background: white;
+                display: block;
+                height: 2px;
+                position: absolute;
+                top: 16px;
+                transition: all 0.15s 0s ease-out;
+                width: 12px;
+              }
+              
+              span.left {
+                right: 14px;
+                transform: rotate(43deg);
+              }
+              span.right {
+                left: 14px;
+                transform: rotate(-43deg);
+              }
+            }
+            
+            h2 {
+              height: 30px;
+              font-size: 14px;
+              font-family: metal;
+              color: #1D3557;
+              font-weight: 700;
+              letter-spacing: -0.05em;
+              margin: 0;
+              padding: 0;
+              
+              
+            }
+          }
+        
+          div.card-description {
+            padding: 0 15px 10px;
+            position: relative;
+            font-family: merriwether;
+            font-size: 13px;
+          }
+        
+          div.card-actions {
+              box-shadow: 0 2px 0px 0 rgba(0,0,0,0.075);
+            padding: 10px 15px 20px;
+            text-align: center;
+            font-family: metal;
+          }
+          
+          div.card-flap {
+            background: darken(white,15);
+            position: absolute;
+            width: 100%;
+            transform-origin: top;
+            transform: rotateX(-90deg);
+          }
+          div.flap1 {
+            transition: all 0.3s 0.3s ease-out;
+            z-index: -1;
+          }
+          div.flap2 {
+            transition: all 0.3s 0s ease-out;
+            z-index: -2;
+          }
+          
+        }
+        
+        div.cardsss.showing {
+          div.card {
+            cursor: pointer;
+            opacity: 0.6;
+            transform: scale(0.88);
+          }
+        }
+        
+        .no-touch  div.cardsss.showing {
+          div.card:hover {
+            opacity: 0.94;
+            transform: scale(0.92);
+          }
+        }
+        
+        div.card.show {
+          opacity: 1 !important;
+          transform: scale(1) !important;
+        
+          div.card-title {
+            a.toggle-info {
+              background: salmon !important;
+              span {
+                top: 15px;
+              }
+              span.left {
+                right: 10px;
+              }
+              span.right {
+                left: 10px;
+              }
+            }
+          }
+          div.card-flap {
+            background: white;
+            transform: rotateX(0deg);
+          }
+          div.flap1 {
+            transition: all 0.3s 0s ease-out;
+          }
+          div.flap2 {
+            transition: all 0.3s 0.2s ease-out;
+          }
+        }
+
+        .toggle-info.btn:hover {
+                  span.left {
+                      background: teal;
+                  }
+                  span.right {
+                      background: teal;
+                  }
+              }
+          
+      
+
+
+
+      /* .small-card-x {
+          width: 250px; 
+          background-color: #1D3557;
+          border-radius: 10px;
+          
+          justify-content: center; 
+          align-items: center; 
+          height: 350px; 
+          overflow: hidden;
+          padding: 20px;
+      }
+      .small-card-img {
+          height: 100px;
+          width: 100px;
+          object-fit: cover;
+          border-radius: 50%; 
+      }   */
+
+
+     
+     .bubble
+     {
+      background-color: black;
+     } 
+      .container-y {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
+          margin: 40px 0;
+      }
+      
+      .container-y .card-y {
+          position: relative;
+          width: 300px;
+          height: 400px;
+          background: rgba(255, 255, 255, 0.05);
+          margin: 20px;
+          box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.5);
+          border-radius: 15px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          backdrop-filter: blur(10px);
+      }
+      
+      .container-y .card-y .content-y {
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          transition: 0.5s;
+      }
+      
+      .container-y .card-y:hover .content-y {
+          transform: translateY(-45px);
+      }
+      
+      .container-y .card-y .content-y .imgBx {
+          position: relative;
+          width: 150px;
+          height: 150px;
+          overflow: hidden;
+      }
+      
+      .container-y .card-y .content-y .imgBx img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+      }
+      
+      .container-y .card-y .content-y .contentBx h3 {
+          color: #fff;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          font-weight: 500;
+          font-size: 18px;
+          text-align: center;
+          margin: 20px 0 10px;
+          line-height: 1.1em;
+      }
+      
+      .container-y .card-y .content-y .contentBx h3 span {
+          font-size: 12px;
+          font-weight: 300;
+          text-transform: initial;
+      }
+      
+      .container-y .card-y .sci {
+          position: absolute;
+          bottom: 35px;
+          display: flex;
+      }
+      
+      .container-y .card-y .sci li {
+          list-style: none;
+          margin-top: 0 10px;
+          padding-top: 10px ;
+          transform: translateY(40px);
+          transition: 0.5s;
+          opacity: 0;
+      }
+      
+      .container-y .card-y:hover .sci li {
+          transform: translateY(0px);
+          opacity: 1;
+      }
+      
+      .container-y .card-y .sci li a {
+          color: #fff;
+          font-size: 20px;
+      }
+
+
+
+
+
+      .snip1390 {
+          font-family: metal;
+          position: relative;
+          overflow: hidden;
+          margin: 10px;
+          min-width: 230px;
+          max-width: 315px;
+          width: 100%;
+          color: #000000;
+          text-align: center;
+          font-size: 16px;
+          background-color: #2C3447;
+          border-radius: 15px;
+          padding: 30px;
+          background-image: linear-gradient(-25deg, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+        }
+        .snip1390 *,
+        .snip1390 *:before,
+        .snip1390 *:after {
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+          -webkit-transition: all 0.35s ease;
+          transition: all 0.35s ease;
+        }
+        .snip1390 figcaption {
+          width: 100%;
+        }
+        .snip1390 h2,
+        .snip1390 h4,
+        .snip1390 blockquote {
+          margin: 0;
+        }
+        .snip1390 h2,
+        .snip1390 h4 {
+          font-weight: 50;
+          font-size: 18px;
+        }
+        .snip1390 h2 {
+          color: #ffffff;
+        }
+        .snip1390 h4 {
+          color: #a6a6a6;
+        }
+        .snip1390 blockquote {
+          font-size: 1em;
+          padding: 45px 20px 40px 50px;
+          margin-top: 30px;
+          background-color: #ffffff;
+          border-radius: 5px;
+          box-shadow: inset -1.4px -1.4px 2px rgba(0, 0, 0, 0.3);
+          text-align: left;
+          position: relative;
+        }
+        .snip1390 blockquote:before {
+          font-family: 'FontAwesome';
+          content: "\201C";
+          position: absolute;
+          font-size: 70px;
+          opacity: 0.25;
+          font-style: normal;
+          top: 0px;
+          left: 20px;
+        }
+        .snip1390 .profile {
+          width: 100px;
+          border-radius: 50%;
+          display: inline-block;
+          box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.4);
+          margin-bottom: 10px;
+          border: solid 5px #A6A5
+        }
+
+        /*-----------footer----------------*/
+        .new_footer_area {
+          background: #fbfbfd;
+      }
+      
+      
+      .new_footer_top {
+          padding: 120px 0px 270px;
+          position: relative;
+            overflow-x: hidden;
+      }
+      .new_footer_area .footer_bottom {
+          padding-top: 5px;
+          padding-bottom: 50px;
+      }
+      .footer_bottom {
+          font-size: 14px;
+          font-weight: 300;
+          line-height: 20px;
+          color: #7f88a6;
+          padding: 27px 0px;
+      }
+      .new_footer_top .company_widget p {
+          font-size: 16px;
+          font-weight: 300;
+          line-height: 28px;
+          color: #6a7695;
+          margin-bottom: 20px;
+      }
+      .new_footer_top .company_widget .f_subscribe_two .btn_get {
+          border-width: 1px;
+          margin-top: 20px;
+      }
+      .btn_get_two:hover {
+          background: transparent;
+          color: #5e2ced;
+      }
+      .btn_get:hover {
+          color: #fff;
+          background: #6754e2;
+          border-color: #6754e2;
+          -webkit-box-shadow: none;
+          box-shadow: none;
+      }
+      a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
+          text-decoration: none;
+          outline: none;
+      }
+      
+      
+      
+      .new_footer_top .f_widget.about-widget .f_list li a:hover {
+          color: #5e2ced;
+      }
+      .new_footer_top .f_widget.about-widget .f_list li {
+          margin-bottom: 11px;
+      }
+      .f_widget.about-widget .f_list li:last-child {
+          margin-bottom: 0px;
+      }
+      .f_widget.about-widget .f_list li {
+          margin-bottom: 15px;
+      }
+      .f_widget.about-widget .f_list {
+          margin-bottom: 0px;
+      }
+      .new_footer_top .f_social_icon a {
+          width: 44px;
+          height: 44px;
+          line-height: 43px;
+          background: transparent;
+          border: 1px solid #e2e2eb;
+          font-size: 24px;
+      }
+      .f_social_icon a {
+          width: 46px;
+          height: 46px;
+          border-radius: 50%;
+          font-size: 14px;
+          line-height: 45px;
+          color: #858da8;
+          display: inline-block;
+          background: #ebeef5;
+          text-align: center;
+          -webkit-transition: all 0.2s linear;
+          -o-transition: all 0.2s linear;
+          transition: all 0.2s linear;
+      }
+      .ti-facebook:before {
+          content: "\e741";
+      }
+      .ti-twitter-alt:before {
+          content: "\e74b";
+      }
+      .ti-vimeo-alt:before {
+          content: "\e74a";
+      }
+      .ti-pinterest:before {
+          content: "\e731";
+      }
+      
+      .btn_get_two {
+          -webkit-box-shadow: none;
+          box-shadow: none;
+          background: #5e2ced;
+          border-color: #5e2ced;
+          color: #fff;
+      }
+      
+      .btn_get_two:hover {
+          background: transparent;
+          color: #5e2ced;
+      }
+      
+      .new_footer_top .f_social_icon a:hover {
+          background: #5e2ced;
+          border-color: #5e2ced;
+        color:white;
+      }
+      .new_footer_top .f_social_icon a + a {
+          margin-left: 4px;
+      }
+      .new_footer_top .f-title {
+          margin-bottom: 30px;
+          color: #263b5e;
+      }
+      .f_600 {
+          font-weight: 600;
+      }
+      .f_size_18 {
+          font-size: 18px;
+      }
+      h1, h2, h3, h4, h5, h6 {
+          color: #4b505e;
+      }
+      .new_footer_top .f_widget.about-widget .f_list li a {
+          color: #6a7695;
+      }
+      
+      
+      .new_footer_top .footer_bg {
+          position: absolute;
+          bottom: 0;
+          background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEigB8iI5tb8WSVBuVUGc9UjjB8O0708X7Fdic_4O1LT4CmLHoiwhanLXiRhe82yw0R7LgACQ2IhZaTY0hhmGi0gYp_Ynb49CVzfmXtYHUVKgXXpWvJ_oYT8cB4vzsnJLe3iCwuzj-w6PeYq_JaHmy_CoGoa6nw0FBo-2xLdOPvsLTh_fmYH2xhkaZ-OGQ/s16000/footer_bg.png") no-repeat scroll center 0;
+          width: 100%;
+          height: 266px;
+      }
+      
+      .new_footer_top .footer_bg .footer_bg_one {
+          background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEia0PYPxwT5ifToyP3SNZeQWfJEWrUENYA5IXM6sN5vLwAKvaJS1pQVu8mOFFUa_ET4JuHNTFAxKURFerJYHDUWXLXl1vDofYXuij45JZelYOjEFoCOn7E6Vxu0fwV7ACPzArcno1rYuVxGB7JY6G7__e4_KZW4lTYIaHSLVaVLzklZBLZnQw047oq5-Q/s16000/volks.gif") no-repeat center center;
+          width: 330px;
+          height: 105px;
+        background-size:100%;
+          position: absolute;
+          bottom: 0;
+          left: 30%;
+          -webkit-animation: myfirst 22s linear infinite;
+          animation: myfirst 22s linear infinite;
+      }
+      
+      .new_footer_top .footer_bg .footer_bg_two {
+          background: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhyLGwEUVwPK6Vi8xXMymsc-ZXVwLWyXhogZxbcXQYSY55REw_0D4VTQnsVzCrL7nsyjd0P7RVOI5NKJbQ75koZIalD8mqbMquP20fL3DxsWngKkOLOzoOf9sMuxlbyfkIBTsDw5WFUj-YJiI50yzgVjF8cZPHhEjkOP_PRTQXDHEq8AyWpBiJdN9SfQA/s16000/cyclist.gif") no-repeat center center;
+          width: 88px;
+          height: 100px;
+        background-size:100%;
+          bottom: 0;
+          left: 38%;
+          position: absolute;
+          -webkit-animation: myfirst 30s linear infinite;
+          animation: myfirst 30s linear infinite;
+      }
+      
+      
+      
+      @-moz-keyframes myfirst {
+        0% {
+          left: -25%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+      
+      @-webkit-keyframes myfirst {
+        0% {
+          left: -25%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+      
+      @keyframes myfirst {
+        0% {
+          left: -25%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+          
+  </style>
+  </head>
+
+<body>
+    <main>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container" style="height: 80px; width: 100%;">
+                
+                    <a class="navbar-brand me-lg-5 me-0" href="{% url 'user:home' %}">
+                        <img src="/static/app_common/img/logos/logo2.png" class="logo-image img-fluid" style="height: 80px; width: 80px;" alt="templatemo pod talk">
+                    </a>
+                
+    
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse px-5" id="navbarNav1">
+                    <ul class="navbar-nav ms-lg-auto text-black">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'user:home' %}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'user:about' %}">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'sector' %}active{% endif %}" href="{% url 'user:sector' %}">Sectors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'job-opening' %}active{% endif %}" href="{% url 'user:job-opening' %}">Job Opening</a>
+                        </li>
+                        <li class="nav-item dropdown hhh">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="false">login Here</a>
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink1">
+                                <li><a class="dropdown-item" href="{% url 'user:login' %}">login</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:signup' %}">signup</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'contactmessage' %}active{% endif %}" href="{% url 'user:contactmessage' %}">Contact</a>
+                        </li>
+                        
+                    </ul>
+                    
+
+                </div>
+            </div>
+        </nav>
+    </main>
+    
+    
+    <!-- <div class="container-x mt-4">
+        <h3 style="color:#1D3557; font-family: metal; margin-left: 30px; border-bottom: 2px solid #1D3557; padding-bottom: 5px; display: inline-block; margin-bottom: 50px;">INDUSTRIES WE SERVE</h3>
+        <div class="row">
+            <div class="col-6 col-md-4 col-lg-2 mb-4">
+                <div class="card-x small-card-x">
+                    <img class="card-img-top small-card-img" src="{% static 'images/s2.jpg' %}" alt="Healthcare Industry">
+                    <div class="card-body-x">
+                        <h6 class="card-title-x"  style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">HOSPITAL</h6>
+                        <p class="card-text-x" style="color:#fff; font-family: 'Montserrat', sans-serif; font-size: 15px;">Local hospital celebrates milestone, saving lives with cutting-edge technology, dedicated staff, and compassionate care.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-16 col-md-4 col-lg-2 mb-4">
+                <div class="card-x small-card-x">
+                    <img class="card-img-top small-card-img" src="{% static 'images/s3.jpg' %}" alt="Healthcare Industry">
+                    <div class="card-body-x">
+                        <h6 class="card-title-x" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">HOTEL</h6>
+                        <p class="card-text-x" style="color:#fff; font-family: 'Montserrat', sans-serif; font-size: 15px;">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2 mb-4">
+                <div class="card-x small-card-x">
+                    <img class="card-img-top small-card-img" src="{% static 'images/s4.jpg' %}" alt="Healthcare Industry">
+                    <div class="card-body-x">
+                        <h6 class="card-title-x" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">SCHOOL</h6>
+                        <p class="card-text-x" style="color:#fff;font-family: 'Montserrat', sans-serif; font-size: 15px;">Providing exceptional services to the healthcare industry, ensuring patient safety and efficient medical solutions.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2 mb-4">
+                <div class="card-x small-card-x">
+                    <img class="card-img-top small-card-img" src="{% static 'images/s5.jpg' %}" alt="Healthcare Industry">
+                    <div class="card-body-x">
+                        <h6 class="card-title-x" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">GOVT. OFFICES</h6>
+                        <p class="card-text-x" style="color:#fff;font-family: 'Montserrat', sans-serif; font-size: 15px;">Government Offices Streamline Services with New Online Portal for Efficiency.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2 mb-4">
+                <div class="card-x small-card-x">
+                    <img class="card-img-top small-card-img" src="{% static 'images/s6.jpg' %}" alt="Healthcare Industry">
+                    <div class="card-body-x">
+                        <h6 class="card-title-x" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">NGO
+                        </h6>
+                        <p class="card-text-x" style="color:#fff; font-family: 'Montserrat', sans-serif; font-size: 15px;">NGO Launches Initiative to Empower Underprivileged Youth through Education</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2 mb-4">
+                <div class="card-x small-card-x">
+                    <img class="card-img-top small-card-img" src="{% static 'images/s7.jpg' %}" alt="Healthcare Industry">
+                    <div class="card-body-x">
+                        <h6 class="card-title-x" style="color:#fff;text-align: center;font-family: 'Open Sans', sans-serif;font-size: 17px;">MANUFACTURING
+                            COMPANY</h6>
+                        <p class="card-text-x" style="color:#fff;font-family: 'Montserrat', sans-serif; font-size: 15px;">Manufacturing Company Unveils Eco-Friendly Production Line, Reducing Carbon Footprint.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     -->
+
+
+   <!-- <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-square">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/s1.jpg' %}" alt="Service Image 1">
+                <div class="card-body">
+                    <p style="color: #1D3557; font-family: 'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">ALL PARAMEDICAL STAFF
+                    </p>
+                    <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Highly trained paramedical staff delivering top-notch care, ensuring patient safety and comfort at all times.</p>
+                    <br>
+                        <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/m1.jpg' %}" alt="Service Image 2">
+                <div class="card-body">
+                    <p  style="color: #1D3557; font-family: 'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">HOUSEKEEPING</p>
+                    <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Maintaining cleanliness and order through professional services, ensuring hygienic, comfortable, and welcoming environments in various settings.</p>
+                   
+                        <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/m2.jpg' %}" alt="Service Image 3">
+                <div class="card-body">
+                    <hp style="color: #1D3557; font-family: 'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">BEDSIDE PARIENT ATTENDANT
+                    </p>
+                    <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Providing compassionate care and support, ensuring patient comfort and well-being with professional bedside assistance.</p>
+                        <br>
+                    <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/m3.jpg' %}" alt="Service Image 4">
+                <div class="card-body">
+                    <p style="color:#1D3557; font-family:'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">HOME NURSING
+                    </p>
+                    <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;"> home nursing services offering personalized care, medical assistance, and support for patients in the comfort of their homes.</p>
+                    <br>
+                    <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/m5.jpg' %}" alt="Service Image 2">
+                <div class="card-body">
+                    <p style="color: #1D3557; font-family:'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">DATA ENTRY, FRONT  & BACK OFFICE
+                    </p>
+                    <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Efficient data entry, organized front office, and streamlined back office operations for optimal business functionality.</p>
+                    <br>
+                    <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/m4.jpg' %}" alt="Service Image 2">
+                <div class="card-body">
+                    <p  style="color: #1D3557; font-family: 'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">ITI, DIPLOMA, DEGREE ENGINEER</p>
+                    <p  style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">ITI for technical skills, Diploma for intermediate expertise, Degree Engineer for advanced engineering knowledge.</p>
+                    {% comment %} <div class="mt-auto d-flex justify-content-center"> {% endcomment %}<br>
+                        <a href="#" class="btn btn-primary"style="background-color:#D05329;border:none">More Details</a>
+                    {% comment %} </div> {% endcomment %}
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/m6.jpg' %}" alt="Service Image 2">
+                <div class="card-body">
+                    <p  style="color: #1D3557; font-family:'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">FIRE SAFETY & OFFICE BOY
+                    </p>
+                    <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">Fire Safety ensures workplace safety; Office Boy supports daily office tasks, ensuring smooth operations and cleanliness.       </p>
+                  <br>
+                        <a href="#" class="btn btn-primary" style="background-color:#D05329;border:none">More Details</a>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{% static 'images/sec2.jpg' %}" alt="Service Image 2">
+                <div class="card-body">
+                    <p  style="color: #1D3557; font-family:'Montserrat', sans-serif;font-size: 18px;font-weight: bold;">SECURITY
+                    </p>
+                    <p style="color:#808080; font-family: 'Poppins', sans-serif; font-size: 16px;">
+                        Security: Ensuring safety and protection for individuals, property, and information through professional services.  </p>
+                  <br>
+                        <a href="#" class="btn btn-primary" style="background-color:#D05329;border:none">More Details</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>  -->
+   
+      <!-- <div class="carousel-inner py-4">
+        
+        <div class="carousel-item active">
+          <div class="container">
+            <h3  style="color:#1D3557; font-family: 'Open Sans', sans-serif; margin-left: 30px; border-bottom: 5px solid #1D3557; padding-bottom: 5px; display: inline-block; text-align: left; margin-bottom: 40px;margin-top: 40px;">CUSTOMER SPEECH</h3>
+          
+            <div class="row">
+              <div class="col-lg-4">
+                <img class="rounded-circle shadow-1-strong mb-4"
+                  src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp" alt="avatar"
+                  style="width: 100px;height: 100px;" />
+                <h5  style="color:#1D3557;font-family: 'Open Sans', sans-serif;">Anita Dash</h5>
+                
+                <p class=>
+                  <i style="color:#808080; font-family: 'Montserrat', sans-serif; font-size: 15px;"></i>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod eos id
+                  officiis hic tenetur quae quaerat ad velit ab hic tenetur.
+                </p>
+                <ul class="list-unstyled d-flex justify-content-center text-warning mb-0">
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                </ul>
+              </div>
+    
+              <div class="col-lg-4 d-none d-lg-block">
+                <img class="rounded-circle shadow-1-strong mb-4"
+                  src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp" alt="avatar"
+                  style="width: 100px;height: 100px;" />
+                <h5  style="color:#1D3557; font-family: 'Open Sans', sans-serif;">Rohit Kumar</h5>
+               
+                <p class=>
+                  <i style="color:#808080; font-family: 'Montserrat', sans-serif; font-size: 15px;"></i>
+                  Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+                  suscipit laboriosam, nisi ut aliquid commodi.
+                </p>
+                <ul class="list-unstyled d-flex justify-content-center text-warning mb-0">
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li>
+                    <i class="fas fa-star-half-alt fa-sm"></i>
+                  </li>
+                </ul>
+              </div>
+    
+              <div class="col-lg-4 d-none d-lg-block">
+                <img class="rounded-circle shadow-1-strong mb-4"
+                  src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" alt="avatar"
+                  style="width: 100px;height: 100px;" />
+                <h5  style="color:#1D3557; font-family: 'Open Sans', sans-serif;">Pooja Sharma</h5>
+                
+                <p class=>
+                  <i style="color:#808080; font-family: 'Montserrat', sans-serif; font-size: 15px;"></i>
+                  At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+                  praesentium voluptatum deleniti atque corrupti.
+                </p>
+                <ul class="list-unstyled d-flex justify-content-center text-warning mb-0">
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="far fa-star fa-sm"></i></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+      
+        <div class="carousel-item">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-4">
+                <img class="rounded-circle shadow-1-strong mb-4"
+                  src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(3).webp" alt="avatar"
+                  style="width: 150px;" />
+                <h5 class="mb-3">John Doe</h5>
+                <p>UX Designer</p>
+                <p class="text-muted">
+                  <i class="fas fa-quote-left pe-2"></i>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod eos id
+                  officiis hic tenetur quae quaerat ad velit ab hic tenetur.
+                </p>
+                <ul class="list-unstyled d-flex justify-content-center text-warning mb-0">
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                </ul>
+              </div>
+    
+              <div class="col-lg-4 d-none d-lg-block">
+                <img class="rounded-circle shadow-1-strong mb-4"
+                  src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(4).webp" alt="avatar"
+                  style="width: 150px;" />
+                <h5 class="mb-3">Alex Rey</h5>
+                <p>Web Developer</p>
+                <p class="text-muted">
+                  <i class="fas fa-quote-left pe-2"></i>
+                  Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+                  suscipit laboriosam, nisi ut aliquid commodi.
+                </p>
+                <ul class="list-unstyled d-flex justify-content-center text-warning mb-0">
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li>
+                    <i class="fas fa-star-half-alt fa-sm"></i>
+                  </li>
+                </ul>
+              </div>
+    
+              <div class="col-lg-4 d-none d-lg-block">
+                <img class="rounded-circle shadow-1-strong mb-4"
+                  src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(5).webp" alt="avatar"
+                  style="width: 150px;" />
+                <h5 class="mb-3">Maria Kate</h5>
+                <p>Photographer</p>
+                <p class="text-muted">
+                  <i class="fas fa-quote-left pe-2"></i>
+                  At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+                  praesentium voluptatum deleniti atque corrupti.
+                </p>
+                <ul class="list-unstyled d-flex justify-content-center text-warning mb-0">
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="far fa-star fa-sm"></i></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+       
+        <div class="carousel-item">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-4">
+                <img class="rounded-circle shadow-1-strong mb-4"
+                  src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(6).webp" alt="avatar"
+                  style="width: 150px;" />
+                <h5 class="mb-3">Anna Deynah</h5>
+                <p>UX Designer</p>
+                <p class="text-muted">
+                  <i class="fas fa-quote-left pe-2"></i>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod eos id
+                  officiis hic tenetur quae quaerat ad velit ab hic tenetur.
+                </p>
+                <ul class="list-unstyled d-flex justify-content-center text-warning mb-0">
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                </ul>
+              </div>
+    
+              <div class="col-lg-4 d-none d-lg-block">
+                <img class="rounded-circle shadow-1-strong mb-4"
+                  src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(8).webp" alt="avatar"
+                  style="width: 150px;" />
+                <h5 class="mb-3">John Doe</h5>
+                <p>Web Developer</p>
+                <p class="text-muted">
+                  <i class="fas fa-quote-left pe-2"></i>
+                  Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+                  suscipit laboriosam, nisi ut aliquid commodi.
+                </p>
+                <ul class="list-unstyled d-flex justify-content-center text-warning mb-0">
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li>
+                    <i class="fas fa-star-half-alt fa-sm"></i>
+                  </li>
+                </ul>
+              </div>
+    
+              <div class="col-lg-4 d-none d-lg-block">
+                <img class="rounded-circle shadow-1-strong mb-4"
+                  src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(7).webp" alt="avatar"
+                  style="width: 150px;" />
+                <h5 class="mb-3">Maria Kate</h5>
+                <p>Photographer</p>
+                <p class="text-muted">
+                  <i class="fas fa-quote-left pe-2"></i>
+                  At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+                  praesentium voluptatum deleniti atque corrupti.
+                </p>
+                <ul class="list-unstyled d-flex justify-content-center text-warning mb-0">
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="fas fa-star fa-sm"></i></li>
+                  <li><i class="far fa-star fa-sm"></i></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      
+    
+    
+    
+    {% block main_content %}
+      
+    {% endblock main_content %}
+
+    <footer class="new_footer_area bg_color">
+        <div class="new_footer_top">
+            <div class="container px-4">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="f_widget company_widget wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Get in Touch</h3>
+                            <p>Don’t miss any updates of our new templates and extensions.!</p>
+                            <form action="#" class="f_subscribe_two mailchimp" method="post" novalidate="true" _lpchecked="1">
+                                <input type="text" name="EMAIL" class="form-control memail" placeholder="Email">
+                                <button class="btn btn_get btn_get_two" type="submit">Subscribe</button>
+                                <p class="mchimp-errmessage" style="display: none;"></p>
+                                <p class="mchimp-sucmessage" style="display: none;"></p>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Download</h3>
+                            <ul class="list-unstyled f_list">
+                                <li><a href="#">Company</a></li>
+                                <li><a href="#">Android App</a></li>
+                                <li><a href="#">ios App</a></li>
+                                <li><a href="#">Desktop</a></li>
+                                <li><a href="#">Projects</a></li>
+                                <li><a href="#">My tasks</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Help</h3>
+                            <ul class="list-unstyled f_list">
+                                <li><a href="#">FAQ</a></li>
+                                <li><a href="#">Term &amp; conditions</a></li>
+                                <li><a href="#">Reporting</a></li>
+                                <li><a href="#">Documentation</a></li>
+                                <li><a href="#">Support Policy</a></li>
+                                <li><a href="#">Privacy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="f_widget social-widget pl_70 wow fadeInLeft" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Team Solutions</h3>
+                            <div class="f_social_icon">
+                                <a href="#" class="fab fa-facebook"></a>
+                                <a href="#" class="fab fa-twitter"></a>
+                                <a href="#" class="fab fa-linkedin"></a>
+                                <a href="#" class="fab fa-pinterest"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer_bg">
+                <div class="footer_bg_one"></div>
+                <div class="footer_bg_two"></div>
+            </div>
+        </div>
+        <div class="footer_bottom">
+            <div class="container px-4">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-sm-7">
+                        <p class="mb-0 f_400">© Pravati International 2024 All rights reserved.</p>
+                    </div>
+                    <div class="col-lg-6 col-sm-5 text-right">
+                        <p class="d-flex justify-content-end">Made with <i class="icon_heart"></i> in <a href="http://cakecounter.com" target="_blank">Techaviait</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    {% block js_block %}
+    
+    <!-- <footer class="site-footer mt-0 pt-0 mb-0 pb-0 ">
+       
+        <section class="d-flex justify-content-center justify-content-lg-between p-0 border-bottom bg-white">
+            
+            {% comment %} <div class="me-5 d-none d-lg-block">
+                <h6 style="color:#1D3557; font-family: 'Montserrat',">Get connected with us on social networks : <h6>
+            </div> {% endcomment %}
+           
+
+            {% comment %} <div>
+                <a href="" class="me-4 text-reset">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="" class="me-4 text-reset">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="me-4 text-reset">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="" class="me-4 text-reset">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div> {% endcomment %}
+            
+        </section>
+        
+
+       
+        <section class= >
+            <div class="container text-center text-md-start mt-5 ">
+                
+                <div class="row mt-3">
+                   
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        
+                        <h6 style="color:#1D3557; font-family: 'Montserrat',">
+                     <br>Pravati International Pvt.Ltd.
+                        </h6>
+                        <p class="text-black">
+                            {% comment %} Always believe yourself {% endcomment %}
+                        </p>
+                    </div>
+                    
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                       
+                        <h6  style="color:#1D3557; font-family: 'Montserrat',">
+                           Our Services
+                        </h6>
+                        <ul class="custom-bullets">
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">All Paramedical Staff</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">Housekeeping & Security</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">BedSide Patient Attendant</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">Home Nursing</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">Data Entry, Font Office & Back Office</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">ITI, Diploma, Degree Engineer</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">Fire Safety & Office Boy</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-5">
+                        
+                        <h6  style="color:#1D3557; font-family: 'Montserrat',">
+                            Useful links
+                        </h6>
+                        <ul class="custom-bullets">
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">Home</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">About Us</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">Sector</a></li>
+                            <li><a href="#!" style="color: #000000; font-family: 'Montserrat', sans-serif;">Contact</a></li>
+                        </ul>
+                    </div>
+                   
+                    <div  class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4 ">
+                        
+                        <h6 style="color:#1D3557; font-family: 'Montserrat',">Contact</h6>
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif;"><i class="fas fa-home me-3"></i>Friends Colony Mangalabag, Cuttack - 753001</p>
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif;">
+                            <i class="fas fa-envelope me-3"></i>
+                                                                pravatiservices643@gmail.com
+                                              </p>
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif;"><i class="fas fa-phone me-3"></i> +91 9114790643</p>
+                        <p style="color:#808080; font-family: 'Poppins', sans-serif;"><i class="fas fa-phone me-3"></i> +91 9668790643</p>
+                  
+                       
+                    </div>
+                  
+                </div>
+               
+            </div>
+        </section>
+       
+
+        
+        <div class="text-center p-0" style="background-color: rgba(0, 0, 0, 0.05);">
+           
+
+        </div>
+        
+    </footer> -->
+
+   
+
+    
+    <!-- JAVASCRIPT FILES -->
+    <script>
+        $(document).ready(function() {
+            $('#search').keyup(function() {
+                var search_term = $(this).val();
+                if (search_term.length >= 1) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '',
+                        data: {
+                            'search_term': search_term,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success: function(response) {
+                            var suggestionsHtml = '';
+                            response.forEach(function(product) {
+                                // Modify the suggestionsHtml to include both title and ID
+                                suggestionsHtml += '<div class="suggestion border-bottom border-1 cursor-pointer suggestion-hover" data-id="' + product.id + '">' + product.title + '</div>';
+                            });
+                            $('#search-suggestions').html(suggestionsHtml).show();
+                        }
+                    });
+                } else {
+                    $('#search-suggestions').hide();
+                }
+            });
+
+            // Handle click on suggestion
+            $(document).on('click', '.suggestion', function() {
+                // Get the ID of the clicked suggestion
+                var productId = $(this).data('id');
+                // Construct the URL using Django template syntax
+                var productUrl = ''.replace('0', productId);
+                // Redirect the user to the product details page
+                window.location.href = productUrl;
+            });
+
+            // Hide suggestions when clicking outside
+            $(document).click(function(event) {
+                if (!$(event.target).closest('#search-suggestions').length && !$(event.target).is('#search')) {
+                    $('#search-suggestions').hide();
+                }
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+
+        $(document).ready(function() {
+            var zindex = 10;
+          
+            $("div.card").click(function(e) {
+              e.preventDefault();
+          
+              var isShowing = false;
+          
+              if ($(this).hasClass("show")) {
+                isShowing = true;
+              }
+          
+              if ($("div.cardsss").hasClass("showing")) {
+                // A card is already in view
+                $("div.card.show").removeClass("show");
+          
+                if (isShowing) {
+                  // This card was showing - reset the grid
+                  $("div.cardsss").removeClass("showing");
+                } else {
+                  // This card isn't showing - get in with it
+                  $(this).css({ zIndex: zindex }).addClass("show");
+                }
+          
+                zindex++;
+              } else {
+                // No cards in view
+                $("div.cardsss").addClass("showing");
+                $(this).css({ zIndex: zindex }).addClass("show");
+          
+                zindex++;
+              }
+            });
+          });
+          
+    </script>
+    
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    {% endblock js_block %}
+</body>
+
+</html>

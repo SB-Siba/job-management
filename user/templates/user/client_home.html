@@ -1,0 +1,23 @@
+{% extends "user/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="list-group">
+                <a href="{% url 'client_job_list' %}" class="list-group-item list-group-item-action">Job Listings</a>
+                <a href="{% url 'client_profile' %}" class="list-group-item list-group-item-action">Profile</a>
+                <a href="{% url 'client_profile_update' %}" class="list-group-item list-group-item-action">Update Profile</a>
+                <a href="{% url 'client_post_job' %}" class="list-group-item list-group-item-action">Post New Job</a>
+                <a href="{% url 'client_employee_list' %}" class="list-group-item list-group-item-action">Employees</a>
+                <a href="{% url 'client_applications_list' %}" class="list-group-item list-group-item-action">Applications</a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="content-section">
+                <h1>Welcome, {{ user.full_name }}</h1>
+                <p>Manage your jobs, update your profile, and view applications from here.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

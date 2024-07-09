@@ -1,0 +1,41 @@
+{% extends "user/base.html" %}
+{% block content %}
+<h1>My Jobs</h1>
+<a href="{% url 'user:client_post_job' %}" class="btn btn-primary">Post New Job</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Company</th>
+            <th>Location</th>
+            <th>Posted At</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for job in job_list %}
+        <tr>
+            <td>{{ job.title }}</td>
+            <td>{{ job.company_name }}</td>
+            <td>{{ job.location }}</td>
+            <td>{{ job.posted_at }}</td>
+            <td>{{ job.get_status_display }}</td>
+            <td>
+                <a href="{% url 'user:client_job_detail' job.id %}" class="btn btn-info">Details</a>
+                <a href="{% url 'admin_dashboard:job_edit' job.id %}" class="btn btn-warning">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="pagination">
+    {% for page_num in data_list.paginator.page_range %}
+        {% if data_list.number == page_num %}
+            <span class="current">{{ page_num }}</span>
+        {% else %}
+            <a href="?page={{ page_num }}">{{ page_num }}</a>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

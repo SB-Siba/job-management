@@ -1,0 +1,35 @@
+{% extends 'user/index.html' %}
+{%load static%}
+{% block main_content %}
+{% if welcome_message %}
+    <div class="alert alert-success">
+        {{ welcome_message }}
+    </div>
+{% endif %}
+<h1>Welcome to the Dashboard</h1>
+<p>This is the main content area.</p>
+<div class="container">
+    <div class="row">
+        {% for job in job_list %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ job.title }}</h3>
+                    <h4 class="card-subtitle mb-2 text-muted">{{ job.category }}</h4>
+                    <p class="card-text">{{ job.company_name }}</p>
+                    <p class="card-text">{{ job.location }}</p>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ job.job_type }}</p>
+                    <p class="card-text">{{ job.description }}</p>
+                </div>
+                <div class="card-footer">
+                    <p class="card-text">Active {{ job.published_date|timesince }} ago</p>
+                    <a href="{% url 'user:job-apply' job.id %}" class="btn btn-primary">Apply now</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock main_content %}
