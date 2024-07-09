@@ -56,19 +56,20 @@ class JobEdit(View):
     template_name = app +'edit_job.html'
     model = common_model.Job
     form_class = forms.JobForm
+
     def get(self, request, job_id):
         job = get_object_or_404(self.model, id=job_id)
-        form = forms.JobForm(instance=job)
+        form = forms.JobForm(instance=job, user=request.user)
         return render(request, self.template_name, {'form': form, 'job': job})
 
     def post(self, request, job_id):
         job = get_object_or_404(self.model, id=job_id)
-        form = forms.JobForm(request.POST, request.FILES, instance=job)
+        form = forms.JobForm(request.POST, request.FILES, instance=job, user=request.user)
         if form.is_valid():
             job = form.save(commit=False)
             if job.status == 'published':
                 job.published_date = timezone.now()
-            else:
+            else:   
                 job.published_date = None
             job.save()
             messages.success(request, f'Job "{job.title}" updated successfully.')
@@ -124,7 +125,7 @@ class JobSearch(View):
 
     
 @method_decorator(utils.super_admin_only, name='dispatch')
-class   JobFilter(View):
+class JobFilter(View):
     model = common_model.Job
     template =  app + "job_list.html"
 
@@ -165,61 +166,24 @@ class JobDetail(View):
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobAdd(View):
     model = common_model.Job
-    form_class = forms.JobForm
     template = app + "job_add.html"
 
     def get(self, request):
-        job_list = self.model.objects.all().order_by('-id')
-        context = {
-            "job_list": job_list,
-            "form": self.form_class,
-        }
-        return render(request, self.template, context)
+        form = forms.JobForm(user=request.user)
+        return render(request, self.template, {'form': form})
 
     def post(self, request):
-        form = self.form_class(request.POST, request.FILES)
+        form = forms.JobForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
-            form.save()
-            messages.success(request, f"Job added successfully.")
-        else:
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f'{field}: {error}')
+            job = form.save(commit=False)
+            if request.user.is_superuser:
+                job.client = form.cleaned_data['client']
+            job.status = 'unpublished'
+            job.save()
+            messages.success(request, 'Job added successfully.')
+            return redirect('admin_dashboard:job_list')
+        return render(request, self.template, {'form': form})
 
-        return redirect("admin_dashboard:job_list")
-
-
-# @method_decorator(utils.super_admin_only, name='dispatch')
-# class JobUpdate(View):
-#     model = common_model.Job
-#     form_class = forms.JobForm
-#     template_name = app + "job_update.html"
-
-#     def get(self, request, job_id):
-#         job = get_object_or_404(self.model, id=job_id)
-#         context = {
-#             "job": job,
-#             "form": self.form_class(instance=job),
-#         }
-#         return render(request, self.template_name, context)
-
-#     def post(self, request, job_id):
-#         job = get_object_or_404(self.model, id=job_id)
-#         form = self.form_class(request.POST, request.FILES, instance=job)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, f"Job ({job_uid}) updated successfully.")
-#             return redirect("admin_dashboard:job_detail", job_id)
-#         else:
-#             for field, errors in form.errors.items():
-#                 for error in errors:
-#                     messages.error(request, f'{field}: {error}')
-
-#         context = {
-#             "job": job,
-#             "form": form,
-#         }
-#         return render(request, self.template_name, context)
 
 
 @method_decorator(utils.super_admin_only, name='dispatch')
