@@ -41,12 +41,32 @@ class CatagoryEntryForm(forms.ModelForm):
 class JobForm(forms.ModelForm):
     class Meta:
         model = common_models.Job
-        fields = ['catagory','client','title','description','location','company_name','company_website','company_logo','vacancies','published', 'posted_at', 'expiry_date', 'job_type']
+        fields = ['catagory', 'client', 'title', 'description', 'location', 'company_name', 'company_website', 'company_logo', 'vacancies', 'posted_at', 'expiry_date', 'job_type', 'status']
         widgets = {
-            'posting_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'expiration_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            }
+            'posted_at': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'expiry_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
 
+    def __init__(self, *args, **kwargs):
+        super(JobForm, self).__init__(*args, **kwargs)
+        
+        # Modify client field queryset based on user role
+        if self.instance.client.is_superuser:
+            self.fields['client'].queryset = User.objects.filter(is_staff=True)
+        
+        # Allow superusers to modify status field
+        if self.instance.client.is_superuser:
+            self.fields['status'].widget = forms.Select(choices=Job.STATUS_CHOICES)
+        else:
+            self.fields['status'].disabled = True
+
+    def clean_client(self):
+        client = self.cleaned_data['client']
+        if not client.is_staff:
+            raise forms.ValidationError("Only clients (staff members) can be selected as clients.")
+        return client
+
+        
 class ApplicationForm(forms.ModelForm):
     class Meta:
         model =common_models.Application
@@ -57,7 +77,7 @@ class ApplicationForm(forms.ModelForm):
     email = forms.EmailField(max_length=255)
     email.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Email',"required":"required"})
 
-    contact = forms.CharField(max_length=15,validators=[RegexValidator(regex='^\d{10,15}$', message='Contact number must be between 10 and 15 digits')])
+    contact = forms.IntegerField()
     contact.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Mobile Number',"required":"required"})
 
     resume = forms.FileField(required=False)  # ImageField for uploading images
@@ -67,7 +87,7 @@ class EditUserForm(forms.Form):
     model =common_models.Edit_User
     email = forms.EmailField(label="Email",max_length=50,widget=forms.EmailInput(attrs={"class":"form-control"}))
     full_name = forms.CharField(label="Full Name",max_length=50,widget=forms.TextInput(attrs={"class":"form-control"}))
-    contact = forms.CharField(max_length=15,validators=[RegexValidator(regex='^\d{10,15}$', message='Contact number must be between 10 and 15 digits')])
+    contact = forms.IntegerField(label="Contact",widget=forms.NumberInput(attrs={"class":"form-control"}))
 
 
 

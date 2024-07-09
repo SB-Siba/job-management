@@ -55,7 +55,7 @@ class UpdateProfileForm(forms.Form):
     full_name = forms.CharField(max_length=255)
     full_name.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Full Name',"required":"required"})
 
-    contact = forms.CharField(max_length=10, validators=[RegexValidator(regex='^\d{10}$', message='Contact number must be exactly 10 digits')])
+    contact = forms.IntegerField()
     contact.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Mobile Number',"required":"required"})
 
     skills = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"1"}))
@@ -91,3 +91,15 @@ class ContactMessageForm(forms.Form):
         }),
         required=True
     )
+
+
+
+
+class JobForm(forms.ModelForm):
+    class Meta:
+        model = common_models.Job
+        fields = ['catagory','title','description','location','company_name','company_website','company_logo','vacancies','posted_at', 'expiry_date', 'job_type']
+        widgets = {
+            'posting_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'expiration_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            }

@@ -45,7 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length= 255, null= True, blank= True)
     email = models.EmailField(null=True,blank=True,unique=True)
     password = models.TextField(null=True,blank=True)
-    contact = models.CharField(max_length=15,validators=[RegexValidator(regex='^\d{10,15}$', message='Contact number must be between 10 and 15 digits')])
+    contact = models.CharField(max_length= 10, null=True, blank=True)
     catagory = models.ForeignKey(Catagory, on_delete=models.SET_NULL, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
@@ -112,6 +112,12 @@ class Job(models.Model):
         (CONTRACT, 'Contract'),
         (INTERNSHIP, 'Internship'),
     ]
+    STATUS_CHOICES = [
+        ('unpublished', 'Unpublished'),
+        ('published', 'Published'),
+    ]
+
+
     title = models.CharField(max_length=255, null=True, blank=True)
     client = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, limit_choices_to={'is_staff': True})
     catagory = models.ForeignKey(Catagory, on_delete=models.SET_NULL, blank=True, null=True)
@@ -119,7 +125,6 @@ class Job(models.Model):
     location = models.CharField(max_length=100, null=True, blank=True)
     posted_at = models.DateField(default=timezone.now)
     published_date = models.DateTimeField(null=True, blank=True)
-    published = models.BooleanField(default=False)
     expiry_date = models.DateTimeField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
     company_name = models.CharField(max_length=255, default='Default Company')
@@ -127,6 +132,7 @@ class Job(models.Model):
     company_logo = models.ImageField(upload_to='company_logos/', blank=True, null=True)
     vacancies = models.PositiveIntegerField(default=1)
     job_type = models.CharField(max_length=20, choices=JOB_TYPE_CHOICES, default=FULL_TIME)
+    status = models.CharField(max_length=15 , choices=STATUS_CHOICES, default='unpublished')
    
         
     def __str__(self):
@@ -141,10 +147,14 @@ class Application(models.Model):
         ('Hired', 'Hired'),
         ('Rejected', 'Rejected'),
      ]
+   
+        
+    
+     
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     email = models.EmailField(default='')
-    contact = models.CharField(max_length=15,validators=[RegexValidator(regex='^\d{10,15}$', message='Contact number must be between 10 and 15 digits')])
+    contact = models.IntegerField(null=True, blank=True, unique=True, default=0)
     resume = models.FileField(upload_to='resumes/', blank=True, null=True)
     applied_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='Applied')

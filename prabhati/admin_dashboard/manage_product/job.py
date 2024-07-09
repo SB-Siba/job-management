@@ -32,65 +32,45 @@ class JobList(View):
     model = common_model.Job
     template = app + "job_list.html"
 
-    def get(self,request):
-        job_list = self.model.objects.all().order_by('-id')
-        
-        paginated_data = utils.paginate(
-            request, job_list, 50
-        )
+    def get(self, request):
+        job_list = Job.objects.all().order_by('-id')
+        paginated_data = paginate(request, job_list, 50)
         context = {
-            "job_list":job_list,
-            "data_list":paginated_data
+            "job_list": job_list,
+            "data_list": paginated_data
         }
-        return render(request, self.template, context)
+        return render(request, self.template_name, context)
+        
     def post(self, request):
         job_id = request.POST.get("job_id")
         job = get_object_or_404(common_model.Job, id=job_id)
 
         return redirect("admin_dashboard:job_list")
 
-@method_decorator(utils.super_admin_only, name='dispatch')
-class JobPublish(View):
-    model =common_model.Job
 
+
+@method_decorator(utils.super_admin_only, name='dispatch')
+class JobEdit(View):
+    template_name = 'edit_job.html'
+    model = common_model.Job
     def get(self, request, job_id):
         job = get_object_or_404(self.model, id=job_id)
-        job.published = True
-        job.published_date = timezone.now()
-        job.save()
-        messages.success(request, f'Job {job.company_name} published successfully.')
-        return redirect('admin_dashboard:job_list')
+        form = JobForm(instance=job)
+        return render(request, self.template_name, {'form': form, 'job': job})
 
-
-@method_decorator(utils.super_admin_only, name='dispatch')
-class JobUnpublish(View):
-    model =common_model.Job
-
-    def get(self, request, job_id):
+    def post(self, request, job_id):
         job = get_object_or_404(self.model, id=job_id)
-        job.published = False
-        job.published_date = None
-        job.save()
-        messages.success(request, f'Job {job.company_name} unpublished successfully.')
-        return redirect('admin_dashboard:job_list')
-
-@method_decorator(utils.super_admin_only, name='dispatch')
-class JobDetail(View):
-    model =common_model.Job
-    template = app +"job_detail.html"
-
-    def get(self, request, job_uid):
-        job = get_object_or_404(self.model, id=job_uid)
-        applications_count = common_model.Application.objects.filter(job=job).count()
-        employees = common_model.Application.objects.filter(job=job,status='Hired')
-        client = job.client
-        context = {
-            "job": job,
-            'applications_count': applications_count,
-            "employees": employees,
-            "client": client,
-        }
-        return render(request, self.template, context)
+        form = JobForm(request.POST, request.FILES, instance=job)
+        if form.is_valid():
+            job = form.save(commit=False)
+            if job.status == 'published':
+                job.published_date = timezone.now()
+            else:
+                job.published_date = None
+            job.save()
+            messages.success(request, f'Job "{job.title}" updated successfully.')
+            return redirect('admin_dashboard:job_list')
+        return render(request, self.template_name, {'form': form, 'job': job})
         
 @method_decorator(utils.super_admin_only, name='dispatch')
 class ApplicationList(View):
@@ -122,7 +102,7 @@ class JobSearch(View):
     template = app + "job_list.html"
 
     def post(self, request):
-        filter_by = request.POST.get("filter_by")
+        filter_by = request.POST.get("filter_by")   
         query = request.POST.get("query")
         if filter_by == "uid":
             job_list = self.model.objects.filter(id=query)
@@ -141,7 +121,7 @@ class JobSearch(View):
 
     
 @method_decorator(utils.super_admin_only, name='dispatch')
-class JobFilter(View):
+class   JobFilter(View):
     model = common_model.Job
     template =  app + "job_list.html"
 
@@ -160,7 +140,23 @@ class JobFilter(View):
         }
         return render(request, self.template, context)
 
-    
+class JobDetail(View):
+    model =common_model.Job
+    template = app +"job_detail.html"
+
+    def get(self, request, job_uid):
+        job = get_object_or_404(self.model, id=job_uid)
+        applications_count = common_model.Application.objects.filter(job=job).count()
+        employees = common_model.Application.objects.filter(job=job,status='Hired')
+        client = job.client
+        context = {
+            "job": job,
+            'applications_count': applications_count,
+            "employees": employees,
+            "client": client,
+        }
+        return render(request, self.template, context)
+   
      
 
 @method_decorator(utils.super_admin_only, name='dispatch')
@@ -190,46 +186,52 @@ class JobAdd(View):
         return redirect("admin_dashboard:job_list")
 
 
-@method_decorator(utils.super_admin_only, name='dispatch')
-class JobUpdate(View):
-    model = common_model.Job
-    form_class = forms.JobForm
-    template_name = app + "job_update.html"
+# @method_decorator(utils.super_admin_only, name='dispatch')
+# class JobUpdate(View):
+#     model = common_model.Job
+#     form_class = forms.JobForm
+#     template_name = app + "job_update.html"
 
-    def get(self, request, job_id):
-        job = get_object_or_404(self.model, id=job_id)
-        context = {
-            "job": job,
-            "form": self.form_class(instance=job),
-        }
-        return render(request, self.template_name, context)
+#     def get(self, request, job_id):
+#         job = get_object_or_404(self.model, id=job_id)
+#         context = {
+#             "job": job,
+#             "form": self.form_class(instance=job),
+#         }
+#         return render(request, self.template_name, context)
 
-    def post(self, request, job_id):
-        job = get_object_or_404(self.model, id=job_id)
-        form = self.form_class(request.POST, request.FILES, instance=job)
-        if form.is_valid():
-            form.save()
-            messages.success(request, f"Job ({job_uid}) updated successfully.")
-            return redirect("admin_dashboard:job_detail", job_id)
-        else:
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f'{field}: {error}')
+#     def post(self, request, job_id):
+#         job = get_object_or_404(self.model, id=job_id)
+#         form = self.form_class(request.POST, request.FILES, instance=job)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, f"Job ({job_uid}) updated successfully.")
+#             return redirect("admin_dashboard:job_detail", job_id)
+#         else:
+#             for field, errors in form.errors.items():
+#                 for error in errors:
+#                     messages.error(request, f'{field}: {error}')
 
-        context = {
-            "job": job,
-            "form": form,
-        }
-        return render(request, self.template_name, context)
+#         context = {
+#             "job": job,
+#             "form": form,
+#         }
+#         return render(request, self.template_name, context)
 
 
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobDelete(View):
     model = common_model.Job
+    def get(self, request, job_id):
+        job = get_object_or_404(self.model, id=job_id)
+        return render(request, self.template_name, {'job': job})
 
-    def get(self, request, job_uid):
-        job = get_object_or_404(self.model, id=job_uid)
+    def post(self, request, job_id):
+        job = get_object_or_404(self.model, id=job_id)
         job.delete()
-        messages.info(request, 'Job deleted successfully.')
+        messages.success(request, f'Job "{job.title}" deleted successfully.')
+        return redirect('admin_job_list')
 
-        return redirect("admin_dashboard:job_list")
+
+
+        
