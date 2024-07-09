@@ -4,13 +4,12 @@
   
   <h2>Jobs</h2>
   <ul>
-    {% for job in jobs %}
+    {% for job_info in job_data %}
       <li>
-        <strong>{{ job.title }}</strong>
+        <strong>{{ job_info.job.title }}</strong>
         <br>
-        <p>Total Applications: {{ total_applications }}</p>
-        
-        <p>Total Employees: {{ total_employees }}</p>
+        <p>Total Applications: {{ job_info.applications_count }}</p>
+        <p>Total Employees: {{ job_info.hired_count }}</p>
       </li>
     {% empty %}
       <li>No jobs found for this client.</li>

@@ -4,12 +4,16 @@
     <div class="row">
         <div class="col-md-3">
             <div class="list-group">
-                <a href="{% url 'client_job_list' %}" class="list-group-item list-group-item-action">Job Listings</a>
-                <a href="{% url 'client_profile' %}" class="list-group-item list-group-item-action">Profile</a>
-                <a href="{% url 'client_profile_update' %}" class="list-group-item list-group-item-action">Update Profile</a>
-                <a href="{% url 'client_post_job' %}" class="list-group-item list-group-item-action">Post New Job</a>
-                <a href="{% url 'client_employee_list' %}" class="list-group-item list-group-item-action">Employees</a>
-                <a href="{% url 'client_applications_list' %}" class="list-group-item list-group-item-action">Applications</a>
+                <a href="{% url 'user:client_job_list' %}" class="list-group-item list-group-item-action">Job Listings</a>
+                <a href="" class="list-group-item list-group-item-action">Profile</a>
+                <a href="" class="list-group-item list-group-item-action">Update Profile</a>
+                <a href="{% url 'user:client_post_job' %}" class="list-group-item list-group-item-action">Post New Job</a>
+                <a href="" class="list-group-item list-group-item-action">Employees</a>
+                <a href="" class="list-group-item list-group-item-action">Applications</a>
+                <li class="nav-item">
+                    <a class="nav-link font-bold"style="background:none" href="{% url 'user:logout' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
+                        <i class="fas fa-sign-out-alt"></i> Log Out
+                </li>
             </div>
         </div>
         <div class="col-md-9">
