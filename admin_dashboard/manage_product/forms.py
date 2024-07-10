@@ -88,10 +88,24 @@ class AddUserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
 
 class ClientForm(forms.ModelForm):
-    
 
     class Meta:
         model = common_models.User
         fields = ['email', 'full_name', 'contact', 'password']
 
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+class CategoryFilterForm(forms.Form):
+    model = common_models.Catagory
+    catagory = forms.ModelChoiceField(queryset=model.objects.all(), required=True, label="Category")
+
+class JobSelectionForm(forms.Form):
+    model = common_models.Job
+    jobs = forms.ModelMultipleChoiceField(queryset=model.objects.all(), required=True, widget=forms.CheckboxSelectMultiple, label="Select Jobs")
+
+    def __init__(self, *args, **kwargs):
+        catagory = kwargs.pop('catagory', None)
+        super(JobSelectionForm, self).__init__(*args, **kwargs)
+        if catagory:
+            self.fields['jobs'].queryset = common_models.Job.objects.filter(catagory=catagory)
