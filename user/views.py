@@ -10,7 +10,7 @@ from . import forms
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 # from app_common.models import Job, Application
-from admin_dashboard.manage_product.forms import ApplicationForm ,CatagoryEntryForm
+from admin_dashboard.manage_product.forms import ApplicationForm ,CatagoryEntryForm , JobForm
 # from app_common.checkout.serializer import CartSerializer,DirectBuySerializer,TakeSubscriptionSerializer,OrderSerializer
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -50,19 +50,15 @@ class HomeView(View):
         welcome_message = f"Welcome, {user.full_name}!"
 
         if user.is_staff:  # Check if user is marked as client (is_staff)
-            # client = get_object_or_404(ClientProfile, user=user)  # Get the client profile
-            # jobs = client.jobs.all()  # Assuming you have a related_name='jobs' in Client model
-            # applications = Application.objects.filter(job__client=client)  # Adjust as per your Application model setup
-            # context = {
-            #     # 'client': client,
-            #     'jobs': jobs,
-            #     'applications': applications,
-            #     'welcome_message': f"Welcome, {user.full_name}!"
-            # }
+            jobs = Job.objects.filter(client=user).order_by('-posted_at')
+            context = {
+                'jobs': jobs,
+                'welcome_message': welcome_message,
+            }
             return render(request, self.template_client)
 
         # If user is authenticated but not a client, treat as candidate
-        job_list = Job.objects.filter(expiry_date__gt=timezone.now()).order_by('-id')
+        job_list = Job.objects.filter(status='published',expiry_date__gt=timezone.now()).order_by('-published_date')
         if user.catagory:
             job_list = job_list.filter(catagory=user.catagory)
         paginated_data = paginate(request, job_list, 50)
@@ -317,19 +313,43 @@ class JobOpening(View):
 @method_decorator(login_required, name='dispatch')
 class PostJob(View):
     template_name = app + 'client/post_job.html'
+
     def get(self, request):
-        form = JobForm()
+        form = JobForm(user=request.user)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        form = JobForm(request.POST, request.FILES)
+        form = JobForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             job = form.save(commit=False)
             job.client = request.user
             job.save()
-            messages.success(request, f'Job "{job.title}" posted successfully.')
-            return redirect('client_job_list')
+            messages.success(request, 'Job added successfully.')
+            return redirect('user:client_job_list')
         return render(request, self.template_name, {'form': form})
+
+
+class ClientJobEditView(View):
+    template_name = 'job_form.html'
+
+    def get(self, request, job_id):
+        job = get_object_or_404(Job, id=job_id)
+        if job.client != request.user:
+            return redirect('client_job_list')
+        form = JobForm(instance=job, user=request.user)
+        return render(request, self.template_name, {'form': form, 'job': job})
+
+    def post(self, request, job_id):
+        job = get_object_or_404(Job, id=job_id)
+        if job.client != request.user:
+            return redirect('client_job_list')
+        form = JobForm(request.POST, request.FILES, instance=job, user=request.user)
+        if form.is_valid():
+            job = form.save(commit=False)
+            job.save()
+            messages.success(request, f'Job "{job.title}" updated successfully.')
+            return redirect('client_job_list')
+        return render(request, self.template_name, {'form': form, 'job': job})
 
 
 @method_decorator(login_required, name='dispatch')

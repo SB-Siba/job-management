@@ -43,30 +43,17 @@ class JobForm(forms.ModelForm):
         model = common_models.Job
         fields = ['catagory', 'client', 'title', 'description', 'location', 'company_name', 'company_website', 'company_logo', 'vacancies', 'posted_at', 'expiry_date', 'job_type', 'status']
         widgets = {
-            'posting_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'expiration_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            }
+            'posted_at': forms.DateInput(attrs={'type': 'date-local'}),
+            'expiry_date': forms.DateInput(attrs={'type': 'date-local'}),
+        }
 
    
-    # def __init__(self, *args, **kwargs):
-    #     self.user = kwargs.pop('user', None)
-    #     super(JobForm, self).__init__(*args, **kwargs)
-
-    #     # Modify client field queryset based on user role
-    #     if self.instance.pk and self.instance.client and self.instance.client.is_superuser:
-    #         self.fields['client'].queryset = User.objects.filter(is_staff=True)
-
-    #     # Allow only superusers to modify status field
-    #     if self.user and self.user.is_superuser:
-    #         self.fields['status'].widget = forms.Select(choices=Job.STATUS_CHOICES)
-    #     else:
-    #         self.fields['status'].disabled = True
-
-    # def clean_client(self):
-    #     client = self.cleaned_data['client']
-    #     if not client.is_staff:
-    #         raise forms.ValidationError("Only clients (staff members) can be selected as clients.")
-    #     return client
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(JobForm, self).__init__(*args, **kwargs)
+        if self.user and not self.user.is_superuser:
+            self.fields.pop('status')
+            self.fields.pop('client')
         
 class ApplicationForm(forms.ModelForm):
     class Meta:
@@ -101,10 +88,24 @@ class AddUserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
 
 class ClientForm(forms.ModelForm):
-    
 
     class Meta:
         model = common_models.User
         fields = ['email', 'full_name', 'contact', 'password']
 
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+class CategoryFilterForm(forms.Form):
+    model = common_models.Catagory
+    catagory = forms.ModelChoiceField(queryset=model.objects.all(), required=True, label="Category")
+
+class JobSelectionForm(forms.Form):
+    model = common_models.Job
+    jobs = forms.ModelMultipleChoiceField(queryset=model.objects.all(), required=True, widget=forms.CheckboxSelectMultiple, label="Select Jobs")
+
+    def __init__(self, *args, **kwargs):
+        catagory = kwargs.pop('catagory', None)
+        super(JobSelectionForm, self).__init__(*args, **kwargs)
+        if catagory:
+            self.fields['jobs'].queryset = common_models.Job.objects.filter(catagory=catagory)

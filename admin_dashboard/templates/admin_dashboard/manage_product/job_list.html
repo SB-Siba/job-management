@@ -63,6 +63,7 @@
                                     <th>Posted Date</th>
                                     <th>Vacancies</th>
                                     <th>Company_logo</th>
+                                    <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -85,6 +86,7 @@
                                             No logo available
                                             {% endif %}
                                         </td>
+                                        <td>{{ job.get_status_display }}</td>
                                         
                                                   
                                         <td>

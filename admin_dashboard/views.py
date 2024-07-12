@@ -22,9 +22,9 @@ app = "admin_dashboard/"
 @method_decorator(utils.super_admin_only, name='dispatch')
 class AdminDashboard(View):
     template = app + "index.html"
-
     def get(self, request):
-        return render(request, self.template)
+        job_count = common_models.Job.objects.count()
+        return render(request, self.template,{"job_count": job_count})
     
 
 # ===================================== privacy policy and t&c & about
