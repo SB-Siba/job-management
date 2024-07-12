@@ -62,7 +62,7 @@ class HomeView(View):
             return render(request, self.template_client)
 
         # If user is authenticated but not a client, treat as candidate
-        job_list = Job.objects.filter(published=True, expiry_date__gt=timezone.now()).order_by('-id')
+        job_list = Job.objects.filter(expiry_date__gt=timezone.now()).order_by('-id')
         if user.catagory:
             job_list = job_list.filter(catagory=user.catagory)
         paginated_data = paginate(request, job_list, 50)
