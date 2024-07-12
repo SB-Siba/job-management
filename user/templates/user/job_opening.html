@@ -255,7 +255,7 @@ Job Opening
                 </div>
                 <div class="card-footer">
                     <p class="card-text">Active {{ job.published_date|timesince }} ago</p>
-                    <a href="{% url 'user:job-apply' job.id %}" class="btn btn-primary">Apply now</a>
+                    <a href="{% url 'user:job-apply' job.pk %}" class="btn btn-primary">Apply now</a>
                 </div>
             </div>
         </div>

@@ -21,6 +21,8 @@ urlpatterns = [
     path('user/user_detail/<int:user_id>', user.UserDetailView.as_view(), name='user_detail'),
     path('edit_user/<int:user_id>',user.Edit_User.as_view(),name="edit_userrr"),
     path('add_user/', user.AddUserView.as_view(), name='add_user'),
+    path('employees/', user.EmployeeList.as_view(), name='employee_list'),
+    path('employee/<int:employee_id>/', user.EmployeeDetail.as_view(), name='employee_detail'),
 
     # # catagory web
     path("catagory/catagory_list", catagory.CatagoryList.as_view(), name="catagory_list"),

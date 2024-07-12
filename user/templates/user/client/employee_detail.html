@@ -1,0 +1,30 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+  <h2>Employee Details for {{ employee.user.full_name }}</h2>
+  
+  <table>
+    <tr>
+      <th>Full Name:</th>
+      <td>{{ employee.user.full_name }}</td>
+    </tr>
+    <tr>
+      <th>Employer:</th>
+      <td>{{ employee.employer.full_name }}</td>
+    </tr>
+    <tr>
+      <th>Salary:</th>
+      <td>{{ employee.salary }}</td>
+    </tr>
+    <tr>
+      <th>Period Start:</th>
+      <td>{{ employee.period_start }}</td>
+    </tr>
+    <tr>
+      <th>Period End:</th>
+      <td>{{ employee.period_end }}</td>
+    </tr>
+  </table>
+  
+  <a href="{% url 'user:employee_list' employee.job.id %}">Back to Employee List</a>
+{% endblock %}

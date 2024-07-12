@@ -82,23 +82,33 @@ class ApplicationList(View):
     template = app + "application_list.html"
 
     def get(self, request):
-        application_list = self.model.objects.all().order_by('-id')
-        paginated_data = utils.paginate(request, application_list, 50)
+        applications = common_model.Application.objects.all()
         context = {
-            "application_list": application_list,
-            "data_list": paginated_data
+            "applications": applications,
         }
         return render(request, self.template, context)
 
     def post(self, request):
-        application_list = self.model.objects.all().order_by('-id')
-        for application in application_list:
-            new_status = request.POST.get(f'status_{application.id}')
-            if new_status:
-                application.status = new_status
+        for key, value in request.POST.items():
+            if key.startswith('status_'):
+                application_id = key.split('_')[1]
+                application = common_model.Application.objects.get(id=application_id)
+                application.status = value
                 application.save()
-        messages.success(request, 'The statuses of the selected candidates have been updated.')
+                if value == 'Hired':
+                    common_model.Employee.objects.get_or_create(
+                        user=application.user,
+                        employer=application.job.client,
+                        defaults={
+                            'salary': 0,
+                            'period_start': timezone.now(),
+                            'period_end': timezone.now() + timezone.timedelta(days=365),
+                        }
+                    )
+        messages.success(request, 'Application status updated successfully.')
         return redirect('admin_dashboard:application_list')
+
+
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobSearch(View):
     model =common_model.Job
@@ -144,6 +154,8 @@ class JobFilter(View):
         }
         return render(request, self.template, context)
 
+
+@method_decorator(utils.super_admin_only, name='dispatch')
 class JobDetail(View):
     model =common_model.Job
     template = app +"job_detail.html"
