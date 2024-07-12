@@ -12,7 +12,20 @@ class CatagoryAdmin(admin.ModelAdmin):
     search_fields = ("id","title__icontains")
     list_display = ("title","id")
 
-
+@admin.register(models.Employee)
+class EmployeeAdmin(admin.ModelAdmin):
+    list_display = ('user', 'employer', 'salary', 'period_start', 'period_end')
+    search_fields = ('user__full_name', 'user__email', 'employer__full_name', 'employer__email')
+    list_filter = ('employer',)
+    
+    fieldsets = (
+        (None, {
+            'fields': ('user', 'employer', 'salary', 'period_start', 'period_end')
+        }),
+        ('Documents', {
+            'fields': ('docs',),
+        }),
+    )
 # class JobForm(forms.ModelForm):
 #     class Meta:
 #         model = Job

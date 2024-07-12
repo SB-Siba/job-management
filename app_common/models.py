@@ -147,9 +147,6 @@ class Application(models.Model):
         ('Hired', 'Hired'),
         ('Rejected', 'Rejected'),
      ]
-   
-        
-    
      
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -196,13 +193,16 @@ class ContactMessage(models.Model):
             self.uid = utils.get_rand_number(5)
         super().save(*args, **kwargs)
 
-# class Employee(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     position = models.CharField(max_length=100)
-#     department = models.CharField(max_length=100)
+class Employee(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    employer = models.ForeignKey(User, related_name='employees', on_delete=models.CASCADE)
+    salary = models.DecimalField(max_digits=10, decimal_places=2)
+    period_start = models.DateField()
+    period_end = models.DateField()
+    docs = models.FileField(upload_to='employee_docs/', blank=True, null=True)
 
-#     def __str__(self):
-#         return self.user.username
+    def __str__(self):
+        return self.user.get_full_name() or self.user.email
 
 class CommunicationLog(models.Model):
     candidate = models.ForeignKey(UserProfile, on_delete=models.CASCADE)

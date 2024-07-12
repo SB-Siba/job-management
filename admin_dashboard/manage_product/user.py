@@ -3,47 +3,93 @@ from django.shortcuts import get_object_or_404
 from django.views import View
 from django.utils.decorators import method_decorator
 from helpers import utils, api_permission
+from django.core.mail import send_mail
+from django.conf import settings
 from django.contrib import messages
 from user import forms as siteforms
 from admin_dashboard.manage_product import forms
 import os
 from app_common import models as common_model
 from user import forms
-from .forms import EditUserForm,AddUserForm
+from .forms import EditUserForm,AddUserForm,JobSelectionForm,CategoryFilterForm
+import logging
+
+logger = logging.getLogger(__name__)
 app = "admin_dashboard/users/"
-
-# def candidate_list(request):
-#     candidates = Candidate.objects.all()
-#     return render(request, 'user_list.html', {'candidates': candidates})
-
-# def candidate_detail(request, candidate_id):
-#     candidate = Candidate.objects.get(id=candidate_id)
-#     return render(request, 'user_detail.html', {'candidate': candidate})
-
-# def assign_category(request, candidate_id):
-#     candidate = Candidate.objects.get(id=candidate_id)
-#     if request.method == 'POST':
-#         category = request.POST.get('category')
-#         candidate.category = catagory
-#         candidate.save()
-#         return redirect('candidate_detail', candidate_id=candidate.id)
-#     return render(request, 'candidates/assign_category.html', {'candidate': candidate})
-
-# def update_status_hired(request, candidate_id):
-#     candidate = Candidate.objects.get(id=candidate_id)
-#     candidate.status = 'hired'
-#     candidate.save()
-#     return redirect('candidate_detail', candidate_id=candidate.id)
 
 
 class UserList(View):
     model = common_model.User
     template = app + "user_list.html"
 
-    def get(self,request):
-        user_obj = self.model.objects.filter(is_superuser=False,is_staff=False).order_by("id")
-        return render(request,self.template,{"user_obj":user_obj})
-    
+    def get(self, request):
+        category_form = CategoryFilterForm()
+        user_obj = self.model.objects.filter(is_superuser=False, is_staff=False).order_by("id")
+        return render(request, self.template, {"user_obj": user_obj, "category_form": category_form})
+
+    def post(self, request):
+        category_form = CategoryFilterForm(request.POST)
+        job_form = None
+        catagory = None
+
+        if category_form.is_valid():
+            catagory = category_form.cleaned_data['catagory']
+            user_obj = common_model.User.objects.filter(catagory=catagory, is_superuser=False, is_staff=False)
+            job_form = JobSelectionForm(catagory=catagory)
+            return render(request, self.template, {
+                'category_form': category_form,
+                'user_obj': user_obj,
+                'job_form': job_form,
+                'catagory': catagory
+            })
+
+        if 'catagory_id' in request.POST:
+            catagory_id = request.POST.get('catagory_id')
+            catagory = common_model.Catagory.objects.get(id=catagory_id)
+            job_form = JobSelectionForm(request.POST, catagory=catagory)
+            user_obj = common_model.User.objects.filter(catagory=catagory, is_superuser=False, is_staff=False)
+
+            if job_form.is_valid():
+                selected_jobs = job_form.cleaned_data['jobs']
+                job_list = "\n".join([f"{job.title} - {job.company_name}" for job in selected_jobs])
+
+                action = request.POST.get('action')
+                if action == 'send_selected':
+                    selected_user_ids = request.POST.getlist('selected_users')
+                    users_to_send = user_obj.filter(id__in=selected_user_ids)
+                else:  # send_all
+                    users_to_send = user_obj
+
+                admin_email = "noreplyf577@gmail.com"
+
+                success_messages = []
+                error_messages = []
+
+                for user in users_to_send:
+                    try:
+                        send_mail(
+                            'Job Opportunities',
+                            f'Dear {user.full_name},\n\nHere are some job opportunities you might be interested in:\n\n{job_list}',
+                            admin_email,
+                            [user.email],
+                            fail_silently=False,
+                        )
+                        success_messages.append(f"Email sent to {user.full_name} ({user.email})")
+                    except Exception as e:
+                        error_messages.append(f"Failed to send email to {user.full_name} ({user.email}): {e}")
+
+                for msg in success_messages:
+                    messages.success(request, msg)
+                for msg in error_messages:
+                    messages.error(request, msg)
+
+                return redirect('admin_dashboard:userslist')
+
+        user_obj = self.model.objects.filter(is_superuser=False, is_staff=False).order_by("id")
+        return render(request, self.template, {"user_obj": user_obj, "category_form": category_form, "job_form": job_form})
+
+
+
 class AddUserView(View):
     template = app + "user_add.html"
     form_class = AddUserForm
@@ -153,4 +199,5 @@ class AdminEmployeeAssignView(View):
         messages.success(request, f'{user.full_name} has been assigned as an employee.')
 
         return redirect('admin_dashboard:employee_list')
+
 

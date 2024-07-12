@@ -21,6 +21,9 @@
             <li><a href="#">Profile</a></li>
             <li><a href="#">My Job</a></li>
             <li><a href="">Apply For Job</a></li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'contactmessage' %}active{% endif %}" href="{% url 'user:contactmessage' %}">Contact</a>
+            </li>
             <li>
                 <a class="nav-link font-bold"style="background:none" href="{% url 'user:logout' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
                 <i class="fas fa-sign-out-alt"></i> Log Out
