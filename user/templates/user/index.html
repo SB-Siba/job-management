@@ -1,56 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
-    <link rel="stylesheet" href="/static/css/landing.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="sidebar">
-        <h4>Pravati International</h4>
-        <ul>
-            <li>
-                <a class="nav-link font-bold" style="background:none" href="{% url 'user:home' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
-                <i class="fas fa-headset"></i> Home
-            </a>
-            </li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">My Job</a></li>
-            <li><a href="">Apply For Job</a></li>
-            <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.url_name == 'contactmessage' %}active{% endif %}" href="{% url 'user:contactmessage' %}">Contact</a>
-            </li>
-            <li>
-                <a class="nav-link font-bold"style="background:none" href="{% url 'user:logout' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
-                <i class="fas fa-sign-out-alt"></i> Log Out
-            </a></li>
-        </ul>
-        <div class="profile">
-            <div class="profile-my"><a href="{% url 'user:profile' %}">{{ request.user.full_name }}</a></div>
-            {% if profileobj.profile_pic %}
-                <img src="{{ profile_obj.profile_pic.url }}" width="100" class="rounded-circle">
-            {% else %}
-                <img src="https://i.imgur.com/bDLhJiP.jpg" height="100" width="100" class="rounded-circle">      
-            {% endif %}
+
+{% extends 'user/starters.html' %}
+{% load static %}
+{% block main_content %}
+{% load admin_dash %} 
+
+<main class="py-6 bg-surface-secondary">
+
+  <div class="container-fluid d-flex justify-content-evenly row">
+    {% for job in job_list %}
+      <div class="col-xl-4 col-sm-6 col-12 d-flex">
+        
+        <div class="card" style="background: linear-gradient(to right,#0a504a,#38ef7d) !important;
+            color: #fff;">
+    
+    
+        
+            <div class="card-header">
+                <h3 class="card-title">{{ job.title }}</h3>
+                <h4 class="card-subtitle mb-2 text-muted">{{ job.catagory }}</h4>
+                <p class="card-text">{{ job.company_name }}</p>
+                <p class="card-text">{{ job.location }}</p>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ job.job_type }}</p>
+                <p class="card-text">{{ job.description }}</p>
+            </div>
+            <div class="card-footer">
+                <p class="card-text">Active {{ job.published_date|timesince }} ago</p>
+                <a href="{% url 'user:job-apply' job.id %}" class="btn btn-primary">Apply now</a>
+            </div>
+        
+    
+   
         </div>
         
+      </div>
+      {% endfor %}
+      
+      </div>
     </div>
-    <div class="main-content">
-        <header>
-            <form id="custom-search-form" class="form-search form-horizontal">
-                <div class="input-append">
-                    <input type="text" class="search-query" placeholder="Search">
-                    <button type="submit" class="btn"><i class="icon-search"></i></button>
+  </div>
+</main>
+
+<!-- <div class="container">
+    <div class="row">
+        {% for job in job_list %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ job.title }}</h3>
+                    <h4 class="card-subtitle mb-2 text-muted">{{ job.catagory }}</h4>
+                    <p class="card-text">{{ job.company_name }}</p>
+                    <p class="card-text">{{ job.location }}</p>
                 </div>
-            </form>
-        </header>
-        <div class="content">
-            {% block main_content %}{% endblock main_content %}
+                <div class="card-body">
+                    <p class="card-text">{{ job.job_type }}</p>
+                    <p class="card-text">{{ job.description }}</p>
+                </div>
+                <div class="card-footer">
+                    <p class="card-text">Active {{ job.published_date|timesince }} ago</p>
+                    <a href="{% url 'user:job-apply' job.id %}" class="btn btn-primary">Apply now</a>
+                </div>
+            </div>
         </div>
+        {% endfor %}
     </div>
-</body>
-</html>
+</div> -->
+
+
+{% endblock main_content %}
+
