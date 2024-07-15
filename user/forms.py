@@ -94,3 +94,22 @@ class ContactMessageForm(forms.Form):
 
 
 
+class EmployeeForm(forms.ModelForm):
+    class Meta:
+        model = common_models.Employee
+        fields = ['salary', 'period_start', 'period_end', 'docs']
+        widgets = {
+            'period_start': forms.DateInput(attrs={'type': 'date'}),
+            'period_end': forms.DateInput(attrs={'type': 'date'}),
+        }
+        labels = {
+            'salary': 'Salary',
+            'period_start': 'Period Start',
+            'period_end': 'Period End',
+            'docs': 'Documents',
+        }
+
+class ApplicationStatusForm(forms.ModelForm):
+    class Meta:
+        model = common_models.Application
+        fields = ['status']

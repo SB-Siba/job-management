@@ -1,0 +1,37 @@
+<!-- templates/user/employee_list.html -->
+
+{% extends "user/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Employees for Job: {{ job.title }}</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User Full Name</th>
+                <th>Employer</th>
+                <th>Salary</th>
+                <th>Period Start</th>
+                <th>Period End</th>
+                <!-- Add other relevant fields -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+                <tr>
+                    <td>{{ employee.user.full_name }}</td>
+                    <td>{{ employee.employer.full_name }}</td>
+                    <td>{{ employee.salary }}</td>
+                    <td>{{ employee.period_start }}</td>
+                    <td>{{ employee.period_end }}</td>
+                    <!-- Add other relevant fields -->
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No employees found for this job.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'user:job_list' %}">Back to Job List</a>
+</div>
+{% endblock %}

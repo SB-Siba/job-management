@@ -58,8 +58,20 @@ class ApplicationAdmin(admin.ModelAdmin):
     list_display = ('job', 'user_full_name', 'user_email','user_contact', 'applied_at','status')
     actions = [make_hired]
     list_filter = ('status', 'job')
-    search_fields = ('user_full_name', 'user_email', 'user_contact', 'job__catagory')
- 
+    search_fields = ('user_full_name', 'user_email', 'user_contact', 'job__title')
+    
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        if obj.status == 'Hired':
+            Employee.objects.get_or_create(
+                user=obj.user,
+                employer=obj.job.client,
+                defaults={
+                    'salary': 0,  # Default or initial values
+                    'period_start': timezone.now(),
+                    'period_end': timezone.now() + timezone.timedelta(days=365),
+                }
+            )
 
 
 @admin.register(models.ContactMessage)

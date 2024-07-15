@@ -1,7 +1,7 @@
 {% extends "user/base.html" %}
 {% block content %}
 <h1>My Jobs</h1>
-<a href="{% url 'user:client_post_job' %}" class="btn btn-primary">Post New Job</a>
+<a href="{% url 'user:post_job' %}" class="btn btn-primary">Post New Job</a>
 <table class="table">
     <thead>
         <tr>
@@ -22,7 +22,7 @@
             <td>{{ job.posted_at }}</td>
             <td>{{ job.get_status_display }}</td>
             <td>
-                <a href="{% url 'user:client_job_detail' job.id %}" class="btn btn-info">Details</a>
+                <a href="{% url 'user:job_detail' job.id %}" class="btn btn-info">Details</a>
                 <a href="{% url 'admin_dashboard:job_edit' job.id %}" class="btn btn-warning">Edit</a>
             </td>
         </tr>

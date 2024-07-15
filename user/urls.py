@@ -40,7 +40,12 @@ urlpatterns = [
     path('thank-you/',views.ThankYou.as_view(),name='thank_you'),
 
     # client job 
-    path('jobs/', views.ClientJobList.as_view(), name='client_job_list'),
-    path('jobs/<int:job_id>/', views.JobDetail.as_view(), name='client_job_detail'),
-    path('jobs/post/', views.PostJob.as_view(), name='client_post_job'),
+    path('jobs/', views.ClientJobList.as_view(), name='job_list'),
+    path('jobs/<int:job_id>/', views.JobDetail.as_view(), name='job_detail'),
+    path('jobs/post/', views.PostJob.as_view(), name='post_job'),
+    path('applications/<int:job_id>/', views.ApplicationList.as_view(), name='application_list'),
+    path('employees/<int:job_id>/', views.EmployeeList.as_view(), name='employee_list'),
+    path('all-employees/', views.EmployeeListOverview.as_view(), name='employee_list_overview'),
+    path('employee/<int:pk>/', views.EmployeeDetail.as_view(), name='employee_detail'),
+    path('employee/<int:pk>/edit/', views.EmployeeUpdate.as_view(), name='employee_update'),
 ]
