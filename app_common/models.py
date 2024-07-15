@@ -198,9 +198,9 @@ class Employee(models.Model):
     employer = models.ForeignKey(User, related_name='employees', on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE, null=True, blank=True)
     application = models.ForeignKey('Application', on_delete=models.CASCADE, related_name='employees', null=True, blank=True)
-    salary = models.DecimalField(max_digits=10, decimal_places=2, null=False)
-    period_start = models.DateField()
-    period_end = models.DateField()
+    salary = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    period_start = models.DateField(null=True, blank=True)
+    period_end = models.DateField(null=True, blank=True)
     docs = models.FileField(upload_to='employee_docs/', blank=True, null=True)
 
     def __str__(self):
