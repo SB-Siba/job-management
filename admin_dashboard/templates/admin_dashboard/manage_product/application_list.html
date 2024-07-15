@@ -1,3 +1,5 @@
+{% extends 'admin_dashboard/starter.html' %}
+{% load static %}
 {% block content %}
 <style>
     * {
@@ -7,7 +9,7 @@
     }
     table th, td {
         width: 150px;
-        border: 1px solid red;
+        border: 1px solid #ddd;
         text-align: center;
     }
     .messages {
@@ -44,7 +46,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for application in application_list %}
+            {% for application in applications %}
                 <tr>
                     <td>{{ application.user.full_name }}</td>
                     <td>{{ application.job.catagory }}</td>
@@ -74,20 +76,20 @@
     <button type="submit">Update Status</button>
 </form>
 
-{% if data_list.has_other_pages %}
+{% if applications.has_other_pages %}
     <ul class="pagination">
-        {% if data_list.has_previous %}
-            <li><a href="?page={{ data_list.previous_page_number }}">Previous</a></li>
+        {% if applications.has_previous %}
+            <li><a href="?page={{ applications.previous_page_number }}">Previous</a></li>
         {% endif %}
-        {% for page_number in data_list.paginator.page_range %}
-            {% if data_list.number == page_number %}
+        {% for page_number in applications.paginator.page_range %}
+            {% if applications.number == page_number %}
                 <li class="active"><span>{{ page_number }}</span></li>
             {% else %}
                 <li><a href="?page={{ page_number }}">{{ page_number }}</a></li>
             {% endif %}
         {% endfor %}
-        {% if data_list.has_next %}
-            <li><a href="?page={{ data_list.next_page_number }}">Next</a></li>
+        {% if applications.has_next %}
+            <li><a href="?page={{ applications.next_page_number }}">Next</a></li>
         {% endif %}
     </ul>
 {% endif %}

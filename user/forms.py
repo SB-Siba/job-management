@@ -73,24 +73,42 @@ class UpdateProfileForm(forms.Form):
     catagory.widget.attrs.update({'class': 'form-control', 'required': 'required'})
 
 class ContactMessageForm(forms.Form):
-    user = forms.CharField(max_length=255, required=False)
-    user.widget.attrs.update({'class': 'form-control', 'type': 'text', "readonly": "readonly"})
-
+    user = forms.CharField(
+        max_length=255, 
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'readonly': 'readonly'}),
+        label='Full Name (Auto-filled for logged-in users)'
+    )
+    
     email = forms.EmailField(
-        widget=forms.EmailInput(attrs={
-            'class': 'form-control', 
-            'placeholder': 'Enter Your Email'
-        }),
-        required=True
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter Your Email'}),
+        required=True,
+        label='Email'
     )
-
+    
     message = forms.CharField(
-        widget=forms.Textarea(attrs={
-            'class': 'form-control', 
-            'placeholder': 'Enter Your Message'
-        }),
-        required=True
+        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter Your Message'}),
+        required=True,
+        label='Message'
     )
 
 
+class EmployeeForm(forms.ModelForm):
+    class Meta:
+        model = common_models.Employee
+        fields = ['salary', 'period_start', 'period_end', 'docs']
+        widgets = {
+            'period_start': forms.DateInput(attrs={'type': 'date'}),
+            'period_end': forms.DateInput(attrs={'type': 'date'}),
+        }
+        labels = {
+            'salary': 'Salary',
+            'period_start': 'Period Start',
+            'period_end': 'Period End',
+            'docs': 'Documents',
+        }
 
+class ApplicationStatusForm(forms.ModelForm):
+    class Meta:
+        model = common_models.Application
+        fields = ['status']

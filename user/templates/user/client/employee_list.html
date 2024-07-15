@@ -1,0 +1,38 @@
+
+{% block content %}
+  <h2>Employees for Job: {{ job.title }}</h2>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>User Full Name</th>
+        <th>Employer</th>
+        <th>Salary</th>
+        <th>Period Start</th>
+        <th>Period End</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for employee in employees %}
+        <tr>
+          <td>{{ employee.user.full_name }}</td>
+          <td>{{ employee.employer.full_name }}</td>
+          <td>{{ employee.salary }}</td>
+          <td>{{ employee.period_start }}</td>
+          <td>{{ employee.period_end }}</td>
+          <td>
+            <a href="{% url 'user:employee_detail' employee.pk %}">View</a>
+            <a href="{% url 'user:employee_update' employee.pk %}">Edit</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">No employees found for this job.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
+  <a href="{% url 'user:job_list' %}">Back to Job List</a>
+{% endblock %}

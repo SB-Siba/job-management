@@ -201,3 +201,24 @@ class AdminEmployeeAssignView(View):
         return redirect('admin_dashboard:employee_list')
 
 
+@method_decorator(utils.super_admin_only, name='dispatch')
+class EmployeeList(View):
+    template_name = app + 'employee_list.html'
+    
+    def get(self, request):
+        employees = common_model.Employee.objects.all()
+        context = {
+            'employees': employees
+        }
+        return render(request, self.template_name, context)
+@method_decorator(utils.super_admin_only, name='dispatch')
+class EmployeeDetail(View):
+    model = common_model.Employee
+    template_name = app + "employee_detail.html"
+
+    def get(self, request, employee_id):
+        employee = get_object_or_404(self.model, id=employee_id)
+        context = {
+            "employee": employee,
+        }
+        return render(request, self.template_name, context)

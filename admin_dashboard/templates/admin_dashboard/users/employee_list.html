@@ -1,0 +1,36 @@
+{% extends 'admin_dashboard/starter.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <h1>Employee List</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Employer</th>
+                    <th>Salary</th>
+                    <th>Period Start</th>
+                    <th>Period End</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in employees %}
+                    <tr>
+                        <td>{{ employee.id }}</td>
+                        <td>{{ employee.user.full_name }}</td>
+                        <td>{{ employee.employer.full_name }}</td>
+                        <td>{{ employee.salary }}</td>
+                        <td>{{ employee.period_start }}</td>
+                        <td>{{ employee.period_end }}</td>
+                        <td>
+                            <a href="{% url 'admin_dashboard:employee_detail' employee.id %}" class="btn btn-info">Details</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

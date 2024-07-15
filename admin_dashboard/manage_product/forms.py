@@ -43,8 +43,8 @@ class JobForm(forms.ModelForm):
         model = common_models.Job
         fields = ['catagory', 'client', 'title', 'description', 'location', 'company_name', 'company_website', 'company_logo', 'vacancies', 'posted_at', 'expiry_date', 'job_type', 'status']
         widgets = {
-            'posted_at': forms.DateInput(attrs={'type': 'date-local'}),
-            'expiry_date': forms.DateInput(attrs={'type': 'date-local'}),
+            'posted_at': forms.DateInput(attrs={'type': 'date'}),
+            'expiry_date': forms.DateInput(attrs={'type': 'date'}),
         }
 
    

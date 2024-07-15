@@ -1,0 +1,46 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+  <h2>Applications for Job: {{ job.title }}</h2>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>User Full Name</th>
+        <th>Email</th>
+        <th>Contact</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for application in applications %}
+        <tr>
+          <td>{{ application.user.full_name }}</td>
+          <td>{{ application.user.email }}</td>
+          <td>{{ application.user.contact }}</td>
+          <td>{{ application.status }}</td>
+          <td>
+            {% if application.status != 'Hired' %}
+              <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="application_id" value="{{ application.id }}">
+                <input type="hidden" name="status" value="Hired">
+                <input type="text" name="salary" placeholder="Salary" required>
+                <input type="date" name="period_start" placeholder="Period Start" required>
+                <input type="date" name="period_end" placeholder="Period End" required>
+                <button type="submit">Hire</button>
+              </form>
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="5">No applications found for this job.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
+  <a href="{% url 'user:job_list' %}">Back to Job List</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+  <h2>Update Employee Details for {{ employee.user.full_name }}</h2>
+  
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+  
+  <a href="{% url 'user:employee_list' employee.application.job.id %}">Back to Employee List</a>
+{% endblock %}
