@@ -2,7 +2,6 @@ from datetime import datetime
 from django.conf import settings
 from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
 from django.http import HttpResponseBadRequest
-from django.http import HttpResponseBadRequest
 from django.views import View
 from django.contrib import messages
 from django.http import FileResponse, JsonResponse
@@ -29,8 +28,6 @@ from app_common.models import (
     Application,
     ContactMessage,
     Employee,
-    Employee,
-    
 )
 
 from helpers.utils import dict_filter,paginate # Import dict_filter function
@@ -49,7 +46,6 @@ class HomeView(View):
         if not user.is_authenticated:
             jobs = Job.objects.all()
             return render(request, self.unauthenticated_template, {'jobs': jobs})
-            return render(request, self.unauthenticated_template, {'jobs': jobs})
 
         welcome_message = f"Welcome, {user.full_name}!"
 
@@ -60,11 +56,6 @@ class HomeView(View):
                 'welcome_message': welcome_message,
             }
             return render(request, self.template_client, context)
-            return render(request, self.template_client, context)
-
-        # If user is authenticated but not a client, treat as candidate
-        job_list = Job.objects.filter(status='published', expiry_date__gt=timezone.now()).order_by('-published_date')
-        job_list = Job.objects.filter(status='published', expiry_date__gt=timezone.now()).order_by('-published_date')
         if user.catagory:
             job_list = job_list.filter(catagory=user.catagory)
         paginated_data = paginate(request, job_list, 50)
@@ -198,8 +189,6 @@ class UserJobFilter(View):
 
 
 @method_decorator(login_required, name='dispatch')
-
-@method_decorator(login_required, name='dispatch')
 class ApplyForJobView(View):
     template = app + 'job_apply.html'
     model = Application
@@ -220,9 +209,6 @@ class ApplyForJobView(View):
         
         return redirect('user:home')  # Redirect back to the job list view
 
-
-
-@method_decorator(login_required, name='dispatch')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -333,13 +319,7 @@ class JobOpening(View):
     def get(self, request):
         jobs = Job.objects.filter(status='published')
         return render(request, self.template, {'jobs': jobs})
-    model = Job
-    def get(self, request):
-        jobs = Job.objects.filter(status='published')
-        return render(request, self.template, {'jobs': jobs})
-
-# client 
-# client 
+      
 @method_decorator(login_required, name='dispatch')
 class PostJob(View):
     template_name = app + 'client/post_job.html'
@@ -531,7 +511,6 @@ class EmployeeListOverview(View):
         
         context = {
             'employees': employees
-            'employees': employees
         }
         return render(request, self.template_name, context)
 
@@ -564,35 +543,7 @@ class EmployeeUpdate(View):
         context = {'form': form, 'employee': employee}
         return render(request, self.template_name, context)
 
-
-
-class EmployeeDetail(View):
-    template_name = app + "client/employee_detail.html"
-
-    def get(self, request, pk):
-        employee = get_object_or_404(Employee, pk=pk)
-        context = {'employee': employee}
-        return render(request, self.template_name, context)
-
-
-class EmployeeUpdate(View):
-    template_name = app + "client/employee_update.html"
-
-    def get(self, request, pk):
-        employee = get_object_or_404(Employee, pk=pk)
-        form = forms.EmployeeForm(instance=employee)
-        context = {'form': form, 'employee': employee}
-        return render(request, self.template_name, context)
-
-    def post(self, request, pk):
-        employee = get_object_or_404(Employee, pk=pk)
-        form = forms.EmployeeForm(request.POST, request.FILES, instance=employee)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('user:employee_detail', args=[pk]))
-        context = {'form': form, 'employee': employee}
-        return render(request, self.template_name, context)
-
+      
 class ThankYou(View):
     template = app + "thankyoupage.html"
     def get(self, request):
