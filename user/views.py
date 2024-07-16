@@ -28,7 +28,6 @@ from app_common.models import (
     Application,
     ContactMessage,
     Employee,
-    
 )
 
 from helpers.utils import dict_filter,paginate # Import dict_filter function
@@ -57,9 +56,6 @@ class HomeView(View):
                 'welcome_message': welcome_message,
             }
             return render(request, self.template_client, context)
-
-        # If user is authenticated but not a client, treat as candidate
-        job_list = Job.objects.filter(status='published', expiry_date__gt=timezone.now()).order_by('-published_date')
         if user.catagory:
             job_list = job_list.filter(catagory=user.catagory)
         paginated_data = paginate(request, job_list, 50)
@@ -82,7 +78,6 @@ class ProfileView(View):
         print(catagory_obj)
         try:
             profile_obj = UserProfile.objects.get(user=user)
-            # print(profile_obj,"hiehfipajdfpofj;ahfihiwfwkhw")
         except UserProfile.DoesNotExist:
             profile_obj = None
 
@@ -232,45 +227,55 @@ class ApplicationSuccess(View):
     def get(self,request):
         return render(request,self.template)
 
-class Contact(View):
-    template = app + "login"
 
-    def get(self,request):
-        return render(request,self.template)
-
-
-@method_decorator(login_required, name='dispatch')
 class contactMesage(View):
     template = app + "contact_page.html"
 
-    def get(self,request):
-        initial = {'user': request.user.full_name}
-        form = forms.ContactMessageForm(initial=initial)
+    def get(self, request):
+        if request.user.is_authenticated:
+            initial = {'user': request.user.full_name , 'email': request.user.email}
+            template = app + "contact_page.html"    
+        else:
+            initial = {}
+            template = app + "contact_page_unauthenticated.html"
 
-        context={"form":form}
-        return render(request,self.template,context)
-    
-    def post(self,request):
-        form = forms.ContactMessageForm(request.POST)  # Instantiate the form with request POST data
-        if form.is_valid():  # Add parentheses to is_valid()
-            user = form.cleaned_data['user']
+        form = forms.ContactMessageForm(initial=initial)
+        context = {"form": form}
+        return render(request, template, context)
+
+    def post(self, request):
+        form = forms.ContactMessageForm(request.POST)
+        if form.is_valid():
+            user = form.cleaned_data.get('user')
+            email = form.cleaned_data['email']
             query_message = form.cleaned_data['message']
             try:
-                u_obj = get_object_or_404(User,full_name = user)
-                user_email = u_obj.email
-                subject = "Your Query Recived."
-                message = f"Dear,\nYour Query has been recived successfully.\nOur Team members look into this."
-                from_email = "forverify.noreply@gmail.com"
-                send_mail(subject, message, from_email,[user_email], fail_silently=False)
-                contact_obj = ContactMessage(user = u_obj,message =query_message)
+                if request.user.is_authenticated:
+                    u_obj = request.user
+                    contact_obj = ContactMessage(user=u_obj, message=query_message)
+                else:
+                    contact_obj = ContactMessage(uid=get_rand_number(5), message=query_message)
+                    # Save email as a separate attribute if necessary, not in model directly
+
                 contact_obj.save()
-                messages.info(request,"Your Message has been sent successfully.")
+
+                subject = "Your Query Received."
+                message = f"Dear {user or email},\nYour query has been received successfully.\nOur team members will look into this."
+                from_email = "forverify.noreply@gmail.com"
+                send_mail(subject, message, from_email, [email], fail_silently=False)
+
+                if request.user.is_authenticated:
+                    messages.info(request, "Your message has been sent successfully.")
+                else:
+                    messages.info(request, "Your message has been received. You can log in to track the response.")
+                
                 return redirect("user:home")
             except Exception as e:
-                print (e)
-                messages.warning(request,"There was an error while sending your message.")
-                return self.get(request)
-        else:   # If the form is not valid, re-render the form with errors
+                print(e)
+                messages.warning(request, "There was an error while sending your message.")
+                return redirect("user:home")
+        else:
+            messages.warning(request, "Invalid form data. Please correct the errors.")
             return self.get(request)
         
      
@@ -314,8 +319,7 @@ class JobOpening(View):
     def get(self, request):
         jobs = Job.objects.filter(status='published')
         return render(request, self.template, {'jobs': jobs})
-
-# client 
+      
 @method_decorator(login_required, name='dispatch')
 class PostJob(View):
     template_name = app + 'client/post_job.html'
@@ -331,7 +335,7 @@ class PostJob(View):
             job.client = request.user
             job.save()
             messages.success(request, 'Job added successfully.')
-            return redirect('user:client_job_list')
+            return redirect('user:job_list')
         return render(request, self.template_name, {'form': form})
 
 
@@ -390,47 +394,55 @@ class JobDetail(View):
 
     def post(self, request, job_id):
         job = get_object_or_404(Job, id=job_id)
-        
+
         if 'employee_form' in request.POST:
-            form = forms.EmployeeForm(request.POST)
+            employee_id = request.POST.get('employee_id')
+            employee = get_object_or_404(Employee, id=employee_id)
+            form = forms.EmployeeForm(request.POST, instance=employee)
             if form.is_valid():
-                employee = form.save(commit=False)
-                employee.job = job
-                employee.employer = request.user
-                employee.save()
+                updated_employee = form.save(commit=False)
+                updated_employee.user = employee.user  # Ensure the user field is not set to NULL
+                updated_employee.employer = employee.employer  # Ensure the employer field is not set to NULL
+                updated_employee.job = job  # Ensure the job field is not set to NULL
+                updated_employee.save()
                 return redirect('user:job_detail', job_id=job.id)
-            # Handle form errors if form is invalid
 
         elif 'status_form' in request.POST:
             application_id = request.POST.get('application_id')
-            status = request.POST.get('status')  # Ensure status is provided
-            salary = request.POST.get('salary')
-            period_start = request.POST.get('period_start')
-            period_end = request.POST.get('period_end')
-            
-            if not status:  # Ensure status is not empty
+            status = request.POST.get('status')
+            if not status:
                 return HttpResponseBadRequest("Status field is required.")
-            
+
             application = get_object_or_404(Application, id=application_id)
             application.status = status
             application.save()
 
             if status == 'Hired':
+                # Assuming 'salary', 'period_start', 'period_end' are passed in POST data
                 Employee.objects.create(
                     user=application.user,
                     job=application.job,
                     employer=request.user,
-                    salary=salary,
-                    period_start=period_start,
-                    period_end=period_end,
+                    salary=request.POST.get('salary'),
+                    period_start=request.POST.get('period_start'),
+                    period_end=request.POST.get('period_end'),
+                )
+            elif status == 'Rejected':
+                # Send rejection email
+                send_mail(
+                    'Job Application Status',
+                    'Dear {},\n\nWe regret to inform you that your application for the position of {} at {} has been rejected.'.format(application.user.full_name, application.job.title, application.job.company_name),
+                    'your-email@example.com',
+                    [application.email],
+                    fail_silently=False,
                 )
             return redirect('user:job_detail', job_id=job.id)
 
-        # Handle other cases or errors
+        # If no form is submitted or there's an error, reload data for the GET request
         employees = Employee.objects.filter(job=job)
         applications = Application.objects.filter(job=job)
         employee_form = forms.EmployeeForm()
-        status_form = forms.ApplicationStatusForm() 
+        status_form = forms.ApplicationStatusForm()
         return render(request, self.template_name, {
             'job': job,
             'employees': employees,
@@ -531,6 +543,7 @@ class EmployeeUpdate(View):
         context = {'form': form, 'employee': employee}
         return render(request, self.template_name, context)
 
+      
 class ThankYou(View):
     template = app + "thankyoupage.html"
     def get(self, request):

@@ -704,8 +704,7 @@
                 </button>
     
                 <div class="collapse navbar-collapse px-5" id="navbarNav1">
-                    <ul class="navbar-nav ms-lg-auto text-black" style="font-size: 25px; font-family: merriwether;">
-                        <li class="nav-item">
+                    <ul class="navbar-nav ms-lg-auto text-black" style="font-size: 25px; font-family: merriwether;"> <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'user:home' %}">Home</a>
                         </li>
                         <li class="nav-item">
@@ -735,8 +734,7 @@
             </div>
         </nav>
     </main>
-    
-     
+
     {% block main_content %}
       
     {% endblock main_content %}
