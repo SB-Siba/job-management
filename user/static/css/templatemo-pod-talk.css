@@ -292,8 +292,6 @@ main {
 .navbar-nav .nav-link {
   display: inline-block;
   color: black;
-  font-family: var(--title-font-family); 
-  font-size: var(--menu-font-size);
   font-weight: var(--font-weight-medium);
   text-transform: uppercase;
   letter-spacing: 0.5px;
