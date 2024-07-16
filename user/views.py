@@ -28,7 +28,6 @@ from app_common.models import (
     Application,
     ContactMessage,
     Employee,
-    
 )
 
 from helpers.utils import dict_filter,paginate # Import dict_filter function
@@ -39,7 +38,7 @@ app = "user/"
 
 class HomeView(View):
     template_client = app + 'client_home.html'
-    template_user = app + 'home1.html'
+    template_user = app + 'index.html'
     unauthenticated_template = app + 'home_for_landing.html'
 
     def get(self, request):
@@ -57,9 +56,6 @@ class HomeView(View):
                 'welcome_message': welcome_message,
             }
             return render(request, self.template_client, context)
-
-        # If user is authenticated but not a client, treat as candidate
-        job_list = Job.objects.filter(status='published', expiry_date__gt=timezone.now()).order_by('-published_date')
         if user.catagory:
             job_list = job_list.filter(catagory=user.catagory)
         paginated_data = paginate(request, job_list, 50)
@@ -323,8 +319,7 @@ class JobOpening(View):
     def get(self, request):
         jobs = Job.objects.filter(status='published')
         return render(request, self.template, {'jobs': jobs})
-
-# client 
+      
 @method_decorator(login_required, name='dispatch')
 class PostJob(View):
     template_name = app + 'client/post_job.html'
@@ -548,6 +543,7 @@ class EmployeeUpdate(View):
         context = {'form': form, 'employee': employee}
         return render(request, self.template_name, context)
 
+      
 class ThankYou(View):
     template = app + "thankyoupage.html"
     def get(self, request):
