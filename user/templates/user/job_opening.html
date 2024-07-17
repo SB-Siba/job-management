@@ -363,14 +363,14 @@ Opening {% endblock title %} {% block main_content %}
 
 <div class="d-flex justify-content-evenly row py-5">
   {% for job in jobs %}
-    <div class="nft col-sm-4">
+    <div class="nft col-sm-4 px-4">
       <div class="main px-4">
         
           <div>
 
-            <div style="height: 250px;">
-            <h3 class="text-white">{{ job.title }}</h3>
-            <h4 class="text-white">{{ job.catagory }}</h4>
+            <div style="height: 150px;">
+            <h3 class="text-white" style="font-size: 20px; font-weight: bolder;">{{ job.title }}</h3>
+            <h4 class="text-white" style="font-size: 20px; font-weight: bolder;">{{ job.catagory }}</h4>
             <p class="text-white">{{ job.company_name }}</p>
             <p class="text-white">{{ job.location }}</p>
             </div>
@@ -379,7 +379,7 @@ Opening {% endblock title %} {% block main_content %}
               <p class="text-white">{{ job.description }}</p>
             </div>
             <p class="text-white">Active {{ job.published_date|timesince }} ago</p>
-            <a href="{% url 'user:job-apply' job.pk %}" class="btn">Apply now</a>
+            <a href="{% url 'user:login' %}" class="btn">Apply now</a>
           </div>
 
       

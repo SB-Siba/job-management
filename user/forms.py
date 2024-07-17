@@ -73,11 +73,11 @@ class UpdateProfileForm(forms.Form):
     catagory.widget.attrs.update({'class': 'form-control', 'required': 'required'})
 
 class ContactMessageForm(forms.Form):
-    user = forms.CharField(
+    name = forms.CharField(
         max_length=255, 
         required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'readonly': 'readonly'}),
-        label='Full Name (Auto-filled for logged-in users)'
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Your Name'}),
+        label='Full Name'
     )
     
     email = forms.EmailField(
@@ -91,7 +91,6 @@ class ContactMessageForm(forms.Form):
         required=True,
         label='Message'
     )
-
 
 class EmployeeForm(forms.ModelForm):
     class Meta:

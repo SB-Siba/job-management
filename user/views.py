@@ -2,7 +2,6 @@ from datetime import datetime
 from django.conf import settings
 from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
 from django.http import HttpResponseBadRequest
-from django.http import HttpResponseBadRequest
 from django.views import View
 from django.contrib import messages
 from django.http import FileResponse, JsonResponse
@@ -20,6 +19,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse_lazy
 from django.core.mail import send_mail
 import json
+import random
+import string
+
 # admin_dashboard/manage_product/user.py
 from app_common.models import (
     Job,
@@ -28,7 +30,6 @@ from app_common.models import (
     User,
     Application,
     ContactMessage,
-    Employee,
     Employee,
     
 )
@@ -41,14 +42,13 @@ app = "user/"
 
 class HomeView(View):
     template_client = app + 'client_home.html'
-    template_user = app + 'index.html'
+    template_user = app + 'home1.html'
     unauthenticated_template = app + 'home_for_landing.html'
 
     def get(self, request):
         user = request.user
         if not user.is_authenticated:
             jobs = Job.objects.all()
-            return render(request, self.unauthenticated_template, {'jobs': jobs})
             return render(request, self.unauthenticated_template, {'jobs': jobs})
 
         welcome_message = f"Welcome, {user.full_name}!"
@@ -60,10 +60,8 @@ class HomeView(View):
                 'welcome_message': welcome_message,
             }
             return render(request, self.template_client, context)
-            return render(request, self.template_client, context)
 
         # If user is authenticated but not a client, treat as candidate
-        job_list = Job.objects.filter(status='published', expiry_date__gt=timezone.now()).order_by('-published_date')
         job_list = Job.objects.filter(status='published', expiry_date__gt=timezone.now()).order_by('-published_date')
         if user.catagory:
             job_list = job_list.filter(catagory=user.catagory)
@@ -197,9 +195,6 @@ class UserJobFilter(View):
 
 
 
-@method_decorator(login_required, name='dispatch')
-
-@method_decorator(login_required, name='dispatch')
 class ApplyForJobView(View):
     template = app + 'job_apply.html'
     model = Application
@@ -223,9 +218,6 @@ class ApplyForJobView(View):
 
 
 @method_decorator(login_required, name='dispatch')
-
-
-@method_decorator(login_required, name='dispatch')
 class AppliedJobsView(View):
     template_name = app + 'jobs/applied_jobs.html'
 
@@ -241,7 +233,8 @@ class ApplicationSuccess(View):
     def get(self,request):
         return render(request,self.template)
 
-
+def get_rand_number(length=5):
+    return ''.join(random.choices(string.digits, k=length))
 class contactMesage(View):
     template = app + "contact_page.html"
 
@@ -260,7 +253,7 @@ class contactMesage(View):
     def post(self, request):
         form = forms.ContactMessageForm(request.POST)
         if form.is_valid():
-            user = form.cleaned_data.get('user')
+            name = form.cleaned_data.get('name')
             email = form.cleaned_data['email']
             query_message = form.cleaned_data['message']
             try:
@@ -268,13 +261,12 @@ class contactMesage(View):
                     u_obj = request.user
                     contact_obj = ContactMessage(user=u_obj, message=query_message)
                 else:
-                    contact_obj = ContactMessage(uid=get_rand_number(5), message=query_message)
-                    # Save email as a separate attribute if necessary, not in model directly
+                    contact_obj = ContactMessage(uid=get_rand_number(5), message=query_message, reply=email)
 
                 contact_obj.save()
 
                 subject = "Your Query Received."
-                message = f"Dear {user or email},\nYour query has been received successfully.\nOur team members will look into this."
+                message = f"Dear {name or email},\nYour query has been received successfully.\nOur team members will look into this."
                 from_email = "forverify.noreply@gmail.com"
                 send_mail(subject, message, from_email, [email], fail_silently=False)
 
@@ -285,10 +277,12 @@ class contactMesage(View):
                 
                 return redirect("user:home")
             except Exception as e:
-                print(e)
+                print(f"Exception: {e}")
                 messages.warning(request, "There was an error while sending your message.")
-                return redirect("user:home")
+                return self.get(request)
         else:
+            # Print form errors to the console for debugging
+            print(f"Form errors: {form.errors}")
             messages.warning(request, "Invalid form data. Please correct the errors.")
             return self.get(request)
         
@@ -333,12 +327,7 @@ class JobOpening(View):
     def get(self, request):
         jobs = Job.objects.filter(status='published')
         return render(request, self.template, {'jobs': jobs})
-    model = Job
-    def get(self, request):
-        jobs = Job.objects.filter(status='published')
-        return render(request, self.template, {'jobs': jobs})
 
-# client 
 # client 
 @method_decorator(login_required, name='dispatch')
 class PostJob(View):
@@ -531,37 +520,7 @@ class EmployeeListOverview(View):
         
         context = {
             'employees': employees
-            'employees': employees
         }
-        return render(request, self.template_name, context)
-
-
-
-class EmployeeDetail(View):
-    template_name = app + "client/employee_detail.html"
-
-    def get(self, request, pk):
-        employee = get_object_or_404(Employee, pk=pk)
-        context = {'employee': employee}
-        return render(request, self.template_name, context)
-
-
-class EmployeeUpdate(View):
-    template_name = app + "client/employee_update.html"
-
-    def get(self, request, pk):
-        employee = get_object_or_404(Employee, pk=pk)
-        form = forms.EmployeeForm(instance=employee)
-        context = {'form': form, 'employee': employee}
-        return render(request, self.template_name, context)
-
-    def post(self, request, pk):
-        employee = get_object_or_404(Employee, pk=pk)
-        form = forms.EmployeeForm(request.POST, request.FILES, instance=employee)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('user:employee_detail', args=[pk]))
-        context = {'form': form, 'employee': employee}
         return render(request, self.template_name, context)
 
 
@@ -597,4 +556,3 @@ class ThankYou(View):
     template = app + "thankyoupage.html"
     def get(self, request):
         return render(request, self.template)
-

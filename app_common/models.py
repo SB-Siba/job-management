@@ -181,7 +181,8 @@ class ContactMessage(models.Model):
     )
     uid=models.CharField(max_length=255, null=True, blank=True)
     user = models.ForeignKey(User, on_delete= models.CASCADE, null= True, blank= True)
-    # order_number = models.CharField(max_length=255, null= True, blank= True)
+    name = models.CharField(max_length=255, null=True, blank=True)  # Added name field
+    email = models.EmailField(null=True, blank=True)
     message = models.TextField(null= True, blank= True)
     status = models.CharField(max_length=255,choices=STATUS, default= 'new')
     reply = models.TextField(null=True, blank= True)
@@ -193,6 +194,9 @@ class ContactMessage(models.Model):
             self.uid = utils.get_rand_number(5)
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return f"{self.user if self.user else self.email} - {self.status}"
+        
 class Employee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     employer = models.ForeignKey(User, related_name='employees', on_delete=models.CASCADE)

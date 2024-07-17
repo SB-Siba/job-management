@@ -56,7 +56,7 @@
                     <td>{{ application.applied_at }}</td>
                     <td>
                         {% if application.resume %}
-                            <a href="{{ application.resume.url }}">Download</a>
+                        <a href="{{ MEDIA }} {{ application.resume }}" download = "document.pdf">Download Resume</a>
                         {% else %}
                             No resume uploaded
                         {% endif %}

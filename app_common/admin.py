@@ -76,9 +76,13 @@ class ApplicationAdmin(admin.ModelAdmin):
 
 @admin.register(models.ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
-    search_fields = ("uid",)
-    list_display = ("uid","id","email", "created_at")
-
-    def email(self, obj):
-        return obj.email
-    email.short_description = 'Email'
+    search_fields = ("uid", "name", "email", "user__full_name")
+    list_display = ("uid", "id", "get_name", "get_email", "status", "created_at")
+    
+    def get_name(self, obj):
+        return obj.user.full_name if obj.user else obj.name
+    get_name.short_description = 'Name'
+    
+    def get_email(self, obj):
+        return obj.user.email if obj.user else obj.email
+    get_email.short_description = 'Email'
