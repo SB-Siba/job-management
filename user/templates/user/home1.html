@@ -1,31 +1,29 @@
 {% extends 'user/index.html' %}
 {%load static%}
 {% block main_content %}
-{% if welcome_message %}
-    <div class="alert alert-success">
-        {{ welcome_message }}
-    </div>
-{% endif %}
-<h1>Welcome to the Dashboard</h1>
-<p>This is the main content area.</p>
-<div class="container">
-    <div class="row">
+
+
+
+<div class="container py-5 px-5">
+    <div class="row py-5 px-5">
         {% for job in job_list %}
-        <div class="col-md-4 mb-4">
+        <div class="col-md-6 mb-6 px-5">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">{{ job.title }}</h3>
+                    <h3 class="card-title"> Job Title : {{ job.title }}</h3>
                     <h4 class="card-subtitle mb-2 text-muted">{{ job.catagory }}</h4>
-                    <p class="card-text">{{ job.company_name }}</p>
-                    <p class="card-text">{{ job.location }}</p>
+                    <p class="card-text"> Company Name : {{ job.company_name }}</p>
+                    <p class="card-text"> Location : {{ job.location }}</p>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">{{ job.job_type }}</p>
-                    <p class="card-text">{{ job.description }}</p>
+                    <p class="card-text"> Job Type : {{ job.job_type }}</p>
+                    <p class="card-text"> Job Description : {{ job.description }}</p>
                 </div>
                 <div class="card-footer">
                     <p class="card-text">Active {{ job.published_date|timesince }} ago</p>
-                    <a href="{% url 'user:job-apply' job.id %}" class="btn btn-primary">Apply now</a>
+                    <div class="py-4">
+                        <a href="{% url 'user:job-apply' job.id %}" class="btn btn-primary ">Apply now</a>
+                    </div>
                 </div>
             </div>
         </div>
