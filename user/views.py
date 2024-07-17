@@ -31,7 +31,6 @@ from app_common.models import (
     Application,
     ContactMessage,
     Employee,
-    
 )
 
 from helpers.utils import dict_filter,paginate # Import dict_filter function
@@ -63,6 +62,7 @@ class HomeView(View):
 
         # If user is authenticated but not a client, treat as candidate
         job_list = Job.objects.filter(status='published', expiry_date__gt=timezone.now()).order_by('-published_date')
+
         if user.catagory:
             job_list = job_list.filter(catagory=user.catagory)
         paginated_data = paginate(request, job_list, 50)
@@ -195,6 +195,8 @@ class UserJobFilter(View):
 
 
 
+
+@method_decorator(login_required, name='dispatch')
 class ApplyForJobView(View):
     template = app + 'job_apply.html'
     model = Application
@@ -328,7 +330,9 @@ class JobOpening(View):
         jobs = Job.objects.filter(status='published')
         return render(request, self.template, {'jobs': jobs})
 
+
 # client 
+
 @method_decorator(login_required, name='dispatch')
 class PostJob(View):
     template_name = app + 'client/post_job.html'
