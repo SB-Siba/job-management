@@ -1,10 +1,203 @@
-{% extends 'user/starters.html' %}
-{% load static %}
-{% block title %}
-Profile
-{% endblock title %}
-{% block main_content %}
-<div class="container h-100 mt-2">
+{% extends 'user/starters.html' %} {% load static %} {% block title %} Profile
+{% endblock title %} {% block main_content %}
+
+<style>
+
+
+  .user-card-full {
+    overflow: hidden;
+  }
+
+  .card {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+    box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+    border: none;
+    margin-bottom: 30px;
+  }
+
+  .m-r-0 {
+    margin-right: 0px;
+  }
+
+  .m-l-0 {
+    margin-left: 0px;
+  }
+
+  .user-card-full .user-profile {
+    border-radius: 5px 0 0 5px;
+  }
+
+  .bg-c-lite-green {
+    background: -webkit-gradient(
+      linear,
+      left top,
+      right top,
+      from(#f29263),
+      to(#ee5a6f)
+    );
+    background: linear-gradient(to right, #ee5a6f, #f29263);
+  }
+
+  .user-profile {
+    padding: 20px 0;
+  }
+
+  
+  .m-b-25 {
+    margin-bottom: 25px;
+  }
+
+  .img-radius {
+    border-radius: 5px;
+  }
+
+  h6 {
+    font-size: 14px;
+  }
+
+  .card .card-block p {
+    line-height: 25px;
+  }
+
+  @media only screen and (min-width: 1400px) {
+    p {
+      font-size: 14px;
+    }
+  }
+
+  
+
+  .b-b-default {
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .m-b-20 {
+    margin-bottom: 20px;
+  }
+
+  .p-b-5 {
+    padding-bottom: 5px !important;
+  }
+
+  .card .card-block p {
+    line-height: 25px;
+  }
+
+  .m-b-10 {
+    margin-bottom: 10px;
+  }
+
+  .text-muted {
+    color: #919aa3 !important;
+  }
+
+  .b-b-default {
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .f-w-600 {
+    font-weight: 600;
+  }
+
+  .m-b-20 {
+    margin-bottom: 20px;
+  }
+
+  .m-t-40 {
+    margin-top: 20px;
+  }
+
+  .p-b-5 {
+    padding-bottom: 5px !important;
+  }
+
+  .m-b-10 {
+    margin-bottom: 10px;
+  }
+
+  .m-t-40 {
+    margin-top: 20px;
+  }
+
+  .user-card-full .social-link li {
+    display: inline-block;
+  }
+
+  .user-card-full .social-link li a {
+    font-size: 20px;
+    margin: 0 10px 0 0;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+  }
+  @media (min-width: 1200px) {
+    .col-xl-6 {
+        width: 70%;
+        flex: none;
+    }
+}
+.lead {
+font-size: .950rem;
+font-weight: 400;
+}
+</style>
+
+<div class="d-flex justify-content-center align-items-center py-5">
+ 
+    <div class="row container d-flex justify-content-center align-items-center py-5 my-5">
+      <div class="col-xl-6 col-md-12">
+        <div class="card user-card-full">
+          <div class="row m-l-0 m-r-0">
+            <div class="col-sm-4 bg-c-lite-green user-profile">
+              <div class="card-block text-center text-white">
+                <div>
+                  {% if profile_obj.profile_pic %}
+                      <img src="{{ profile_obj.profile_pic.url }}"
+                      alt="Generic placeholder image" class="p-4" style="height: 200px; width: 200px; border-radius: 25px;">
+                  {% else %}
+                      <img src="{% static 'user/noimage.jpg' %}"
+                      alt="Generic placeholder image" class="p-4" style="height: 200px; width: 200px; border-radius: 25px;">
+                  {% endif %}
+              </div>
+              <h5 class="py-2">{{ user.full_name }}</h5>
+            
+              </div>
+            </div>
+            <div class="col-sm-8">
+              <div class="card-block py-5 px-3">
+                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">User Information</h6>
+                <p class="">Email : {{ user.email }}</p>
+                <p class="t">contact : {{ user.contact }}</p>
+                <p class="">category : {{ user.catagory }}</p>
+                
+                <div class="mb-2">
+                    <label for="" class="">Skills : {{ profile_obj.skills }} </label>
+                </div>
+                
+                <div>
+                    {% if profile_obj.resume %}
+                    <div class="mb-2">
+                      <label for="" class="fw-bold">Resume : </label>
+                      <a href="{{ profile_obj.resume.url }}" target="_blank" class="lead fw-normal mb-1 border-bottom">View Resume</a>
+                    </div>
+                    {% endif %}
+                  </div>
+                  <a href="{% url 'user:updateprofile' %}" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                      style="z-index: 1;">
+                      Update Profile
+                    </a>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</div>
+
+<!-- <div class="container h-100 mt-2">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-lg-9 col-xl-7">
         <div class="card">
@@ -24,7 +217,7 @@ Profile
                 <h5 class="text-white">{{ user.full_name }}</h5>
                 <p class="text-white border-top mb-0">Email : {{ user.email }}</p>
                 <p class="text-white mb-0">contact : {{ user.contact }}</p>
-                <p class="text-white mb-0">category : {{ user.catagory }}</p> <!-- Category display -->
+                <p class="text-white mb-0">category : {{ user.catagory }}</p> 
               </div>
           </div>
           <div class="card-body p-4 text-black" style="background-color: beige;">
@@ -46,5 +239,6 @@ Profile
         </div>
       </div>
     </div>
-</div>
+</div> -->
+
 {% endblock main_content %}
