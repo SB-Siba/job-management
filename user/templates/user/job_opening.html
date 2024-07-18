@@ -152,7 +152,9 @@ Opening {% endblock title %}
 
 <div class="d-flex justify-content-evenly row mt-5">
   {% for job in jobs %}
+
     <div class="nft col-sm-4 px-4 mb-5">
+    <div class="nft col-sm-4 px-4">
       <div class="main px-4">
         
           <div>
@@ -168,7 +170,8 @@ Opening {% endblock title %}
               <p class="text-white">{{ job.description }}</p>
             </div>
             <p class="text-white">Active {{ job.published_date|timesince }} ago</p>
-            <a href="{% url 'user:job-apply' job.pk %}" class="buttony d-flex justify-content-center align-items-center">Apply now</a>
+            <a href="{% url 'user:login' %}" class="btn">Apply now</a>
+
           </div>
 
       

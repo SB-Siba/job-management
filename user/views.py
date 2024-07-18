@@ -43,7 +43,6 @@ app = "user/"
 class HomeView(View):
     template_client = app + 'client_home.html'
     template_user = app + 'home1.html'
-    template_user = app + 'home1.html'
     unauthenticated_template = app + 'home_for_landing.html'
  
     def get(self, request):
@@ -196,6 +195,8 @@ class UserJobFilter(View):
 
 
 
+@method_decorator(login_required, name='dispatch')
+
 class ApplyForJobView(View):
     template = app + 'job_apply.html'
     model = Application
@@ -255,7 +256,7 @@ class contactMesage(View):
         form = forms.ContactMessageForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data.get('name')
-            name = form.cleaned_data.get('name')
+
             email = form.cleaned_data['email']
             query_message = form.cleaned_data['message']
             try:
@@ -269,7 +270,6 @@ class contactMesage(View):
  
                 subject = "Your Query Received."
                 message = f"Dear {name or email},\nYour query has been received successfully.\nOur team members will look into this."
-                message = f"Dear {name or email},\nYour query has been received successfully.\nOur team members will look into this."
                 from_email = "forverify.noreply@gmail.com"
                 send_mail(subject, message, from_email, [email], fail_silently=False)
  
@@ -281,15 +281,6 @@ class contactMesage(View):
                 return redirect("user:contactmessage")
             except Exception as e:
                 print(f"Exception: {e}")
-                print(f"Exception: {e}")
-                messages.warning(request, "There was an error while sending your message.")
-                return self.get(request)
-                return self.get(request)
-        else:
-            # Print form errors to the console for debugging
-            print(f"Form errors: {form.errors}")
-            # Print form errors to the console for debugging
-            print(f"Form errors: {form.errors}")
             messages.warning(request, "Invalid form data. Please correct the errors.")
             return self.get(request)
        
@@ -338,6 +329,7 @@ class JobOpening(View):
         return render(request, self.template, {'jobs': jobs})
 
 # client 
+
 @method_decorator(login_required, name='dispatch')
 class PostJob(View):
     template_name = app + 'client/post_job.html'
