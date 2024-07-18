@@ -8,8 +8,7 @@
  */
 :root {
     --bs-blue: #0d6efd;
-    --bs-indigo: #6610f2;
-    --bs-purple: #6f42c1;
+    --bs-indigo: #6610f2;.form-control
     --bs-pink: #d63384;
     --bs-red: #dc3545;
     --bs-orange: #fd7e14;
@@ -5393,11 +5392,9 @@ fieldset:disabled .btn {
 }
 
 .alert-info {
-    --bs-alert-color: #055160;
-    --bs-alert-bg: #cff4fc;
-    --bs-alert-border-color: #b6effb
+font-family: merriwether;
+font-size: 20px;
 }
-
 .alert-info .alert-link {
     color: #04414d
 }
