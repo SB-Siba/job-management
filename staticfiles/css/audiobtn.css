@@ -1,0 +1,118 @@
+body {
+    font-family: 'Lato', sans-serif;
+    display: flex;
+    height: 100vh;
+    margin: 0;
+}
+
+.sidebar {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 20px;
+    width: 200px;
+    box-sizing: border-box;
+}
+
+.sidebar h2 {
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 20px 0;
+}
+
+.sidebar ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: #34495e;
+    padding: 10px;
+    color: #ecf0f1;
+}
+
+header input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.content {
+    padding: 20px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+
+
+
+
+/* .list-group {
+    list-style-type: none;
+    padding: 0;
+}
+
+.list-group-item {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+}
+
+.episode-info {
+    flex: 1;
+}
+
+.episode-info h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.episode-info p {
+    color: #666;
+    font-size: 14px;
+}
+
+.audio-container {
+    flex-shrink: 0;
+    margin-left: 20px;
+}
+
+.audioPlayer {
+    width: 500px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.audioPlayer::-webkit-media-controls-panel {
+    background-color: transparent;
+}
+
+.audioPlayer::-webkit-media-controls-play-button {
+    color: #333;
+}
+
+.audioPlayer::-webkit-media-controls-timeline {
+    height: 4px;
+    background-color: transparent;
+}
+
+.audioPlayer::-webkit-media-controls-current-time-display,
+.audioPlayer::-webkit-media-controls-time-remaining-display {
+    font-size: 12px;
+    color: #666;
+} */
