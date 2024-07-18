@@ -1,107 +1,152 @@
 <!-- admin_dashboard/job_detail.html -->
-{% extends 'admin_dashboard/starter.html' %}
-{% load static %}
-{% block content %}
-<body>
-    <h1>Job Detail</h1>
-    <table>
-        <tr>
-            <th>ID</th>
-            <td>{{ job.id }}</td>
-        </tr>
-        <tr>
-            <th>Company Logo</th>
-            <td>
-                {% if job.company_logo %}
-                    <img src="{{ job.company_logo.url }}" alt="Company Logo" width="100">
-                {% else %}
-                    No logo available
-                {% endif %}
-            </td>
-        </tr>
+{% extends 'admin_dashboard/starter.html' %} {% load static %} 
+{% block content%}
+<style>
+    .create_test 
+    {
+        width: 70%;
+        font-family: merriwether;
+        padding: 40px;
+        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        border-radius: 15px !important;
+        background:transparent;
+    }
+    .gap-4 
+    {
+        display: flex;
+        justify-content: center;
+        
+    }
+    th
+    {
+        width: 100px;
+    }
+    tr
+    {
+        width: 100%;
+    }
+    td
+    {
+        width: 50px;
+        padding: 10px;
+       
+    }
+    tr:hover
+    {
+        background-color: aqua;
+    }
+</style>
 
-        <tr>
-            <th>Company Name</th>
-            <td>{{ job.company_name }}</td>
-        </tr>
 
-        <tr>
-            <th>Company Website</th>
-            <td><a href="{{ job.company_website }}">{{ job.company_website }}</a></td>
-        </tr>
+<div class="gap-4 py-5">
+  <div class="create_test">
+    <h1 class="mb-5">Job Detail</h1>
+    <table style="width: 600px;">
+      <tr>
+        <th>ID</th>
+        <td>{{ job.id }}</td>
+      </tr>
+      <tr>
+        <th>Company Logo</th>
+        <td>
+          {% if job.company_logo %}
+          <img
+            src="{{ job.company_logo.url }}"
+            alt="Company Logo"
+            width="100"
+          />
+          {% else %} No logo available {% endif %}
+        </td>
+      </tr>
 
-        <tr>
-            <th>Category</th>
-            <td>{{ job.catagory.title }}</td>
-        </tr>
-        <tr>
-            <th>Description</th>
-            <td>{{ job.description }}</td>
-        </tr>
-        <tr>
-            <th>Location</th>
-            <td>{{ job.location }}</td>
-        </tr>
-        <tr>
-            <th>Posted At</th>
-            <td>{{ job.posted_at }}</td>
-        </tr>
-        <tr>
-            <th>Published</th>
-            <td>{{ job.status }}</td>
-        </tr>
-        <tr>
-            <th>Expiry Date</th>
-            <td>{{ job.expiry_date }}</td>
-        </tr>
-        <tr>
-            <th>Vacancies</th>
-            <td>{{ job.vacancies }}</td>
-        </tr>
-        <tr>
-            <th>Number of Applications</th>
-            <td>{{ applications_count }}</td>
-        </tr>
-        <tr>
-            <th>Job Type</th>
-            <td>{{ job.job_type }}</td>
-        </tr>
-        <tr>
-            <th>Updated At</th>
-            <td>{{ job.updated_at }}</td>
-        </tr>
-        <tr>
-            <th>Client</th>
-            <td>{{ job.client.full_name }}</td>
-        </tr>
+      <tr>
+        <th>Company Name</th>
+        <td>{{ job.company_name }}</td>
+      </tr>
+
+      <tr>
+        <th>Company Website</th>
+        <td>
+          <a href="{{ job.company_website }}">{{ job.company_website | truncatechars:20 }}</a>
+        </td>
+      </tr>
+
+      <tr>
+        <th>Category</th>
+        <td>{{ job.catagory.title }}</td>
+      </tr>
+      <tr>
+        <th>Description</th>
+        <td>{{ job.description }}</td>
+      </tr>
+      <tr>
+        <th>Location</th>
+        <td>{{ job.location }}</td>
+      </tr>
+      <tr>
+        <th>Posted At</th>
+        <td>{{ job.posted_at }}</td>
+      </tr>
+      <tr>
+        <th>Published</th>
+        <td>{{ job.status }}</td>
+      </tr>
+      <tr>
+        <th>Expiry Date</th>
+        <td>{{ job.expiry_date }}</td>
+      </tr>
+      <tr>
+        <th>Vacancies</th>
+        <td>{{ job.vacancies }}</td>
+      </tr>
+      <tr>
+        <th>Number of Applications</th>
+        <td>{{ applications_count }}</td>
+      </tr>
+      <tr>
+        <th>Job Type</th>
+        <td>{{ job.job_type }}</td>
+      </tr>
+      <tr>
+        <th>Updated At</th>
+        <td>{{ job.updated_at }}</td>
+      </tr>
+      <tr>
+        <th>Client</th>
+        <td>{{ job.client.full_name }}</td>
+      </tr>
     </table>
-    
-    <h2>Employees</h2>
+
+    <h2 class="my-5">Employees</h2>
     <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Contact</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for employee in employees %}
-                <tr>
-                    <td>{{ employee.id }}</td>
-                    <td>{{ employee.user.full_name }}</td>
-                    <td>{{ employee.user.email }}</td>
-                    <td>{{ employee.user.contact }}</td>
-                    <td>
-                        <a href="{% url 'admin_dashboard:employee_detail' employee.id %}">View Details</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Contact</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for employee in employees %}
+        <tr>
+          <td>{{ employee.id }}</td>
+          <td>{{ employee.user.full_name }}</td>
+          <td>{{ employee.user.email }}</td>
+          <td>{{ employee.user.contact }}</td>
+          <td>
+            <a href="{% url 'admin_dashboard:employee_detail' employee.id %}"
+              >View Details</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
-    
+
     <a href="{% url 'admin_dashboard:job_list' %}">Back to Job List</a>
-</body>
+  </div>
+</div>
+
 {% endblock content %}

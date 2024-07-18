@@ -1,6 +1,24 @@
 {% extends 'admin_dashboard/starter.html' %}
 {% load static %}
 {% block content %}
+<style>
+    p {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        padding: 10px;
+        border-radius: 15px;
+    }
+    select {
+        background: transparent;
+    }
+    .btn-primary
+    {
+        display: flex;
+        justify-content: end;
+    }
+    
+</style>
 
 <center>
     {% include 'snippets/alert.html' %}
@@ -65,10 +83,10 @@
                             </tbody>
                         </table>
                         {% if job_form %}
-                            <div class="card-footer">
+                            <div class="card-footer py-2">
                                 {{ job_form.as_p }}
                                 <input type="hidden" name="category_id" value="{{ category.id }}">
-                                <button type="submit" name="action" value="send_selected" class="btn btn-primary">Send Jobs to Selected Users</button>
+                                <button type="submit" name="action" value="send_selected" class="btn btn-primary my-4">Send Jobs to Selected Users</button>
                                 <button type="submit" name="action" value="send_all" class="btn btn-primary">Send Jobs to All Users</button>
                             </div>
                         {% endif %}

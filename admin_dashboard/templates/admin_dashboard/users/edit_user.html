@@ -1,14 +1,26 @@
 {% extends 'admin_dashboard/starter.html' %}
 
 {% block content %}
+<style>
+    .create_test 
+    {
+        width: 70%;
+        font-family: merriwether;
+        padding: 10px;
+        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        border-radius: 15px !important;
+        background:transparent;
+    }
+</style>
+
 <section class="content">
     <div class="container mt-4">
-        <div class="card" style="max-width: 700px; margin: 0 auto; background-color: white; color: black;"> <!-- Added background-color and text color -->
-            <div class="card-header" style="background-color: white; color: black;">
+        <div class="card create_test" style="max-width: 700px; margin: 0 auto; background-color: white; color: black;"> <!-- Added background-color and text color -->
+            <div class="card-header" style="background-color: white; color: black; font-family: merriwether;">
                 <h4 class="text-center">Update User Information</h4>
             </div>
             <div class="card-body">
-                <form method="post" enctype="multipart/form-data">
+                <form method="post" enctype="multipart/form-data" style="font-family: merriwether;">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <div class="mt-4 d-flex justify-content-center"> <!-- Added d-flex and justify-content-center classes -->

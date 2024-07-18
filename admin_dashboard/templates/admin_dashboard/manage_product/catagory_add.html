@@ -1,17 +1,44 @@
 {% extends 'admin_dashboard/starter.html' %}
 {% load static %}
 {% block content %}
+<style>
+    .create_test 
+    {
+        width: 50%;
+        font-family: merriwether;
+        padding: 10px;
+        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        border-radius: 15px !important;
+        background:transparent;
+    }
+    .gap-4
+    {
+        display: flex;
+        align-items: center;
+    }
+    button, select {
+        font-family: merriwether;
+        padding: 10px;
+        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        border-radius: 15px !important;
+        background:transparent;
+    }
+</style>
 
-<main class="py-6 bg-surface-secondary">
+
+<main class="py-5  bg-surface-secondary">
 
     <div class="container-fluid">
+       
         <div class="vstack gap-4">
+            
             <div class="card create_test">
+                <h2 class="text-center py-5">Add Category</h2>
                 <form method="post" enctype="multipart/form-data">
                     {% include 'snippets/alert.html' %}
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button type="submit">Save</button>
+                    <button type="submit" class="my-5 px-5">Save</button>
                 </form>
                 <!-- <a href="{% url 'admin_dashboard:catagory_list' %}">Back to Catagory List</a> -->
             </div>
