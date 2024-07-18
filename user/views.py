@@ -31,6 +31,7 @@ from app_common.models import (
     Application,
     ContactMessage,
     Employee,
+    
 )
 
 from helpers.utils import dict_filter,paginate # Import dict_filter function
@@ -43,7 +44,7 @@ class HomeView(View):
     template_client = app + 'client_home.html'
     template_user = app + 'home1.html'
     unauthenticated_template = app + 'home_for_landing.html'
-
+ 
     def get(self, request):
         user = request.user
         if not user.is_authenticated:
@@ -51,7 +52,7 @@ class HomeView(View):
             return render(request, self.unauthenticated_template, {'jobs': jobs})
 
         welcome_message = f"Welcome, {user.full_name}!"
-
+ 
         if user.is_staff:  # Check if user is marked as client (is_staff)
             jobs = Job.objects.filter(client=user).order_by('-posted_at')
             context = {
@@ -62,7 +63,6 @@ class HomeView(View):
 
         # If user is authenticated but not a client, treat as candidate
         job_list = Job.objects.filter(status='published', expiry_date__gt=timezone.now()).order_by('-published_date')
-
         if user.catagory:
             job_list = job_list.filter(catagory=user.catagory)
         paginated_data = paginate(request, job_list, 50)
@@ -72,7 +72,7 @@ class HomeView(View):
             "data_list": paginated_data,
             "form": form,
         }
-
+ 
         return render(request, self.template_user, context)
 
 
@@ -195,8 +195,8 @@ class UserJobFilter(View):
 
 
 
-
 @method_decorator(login_required, name='dispatch')
+
 class ApplyForJobView(View):
     template = app + 'job_apply.html'
     model = Application
@@ -239,7 +239,7 @@ def get_rand_number(length=5):
     return ''.join(random.choices(string.digits, k=length))
 class contactMesage(View):
     template = app + "contact_page.html"
-
+ 
     def get(self, request):
         if request.user.is_authenticated:
             initial = {'user': request.user.full_name , 'email': request.user.email}
@@ -247,15 +247,16 @@ class contactMesage(View):
         else:
             initial = {}
             template = app + "contact_page_unauthenticated.html"
-
+ 
         form = forms.ContactMessageForm(initial=initial)
         context = {"form": form}
         return render(request, template, context)
-
+ 
     def post(self, request):
         form = forms.ContactMessageForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data.get('name')
+
             email = form.cleaned_data['email']
             query_message = form.cleaned_data['message']
             try:
@@ -266,27 +267,24 @@ class contactMesage(View):
                     contact_obj = ContactMessage(uid=get_rand_number(5), message=query_message, reply=email)
 
                 contact_obj.save()
-
+ 
                 subject = "Your Query Received."
                 message = f"Dear {name or email},\nYour query has been received successfully.\nOur team members will look into this."
                 from_email = "forverify.noreply@gmail.com"
                 send_mail(subject, message, from_email, [email], fail_silently=False)
-
+ 
                 if request.user.is_authenticated:
                     messages.info(request, "Your message has been sent successfully.")
                 else:
                     messages.info(request, "Your message has been received. You can log in to track the response.")
-                
-                return redirect("user:home")
+               
+                return redirect("user:contactmessage")
             except Exception as e:
                 print(f"Exception: {e}")
-                messages.warning(request, "There was an error while sending your message.")
-                return self.get(request)
-        else:
-            # Print form errors to the console for debugging
-            print(f"Form errors: {form.errors}")
             messages.warning(request, "Invalid form data. Please correct the errors.")
             return self.get(request)
+       
+     
         
      
 
@@ -329,7 +327,6 @@ class JobOpening(View):
     def get(self, request):
         jobs = Job.objects.filter(status='published')
         return render(request, self.template, {'jobs': jobs})
-
 
 # client 
 

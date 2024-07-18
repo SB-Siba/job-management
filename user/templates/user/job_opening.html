@@ -1,165 +1,15 @@
 {% extends 'user/landing_page.html' %} {% load static %} {% block title %} Job
-Opening {% endblock title %} {% block main_content %}
+Opening {% endblock title %} 
+{% block main_content %}
 <style>
-  .sjb-banner {
-    height: 300px; /* Adjust the height of the banner */
-    width: 100%; /* Ensure the banner takes the full width */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #31b7f5;
-    font-size: 36px;
-    font-weight: bold;
-    background-color: #31b7f5; /* This can be used as a fallback background color */
-    overflow: hidden; /* Ensure the image does not overflow */
-  }
+  
 
-  .sjb-banner img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover; /* This ensures the image covers the banner area */
-    object-position: center; /* This centers the image within the banner */
-  }
-
-  /* Container and Form */
-  .sjb-filters {
-    padding: 25px;
-    background-color: #f8f9fa;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 1750px;
-    margin: 0 auto;
-  }
-
-  /* Form Group */
-  .form-group {
-    margin-bottom: 25px;
-  }
-
-  /* Input Fields */
-  .form-control {
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    padding: 10px;
-    font-size: 18px;
-    width: 100%;
-  }
-
-  /* Select Fields */
-  .form-control {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-  }
-
-  /* Search Button */
-  .btn-search {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 100px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
-  }
-
-  .btn-search:hover {
-    background-color: #0056b3;
-  }
-
-  /* Responsive Layout */
-  @media (min-width: 768px) {
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px; /* Add gap between columns */
-    }
-
-    .col-md-12 {
-      flex: 0 0 100%;
-    }
-
-    .col-md-3 {
-      flex: 0 0 24%; /* Adjusted to fit four columns in a row with gaps */
-    }
-
-    .col-xs-12 {
-      width: 100%;
-    }
-
-    .sjb-search-button .btn-search {
-      width: 105%; /* Ensure the button spans the full width of its column */
-    }
-  }
-
-  /* Card and Paragraph Container */
-  .sjb-card-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 0px; /* Adjust spacing */
-    background-color: #dee2e6;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    overflow: hidden;
-    padding: 20px;
-    font-family: "Montserrat", sans-serif;
-  }
-
-  .sjb-card {
-    flex: 0 0 35%; /* Adjust the width of the card side */
-    max-width: 35%; /* Ensure card does not exceed this width */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-
-  .sjb-text {
-    flex: 0 0 55%; /* Adjust the width of the text side */
-    max-width: 55%; /* Ensure text does not exceed this width */
-    padding: 20px;
-    margin-bottom: 150px;
-    font-family: "Montserrat", sans-serif;
-  }
-
-  .sjb-card-content {
-    padding: 20px;
-    margin-bottom: 20px;
-    font-family: "Montserrat", sans-serif;
-  }
-
-  .sjb-card-content h5 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    margin-left: 10px;
-    font-family: "Open Sans", sans-serif;
-  }
-
-  .sjb-card-content p {
-    font-size: 15px;
-    line-height: 1.6;
-    margin-left: 10px;
-    font-family: "Montserrat", sans-serif;
-  }
-
-  @media (max-width: 768px) {
-    .sjb-card-container {
-      flex-direction: column;
-    }
-
-    .sjb-card,
-    .sjb-text {
-      flex: 1 1 auto;
-      width: 100%;
-      max-width: 100%;
-      font-family: "Montserrat", sans-serif;
-    }
-  }
-
-
+.img-banner
+{
+  height: 80vh;
+  width: 100%;
+  object-fit: cover;
+}
   
   .nft {
     user-select: none;
@@ -277,92 +127,33 @@ Opening {% endblock title %} {% block main_content %}
       }
     }
   }
+  .buttony
+  {
+    background-color: #6754e2;
+    height:40px ;
+    font-weight: bold;
+    width: 130px;
+    border-radius: 5px;
+    color: white;
+  }
+  .buttony:hover
+  {
+    color:#6754e2;
+    background-color: white;
+  } 
 </style>
 
-<body>
+
+
   <!-- Banner -->
-  <div class="sjb-banner">
-    <img src="{% static 'images/sr.jpg' %}" alt="Banner Image" />
+  <div class="img-banner">
+    <img src="{% static 'images/se6.jpg' %}" alt="Banner Image" style="height: 100%; width: 100%;" />
   </div>
 
-  <div class="sjb-filters sjb-filters-v1">
-    <form class="filters-form" action="" method="get">
-      <!-- Keywords Search-->
-      <div class="row">
-        <div class="sjb-search-keywords col-md-12 col-xs-12">
-          <div class="form-group">
-            <label class="sr-only" for="keywords">Keywords</label>
-            <input
-              type="text"
-              class="form-control"
-              value=""
-              placeholder="Keywords"
-              id="keywords"
-              name="search_keywords"
-            />
-          </div>
-        </div>
-      </div>
-
-      <!-- Other Filters and Search Button -->
-      <div class="row">
-        <!-- Category Filter-->
-        <div class="sjb-search-categories col-md-3 col-xs-12">
-          <div class="form-group">
-            <select name="selected_category" id="category" class="form-control">
-              <option value="-1">Category</option>
-              <option class="level-0" value="hospital">Hospital</option>
-              <option class="level-0" value="housekeeping">Housekeeping</option>
-              <option class="level-0" value="home-nursing">Home Nursing</option>
-              <option class="level-0" value="data-entry-operator">
-                Data Entry Operator
-              </option>
-              <option class="level-0" value="fire-safety">Fire Safety</option>
-              <option class="level-0" value="office-boy">Office Boy</option>
-              <option class="level-0" value="security">Security</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Job Type Filter -->
-        <div class="sjb-search-job-type col-md-3 col-xs-12">
-          <div class="form-group">
-            <select name="selected_jobtype" id="jobtype" class="form-control">
-              <option value="-1">Job Type</option>
-              <option class="level-0" value="full-time">Full-Time</option>
-              <option class="level-0" value="full-time">Part-Time</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Job Location Filter-->
-        <div class="sjb-search-location col-md-3 col-xs-12">
-          <div class="form-group">
-            <select name="selected_location" id="location" class="form-control">
-              <option value="-1">Location</option>
-              <option class="level-0" value="cuttack">Cuttack</option>
-              <option class="level-0" value="bhubaneswar">Bhubaneswar</option>
-              <option class="level-0" value="sambalpur">Sambalpur</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Search Button -->
-        <div class="sjb-search-button col-md-3 col-xs-12">
-          <input
-            class="btn-search btn btn-primary"
-            value="Search"
-            type="submit"
-          />
-        </div>
-      </div>
-    </form>
-  </div>
-
-  
-
-<div class="d-flex justify-content-evenly row py-5">
+<div class="d-flex justify-content-evenly row mt-5">
   {% for job in jobs %}
+
+    <div class="nft col-sm-4 px-4 mb-5">
     <div class="nft col-sm-4 px-4">
       <div class="main px-4">
         
@@ -380,6 +171,7 @@ Opening {% endblock title %} {% block main_content %}
             </div>
             <p class="text-white">Active {{ job.published_date|timesince }} ago</p>
             <a href="{% url 'user:login' %}" class="btn">Apply now</a>
+
           </div>
 
       
@@ -389,4 +181,3 @@ Opening {% endblock title %} {% block main_content %}
   </div>
 
   {% endblock main_content %}
-</body>

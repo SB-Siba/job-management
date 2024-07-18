@@ -309,4 +309,74 @@
     }
   }
 
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* Base styles */
+.col-md-12 {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 5rem;
+  flex-wrap: wrap; /* Ensure that items wrap on smaller screens */
+}
+
+.snip1390 {
+  flex: 1 1 30%; /* Flex items to be responsive */
+  max-width: 30%; /* Limit the width */
+  margin: 1rem; /* Add some margin */
+  text-align: center; /* Center align text */
+}
+
+.profile {
+  width: 100%; /* Make images responsive */
+  border-radius: 50%; /* Round images */
+}
+
+h2 {
+  font-size: 1.5rem; /* Adjust font size */
+}
+
+h4 {
+  font-size: 1.2rem; /* Adjust font size */
+}
+
+blockquote {
+  font-size: 1rem; /* Adjust font size */
+  padding: 1rem;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .snip1390 {
+    flex: 1 1 100%; /* Full width on smaller screens */
+    max-width: 100%; /* Full width on smaller screens */
+    margin: 0.5rem 0; /* Adjust margin */
+  }
+
+  .col-md-12 {
+    padding-bottom: 2rem; /* Adjust padding */
+  }
+
+  h2 {
+    font-size: 1.2rem; /* Adjust font size */
+  }
+
+  h4 {
+    font-size: 1rem; /* Adjust font size */
+  }
+
+  blockquote {
+    font-size: 0.9rem; /* Adjust font size */
+  }
+}

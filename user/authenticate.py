@@ -115,7 +115,7 @@ class Login(View):
 class Logout(View):
     def get(self, request):
         logout(request)
-        return redirect('user:login')
+        return redirect('user:home')
 
 class CustomPasswordResetView(FormView):
     template_name = app + "authtemp/password_reset.html"

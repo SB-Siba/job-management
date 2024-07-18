@@ -704,8 +704,7 @@
                 </button>
     
                 <div class="collapse navbar-collapse px-5" id="navbarNav1">
-                    <ul class="navbar-nav ms-lg-auto text-black">
-                        <li class="nav-item">
+                    <ul class="navbar-nav ms-lg-auto text-black" style="font-size: 25px; font-family: merriwether;"> <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'user:home' %}">Home</a>
                         </li>
                         <li class="nav-item">
@@ -717,13 +716,13 @@
                         <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.url_name == 'job-opening' %}active{% endif %}" href="{% url 'user:job-opening' %}">Job Opening</a>
                         </li>
-                        <li class="nav-item dropdown hhh">
+                        <!-- <li class="nav-item dropdown hhh">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="false">login Here</a>
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink1">
                                 <li><a class="dropdown-item" href="{% url 'user:login' %}">login</a></li>
                                 <li><a class="dropdown-item" href="{% url 'user:signup' %}">signup</a></li>
                             </ul>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.url_name == 'contactmessage' %}active{% endif %}" href="{% url 'user:contactmessage' %}">Contact</a>
                         </li>
@@ -742,49 +741,57 @@
 
     <footer class="new_footer_area bg_color">
         <div class="new_footer_top">
-            <div class="container px-4">
+            <div class="container px-5">
                 <div class="row">
                     <div class="col-lg-3 col-md-6">
-                        <div class="f_widget company_widget wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
-                            <h3 class="f-title f_600 t_color f_size_18">Get in Touch</h3>
-                            <p>Don’t miss any updates of our new templates and extensions.!</p>
-                            <form action="#" class="f_subscribe_two mailchimp" method="post" novalidate="true" _lpchecked="1">
-                                <input type="text" name="EMAIL" class="form-control memail" placeholder="Email">
-                                <button class="btn btn_get btn_get_two" type="submit">Subscribe</button>
-                                <p class="mchimp-errmessage" style="display: none;"></p>
-                                <p class="mchimp-sucmessage" style="display: none;"></p>
-                            </form>
+                        <div class="f_widget company_widget wow fadeInLeft" data-wow-delay="0.2s" style="font-family: marriwether;">
+                            <h3 class="f-title f_600 t_color f_size_22" style="font-family: merriwether;">Get in Touch</h3>
+                            <p><b>Address :</b> Friends Colony Mangalabag,
+                              Cuttuck - 753001 </p>
+                            <p>
+                              <b>Phone Number :</b> +91 9114790643
+                            </p>
+                            <p>
+                              <b>Wapp Number :</b> +91 9668790643
+                            </p>
+                            <p>
+                              <b>Email :</b> pravatiservices643@gmail.com
+                            </p>
+                            
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
-                            <h3 class="f-title f_600 t_color f_size_18">Download</h3>
+                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s" style="font-family: merriwether;">
+                            <h3 class="f-title f_600 t_color f_size_22" style="font-family: merriwether;">Quicklinks</h3>
                             <ul class="list-unstyled f_list">
-                                <li><a href="#">Company</a></li>
-                                <li><a href="#">Android App</a></li>
-                                <li><a href="#">ios App</a></li>
-                                <li><a href="#">Desktop</a></li>
-                                <li><a href="#">Projects</a></li>
-                                <li><a href="#">My tasks</a></li>
+                                <li><a href="#">HOME</a></li>
+                                <li><a href="#">ABOUT US</a></li>
+                                <li><a href="#">SECTORS</a></li>
+                                <li><a href="#">JOB OPENING</a></li>
+                                <li><a href="#">CONTACT</a></li>
+                               
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInLeft;">
-                            <h3 class="f-title f_600 t_color f_size_18">Help</h3>
+                        <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.6s" style="font-family: merriwether;">
+                            <h3 class="f-title f_600 t_color f_size_22" style="font-family: merriwether;">Sectors</h3>
                             <ul class="list-unstyled f_list">
-                                <li><a href="#">FAQ</a></li>
-                                <li><a href="#">Term &amp; conditions</a></li>
-                                <li><a href="#">Reporting</a></li>
-                                <li><a href="#">Documentation</a></li>
-                                <li><a href="#">Support Policy</a></li>
-                                <li><a href="#">Privacy</a></li>
+                                
+                                <li><a href="{% url 'user:sector' %}">ALL PARAMEDICAL STAFF</a></li>
+                                <li><a href="{% url 'user:sector' %}">HOUSEKEEPING</a></li>
+                                <li><a href="{% url 'user:sector' %}">BEDSIDE PATIENT ATTENDANT</a></li>
+                                <li><a href="{% url 'user:sector' %}">ITI, DIPLOMA, DEGREE ENGINEER</a></li>
+                                <li><a href="{% url 'user:sector' %}">DATA ENTRY, FRONT & BACK OFFICE</a></li>
+                                <li><a href="{% url 'user:sector' %}">HOME NURSING</a></li>
+                                <li><a href="{% url 'user:sector' %}">FIRE SAFETY & OFFICE BOY</a></li>
+                                <li><a href="{% url 'user:sector' %}">SECURITY</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <div class="f_widget social-widget pl_70 wow fadeInLeft" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInLeft;">
-                            <h3 class="f-title f_600 t_color f_size_18">Team Solutions</h3>
+                        <div class="f_widget social-widget pl_70 wow fadeInLeft" data-wow-delay="0.8s" style="font-family: merriwether;">
+                            <h3 class="f-title f_600 t_color f_size_22" style="font-family: merriwether;">Team Solutions</h3>
                             <div class="f_social_icon">
                                 <a href="#" class="fab fa-facebook"></a>
                                 <a href="#" class="fab fa-twitter"></a>
@@ -911,6 +918,10 @@
               }
             });
           });
+
+
+
+          
           
     </script>
     
