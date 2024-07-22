@@ -3,12 +3,26 @@
 {% block content %}
 {% load admin_dash %}
 
+<style>
+.card
+{
+  font-family: merriwether;
+}
+.table thead th
+{
+  font-size: 16px;
+}
+.card-header:first-child
+{
+  box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+}
+</style>
 <main class="py-6 bg-surface-secondary">
 
   <div class="container-fluid">
     <div class="card">
       <div class="card-header border-bottom">
-        <h5 class="mb-0">Contact Request List</h5>
+        <h2 class="mb-0">Contact Request List</h2>
       </div>
       <div class="table-responsive">
         <table class="table table-hover table-nowrap">

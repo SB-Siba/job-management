@@ -5,21 +5,26 @@
     {
         font-family: merriwether;
     }
-    button, select {
+    button{
         font-family: merriwether;
+        font-size: 20px;
         padding: 10px;
         box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
         border-radius: 15px !important;
         background:transparent;
     }
+    button:hover{
+        background-color: black;
+        color: white;
+    }
 </style>
 
 <body>
-    <h1 class="delete">Are you sure you want to delete {{ user.full_name }}?</h1>
+    <h1 class="delete px-4">Are you sure you want to delete {{ user.full_name }}?</h1>
     <form method="post" class="my-5 px-5">
         {% csrf_token %}
-        <button type="submit" class="px-4">Confirm Delete</button>
-        <a href="{% url 'admin_dashboard:userslist' %}" class="px-4">Cancel</a>
+        <button type="submit" class="px-5">Confirm Delete</button>
+        <a href="{% url 'admin_dashboard:userslist' %}" class="px-5">Cancel</a>
     </form>
 </body>
 {% endblock content %}

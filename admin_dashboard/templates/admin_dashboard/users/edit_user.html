@@ -2,29 +2,44 @@
 
 {% block content %}
 <style>
+    .container 
+    {
+        display: flex;
+        justify-content: center;
+    }
     .create_test 
     {
         width: 70%;
         font-family: merriwether;
-        padding: 10px;
         box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
         border-radius: 15px !important;
         background:transparent;
     }
+    p{
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+    button{
+        width: 100%;
+    }
+    label
+    {
+        padding-bottom: 8px;
+    }
 </style>
 
 <section class="content">
-    <div class="container mt-4">
-        <div class="card create_test" style="max-width: 700px; margin: 0 auto; background-color: white; color: black;"> <!-- Added background-color and text color -->
-            <div class="card-header" style="background-color: white; color: black; font-family: merriwether;">
-                <h4 class="text-center">Update User Information</h4>
+    <div class="container">
+        <div class="card create_test"> 
+            <div class="card-header">
+                <h2 class="text-center">Update User Information</h2>
             </div>
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data" style="font-family: merriwether;">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <div class="mt-4 d-flex justify-content-center"> <!-- Added d-flex and justify-content-center classes -->
-                        <button class="btn btn-primary  border-0" type="submit" style="background-color:#b8d1f5">Update</button>
+                    <div class="mt-4 d-flex justify-content-center"> 
+                        <button class="btn btn-primary" type="submit">Update</button>
 
                     </div>
                     

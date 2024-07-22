@@ -19,32 +19,34 @@
             color:black  !important;
             font-family: merriwether;
         }
-        button, select {
+        button{
             margin-top: 10px;
             margin-bottom: 10px;
             box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
-            padding: 10px;
+            background-color: rgb(185, 184, 184);
+            padding: 13px;
             border-radius: 15px !important;
             font-family: merriwether;
-            
+            font-size: 20px;
+            width: 100%;   
         }
-        .btn-secondary.custom-back-btn {
-            background-color:#ffffff !important;
-            border-color: white !important;
-            color: black !important;
+        button:hover{
+           background-color: black;
+           color: white;   
         }
+        
         p {
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin-top: 15px;
+            margin-bottom: 15px;
             box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
-            padding: 10px;
+            padding: 15px;
             border-radius: 15px !important;
             font-family: merriwether;
         }
     </style>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container my-2">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
@@ -55,6 +57,7 @@
                         <form method="post" enctype="multipart/form-data" class="px-5 mx-5">
                             {% include 'snippets/alert.html' %}
                             {% csrf_token %}
+                            
                             {{ form.as_p }}
                             <button type="submit">Save</button>
                         </form>

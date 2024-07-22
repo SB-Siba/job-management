@@ -2,6 +2,18 @@
 {% load static %}
 
 {% block content %}
+
+<style>
+    .container 
+    {
+        font-family: merriwether;
+
+    }
+    .table tbody th
+    {
+        font-size: 18px;
+    }
+</style>
     <div class="container">
         <h1>Employee Details</h1>
         <table class="table">
@@ -41,6 +53,6 @@
             </tr>
         </table>
 
-        <a class="btn btn-primary" href="{% url 'admin_dashboard:employee_list' %}">Back to Employee List</a>
+        <a class="btn btn-primary my-5" href="{% url 'admin_dashboard:employee_list' %}">Back to Employee List</a>
     </div>
 {% endblock %}

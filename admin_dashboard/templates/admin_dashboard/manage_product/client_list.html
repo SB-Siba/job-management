@@ -2,37 +2,67 @@
 {% load static %}
 {% block content %}
 
-<body>
-    <h1>Client List</h1>
+<style>
+    .base-table
+    {
+        margin: 20px;
+       
+        
+    } 
+
+    .table thead th 
+    {
+        font-size: 17px;
+        color: rgb(255, 255, 255);
+        border: 1px solid rgb(255, 255, 255);
+    }
+    th,td {
+        border: 1px solid black;
+        padding: 10px; /* Optional: Add padding inside the cells */
+        font-family: merriwether;
+        
+      }
+
+      select {
+        background: transparent;
+    }
     
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-            {% for client in clients %}
+thead , th
+{
+    background-color: black;
+}
+
+</style>
+
+
+<h1 class="text-center py-5">Client List</h1>
+
+    <div class="table d-flex justify-content-center">
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ client.full_name }}</td>
-                    <td>{{ client.email }}</td>
-                    <td>{{ client.contact }}</td>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
                     
                 </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="4">No clients found.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <ul>
-        {% for client in clients %}
-          <li><a href="{% url 'admin_dashboard:client_detail' client.id %}">{{ client.full_name }}</a></li>
-        {% endfor %}
-      </ul>
-</body>
+            </thead>
+            <tbody>
+                {% for client in clients %}
+                    <tr>
+                        <td><a href="{% url 'admin_dashboard:client_detail' client.id %}">{{ client.full_name }}</a></td>
+                        <td>{{ client.email }}</td>
+                        <td>{{ client.contact }}</td>
+                        
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">No clients found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    
+</div>
 {% endblock content %}
