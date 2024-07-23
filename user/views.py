@@ -19,6 +19,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse_lazy
 from django.core.mail import send_mail
 import json
+from django import forms
+from .forms import UpdateProfileForm ,ContactMessageForm
+from django.core.validators import RegexValidator
+
 # admin_dashboard/manage_product/user.py
 from app_common.models import (
     Job,
@@ -88,7 +92,7 @@ class ProfileView(View):
 
 class UpdateProfileView(View):
     template = "user/update_profile.html"
-    form_class = forms.UpdateProfileForm
+    form_class = UpdateProfileForm
 
     def get(self, request):
         user = request.user
@@ -105,7 +109,7 @@ class UpdateProfileView(View):
             "skills": profile_obj.skills if profile_obj else '',
             "profile_pic": profile_obj.profile_pic if profile_obj else None,
             "resume": profile_obj.resume if profile_obj else None,
-            "catagory": user.catagory  # Assuming 'category' field in User model
+            "catagory": user.catagory  # Assuming 'catagory' field in User model
         }
         form = self.form_class(initial=initial_data)
 
@@ -113,6 +117,8 @@ class UpdateProfileView(View):
 
     def post(self, request):
         form = self.form_class(request.POST, request.FILES)
+        catagory_obj = Catagory.objects.all()
+        
         if form.is_valid():
             email = form.cleaned_data["email"]
             full_name = form.cleaned_data["full_name"]
@@ -121,6 +127,10 @@ class UpdateProfileView(View):
             profile_picture = form.cleaned_data["profile_pic"]
             resume = form.cleaned_data["resume"]
             catagory = form.cleaned_data["catagory"]
+
+            if len(contact) != 10 or not contact.isdigit():
+                form.add_error('contact', 'Contact number must be exactly 10 digits and only contain numbers')
+                return render(request, self.template, {'form': form, 'catagory_obj': catagory_obj})
 
             user = request.user
 
@@ -146,8 +156,6 @@ class UpdateProfileView(View):
                 print(e)
                 # Handle error messages or logging here if needed
 
-        catagory_obj = Catagory.objects.all()
-        print(catagory_obj)
         return render(request, self.template, {'form': form, 'catagory_obj': catagory_obj})
 
 class UserJobSearch(View):
@@ -244,12 +252,12 @@ class contactMesage(View):
             initial = {}
             template = app + "contact_page_unauthenticated.html"
  
-        form = forms.ContactMessageForm(initial=initial)
+        form =ContactMessageForm(initial=initial)
         context = {"form": form}
         return render(request, template, context)
  
     def post(self, request):
-        form = forms.ContactMessageForm(request.POST)
+        form = ContactMessageForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data.get('name')
             email = form.cleaned_data['email']

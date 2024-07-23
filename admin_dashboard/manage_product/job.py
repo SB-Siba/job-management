@@ -164,12 +164,15 @@ class JobDetail(View):
         job = get_object_or_404(self.model, id=job_uid)
         applications_count = common_model.Application.objects.filter(job=job).count()
         employees = common_model.Application.objects.filter(job=job,status='Hired')
+        applications = common_model.Application.objects.filter(job=job)
         client = job.client
         context = {
             "job": job,
             'applications_count': applications_count,
             "employees": employees,
             "client": client,
+            "applications": applications,
+
         }
         return render(request, self.template, context)
    
@@ -190,7 +193,11 @@ class JobAdd(View):
             job = form.save(commit=False)
             if request.user.is_superuser:
                 job.client = form.cleaned_data['client']
-            job.status = 'unpublished'
+                # Check form data for "published" selection
+            if form.cleaned_data['status'] == 'published':
+                job.status = 'published'
+            else:  # Default to unpublished if not selected
+                job.status = 'unpublished'
             job.save()
             messages.success(request, 'Job added successfully.')
             return redirect('admin_dashboard:job_list')

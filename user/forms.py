@@ -55,8 +55,11 @@ class UpdateProfileForm(forms.Form):
     full_name = forms.CharField(max_length=255)
     full_name.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Full Name',"required":"required"})
 
-    contact = forms.IntegerField()
-    contact.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Mobile Number',"required":"required"})
+    contact = forms.CharField(
+    validators=[RegexValidator(r'^\d{10}$', 'Contact number must be 10 digits')],
+    widget=forms.TextInput(attrs={'type': 'number', 'max_length': 10, 'class': 'form-control'})
+    )
+
 
     skills = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"1"}))
     skills.widget.attrs.update({'class': 'form-control','type':'text'})
@@ -71,6 +74,8 @@ class UpdateProfileForm(forms.Form):
 
     catagory = forms.ModelChoiceField(queryset=common_models.Catagory.objects.all(), empty_label=None)  # Use your Property queryset here
     catagory.widget.attrs.update({'class': 'form-control', 'required': 'required'})
+
+    
 
 class ContactMessageForm(forms.Form):
     name = forms.CharField(

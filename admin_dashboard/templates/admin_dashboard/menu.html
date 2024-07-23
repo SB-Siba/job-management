@@ -33,9 +33,9 @@
             color:gray;
             
         }
-        {% comment %} .nav{
+        /* {% comment %} .nav{
             nav-link-hover-color: #fff;
-        } {% endcomment %}
+        } {% endcomment %} */
         
     </style>
 </head>
@@ -71,34 +71,16 @@
                 <div class="collapse" id="jobManagement">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a class="nav-link font-bold" style="background:none;"href="#" data-bs-toggle="collapse" data-bs-target="#job1List" role="button" aria-expanded="false" aria-controls="job1List"><i class="fas fa-list"></i> Category Management</a>
-                            <div class="collapse" id="job1List">
-                                <ul class="nav nav-sm flex-column">
-                                    
-                                    <li class="nav-item">
-                                        <a href="{% url 'admin_dashboard:catagory_add' %}" class="nav-link font-bold"><i class="fas fa-plus"></i> Category Add</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{% url 'admin_dashboard:catagory_list' %}" class="nav-link font-bold"><i class="fas fa-list-alt"></i> Category List</a>
-                                    </li>
-                                    
-                                </ul>
-                            </div>
+                            <a href="{% url 'admin_dashboard:catagory_add' %}" class="nav-link font-bold"><i class="fas fa-plus"></i>Add Category</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link font-bold" style="background:none" href="#" data-bs-toggle="collapse" data-bs-target="#job2List" role="button" aria-expanded="false" aria-controls="job2List"><i class="fas fa-tasks"></i> Job Management</a>
-                            <div class="collapse" id="job2List">
-                                <ul class="nav nav-sm flex-column">
-                                    
-                                    <li class="nav-item">
-                                        <a href="{% url 'admin_dashboard:job_add' %}" class="nav-link font-bold"><i class="fas fa-plus"></i>Job Add</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{% url 'admin_dashboard:job_list' %}" class="nav-link font-bold"><i class="fas fa-list-ul"></i> Job List</a>
-                                    </li>
-                                    
-                                </ul>
-                            </div>
+                            <a href="{% url 'admin_dashboard:catagory_list' %}" class="nav-link font-bold"><i class="fas fa-list-alt"></i>Job Categories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'admin_dashboard:job_add' %}" class="nav-link font-bold"><i class="fas fa-plus"></i>Add New Job</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'admin_dashboard:job_list' %}" class="nav-link font-bold"><i class="fas fa-list-ul"></i>Job Openings</a>
                         </li>
                     </ul>
                 </div>
@@ -110,10 +92,7 @@
                 <div class="collapse" id="candidateAppManagement">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a href="{% url 'admin_dashboard:application_list' %}" class="nav-link font-bold">Application Listing Page</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link font-bold"><i class="fas fa-file-alt"></i> Application Details Page</a>
+                            <a href="{% url 'admin_dashboard:application_list' %}" class="nav-link font-bold"><i class="fas fa-file-alt"></i>All Applications</a>
                         </li>
                     </ul>
                 </div>
@@ -126,10 +105,10 @@
                 <div class="collapse" id="employeeManagement">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a href="{% url 'admin_dashboard:client_list' %}" class="nav-link font-bold"><i class="fas fa-list"></i> Client Listing Page</a>
+                            <a href="{% url 'admin_dashboard:client_list' %}" class="nav-link font-bold"><i class="fas fa-list"></i>All Clients</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'admin_dashboard:client_create' %}" class="nav-link font-bold"><i class="fas fa-file-alt"></i> Client Add</a>
+                            <a href="{% url 'admin_dashboard:client_create' %}" class="nav-link font-bold"><i class="fas fa-file-alt"></i>Add Client</a>
                         </li>
                     </ul>
                 </div>
@@ -142,10 +121,10 @@
                 <div class="collapse" id="employeeManagement">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a href="{% url 'admin_dashboard:employee_list' %}" class="nav-link font-bold"><i class="fas fa-list"></i> Employee Listing Page</a>
+                            <a href="{% url 'admin_dashboard:employee_list' %}" class="nav-link font-bold"><i class="fas fa-list"></i>All Employees</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'admin_dashboard:client_create' %}" class="nav-link font-bold"><i class="fas fa-file-alt"></i> Client Add</a>
+                            <a href="{% url 'admin_dashboard:client_create' %}" class="nav-link font-bold"><i class="fas fa-file-alt"></i>Add Client</a>
                         </li>
                     </ul>
                 </div>
@@ -160,7 +139,7 @@
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link font-bold"style="background:none" href="{% url 'user:logout' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
+                <a class="nav-link font-bold"style="background:none" href="{% url 'user:logout_confirmation' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
                     <i class="fas fa-sign-out-alt"></i> Log Out
                 </a>
             </li>

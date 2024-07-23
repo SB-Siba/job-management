@@ -151,8 +151,8 @@
                                     <tbody>
                                         {% for job in job_list %}
                                             <tr>
-                                                <td><a href="{% url 'admin_dashboard:job_detail' job_uid=job.id %}">{{ job.id }}</a></td>
-                                                <td>{{ job.title }}</td>
+                                                <td>{{ job.id }}</td>
+                                                <td><a href="{% url 'admin_dashboard:job_detail' job_uid=job.id %}">{{ job.title }}</a></td>
                                                 <td>{{ job.catagory }}</td>
                                                 
                                                 <td>{{ job.posted_at }}</td>

@@ -18,6 +18,49 @@
         width: 100% !important; /* Adjust the width of Box 1 and Box 2 */
         
     }
+    .custom-card-header {
+                    background-color: white !important;
+                    box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+                    color: black !important;
+                }
+                .custom-card-header h2 {
+                    color: black !important;
+                    font-family: merriwether;
+                }
+                button, select {
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+                    padding: 10px;
+                    border-radius: 15px !important;
+                    font-family: merriwether;
+                }
+                .btn-secondary.custom-back-btn {
+                    background-color: #ffffff !important;
+                    border-color: white !important;
+                    color: black !important;
+                }
+                p {
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+                    padding: 10px;
+                    border-radius: 15px !important;
+                    font-family: merriwether;
+                }
+                .card-body {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                }
+                /* .chart-container {
+            width: 100%;
+            height: 100%;
+        }
+        .card {
+            max-width: 100%;  
+        } */
 </style>
 
 <div class="main-content bg-surface-secondary">
@@ -48,15 +91,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 mb-4">
-                    <div class="card" style="height: 360px;">
-                        <div class="card-body">
-                            <!-- Content for the third card -->
-                            Total Active
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        </head>
+        <body>
+            
             <div class="row">
                 <!-- Second Row: Three Boxes with different heights -->
                 <div class="col-lg-4 col-md-6 mb-4">

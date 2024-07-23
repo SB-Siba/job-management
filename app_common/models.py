@@ -68,21 +68,35 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     @property
     def full_contact_number(self):
+        """Returns the full contact number with a country code (+91) prepended if the contact number is present and has 10 digits. Otherwise, returns 'no contact present'."""
+
         if self.contact_number:
-            contact_number = '+91' + self.contact_number
+            # Ensure the contact number has 10 digits (remove non-digits)
+            clean_contact_number = ''.join(char for char in self.contact_number if char.isdigit())
+
+            # Check if the cleaned contact number has 10 digits
+            if len(clean_contact_number) == 10:
+                contact_number = '+91' + clean_contact_number
+            else:
+                contact_number = 'Invalid contact number (must be 10 digits)'
         else:
-            contact_number='no contact present'
+            contact_number = 'No contact present'
 
         return contact_number
-    
+
     def get_token(self, *args, **kwargs):
-        token= generate_random_string()
-        self.token= token
+        """Generates a random token, assigns it to the model instance, saves it, and returns the token."""
+
+        token = generate_random_string()  # Assuming generate_random_string() exists
+        self.token = token
         super().save(*args, **kwargs)
         return token
 
     def __str__(self):
+        """Returns the email address of the model instance for string representation."""
+
         return self.email
+
 
  
 # New Models

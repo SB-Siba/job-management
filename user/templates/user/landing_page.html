@@ -713,16 +713,16 @@
                         <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.url_name == 'sector' %}active{% endif %}" href="{% url 'user:sector' %}">Sectors</a>
                         </li>
-                        <!-- <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.url_name == 'job-opening' %}active{% endif %}" href="{% url 'user:job-opening' %}">Job Opening</a>
-                        </li> -->
-                        <!-- <li class="nav-item dropdown hhh">
+                        </li>
+                        <li class="nav-item dropdown hhh">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="false">login Here</a>
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink1">
                                 <li><a class="dropdown-item" href="{% url 'user:login' %}">login</a></li>
                                 <li><a class="dropdown-item" href="{% url 'user:signup' %}">signup</a></li>
                             </ul>
-                        </li> -->
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.url_name == 'contactmessage' %}active{% endif %}" href="{% url 'user:contactmessage' %}">Contact</a>
                         </li>
@@ -764,11 +764,11 @@
                         <div class="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s" style="font-family: merriwether;">
                             <h3 class="f-title f_600 t_color f_size_22" style="font-family: merriwether;">Quicklinks</h3>
                             <ul class="list-unstyled f_list">
-                                <li><a href="#">HOME</a></li>
-                                <li><a href="#">ABOUT US</a></li>
-                                <li><a href="#">SECTORS</a></li>
-                                <li><a href="#">JOB OPENING</a></li>
-                                <li><a href="#">CONTACT</a></li>
+                                <li><a href="{% url 'user:home' %}">HOME</a></li>
+                                <li><a href="{% url 'user:about' %}">ABOUT US</a></li>
+                                <li><a href="{% url 'user:sector' %}">SECTORS</a></li>
+                                <li><a href="{% url 'user:job-opening' %}">JOB OPENING</a></li>
+                                <li><a href="{% url 'user:contactmessage' %}">CONTACT</a></li>
                                
                             </ul>
                         </div>
@@ -778,14 +778,14 @@
                             <h3 class="f-title f_600 t_color f_size_22" style="font-family: merriwether;">Sectors</h3>
                             <ul class="list-unstyled f_list">
                                 
-                                <li><a href="{% url 'user:sector' %}">ALL PARAMEDICAL STAFF</a></li>
-                                <li><a href="{% url 'user:sector' %}">HOUSEKEEPING</a></li>
-                                <li><a href="{% url 'user:sector' %}">BEDSIDE PATIENT ATTENDANT</a></li>
-                                <li><a href="{% url 'user:sector' %}">ITI, DIPLOMA, DEGREE ENGINEER</a></li>
-                                <li><a href="{% url 'user:sector' %}">DATA ENTRY, FRONT & BACK OFFICE</a></li>
-                                <li><a href="{% url 'user:sector' %}">HOME NURSING</a></li>
-                                <li><a href="{% url 'user:sector' %}">FIRE SAFETY & OFFICE BOY</a></li>
-                                <li><a href="{% url 'user:sector' %}">SECURITY</a></li>
+                                <li><a href="#paramedical-staff">ALL PARAMEDICAL STAFF</a></li>
+                                <li><a href="#housekeeping">HOUSEKEEPING</a></li>
+                                <li><a href="#beside-patient-attendant">BEDSIDE PATIENT ATTENDANT</a></li>
+                                <li><a href="#iti-diploma-degree-engineer">ITI, DIPLOMA, DEGREE ENGINEER</a></li>
+                                <li><a href="#data entry, front & back office">DATA ENTRY, FRONT & BACK OFFICE</a></li>
+                                <li><a href="#home-nurshing">HOME NURSING</a></li>
+                                <li><a href="#fire-safty & office-boy">FIRE SAFETY & OFFICE BOY</a></li>
+                                <li><a href="#security">SECURITY</a></li>
                             </ul>
                         </div>
                     </div>
