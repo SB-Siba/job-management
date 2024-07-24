@@ -12,7 +12,7 @@
                 {% for job in jobs %}
                     <a href="{% url 'user:application_list' job.id %}" class="list-group-item list-group-item-action">Applications for {{ job.title }}</a>
                 {% endfor %}
-                <a class="list-group-item list-group-item-action" href="{% url 'user:logout' %}">
+                <a class="list-group-item list-group-item-action" href="{% url 'user:logout_confirmation' %}">
                     <i class="fas fa-sign-out-alt"></i> Log Out
                 </a>
             </div>

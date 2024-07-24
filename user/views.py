@@ -11,6 +11,8 @@ from . import forms
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 # from app_common.models import Job, Application
+from django.contrib.auth.models import User
+
 from admin_dashboard.manage_product.forms import ApplicationForm ,CatagoryEntryForm , JobForm
 # from app_common.checkout.serializer import CartSerializer,DirectBuySerializer,TakeSubscriptionSerializer,OrderSerializer
 from django.utils.decorators import method_decorator
@@ -19,10 +21,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse_lazy
 from django.core.mail import send_mail
 import json
-from django import forms
-from .forms import UpdateProfileForm ,ContactMessageForm
 from django.core.validators import RegexValidator
-
+import random
+import string
 # admin_dashboard/manage_product/user.py
 from app_common.models import (
     Job,
@@ -92,7 +93,7 @@ class ProfileView(View):
 
 class UpdateProfileView(View):
     template = "user/update_profile.html"
-    form_class = UpdateProfileForm
+    form_class = forms.UpdateProfileForm
 
     def get(self, request):
         user = request.user
@@ -222,7 +223,6 @@ class ApplyForJobView(View):
 
 
 
-@method_decorator(login_required, name='dispatch')
 class AppliedJobsView(View):
     template_name = app + 'jobs/applied_jobs.html'
 
@@ -252,13 +252,14 @@ class contactMesage(View):
             initial = {}
             template = app + "contact_page_unauthenticated.html"
  
-        form =ContactMessageForm(initial=initial)
+        form = forms.ContactMessageForm(initial=initial)
         context = {"form": form}
         return render(request, template, context)
  
     def post(self, request):
-        form = ContactMessageForm(request.POST)
+        form = forms.ContactMessageForm(request.POST)
         if form.is_valid():
+            name = form.cleaned_data.get('name')
             name = form.cleaned_data.get('name')
             email = form.cleaned_data['email']
             query_message = form.cleaned_data['message']
@@ -273,6 +274,7 @@ class contactMesage(View):
  
                 subject = "Your Query Received."
                 message = f"Dear {name or email},\nYour query has been received successfully.\nOur team members will look into this."
+                message = f"Dear {name or email},\nYour query has been received successfully.\nOur team members will look into this."
                 from_email = "forverify.noreply@gmail.com"
                 send_mail(subject, message, from_email, [email], fail_silently=False)
  
@@ -281,12 +283,16 @@ class contactMesage(View):
                 else:
                     messages.info(request, "Your message has been received. You can log in to track the response.")
                
-                return redirect("user:home")
+                return redirect("user:contactmessage")
             except Exception as e:
+                print(f"Exception: {e}")
                 print(f"Exception: {e}")
                 messages.warning(request, "There was an error while sending your message.")
                 return self.get(request)
+                return self.get(request)
         else:
+            # Print form errors to the console for debugging
+            print(f"Form errors: {form.errors}")
             # Print form errors to the console for debugging
             print(f"Form errors: {form.errors}")
             messages.warning(request, "Invalid form data. Please correct the errors.")

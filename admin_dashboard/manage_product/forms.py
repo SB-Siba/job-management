@@ -66,7 +66,7 @@ class ApplicationForm(forms.ModelForm):
     email.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Email',"required":"required"})
 
     contact = forms.IntegerField()
-    contact.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Mobile Number',"required":"required"})
+    contact.widget.attrs.update({'class': 'form-control','type':'text','max-length':'10','placeholder':'Enter Mobile Number',"required":"required"})
 
     resume = forms.FileField(required=False)  # ImageField for uploading images
     resume.widget.attrs.update({'class': 'form-control'})
