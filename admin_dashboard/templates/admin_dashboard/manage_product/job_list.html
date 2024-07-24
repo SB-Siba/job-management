@@ -2,132 +2,144 @@
 {% load static %}
 {% block content %}
 
+<style>
+    .card
+{
+  font-family: merriwether;
+}
+.table thead th
+{
+  font-size: 16px;
+}
+.card-header:first-child
+{
+  box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+}
+tr:hover
+    {
+        background-color: rgb(244, 212, 169);
+    }
+</style>
+
 <center>
     {% include 'snippets/alert.html' %}
 </center>
+
+
+
 <header>
-    <div class="container-fluid">
-        <div class="border-bottom pt-6">
-            <div class="row align-items-center">
-                <div class="col-sm col-12">
-                    <h1 class="h2 ls-tight">JOB List</h1>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 </header>
-
-<!-- <main class="py-6 bg-surface-secondary">
-
-
-    <div class="container-fluid">
-        <div class="vstack gap-4">
-            <div class="d-flex justify-content-between flex-column flex-sm-row gap-3">
-                <form action="{% url 'admin_dashboard:job_search' %}" method="post">
-                    {% csrf_token %}
-                    <div class="hstack gap-2">
-
-                        <select style="width: 6rem;" name="filter_by" class="form-select"
-                            aria-label="Default select example">
-                            <option selected value="uid">id</option>
-                            <option value="name">Catagory</option>
-                        </select>
-
-                        <input type="text" name="query" placeholder="Serch Here" class="form-control" required />
-
-                        <button type="submit" class="btn btn-sm btn-neutral">
-                            <i class="fa-solid fa-magnifying-glass fa-beat-fade" style="color: #8c00ff;"></i>
-                        </button>
-
-                    </div>
-                </form>
-                <div class="btn-group">
-                    
-                                    <th>Posted Date</th>
-                                    <th>Vacancies</th>
-                                    <th>Company_logo</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                        <form method="post">
-                        {% csrf_token %}
-                        
-                            <tbody>
-                                {% for job in job_list %}
-                                    <tr>
-                                        <td><a href="{% url 'admin_dashboard:job_detail' job_uid=job.id %}">{{ job.id }}</a></td>
-                                        <td>{{ job.title }}</td>
-                                        <td>{{ job.catagory }}</td>
-                                        
-                                        <td>{{ job.posted_at }}</td>
-                                        <td>{{ job.vacancies}}</td>
-                                        <td>
-                                            {% if job.company_logo %}
-                                                <img src="{{ job.company_logo.url }}" width="100" class="rounded-circle">
-                                            {% else %}
-                                            No logo available
-                                            {% endif %}
-                                        </td>
-                                        <td>{{ job.get_status_display }}</td>
-                                        
-                                                  
-                                        <td>
-                                            <a href="{% url 'admin_dashboard:job_edit' job.id %}">Edit</a>
-                                            <a href="{% url 'admin_dashboard:job_delete' job.id %}">Delete</a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </form>
-
-                    </table>
-
-                </div>
-                <div class="card-footer">
-                    {% include 'snippets/pagination.html' %}
-                </div>
-            </div>
-        </div>
-    </div>
-</main>  -->
-
-
 
 
 
 <main class="py-6 bg-surface-secondary">
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-header border-bottom">
+            <div class="container-fluid">
+                <div class="pt-6">
+                    <div class="d-flex justify-content-end">
+                        <div class="col-sm col-12">
+                            <h1 class="h2 ls-tight">JOB List</h1>
+                        </div>
+                        <div class="d-flex flex-column flex-sm-row gap-3">
+                            <div class="hstack gap-2">
+                                <div class="">
+                                    <form action="{% url 'admin_dashboard:job_search' %}" method="post">
+                                        {% csrf_token %}
+                                        <div class="hstack gap-2">
+                    
+                                            <select style="width: 6rem;" name="filter_by" class="form-select"
+                                                aria-label="Default select example">
+                                                <option selected value="uid">id</option>
+                                                <option value="name">Catagory</option>
+                                            </select>
+                    
+                                            <input type="text" name="query" placeholder="Serch Here" class="form-control" required />
+                    
+                                            <button type="submit" class="btn btn-sm btn-neutral">
+                                                <i class="fa-solid fa-magnifying-glass fa-beat-fade" style="color: #8c00ff;"></i>
+                                            </button>
+                    
+                                        </div>
+                                    </form>
+                                </div>
+            
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover table-nowrap">
+            <thead class="table-light">
+                <tr>    <th>Id</th>
+                    <th>Job Title</th>
+                    <th>Category</th>
+                    <th>Posted Date</th>
+                    <th>Vacancies</th>
+                    <th>Company_logo</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                    
+            </tr>
+            </thead>
+            <tbody>
+                <form method="post">
+                    {% csrf_token %}
+                    
+                        <tbody>
+                            {% for job in job_list %}
+                                <tr>
+                                    <td>{{ job.id }}</td>
+                                    <td><a href="{% url 'admin_dashboard:job_detail' job_uid=job.id %}">{{ job.title }}</a></td>
+                                    <td>{{ job.catagory }}</td>
+                                    
+                                    <td>{{ job.posted_at }}</td>
+                                    <td>{{ job.vacancies}}</td>
+                                    <td>
+                                        {% if job.company_logo %}
+                                            <img src="{{ job.company_logo.url }}" class="rounded-circle" style="width: 100px; height: 100px;">
+                                        {% else %}
+                                        No logo available
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ job.get_status_display }}</td>
+                                    
+                                              
+                                    <td>
+                                        <a href="{% url 'admin_dashboard:job_edit' job.id %}" class="px-2 btn btn-sm btn-square btn-neutral"><i class="bi bi-pencil"></i></a>
+                                        <a href="{% url 'admin_dashboard:job_delete' job.id %}" class="px-2">
+                                            <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
+                                            <i class="bi bi-trash"></i>
+                                        </button></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
+            </tbody>
+            
+          </table>
+        </div>
+        <div class="card-footer">
+            {% include 'snippets/pagination.html' %}
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+<!-- <main class="py-6 bg-surface-secondary">
     
     
     <div class="container-fluid">
         <div class="vstack gap-4">
-            <div class="d-flex justify-content-between flex-column flex-sm-row gap-3">
-                <div class="hstack gap-2">
-                    <div class="input-group input-group-sm input-group-inline">
-                        <form action="{% url 'admin_dashboard:job_search' %}" method="post">
-                            {% csrf_token %}
-                            <div class="hstack gap-2">
-        
-                                <select style="width: 6rem;" name="filter_by" class="form-select"
-                                    aria-label="Default select example">
-                                    <option selected value="uid">id</option>
-                                    <option value="name">Catagory</option>
-                                </select>
-        
-                                <input type="text" name="query" placeholder="Serch Here" class="form-control" required />
-        
-                                <button type="submit" class="btn btn-sm btn-neutral">
-                                    <i class="fa-solid fa-magnifying-glass fa-beat-fade" style="color: #8c00ff;"></i>
-                                </button>
-        
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-                
-            </div>
+            
             
             <div class="card">
                 <div class="table-responsive">
@@ -151,8 +163,8 @@
                                     <tbody>
                                         {% for job in job_list %}
                                             <tr>
-                                                <td><a href="{% url 'admin_dashboard:job_detail' job_uid=job.id %}">{{ job.id }}</a></td>
-                                                <td>{{ job.title }}</td>
+                                                <td>{{ job.id }}</td>
+                                                <td><a href="{% url 'admin_dashboard:job_detail' job_uid=job.id %}">{{ job.title }}</a></td>
                                                 <td>{{ job.catagory }}</td>
                                                 
                                                 <td>{{ job.posted_at }}</td>
@@ -186,7 +198,7 @@
             </div>
         </div>
     </div>
-</main>
+</main> -->
 
 
 

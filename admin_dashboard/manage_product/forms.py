@@ -82,10 +82,23 @@ class EditUserForm(forms.Form):
 class AddUserForm(forms.ModelForm):
     class Meta:
         model = common_models.User
-        fields = ['email', 'full_name', 'contact', 'password']  # Include necessary fields
+        fields = ['email', 'full_name','role', 'contact', 'password']  # Include necessary fields
 
-    # Optionally, you can add custom validation or widgets
-    password = forms.CharField(widget=forms.PasswordInput)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Set all fields as required
+        for field in self.fields:
+            self.fields[field].required = True
+
+    # Optionally, customize validation or widgets
+    password = forms.CharField(widget=forms.PasswordInput, required=True)
+    role = forms.ModelChoiceField(
+        queryset=common_models.Job.objects.all(),  # Assuming Job model represents roles
+        empty_label="Select a job role",  # Placeholder text for the dropdown
+        widget=forms.Select(attrs={'class': 'form-control'}),  # Apply form-control class for styling
+        required=True,  # Make the role field required explicitly
+    )
+    
 
 class ClientForm(forms.ModelForm):
 

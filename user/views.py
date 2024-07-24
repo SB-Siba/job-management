@@ -19,6 +19,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse_lazy
 from django.core.mail import send_mail
 import json
+import random
+import string
+
+from django.core.validators import RegexValidator
+
 # admin_dashboard/manage_product/user.py
 from app_common.models import (
     Job,
@@ -105,7 +110,7 @@ class UpdateProfileView(View):
             "skills": profile_obj.skills if profile_obj else '',
             "profile_pic": profile_obj.profile_pic if profile_obj else None,
             "resume": profile_obj.resume if profile_obj else None,
-            "catagory": user.catagory  # Assuming 'category' field in User model
+            "catagory": user.catagory  # Assuming 'catagory' field in User model
         }
         form = self.form_class(initial=initial_data)
 
@@ -113,6 +118,8 @@ class UpdateProfileView(View):
 
     def post(self, request):
         form = self.form_class(request.POST, request.FILES)
+        catagory_obj = Catagory.objects.all()
+        
         if form.is_valid():
             email = form.cleaned_data["email"]
             full_name = form.cleaned_data["full_name"]
@@ -121,6 +128,10 @@ class UpdateProfileView(View):
             profile_picture = form.cleaned_data["profile_pic"]
             resume = form.cleaned_data["resume"]
             catagory = form.cleaned_data["catagory"]
+
+            if len(contact) != 10 or not contact.isdigit():
+                form.add_error('contact', 'Contact number must be exactly 10 digits and only contain numbers')
+                return render(request, self.template, {'form': form, 'catagory_obj': catagory_obj})
 
             user = request.user
 
@@ -146,8 +157,6 @@ class UpdateProfileView(View):
                 print(e)
                 # Handle error messages or logging here if needed
 
-        catagory_obj = Catagory.objects.all()
-        print(catagory_obj)
         return render(request, self.template, {'form': form, 'catagory_obj': catagory_obj})
 
 class UserJobSearch(View):
@@ -233,6 +242,8 @@ class ApplicationSuccess(View):
 
 def get_rand_number(length=5):
     return ''.join(random.choices(string.digits, k=length))
+def get_rand_number(length=5):
+    return ''.join(random.choices(string.digits, k=length))
 class contactMesage(View):
     template = app + "contact_page.html"
  
@@ -252,6 +263,7 @@ class contactMesage(View):
         form = forms.ContactMessageForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data.get('name')
+            name = form.cleaned_data.get('name')
             email = form.cleaned_data['email']
             query_message = form.cleaned_data['message']
             try:
@@ -265,6 +277,7 @@ class contactMesage(View):
  
                 subject = "Your Query Received."
                 message = f"Dear {name or email},\nYour query has been received successfully.\nOur team members will look into this."
+                message = f"Dear {name or email},\nYour query has been received successfully.\nOur team members will look into this."
                 from_email = "forverify.noreply@gmail.com"
                 send_mail(subject, message, from_email, [email], fail_silently=False)
  
@@ -273,16 +286,21 @@ class contactMesage(View):
                 else:
                     messages.info(request, "Your message has been received. You can log in to track the response.")
                
-                return redirect("user:home")
+                return redirect("user:contactmessage")
             except Exception as e:
                 print(f"Exception: {e}")
+                print(f"Exception: {e}")
                 messages.warning(request, "There was an error while sending your message.")
+                return self.get(request)
                 return self.get(request)
         else:
             # Print form errors to the console for debugging
             print(f"Form errors: {form.errors}")
+            # Print form errors to the console for debugging
+            print(f"Form errors: {form.errors}")
             messages.warning(request, "Invalid form data. Please correct the errors.")
             return self.get(request)
+       
        
      
         

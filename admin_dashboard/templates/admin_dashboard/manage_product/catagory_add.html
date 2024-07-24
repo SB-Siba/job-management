@@ -2,48 +2,58 @@
 {% load static %}
 {% block content %}
 <style>
-    .create_test 
-    {
-        width: 50%;
-        font-family: merriwether;
-        padding: 10px;
+    .custom-card-header {
+        background-color: white !important;
         box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
-        border-radius: 15px !important;
-        background:transparent;
+        color:black !important;
     }
-    .gap-4
-    {
-        display: flex;
-        align-items: center;
-    }
-    button, select {
+    .custom-card-header h2 {
+        color:black  !important;
         font-family: merriwether;
-        padding: 10px;
-        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
-        border-radius: 15px !important;
-        background:transparent;
     }
+    button{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        background-color: rgb(185, 184, 184);
+        padding: 13px;
+        border-radius: 15px !important;
+        font-family: merriwether;
+        font-size: 20px;
+        width: 100%;   
+    }
+    button:hover{
+       background-color: black;
+       color: white;   
+    }
+    .card-body
+    {
+        font-family: merriweher;
+    }
+  
 </style>
 
-
-<main class="py-5  bg-surface-secondary">
-
-    <div class="container-fluid">
-       
-        <div class="vstack gap-4">
-            
-            <div class="card create_test">
-                <h2 class="text-center py-5">Add Category</h2>
-                <form method="post" enctype="multipart/form-data">
-                    {% include 'snippets/alert.html' %}
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="my-5 px-5">Save</button>
-                </form>
-                <!-- <a href="{% url 'admin_dashboard:catagory_list' %}">Back to Catagory List</a> -->
+<div class="container my-2">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header custom-card-header text-white">
+                    <h2 class="text-center py-1">Add Category</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% include 'snippets/alert.html' %}
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="my-5 px-5">Save</button>
+                    </form>
+                    
+                </div>
             </div>
-                
         </div>
     </div>
-</main>
+</div>
+
+
+
 {% endblock content %}

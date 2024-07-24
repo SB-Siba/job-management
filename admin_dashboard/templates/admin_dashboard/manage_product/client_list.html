@@ -3,6 +3,14 @@
 {% block content %}
 
 <style>
+    .table
+    {
+        width: 100%;
+    }
+    table
+    {
+        width: 70%;
+    }
     .base-table
     {
         margin: 20px;
@@ -31,11 +39,15 @@ thead , th
 {
     background-color: black;
 }
+tr:hover
+    {
+        background-color: rgb(244, 212, 169);
+    }
 
 </style>
 
 
-<h1 class="text-center py-5">Client List</h1>
+<h1 class="text-center py-4">Client List</h1>
 
     <div class="table d-flex justify-content-center">
         <table>
