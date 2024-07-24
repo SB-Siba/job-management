@@ -21,6 +21,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse_lazy
 from django.core.mail import send_mail
 import json
+<<<<<<< HEAD
+=======
+import random
+import string
+
+>>>>>>> a0b0b9ddfcb9ce554b6c2aca374c1f87efa8d798
 from django.core.validators import RegexValidator
 import random
 import string
@@ -42,7 +48,7 @@ app = "user/"
 
 
 class HomeView(View):
-    template_client = app + 'client_home.html'
+    template_client = app + 'client/client_index.html'
     template_user = app + 'home1.html'
     unauthenticated_template = app + 'home_for_landing.html'
  
@@ -241,6 +247,8 @@ class ApplicationSuccess(View):
 
 def get_rand_number(length=5):
     return ''.join(random.choices(string.digits, k=length))
+def get_rand_number(length=5):
+    return ''.join(random.choices(string.digits, k=length))
 class contactMesage(View):
     template = app + "contact_page.html"
  
@@ -297,6 +305,7 @@ class contactMesage(View):
             print(f"Form errors: {form.errors}")
             messages.warning(request, "Invalid form data. Please correct the errors.")
             return self.get(request)
+       
        
      
         

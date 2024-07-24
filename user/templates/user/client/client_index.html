@@ -1,0 +1,36 @@
+{% extends 'user/client/client_stater.html' %}
+{% load static %}
+{% block content %}
+
+
+<style>
+    .bg-surface-secondary {
+        --x-bg-opacity: 1;
+        background-color: linear-gradient(to bottom, hsl(247, 88%, 70%), hsl(282, 82%, 51%)); box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        
+    }
+    .card {
+        border-radius: 15px !important; /* Remove border radius */
+        background-color: linear-gradient(to bottom, hsl(247, 88%, 70%), hsl(282, 82%, 51%)); box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        
+    }
+    .small-box {
+        width: 100% !important; /* Adjust the width of Box 1 and Box 2 */
+        
+    }
+</style>
+
+<div class="main-content bg-surface-secondary">
+    {% for job in jobs %}
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link font-bold" href="{% url 'user:application_list' job.id %}" data-bs-toggle="collapse" data-bs-target="#employeeManagement" role="button" aria-expanded="false" aria-controls="employeeManagement">
+                    <i class="fas fa-users"></i> Applications for {{ job.title }} 
+    
+                </a>
+            </li>
+        </ul>
+        {% endfor %}
+</div>
+
+{% endblock content %}

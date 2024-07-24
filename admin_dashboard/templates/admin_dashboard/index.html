@@ -4,11 +4,7 @@
 {% load admin_dash %}
 
 <style>
-    .bg-surface-secondary {
-        --x-bg-opacity: 1;
-        background-color: linear-gradient(to bottom, hsl(247, 88%, 70%), hsl(282, 82%, 51%)); box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
-        
-    }
+    
     .card {
         border-radius: 15px !important; /* Remove border radius */
         background-color: linear-gradient(to bottom, hsl(247, 88%, 70%), hsl(282, 82%, 51%)); box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
@@ -18,6 +14,7 @@
         width: 100% !important; /* Adjust the width of Box 1 and Box 2 */
         
     }
+<<<<<<< HEAD
     .custom-card-header {
                     background-color: white !important;
                     box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
@@ -54,14 +51,165 @@
                     align-items: center;
                     justify-content: center;
                 }
+=======
+
+
+
+
+
+    
+    #q-graph {
+        
+        position: relative; 
+        width: 100%; 
+        height: 300px;
+        margin: 1.1em 0 0; 
+        padding: 0;
+        background: transparent;
+        font-size: 11px;
+      }
+      
+      #q-graph caption {
+        caption-side: top; 
+        width: 100%;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+        top: -40px;
+        position: relative; 
+        z-index: 10;
+        font-weight: bold;
+      }
+      
+      #q-graph tr, #q-graph th, #q-graph td { 
+        position: absolute;
+        bottom: 0; 
+        width: 150px; 
+        z-index: 2;
+        margin: 0; 
+        padding: 0;
+        text-align: center;
+      }
+      
+      #q-graph td {
+        transition: all .3s ease;
+        
+        &:hover {
+          background-color: desaturate(#85144b, 100);
+          opacity: .9;
+          color: white;
+        }
+      }
+        
+      #q-graph thead tr {
+        left: 100%; 
+        top: 50%; 
+        bottom: auto;
+        margin: -2.5em 0 0 5em;}
+      #q-graph thead th {
+        width: 7.5em; 
+        height: auto; 
+        padding: 0.5em 1em;
+      }
+      #q-graph thead th.sent {
+        top: 0; 
+        left: 0; 
+        line-height: 2;
+      }
+      #q-graph thead th.paid {
+        top: 2.75em; 
+        line-height: 2;
+        left: 0; 
+      }
+      
+      #q-graph tbody tr {
+        height: 296px;
+        padding-top: 2px;
+        border-right: 1px dotted #C4C4C4; 
+        color: #AAA;
+      }
+      #q-graph #q1 {
+        left: 0;
+      }
+      #q-graph #q2 
+      {
+        left: 150px;
+        }
+      #q-graph #q3 
+      {
+        left: 300px;
+        }
+      #q-graph #q4 
+        {
+        left: 450px;
+         border-right: none;
+        }
+        #q-graph #q5 
+        {
+        left: 600px;
+         border-right: none;
+        }
+      #q-graph tbody th {bottom: -1.75em; vertical-align: top;
+      font-weight: normal; color: #333;}
+      #q-graph .bar {
+        width: 60px; 
+        border: 1px solid; 
+        border-bottom: none; 
+        color: #000;
+      }
+      #q-graph .bar p {
+        margin: 5px 0 0; 
+        padding: 0;
+        opacity: .4;
+      }
+      #q-graph .sent {
+        left: 13px; 
+        background-color: #7fdbff;
+        border-color: transparent;
+      }
+      #q-graph .paid {
+        left: 77px; 
+        background-color:#39cccc;
+        border-color: transparent;
+      }
+      
+      
+      #ticks {
+        position: relative; 
+        top: -300px; 
+        left: 2px;
+        width: 596px; 
+        height: 300px; 
+        z-index: 1;
+        margin-bottom: -300px;
+        font-size: 10px;
+        font-family: "fira-sans-2", Verdana, sans-serif;
+      }
+      
+      #ticks .tick {
+        position: relative; 
+        border-bottom: 1px dotted #C4C4C4; 
+        width: 600px;
+      }
+      
+      #ticks .tick p {
+        position: absolute; 
+        left: -5em; 
+        top: -0.8em; 
+        margin: 0 0 0 0.5em;
+      }
+>>>>>>> a0b0b9ddfcb9ce554b6c2aca374c1f87efa8d798
 </style>
 
 <div class="main-content bg-surface-secondary">
     <div class="container-fluid py-5 px-5">
-        <!-- Dashboard Overview Section -->
+        
         <div id="dashboard" class="section py-5 px-5">
             
+           
+                
+        
             <div class="row">
+<<<<<<< HEAD
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         </head>
         <body>
@@ -73,26 +221,73 @@
                         <div class="card-body">
                             <!-- Content for the fourth card -->
                             Job Openings: {{ job_count }}
+=======
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card" style="height: 300px; ">
+                        <div class="card-body">
+                            
+                            Published Job
+>>>>>>> a0b0b9ddfcb9ce554b6c2aca374c1f87efa8d798
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card" style="height: 300px;">
                         <div class="card-body">
-                            <!-- Content for the fifth card -->
-                            Pending Job
+                            
+                            Unpublished Job
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card" style="height: 300px;">
                         <div class="card-body">
-                            <!-- Content for the sixth card -->
-                            Job Status
+                            
+                            Total Job
                         </div>
                     </div>
                 </div>
+
+
+
+
+                <table id="q-graph">
+                    <caption>Quarterly Results</caption>
+                    <thead>
+                
+                    </thead>
+                    <tbody>
+                    <tr class="qtr" id="q1">
+                    <th scope="row">Q1</th>
+                    <td class="sent bar" style="height: 111px;"><p>$18,450.00</p></td>
+                    <td class="paid bar" style="height: 99px;"><p>$16,500.00</p></td>
+                    </tr>
+                    <tr class="qtr" id="q2">
+                    <th scope="row">Q2</th>
+                    <td class="sent bar" style="height: 206px;"><p>$34,340.72</p></td>
+                    <td class="paid bar" style="height: 194px;"><p>$32,340.72</p></td>
+                    </tr>
+                    <tr class="qtr" id="q3">
+                    <th scope="row">Q3</th>
+                    <td class="sent bar" style="height: 259px;"><p>$43,145.52</p></td>
+                    <td class="paid bar" style="height: 193px;"><p>$32,225.52</p></td>
+                    </tr>
+                    <tr class="qtr" id="q4">
+                    <th scope="row">Q4</th>
+                    <td class="sent bar" style="height: 110px;"><p>$18,415.96</p></td>
+                    <td class="paid bar" style="height: 195px;"><p>$32,425.00</p></td>
+                    </tr>
+                    <tr class="qtr" id="q5">
+                        <th scope="row">Q5</th>
+                        <td class="sent bar" style="height: 110px;"><p>$10,415.96</p></td>
+                        <td class="paid bar" style="height: 195px;"><p>$32,425.00</p></td>
+                        </tr>
+                    </tbody>
+                </table>
+
             </div>
+<<<<<<< HEAD
             <div class="container mt-5">
                 <div class="row justify-content-center">
                     <div class="col-lg-6 col-md-6 mb-4">
@@ -104,6 +299,14 @@
                     </div>
                 </div>
             </div>
+=======
+
+
+            
+                
+            
+            
+>>>>>>> a0b0b9ddfcb9ce554b6c2aca374c1f87efa8d798
         </div>
     </div>
 </div>

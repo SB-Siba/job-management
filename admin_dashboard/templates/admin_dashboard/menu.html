@@ -26,6 +26,10 @@
             /* --x-nav-link-hover-color: #babef5; */
             
         }
+        h2
+        {
+            font-size: 35px;
+        }
         .h6 {
             color: #fff;
         }
@@ -33,15 +37,17 @@
             color:gray;
             
         }
-        /* {% comment %} .nav{
-            nav-link-hover-color: #fff;
-        } {% endcomment %} */
+        
         
     </style>
 </head>
 <body>
     <div class="collapse navbar-collapse sidebar" id="sidebarCollapse">
+
         <ul class="navbar-nav">
+            <div>
+                <h2 class="text-center text-white">Pravati International</h2>
+            </div>
             <li class="nav-item">
                 <a class="nav-link font-bold" style="background:none" href="{% url 'admin_dashboard:admin_dashboard' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
                     <i class="fas fa-headset"></i> Admin Dashboard
@@ -86,16 +92,16 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link font-bold" style="background:none" href="#" data-bs-toggle="collapse" data-bs-target="#candidateAppManagement" role="button" aria-expanded="false" aria-controls="candidateAppManagement">
-                    <i class="fas fa-user"></i> Candidate Application
+                <a class="nav-link font-bold" style="background:none" href="{% url 'admin_dashboard:application_list' %}" data-bs-target="#candidateAppManagement" role="button" aria-expanded="false" aria-controls="candidateAppManagement">
+                    <i class="fas fa-user"></i> Candidate List
                 </a>
-                <div class="collapse" id="candidateAppManagement">
-                    <ul class="nav nav-sm flex-column">
-                        <li class="nav-item">
-                            <a href="{% url 'admin_dashboard:application_list' %}" class="nav-link font-bold"><i class="fas fa-file-alt"></i>All Applications</a>
-                        </li>
-                    </ul>
-                </div>
+                
+            </li>
+            <li class="nav-item">
+                <a class="nav-link font-bold" style="background:none" href="{% url 'admin_dashboard:employee_list' %}" data-bs-target="#candidateAppManagement" role="button" aria-expanded="false" aria-controls="candidateAppManagement">
+                    <i class="fas fa-user"></i> Employee List
+                </a>
+                
             </li>
             <li class="nav-item">
                 <a class="nav-link font-bold" href="#" data-bs-toggle="collapse" data-bs-target="#employeeManagement" role="button" aria-expanded="false" aria-controls="employeeManagement">
@@ -113,23 +119,13 @@
                     </ul>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link font-bold" href="#" data-bs-toggle="collapse" data-bs-target="#employeeManagement" role="button" aria-expanded="false" aria-controls="employeeManagement">
-                    <i class="fas fa-users"></i> Employee Management
-
-                </a>
-                <div class="collapse" id="employeeManagement">
-                    <ul class="nav nav-sm flex-column">
-                        <li class="nav-item">
-                            <a href="{% url 'admin_dashboard:employee_list' %}" class="nav-link font-bold"><i class="fas fa-list"></i>All Employees</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'admin_dashboard:client_create' %}" class="nav-link font-bold"><i class="fas fa-file-alt"></i>Add Client</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+            
         </ul>
+
+        
+        
+        
+
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link font-bold" style="background:none" href="{% url 'admin_dashboard:all_contact_message' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
