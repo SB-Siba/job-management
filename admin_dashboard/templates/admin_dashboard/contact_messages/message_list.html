@@ -3,57 +3,58 @@
 {% block content %}
 {% load admin_dash %}
 
+<style>
+.card
+{
+  font-family: merriwether;
+}
+.table thead th
+{
+  font-size: 16px;
+}
+.card-header:first-child
+{
+  box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+}
+tr:hover
+    {
+        background-color: rgb(244, 212, 169);
+    }
+</style>
 <main class="py-6 bg-surface-secondary">
-
   <div class="container-fluid">
     <div class="card">
       <div class="card-header border-bottom">
-        <h5 class="mb-0">Contact Request List</h5>
+        <h2 class="mb-0">Contact Request List</h2>
       </div>
       <div class="table-responsive">
         <table class="table table-hover table-nowrap">
           <thead class="table-light">
             <tr>
-              <th scope="col">Message-ID</th>
               <th scope="col">Name</th>
               <th scope="col">Contact</th>
               <th scope="col">Email</th>
-              <!-- <th scope="col">Order-Number</th> -->
+              <th scope="col">Message</th>
               <th scope="col">Date</th>
-              <th scope="col">Status</th>
             </tr>
           </thead>
           <tbody>
-            {% for message in message_list%}
+            {% for message in message_list %}
               <tr>
+                <td>{{ message.user.full_name }}</td>
+                <td>{{ message.user.contact }}</td>
+                <td>{{ message.user.email }}</td>
                 <td>
-                  <span uid="{{message.uid}}" onclick="message_detail(this)" style="color:blue">
-                    {{message.uid}}
-                  </span>
+                  {% if message.message|length > 10 %}
+                    {{ message.message|slice:":10" }}...
+                  {% else %}
+                    {{ message.message }}
+                  {% endif %}
+                  <span uid="{{ message.uid }}" onclick="message_detail(this)" style="color:blue">Open</span>
                 </td>
-                <td>{{message.user.full_name}}</td>
-                <td>{{message.user.contact}}</td>
-                <td>{{message.user.email}}</td>
-                <!-- <td>
-                  <span style="color:blue" onclick="get_order_detail(this)" uid="{{message.order_number}}">
-                    {{message.order_number}}
-                  </span>
-                </td> -->
-                <td>{{message.created_at}}</td>
-                <td>
-                  <span class="badge badge-lg badge-dot">
-                    {% if message.status == 'pending' %}
-                      <i class="bg-danger"></i>{{message.status}}
-                    {% elif message.status == 'read' %}
-                      <i class="bg-warning"></i>{{message.status}}
-                    {% else %}
-                      <i class="bg-success"></i>{{message.status}}
-                    {% endif %}
-                  </span></td>
-
+                <td>{{ message.created_at }}</td>
               </tr>
             {% endfor %}
-
           </tbody>
         </table>
       </div>
@@ -61,82 +62,37 @@
   </div>
 </main>
 
-
 <!-- message list modal -->
 <div class="modal fade" id="contact_message" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Message-Id : <span style="color:blue" id="contact_message_id"></span></h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Message: <span style="color:blue" id="contact_message_id"></span></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div id="contact_message_message">
-        
-        </div>
+        <div id="contact_message_message"></div>
         <hr>
         <div class="contact_message_edit">
           <h5>Message Reply</h5>
-          <center id="reply_alert">
-            
-          </center>
+          <center id="reply_alert"></center>
           <form id="message_reply_form" onsubmit="event.preventDefault();">
             {% csrf_token %}
-            {{form.as_p}}
+            {{ form.as_p }}
             <br>
             <center>
-                <button class="btn btn-success" type="button" onclick="submit_reply()">
-                  Submit Reply
-                </button>
+              <button class="btn btn-success" type="button" onclick="submit_reply()">Submit Reply</button>
             </center>
           </form>
         </div>
-
       </div>
     </div>
   </div>
 </div>
 
-
-
-<!-- order details -->
-<!-- <div class="modal fade" id="order_details" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Order Details (<span id="order_number"></span>)</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <span id="order_details_data">
-
-      </span>
-
-      <div class="modal-body">
-
-        <p>Product List</p>
-        <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Product ID</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Brand</th>
-              </tr>
-            </thead>
-            <tbody id="product_list">
-
-            </tbody>
-        </table>
-
-      </div>
-    </div>
-  </div>
-</div> -->
 {% endblock content %}
 {% block js %}
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="{% static 'admin_dashboard/js/contact_message.js'%}"></script>
+<script src="{% static 'admin_dashboard/js/contact_message.js' %}"></script>
 {% endblock js %}

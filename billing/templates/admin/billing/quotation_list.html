@@ -1,0 +1,21 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>Quotations</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Client</th>
+        <th>Total Amount</th>
+        <th>Created At</th>
+    </tr>
+    {% for quotation in quotations %}
+    <tr>
+        <td>{{ quotation.id }}</td>
+        <td>{{ quotation.client.username }}</td>
+        <td>{{ quotation.total_amount }}</td>
+        <td>{{ quotation.created_at }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'billing:quotation_create' %}">Create Quotation</a>
+{% endblock %}

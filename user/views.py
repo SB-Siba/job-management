@@ -7,25 +7,29 @@ from django.contrib import messages
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+
+from helpers import utils
 from . import forms
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 # from app_common.models import Job, Application
-from admin_dashboard.manage_product.forms import ApplicationForm ,CatagoryEntryForm , JobForm
+from django.contrib.auth.models import User
+
+from admin_dashboard.manage_product.forms import ApplicationForm ,categoryEntryForm , JobForm
 # from app_common.checkout.serializer import CartSerializer,DirectBuySerializer,TakeSubscriptionSerializer,OrderSerializer
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 # from io import StringIO
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.core.mail import send_mail
 import json
+from django.core.validators import RegexValidator
 import random
 import string
-
 # admin_dashboard/manage_product/user.py
 from app_common.models import (
     Job,
-    Catagory,
+    Category,
     UserProfile,
     User,
     Application,
@@ -41,7 +45,7 @@ app = "user/"
 
 
 class HomeView(View):
-    template_client = app + 'client_home.html'
+    template_client = app + 'client/client_index.html'
     template_user = app + 'home1.html'
     unauthenticated_template = app + 'home_for_landing.html'
  
@@ -63,8 +67,8 @@ class HomeView(View):
 
         # If user is authenticated but not a client, treat as candidate
         job_list = Job.objects.filter(status='published', expiry_date__gt=timezone.now()).order_by('-published_date')
-        if user.catagory:
-            job_list = job_list.filter(catagory=user.catagory)
+        if user.category:
+            job_list = job_list.filter(category=user.category)
         paginated_data = paginate(request, job_list, 50)
         form = ApplicationForm()  # This form will be used for the application modal/form
         context = {
@@ -81,14 +85,14 @@ class ProfileView(View):
 
     def get(self, request):
         user = request.user
-        catagory_obj = Catagory.objects.all()
-        print(catagory_obj)
+        category_obj = Category.objects.all()
+        print(category_obj)
         try:
             profile_obj = UserProfile.objects.get(user=user)
         except UserProfile.DoesNotExist:
             profile_obj = None
 
-        return render(request, self.template, {'user': user, 'catagory_obj': catagory_obj, 'profile_obj': profile_obj})
+        return render(request, self.template, {'user': user, 'category_obj': category_obj, 'profile_obj': profile_obj})
 
 class UpdateProfileView(View):
     template = "user/update_profile.html"
@@ -96,7 +100,7 @@ class UpdateProfileView(View):
 
     def get(self, request):
         user = request.user
-        catagory_obj = Catagory.objects.all()
+        category_obj = Category.objects.all()
         try:
             profile_obj = UserProfile.objects.get(user=user)
         except UserProfile.DoesNotExist:
@@ -109,14 +113,16 @@ class UpdateProfileView(View):
             "skills": profile_obj.skills if profile_obj else '',
             "profile_pic": profile_obj.profile_pic if profile_obj else None,
             "resume": profile_obj.resume if profile_obj else None,
-            "catagory": user.catagory  # Assuming 'category' field in User model
+            "category": user.category  # Assuming 'category' field in User model
         }
         form = self.form_class(initial=initial_data)
 
-        return render(request, self.template, {'form': form, 'catagory_obj': catagory_obj})
+        return render(request, self.template, {'form': form, 'category_obj': category_obj})
 
     def post(self, request):
         form = self.form_class(request.POST, request.FILES)
+        category_obj = Category.objects.all()
+        
         if form.is_valid():
             email = form.cleaned_data["email"]
             full_name = form.cleaned_data["full_name"]
@@ -124,7 +130,11 @@ class UpdateProfileView(View):
             skills = form.cleaned_data["skills"]
             profile_picture = form.cleaned_data["profile_pic"]
             resume = form.cleaned_data["resume"]
-            catagory = form.cleaned_data["catagory"]
+            category = form.cleaned_data["category"]
+
+            if len(contact) != 10 or not contact.isdigit():
+                form.add_error('contact', 'Contact number must be exactly 10 digits and only contain numbers')
+                return render(request, self.template, {'form': form, 'category_obj': category_obj})
 
             user = request.user
 
@@ -133,7 +143,7 @@ class UpdateProfileView(View):
                 user_obj.email = email
                 user_obj.full_name = full_name
                 user_obj.contact = contact
-                user_obj.catagory = catagory  # Update category
+                user_obj.category = category  # Update category
                 user_obj.save()
 
                 profile_obj, created = UserProfile.objects.get_or_create(user=user_obj)
@@ -150,12 +160,10 @@ class UpdateProfileView(View):
                 print(e)
                 # Handle error messages or logging here if needed
 
-        catagory_obj = Catagory.objects.all()
-        print(catagory_obj)
-        return render(request, self.template, {'form': form, 'catagory_obj': catagory_obj})
+        return render(request, self.template, {'form': form, 'category_obj': category_obj})
 
 class UserJobSearch(View):
-    form=CatagoryEntryForm()
+    form=categoryEntryForm()
     template = app + "jobs/job_list.html"
 
     def post(self, request):
@@ -180,9 +188,9 @@ class UserJobFilter(View):
 
     def get(self, request):
         filter_by = request.GET.get("filter_by")
-        if filter_by == "catagory":
-            catagory_id = request.GET.get("catagory_id")
-            job_list = self.Job.objects.filter(catagory_id=catagory_id, published=True, expiry_date__gt=timezone.now()).order_by('-id')
+        if filter_by == "category":
+            category_id = request.GET.get("category_id")
+            job_list = self.Job.objects.filter(category_id=category_id, published=True, expiry_date__gt=timezone.now()).order_by('-id')
         else:
             job_list = self.Job.objects.filter(published=True, expiry_date__gt=timezone.now()).order_by('-id')
 
@@ -219,7 +227,6 @@ class ApplyForJobView(View):
 
 
 
-@method_decorator(login_required, name='dispatch')
 class AppliedJobsView(View):
     template_name = app + 'jobs/applied_jobs.html'
 
@@ -229,12 +236,15 @@ class AppliedJobsView(View):
     def post(self, request):
        
         return redirect('user:applied_jobs')
+        
 class ApplicationSuccess(View):
     template = "user/application_success.html"
 
     def get(self,request):
         return render(request,self.template)
 
+def get_rand_number(length=5):
+    return ''.join(random.choices(string.digits, k=length))
 def get_rand_number(length=5):
     return ''.join(random.choices(string.digits, k=length))
 class contactMesage(View):
@@ -256,7 +266,7 @@ class contactMesage(View):
         form = forms.ContactMessageForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data.get('name')
-
+            name = form.cleaned_data.get('name')
             email = form.cleaned_data['email']
             query_message = form.cleaned_data['message']
             try:
@@ -270,6 +280,7 @@ class contactMesage(View):
  
                 subject = "Your Query Received."
                 message = f"Dear {name or email},\nYour query has been received successfully.\nOur team members will look into this."
+                message = f"Dear {name or email},\nYour query has been received successfully.\nOur team members will look into this."
                 from_email = "forverify.noreply@gmail.com"
                 send_mail(subject, message, from_email, [email], fail_silently=False)
  
@@ -281,8 +292,18 @@ class contactMesage(View):
                 return redirect("user:contactmessage")
             except Exception as e:
                 print(f"Exception: {e}")
+                print(f"Exception: {e}")
+                messages.warning(request, "There was an error while sending your message.")
+                return self.get(request)
+                return self.get(request)
+        else:
+            # Print form errors to the console for debugging
+            print(f"Form errors: {form.errors}")
+            # Print form errors to the console for debugging
+            print(f"Form errors: {form.errors}")
             messages.warning(request, "Invalid form data. Please correct the errors.")
             return self.get(request)
+       
        
      
         
@@ -301,7 +322,7 @@ class AboutPage(View):
 
 #     def get(self,request):
 #         user = request.user
-#         catagory_obj = Catagory.objects.all()
+#         category_obj = category.objects.all()
 #         userobj = User.objects.get(id=user.id)
 #         try:
 #             profileobj = UserProfile.objects.get(user=userobj)
@@ -468,31 +489,36 @@ class ApplicationList(View):
 
     def get(self, request, job_id):
         applications = Application.objects.filter(job_id=job_id)
-        return render(request, self.template_name, {'applications': applications})
+        form = forms.EmployeeForm()
+        return render(request, self.template_name, {'applications': applications, 'form': form})
 
     def post(self, request, job_id):
-        application_id = request.POST.get('application_id')
-        status = request.POST.get('status')
-        application = get_object_or_404(Application, id=application_id)
+        applications = Application.objects.filter(job_id=job_id)
 
-        if status == 'Hired':
-            form = forms.EmployeeForm(request.POST)
-            if form.is_valid():
-                Employee.objects.create(
-                    user=application.user,
-                    job=application.job,
-                    employer=request.user,  # assuming the logged-in user is the employer
-                    salary=form.cleaned_data['salary'],
-                    period_start=form.cleaned_data['period_start'],
-                    period_end=form.cleaned_data['period_end'],
-                )
-            else:
-                applications = Application.objects.filter(job_id=job_id)
-                return render(request, self.template_name, {'applications': applications, 'form': form})
+        for application in applications:
+            status = request.POST.get(f'status_{application.id}')
 
-        application.status = status
-        application.save()
+            if status == 'Hired':
+                form = forms.EmployeeForm(request.POST)
+                if form.is_valid():
+                    Employee.objects.create(
+                        user=application.user,
+                        job=application.job,
+                        employer=request.user,  # assuming the logged-in user is the employer
+                        salary=form.cleaned_data['salary'],
+                        period_start=form.cleaned_data['period_start'],
+                        period_end=form.cleaned_data['period_end'],
+                    )
+                    messages.success(request, f'{application.user.full_name} has been hired and added as an employee.')
+                else:
+                    return render(request, self.template_name, {'applications': applications, 'form': form})
+
+            application.status = status
+            application.save()
+        
         return redirect('user:application_list', job_id=job_id)
+
+
 
 class EmployeeList(View): 
     template_name = app + "client/employee_list.html"

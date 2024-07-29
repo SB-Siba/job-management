@@ -1,6 +1,6 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
-
+from django.contrib import admin
 from .credentials import credential
 from .manage_product import user,catagory,job,client
 
@@ -14,6 +14,8 @@ urlpatterns = [
     path('privacy_policy_api', views.ApiPrivacyPolicy.as_view(),),
     path('terms_and_conditions', views.ApiTermsCondition.as_view(),),
     path('about_us', views.ApiAbountUs.as_view(),),
+    path('admin/', admin.site.urls),
+    path('billing/', include('billing.urls', namespace='billing')),
 
     # Userlist
     path("user/userslist", user.UserList.as_view(), name="userslist"),
@@ -24,13 +26,13 @@ urlpatterns = [
     path('employees/', user.EmployeeList.as_view(), name='employee_list'),
     path('employee/<int:employee_id>/', user.EmployeeDetail.as_view(), name='employee_detail'),
 
-    # # catagory web
-    path("catagory/catagory_list", catagory.CatagoryList.as_view(), name="catagory_list"),
-    path('catagory/catagory_add/', catagory.CatagoryAdd.as_view(), name='catagory_add'),
-    path("catagory/catagory_update/<str:catagory_id>", catagory.CatagoryUpdate.as_view(), name="catagory_update"),
-    path("catagory/catagory_delete/<str:catagory_id>", catagory.CatagoryDelete.as_view(), name="catagory_delete"),
+    # # category web
+    path("category/category_list", catagory.categoryList.as_view(), name="category_list"),
+    path('category/category_add/', catagory.categoryAdd.as_view(), name='category_add'),
+    path("category/category_update/<str:category_id>", catagory.categoryUpdate.as_view(), name="category_update"),
+    path("category/category_delete/<str:category_id>", catagory.categoryDelete.as_view(), name="category_delete"),
 
-    # # catagory api
+    # # category api
     
     #client list
     path('clients/', client.AdminClientListView.as_view(), name='client_list'),
@@ -50,8 +52,6 @@ urlpatterns = [
     # path('job/job_update/<int:job_id>/', job.JobUpdate.as_view(), name='job_update'),
     path('job/job_delete/<int:job_uid>/', job.JobDelete.as_view(), name='job_delete'),  
     # #product_api
-    
-
     
 
     #credential

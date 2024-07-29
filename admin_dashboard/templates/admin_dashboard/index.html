@@ -4,77 +4,42 @@
 {% load admin_dash %}
 
 <style>
-    .bg-surface-secondary {
-        --x-bg-opacity: 1;
-        background-color: #ebedf0 !important;
-    }
     .card {
-        border-radius: 0 !important; /* Remove border radius */
+        border-radius: 15px !important;
+        background-color: linear-gradient(to bottom, hsl(247, 88%, 70%), hsl(282, 82%, 51%));
+        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
     }
     .small-box {
-        width: 100% !important; /* Adjust the width of Box 1 and Box 2 */
+        width: 100% !important;
+    }
+    .chart-container {
+        position: relative;
+        width: 100%;
     }
 </style>
 
 <div class="main-content bg-surface-secondary">
-    <div class="container-fluid">
-        <!-- Dashboard Overview Section -->
-        <div id="dashboard" class="section">
-            <h3>Welcome To Dashboard</h3><br>
+    <div class="container-fluid py-5 px-5">
+        <div id="dashboard" class="section py-5 px-5">
             <div class="row">
-                <!-- First Row: Column with Box 1 and Box 2, and Box 3 next to it -->
-                <div class="col-lg-6 col-md-6 mb-4">
-                    <div class="row">
-                        <div class="col-6 mb-4 small-box">
-                            <div class="card" style="height: 170px;">
-                                <div class="card-body">
-                                    <!-- Content for the first card -->
-                                    Total Job: {{ job_count }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6 mb-4 small-box">
-                            <div class="card" style="height: 170px;">
-                                <div class="card-body">
-                                    <!-- Content for the second card -->
-                                    Overview
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 mb-4">
-                    <div class="card" style="height: 360px;">
-                        <div class="card-body">
-                            <!-- Content for the third card -->
-                            Total Active
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <!-- Second Row: Three Boxes with different heights -->
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card" style="height: 300px;">
+                    <div class="card" style="height: 150px;">
                         <div class="card-body">
-                            <!-- Content for the fourth card -->
-                            Job Details
+                            Published Jobs: {{ published_jobs }}
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card" style="height: 300px;">
+                    <div class="card" style="height: 150px;">
                         <div class="card-body">
-                            <!-- Content for the fifth card -->
-                            Pending Job
+                            Unpublished Jobs: {{ unpublished_jobs }}
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card" style="height: 300px;">
+                    <div class="card" style="height: 150px;">
                         <div class="card-body">
-                            <!-- Content for the sixth card -->
-                            Job Status
+                            Total Jobs: {{ job_count }}
                         </div>
                     </div>
                 </div>
@@ -82,5 +47,58 @@
         </div>
     </div>
 </div>
+
+<div class="row justify-content-center mt-5">
+    <div class="col-lg-11 col-md-11 mb-4">
+        <div class="card" style="height: 360px;">
+            <div class="card-body">
+                <canvas id="myBarChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+var totalEmployees = {{ total_employees }};
+var totalClients = {{ total_clients }};
+var totalJobs = {{ total_jobs }};
+var totalCandidates = {{ total_candidates }};
+
+var ctx = document.getElementById('myBarChart').getContext('2d');
+var myBarChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Employees', 'Clients', 'Jobs', 'Candidates'],
+        datasets: [{
+            label: 'Total Count',
+            data: [totalEmployees, totalClients, totalJobs, totalCandidates],
+            backgroundColor: [
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(153, 102, 255, 0.2)'
+            ],
+            borderColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+});
+</script>
 
 {% endblock content %}

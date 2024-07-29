@@ -30,24 +30,24 @@ class UserList(View):
     def post(self, request):
         category_form = CategoryFilterForm(request.POST)
         job_form = None
-        catagory = None
+        category = None
 
         if category_form.is_valid():
-            catagory = category_form.cleaned_data['catagory']
-            user_obj = common_model.User.objects.filter(catagory=catagory, is_superuser=False, is_staff=False)
-            job_form = JobSelectionForm(catagory=catagory)
+            category = category_form.cleaned_data['category']
+            user_obj = common_model.User.objects.filter(category=category, is_superuser=False, is_staff=False)
+            job_form = JobSelectionForm(category=category)
             return render(request, self.template, {
                 'category_form': category_form,
                 'user_obj': user_obj,
                 'job_form': job_form,
-                'catagory': catagory
+                'category': category
             })
 
-        if 'catagory_id' in request.POST:
-            catagory_id = request.POST.get('catagory_id')
-            catagory = common_model.Catagory.objects.get(id=catagory_id)
-            job_form = JobSelectionForm(request.POST, catagory=catagory)
-            user_obj = common_model.User.objects.filter(catagory=catagory, is_superuser=False, is_staff=False)
+        if 'category_id' in request.POST:
+            category_id = request.POST.get('category_id')
+            category = common_model.category.objects.get(id=category_id)
+            job_form = JobSelectionForm(request.POST, category=category)
+            user_obj = common_model.User.objects.filter(category=category, is_superuser=False, is_staff=False)
 
             if job_form.is_valid():
                 selected_jobs = job_form.cleaned_data['jobs']
