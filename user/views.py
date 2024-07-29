@@ -7,6 +7,8 @@ from django.contrib import messages
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+
+from helpers import utils
 from . import forms
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -18,7 +20,7 @@ from admin_dashboard.manage_product.forms import ApplicationForm ,categoryEntryF
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 # from io import StringIO
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.core.mail import send_mail
 import json
 from django.core.validators import RegexValidator
@@ -484,7 +486,7 @@ class ApplicationList(View):
 
     def get(self, request, job_id):
         applications = Application.objects.filter(job_id=job_id)
-        form = EmployeeForm()
+        form = forms.EmployeeForm()
         return render(request, self.template_name, {'applications': applications, 'form': form})
 
     def post(self, request, job_id):
@@ -494,7 +496,7 @@ class ApplicationList(View):
             status = request.POST.get(f'status_{application.id}')
 
             if status == 'Hired':
-                form = EmployeeForm(request.POST)
+                form = forms.EmployeeForm(request.POST)
                 if form.is_valid():
                     Employee.objects.create(
                         user=application.user,
