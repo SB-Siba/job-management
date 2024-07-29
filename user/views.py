@@ -35,6 +35,7 @@ from app_common.models import (
     Application,
     ContactMessage,
     Employee,
+    
 )
 
 from helpers.utils import dict_filter,paginate # Import dict_filter function
@@ -53,7 +54,7 @@ class HomeView(View):
         if not user.is_authenticated:
             jobs = Job.objects.all()
             return render(request, self.unauthenticated_template, {'jobs': jobs})
- 
+
         welcome_message = f"Welcome, {user.full_name}!"
  
         if user.is_staff:  # Check if user is marked as client (is_staff)
@@ -63,7 +64,7 @@ class HomeView(View):
                 'welcome_message': welcome_message,
             }
             return render(request, self.template_client, context)
- 
+
         # If user is authenticated but not a client, treat as candidate
         job_list = Job.objects.filter(status='published', expiry_date__gt=timezone.now()).order_by('-published_date')
         if user.category:
@@ -203,6 +204,7 @@ class UserJobFilter(View):
 
 
 @method_decorator(login_required, name='dispatch')
+
 class ApplyForJobView(View):
     template = app + 'job_apply.html'
     model = Application
@@ -241,7 +243,6 @@ class ApplicationSuccess(View):
     def get(self,request):
         return render(request,self.template)
 
-
 def get_rand_number(length=5):
     return ''.join(random.choices(string.digits, k=length))
 def get_rand_number(length=5):
@@ -274,7 +275,7 @@ class contactMesage(View):
                     contact_obj = ContactMessage(user=u_obj, message=query_message)
                 else:
                     contact_obj = ContactMessage(uid=get_rand_number(5), message=query_message, reply=email)
- 
+
                 contact_obj.save()
  
                 subject = "Your Query Received."
@@ -347,7 +348,9 @@ class JobOpening(View):
     def get(self, request):
         jobs = Job.objects.filter(status='published')
         return render(request, self.template, {'jobs': jobs})
-      
+
+# client 
+
 @method_decorator(login_required, name='dispatch')
 class PostJob(View):
     template_name = app + 'client/post_job.html'
@@ -576,9 +579,7 @@ class EmployeeUpdate(View):
         context = {'form': form, 'employee': employee}
         return render(request, self.template_name, context)
 
-      
 class ThankYou(View):
     template = app + "thankyoupage.html"
     def get(self, request):
         return render(request, self.template)
-

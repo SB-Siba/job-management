@@ -85,6 +85,7 @@ class ApplicationList(View):
         applications = common_model.Application.objects.all()
         context = {
             "applications": applications,
+            "MEDIA":settings.MEDIA_URL
         }
         return render(request, self.template, context)
 

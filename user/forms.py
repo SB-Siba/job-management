@@ -79,7 +79,7 @@ class UpdateProfileForm(forms.Form):
 
 class ContactMessageForm(forms.Form):
     name = forms.CharField(
-        max_length=255,
+        max_length=255, 
         required=False,
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Your Name'}),
         label='Full Name'
@@ -96,7 +96,6 @@ class ContactMessageForm(forms.Form):
         required=True,
         label='Message'
     )
-
 
 class EmployeeForm(forms.ModelForm):
     class Meta:

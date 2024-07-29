@@ -160,6 +160,9 @@ class ContactMessage(models.Model):
             self.uid = generate_random_string()
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return f"{self.user if self.user else self.email} - {self.status}"
+        
 class Employee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     employer = models.ForeignKey(User, related_name='employees', on_delete=models.CASCADE)

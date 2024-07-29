@@ -1,14 +1,9 @@
-{% extends 'user/landing_page.html' %} {% load static %} 
-{% block title %}
-Contact Page
- {% endblock title %} {% block main_content %}
-<<<<<<< HEAD
+{% extends 'user/landing_page.html' %} 
+{% load static %} 
+{% block title %}Contact Page{% endblock title %} 
+{% block main_content %}
  <div class="form-group mt-2">
-  {% include 'snippets/alert.html' %}
-=======
-<div class="form-group mt-2">
-  {% include "snippets/alert.html" %}
->>>>>>> a0b0b9ddfcb9ce554b6c2aca374c1f87efa8d798
+{% include 'snippets/alert.html' %}
 </div>
 <style>
   svg {
