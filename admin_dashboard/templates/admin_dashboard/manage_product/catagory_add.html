@@ -42,12 +42,20 @@
                 </div>
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data">
-                        {% include 'snippets/alert.html' %}
                         {% csrf_token %}
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                Please correct the errors below.
+                            </div>
+                        {% endif %}
                         {{ form.as_p }}
                         <button type="submit" class="my-5 px-5">Save</button>
                     </form>
-                    
+                    {% if category_saved %}
+                        <div class="alert alert-success">
+                            Category added successfully!
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -55,5 +63,5 @@
 </div>
 
 
-
 {% endblock content %}
+

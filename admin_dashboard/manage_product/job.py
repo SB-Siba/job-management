@@ -112,7 +112,7 @@ class ApplicationList(View):
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobSearch(View):
     model =common_model.Job
-    form_class = forms.CatagoryEntryForm
+    form_class = forms.categoryEntryForm
     template = app + "job_list.html"
 
     def post(self, request):
@@ -121,7 +121,7 @@ class JobSearch(View):
         if filter_by == "uid":
             job_list = self.model.objects.filter(id=query)
         else:
-             job_list = self.model.objects.filter(catagory__title__icontains=query)
+             job_list = self.model.objects.filter(category__title__icontains=query)
 
         paginated_data = utils.paginate(request, job_list, 50)
         context = {
@@ -141,9 +141,9 @@ class JobFilter(View):
 
     def get(self, request):
         filter_by = request.GET.get("filter_by")
-        if filter_by == "catagory":
-            catagory_id = request.GET.get("catagory_id")
-            job_list = self.model.objects.filter(catagory_id=catagory_id).order_by('-id')
+        if filter_by == "category":
+            category_id = request.GET.get("category_id")
+            job_list = self.model.objects.filter(category_id=category_id).order_by('-id')
         else:
             job_list = self.model.objects.all().order_by('-id')
 

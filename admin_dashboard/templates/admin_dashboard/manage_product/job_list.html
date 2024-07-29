@@ -25,13 +25,9 @@ tr:hover
     {% include 'snippets/alert.html' %}
 </center>
 
-
-
 <header>
    
 </header>
-
-
 
 <main class="py-6 bg-surface-secondary">
     <div class="container-fluid">
@@ -46,24 +42,20 @@ tr:hover
                         <div class="d-flex flex-column flex-sm-row gap-3">
                             <div class="hstack gap-2">
                                 <div class="">
-                                    <form action="{% url 'admin_dashboard:job_search' %}" method="post">
+                                    <form action="{% url 'admin_dashboard:job_list' %}" method="post">
                                         {% csrf_token %}
                                         <div class="hstack gap-2">
-                    
-                                            <select style="width: 6rem;" name="filter_by" class="form-select"
-                                                aria-label="Default select example">
+                                            <select style="width: 6rem;" name="filter_by" class="form-select" aria-label="Default select example">
                                                 <option selected value="uid">id</option>
-                                                <option value="name">Catagory</option>
+                                                <option value="name">category</option>
                                             </select>
-                    
-                                            <input type="text" name="query" placeholder="Serch Here" class="form-control" required />
-                    
+                                            <input type="text" name="query" placeholder="Search Here" class="form-control" required />
                                             <button type="submit" class="btn btn-sm btn-neutral">
                                                 <i class="fa-solid fa-magnifying-glass fa-beat-fade" style="color: #8c00ff;"></i>
                                             </button>
-                    
                                         </div>
                                     </form>
+                                    
                                 </div>
             
                             </div>
@@ -96,7 +88,7 @@ tr:hover
                                 <tr>
                                     <td>{{ job.id }}</td>
                                     <td><a href="{% url 'admin_dashboard:job_detail' job_uid=job.id %}">{{ job.title }}</a></td>
-                                    <td>{{ job.catagory }}</td>
+                                    <td>{{ job.category }}</td>
                                     
                                     <td>{{ job.posted_at }}</td>
                                     <td>{{ job.vacancies}}</td>
@@ -165,7 +157,7 @@ tr:hover
                                             <tr>
                                                 <td>{{ job.id }}</td>
                                                 <td><a href="{% url 'admin_dashboard:job_detail' job_uid=job.id %}">{{ job.title }}</a></td>
-                                                <td>{{ job.catagory }}</td>
+                                                <td>{{ job.category }}</td>
                                                 
                                                 <td>{{ job.posted_at }}</td>
                                                 <td>{{ job.vacancies}}</td>
@@ -199,16 +191,6 @@ tr:hover
         </div>
     </div>
 </main> -->
-
-
-
-
-
-
-
-
-
-
 
 
 <div class="modal fade" id="job_delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -275,3 +257,4 @@ tr:hover
     }
 </script>
 {% endblock js %}
+

@@ -7,8 +7,8 @@ class UserAdmin(admin.ModelAdmin):
     search_fields = ("id",)
     list_display = ("id","email")
 
-@admin.register(models.Catagory)
-class CatagoryAdmin(admin.ModelAdmin):
+@admin.register(models.Category)
+class categoryAdmin(admin.ModelAdmin):
     search_fields = ("id","title__icontains")
     list_display = ("title","id")
 
@@ -36,8 +36,8 @@ class EmployeeAdmin(admin.ModelAdmin):
 
 @admin.register(models.Job)
 class JobAdmin(admin.ModelAdmin):
-    list_display = ('catagory', 'company_name', 'location', 'vacancies',  'posted_at', 'updated_at')
-    list_filter = ('catagory','location')
+    list_display = ('category', 'company_name', 'location', 'vacancies',  'posted_at', 'updated_at')
+    list_filter = ('category','location')
     search_fields = ('title', 'description', 'location', 'company_name')
     actions = ['publish_jobs', 'unpublish_jobs']
 

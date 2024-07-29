@@ -6,4 +6,4 @@ def logout_confirm(request):
 
 def logout_action(request):
     logout(request)
-    return redirect('home')  # Replace 'home' with your desired redirect URL
+    return redirect('admin_dashboard.html')  # Replace 'home' with your desired redirect URL

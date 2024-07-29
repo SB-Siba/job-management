@@ -72,8 +72,8 @@ class UpdateProfileForm(forms.Form):
     resume = forms.FileField(label='Select your Resume', required=False)
     resume.widget.attrs.update({'class': 'form-control', 'type': 'file'})
 
-    catagory = forms.ModelChoiceField(queryset=common_models.Catagory.objects.all(), empty_label=None)  # Use your Property queryset here
-    catagory.widget.attrs.update({'class': 'form-control', 'required': 'required'})
+    category = forms.ModelChoiceField(queryset=common_models.Category.objects.all(), empty_label=None)  # Use your Property queryset here
+    category.widget.attrs.update({'class': 'form-control', 'required': 'required'})
 
     
 
@@ -101,16 +101,10 @@ class ContactMessageForm(forms.Form):
 class EmployeeForm(forms.ModelForm):
     class Meta:
         model = common_models.Employee
-        fields = ['salary', 'period_start', 'period_end', 'docs']
+        fields = ['salary', 'period_start', 'period_end']
         widgets = {
-            'period_start': forms.DateInput(attrs={'type': 'date'}),
-            'period_end': forms.DateInput(attrs={'type': 'date'}),
-        }
-        labels = {
-            'salary': 'Salary',
-            'period_start': 'Period Start',
-            'period_end': 'Period End',
-            'docs': 'Documents',
+            'period_start': forms.SelectDateWidget(),
+            'period_end': forms.SelectDateWidget(),
         }
 
 class ApplicationStatusForm(forms.ModelForm):

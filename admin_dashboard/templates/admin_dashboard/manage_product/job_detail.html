@@ -73,7 +73,7 @@
 
       <tr>
         <th>Category</th>
-        <td>{{ job.catagory.title }}</td>
+        <td>{{ job.category.title }}</td>
       </tr>
       <tr>
         <th>Description</th>
@@ -138,7 +138,7 @@
                 {% for application in applications %}
                     <tr>
                         <td>{{ application.user.full_name }}</td>
-                        <td>{{ application.job.catagory }}</td>
+                        <td>{{ application.job.category }}</td>
                         <td>{{ application.job.company_name }}</td>
                         <td>{{ application.email }}</td>
                         <td>{{ application.contact }}</td>

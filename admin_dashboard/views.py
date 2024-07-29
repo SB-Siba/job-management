@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib import messages
+from app_common import models as common_models
 
 from django.utils.decorators import method_decorator
 
@@ -22,12 +23,30 @@ app = "admin_dashboard/"
 
 @method_decorator(utils.super_admin_only, name='dispatch')
 class AdminDashboard(View):
-    template = app + "index.html"
-    def get(self, request):
-        job_count = common_models.Job.objects.count()
-        return render(request, self.template,{"job_count": job_count})
-    
+    template = "admin_dashboard/index.html"
 
+    def get(self, request):
+        total_employees = common_models.User.objects.filter(is_staff=True).count()
+        total_clients = common_models.User.objects.filter(is_superuser=False).count()  # Assuming clients are not superusers
+        total_jobs = common_models.Job.objects.count()
+        total_candidates = common_models.User.objects.filter(is_staff=False).count()  # Assuming candidates are non-staff users
+
+        # Count published and unpublished jobs
+        published_jobs = common_models.Job.objects.filter(status='published').count()
+        unpublished_jobs = common_models.Job.objects.filter(status='unpublished').count()
+
+        context = {
+            'total_employees': total_employees,
+            'total_clients': total_clients,
+            'total_jobs': total_jobs,
+            'total_candidates': total_candidates,
+            'job_count': total_jobs,
+            'published_jobs': published_jobs,
+            'unpublished_jobs': unpublished_jobs,
+        }
+
+        return render(request, self.template, context)
+    
 # ===================================== privacy policy and t&c & about
 class ApiPrivacyPolicy(APIView):
     permission_classes = [api_permission.is_authenticated]

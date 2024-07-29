@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     'whitenoise.runserver_nostatic',
     'celery',
-
+    'billing',
 
     #apps
     "app_common",

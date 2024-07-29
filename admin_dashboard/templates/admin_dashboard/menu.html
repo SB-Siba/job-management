@@ -77,10 +77,10 @@
                 <div class="collapse" id="jobManagement">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a href="{% url 'admin_dashboard:catagory_add' %}" class="nav-link font-bold"><i class="fas fa-plus"></i>Add Category</a>
+                            <a href="{% url 'admin_dashboard:category_add' %}" class="nav-link font-bold"><i class="fas fa-plus"></i>Add Category</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'admin_dashboard:catagory_list' %}" class="nav-link font-bold"><i class="fas fa-list-alt"></i>Job Categories</a>
+                            <a href="{% url 'admin_dashboard:category_list' %}" class="nav-link font-bold"><i class="fas fa-list-alt"></i>Job Categories</a>
                         </li>
                         <li class="nav-item">
                             <a href="{% url 'admin_dashboard:job_add' %}" class="nav-link font-bold"><i class="fas fa-plus"></i>Add New Job</a>
@@ -123,6 +123,38 @@
         </ul>
 
         
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link font-bold" style="background:none" href="#" data-bs-toggle="collapse" data-bs-target="#quotationManagement" role="button" aria-expanded="false" aria-controls="quotationManagement">
+                    <i class="fas fa-file-invoice"></i> Quotation Management
+                </a>
+                <div class="collapse" id="quotationManagement">
+                    <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                            <a href="{% url 'billing:quotation_list' %}" class="nav-link font-bold"><i class="fas fa-list-alt"></i>View Quotations</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'billing:quotation_add' %}" class="nav-link font-bold"><i class="fas fa-plus"></i>Add Quotation</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link font-bold" style="background:none" href="#" data-bs-toggle="collapse" data-bs-target="#invoiceManagement" role="button" aria-expanded="false" aria-controls="invoiceManagement">
+                    <i class="fas fa-file-invoice-dollar"></i> Invoice Management
+                </a>
+                <div class="collapse" id="invoiceManagement">
+                    <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                            <a href="{% url 'billing:invoice_list' %}" class="nav-link font-bold"><i class="fas fa-list-alt"></i>View Invoices</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'billing:invoice_add' %}" class="nav-link font-bold"><i class="fas fa-plus"></i>Add Invoice</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
         
         
 

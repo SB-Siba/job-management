@@ -106,6 +106,16 @@ tr:hover
         <button type="submit" class="px-5">Update Status</button>
     </form>
 </div>
+<script>
+    function toggleEmployeeForm(applicationId, status) {
+        const formRow = document.getElementById('employee-form-' + applicationId);
+        if (status === 'Hired') {
+            formRow.style.display = '';
+        } else {
+            formRow.style.display = 'none';
+        }
+    }
+</script>
 
 
 

@@ -19,10 +19,10 @@ class MaxFileSizeValidator:
 
 
 
-# # =================================================== manage catagory  =============================================
-class CatagoryEntryForm(forms.ModelForm):
+# # =================================================== manage category  =============================================
+class categoryEntryForm(forms.ModelForm):
     class Meta:
-        model = common_models.Catagory
+        model = common_models.Category
         fields = [
             'title',
             'description',
@@ -41,7 +41,7 @@ class CatagoryEntryForm(forms.ModelForm):
 class JobForm(forms.ModelForm):
     class Meta:
         model = common_models.Job
-        fields = ['catagory', 'client', 'title', 'description', 'location', 'company_name', 'company_website', 'company_logo', 'vacancies', 'posted_at', 'expiry_date', 'job_type', 'status']
+        fields = ['category', 'client', 'title', 'description', 'location', 'company_name', 'company_website', 'company_logo', 'vacancies', 'posted_at', 'expiry_date', 'job_type', 'status']
         widgets = {
             'posted_at': forms.DateInput(attrs={'type': 'date'}),
             'expiry_date': forms.DateInput(attrs={'type': 'date'}),
@@ -54,7 +54,12 @@ class JobForm(forms.ModelForm):
         if self.user and not self.user.is_superuser:
             self.fields.pop('status')
             self.fields.pop('client')
-        
+
+def validate_contact(value):
+    if len(str(value)) != 10 or not str(value).isdigit():
+        raise ValidationError('Contact number must be exactly 10 digits and only contain numbers')
+
+
 class ApplicationForm(forms.ModelForm):
     class Meta:
         model =common_models.Application
@@ -65,14 +70,21 @@ class ApplicationForm(forms.ModelForm):
     email = forms.EmailField(max_length=255)
     email.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Email',"required":"required"})
 
-    contact = forms.IntegerField()
-    contact.widget.attrs.update({'class': 'form-control','type':'text','max-length':'10','placeholder':'Enter Mobile Number',"required":"required"})
-
-    resume = forms.FileField(required=False)  # ImageField for uploading images
+    contact = forms.IntegerField(
+        validators=[validate_contact],
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'type': 'text',
+            'maxlength': '10',
+            'placeholder': 'Enter Mobile Number',
+            'required': 'required'
+        })
+    )
+    resume = forms.FileField(required=True)  # ImageField for uploading images
     resume.widget.attrs.update({'class': 'form-control'})
 
 class EditUserForm(forms.Form):
-    model =common_models.Edit_User
+    model =common_models.EditUser
     email = forms.EmailField(label="Email",max_length=50,widget=forms.EmailInput(attrs={"class":"form-control"}))
     full_name = forms.CharField(label="Full Name",max_length=50,widget=forms.TextInput(attrs={"class":"form-control"}))
     contact = forms.IntegerField(label="Contact",widget=forms.NumberInput(attrs={"class":"form-control"}))
@@ -110,15 +122,15 @@ class ClientForm(forms.ModelForm):
 
 
 class CategoryFilterForm(forms.Form):
-    model = common_models.Catagory
-    catagory = forms.ModelChoiceField(queryset=model.objects.all(), required=True, label="Category")
+    model = common_models.Category
+    category = forms.ModelChoiceField(queryset=model.objects.all(), required=True, label="Category")
 
 class JobSelectionForm(forms.Form):
     model = common_models.Job
     jobs = forms.ModelMultipleChoiceField(queryset=model.objects.all(), required=True, widget=forms.CheckboxSelectMultiple, label="Select Jobs")
 
     def __init__(self, *args, **kwargs):
-        catagory = kwargs.pop('catagory', None)
+        category = kwargs.pop('category', None)
         super(JobSelectionForm, self).__init__(*args, **kwargs)
-        if catagory:
-            self.fields['jobs'].queryset = common_models.Job.objects.filter(catagory=catagory)
+        if category:
+            self.fields['jobs'].queryset = common_models.Job.objects.filter(category=category)

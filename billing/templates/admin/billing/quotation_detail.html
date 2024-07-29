@@ -1,0 +1,10 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>{{ quotation.title }}</h1>
+<p>{{ quotation.description }}</p>
+<a href="{% url 'billing:quotation_edit' quotation.pk %}">Edit</a>
+<form method="post" action="{% url 'billing:quotation_delete' quotation.pk %}">
+  {% csrf_token %}
+  <button type="submit">Delete</button>
+</form>
+{% endblock %}
