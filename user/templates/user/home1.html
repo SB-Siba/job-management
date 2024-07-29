@@ -1,6 +1,6 @@
-{% extends 'admin_dashboard/starter.html' %}
+{% extends 'user/starters.html' %}
 {% load static %}
-{% block content %}
+{% block main_content %}
 
 <div class="container py-5 px-5">
     <div class="row py-5 px-5">
@@ -62,7 +62,7 @@
     </div>
 </div>
 
-{% endblock content %}
+{% endblock main_content %}
 {% block js %}
 <script>
     var jobModal = document.getElementById('jobModal')
