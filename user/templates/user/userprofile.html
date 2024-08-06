@@ -6,12 +6,13 @@
 
   .user-card-full {
     overflow: hidden;
+    font-family: merriwether;
   }
 
   .card {
     border-radius: 5px;
     -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
-    box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+    box-shadow: 0 0px 5px 0 #f29263;
     border: none;
     margin-bottom: 30px;
   }
@@ -41,6 +42,9 @@
 
   .user-profile {
     padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   
@@ -140,105 +144,80 @@
 font-size: .950rem;
 font-weight: 400;
 }
+.b-b-default
+{
+  font-size: 30px;
+}
+
+.card .card-block p
+{
+  box-shadow: 0px 0px 3px #f29263;
+  border-radius: 5px;
+  padding: 10px;
+}
+.mb-2
+{
+  box-shadow: 0px 0px 3px #f29263;
+  border-radius: 5px;
+  padding: 10px;
+}
 </style>
 
-<div class="d-flex justify-content-center align-items-center py-5">
- 
-    <div class="row container d-flex justify-content-center align-items-center py-5 my-5">
-      <div class="col-xl-6 col-md-12">
-        <div class="card user-card-full">
-          <div class="row m-l-0 m-r-0">
-            <div class="col-sm-4 bg-c-lite-green user-profile">
-              <div class="card-block text-center text-white">
-                <div>
-                  {% if profile_obj.profile_pic %}
-                      <img src="{{ profile_obj.profile_pic.url }}"
-                      alt="Generic placeholder image" class="p-4" style="height: 200px; width: 200px; border-radius: 25px;">
-                  {% else %}
-                      <img src="{% static 'user/noimage.jpg' %}"
-                      alt="Generic placeholder image" class="p-4" style="height: 200px; width: 200px; border-radius: 25px;">
-                  {% endif %}
-              </div>
-              <h5 class="py-2">{{ user.full_name }}</h5>
-            
-              </div>
-            </div>
-            <div class="col-sm-8">
-              <div class="card-block py-5 px-3">
-                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">User Information</h6>
-                <p class="">Email : {{ user.email }}</p>
-                <p class="t">contact : {{ user.contact }}</p>
-                <p class="">category : {{ user.category }}</p>
-                
-                <div class="mb-2">
-                    <label for="" class="">Skills : {{ profile_obj.skills }} </label>
-                </div>
-                
-                <div>
-                    {% if profile_obj.resume %}
-                    <div class="mb-2">
-                      <label for="" class="fw-bold">Resume : </label>
-                      <a href="{{ profile_obj.resume.url }}" target="_blank" class="lead fw-normal mb-1 border-bottom">View Resume</a>
-                    </div>
-                    {% endif %}
-                  </div>
-                  <a href="{% url 'user:updateprofile' %}" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
-                      style="z-index: 1;">
-                      Update Profile
-                    </a>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  
-</div>
 
-<!-- <div class="container h-100 mt-2">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col col-lg-9 col-xl-7">
-        <div class="card">
-          <div class="rounded-top text-white d-flex flex-row" style="background-color: #000;">
-            <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px; height: 150px;">
+  
+
+
+<div class="d-flex justify-content-center align-items-center">
+ 
+  <div class="row container d-flex justify-content-center align-items-center pt-4">
+    <div class="col-xl-6 col-md-12">
+      <div class="card user-card-full">
+        <div class="row m-l-0 m-r-0">
+          <div class="col-sm-5 bg-c-lite-green user-profile">
+            <div class="card-block text-center text-white">
+              <div>
                 {% if profile_obj.profile_pic %}
                     <img src="{{ profile_obj.profile_pic.url }}"
-                    alt="Generic placeholder image" width="100" class="rounded-circle"
-                    style="width: 150px; height: 150px; z-index: 1">
+                    alt="Generic placeholder image" class="p-4" style="height: 230px; width: 230px;">
                 {% else %}
                     <img src="{% static 'user/noimage.jpg' %}"
-                    alt="Generic placeholder image"  width="100" class="rounded-circle"
-                    style="width: 150px; height: 150px; z-index: 1">
+                    alt="Generic placeholder image" class="p-4" style="height: 230px; width: 230px;">
                 {% endif %}
             </div>
-              <div class="ms-3" style="margin-top: 17%;">
-                <h5 class="text-white">{{ user.full_name }}</h5>
-                <p class="text-white border-top mb-0">Email : {{ user.email }}</p>
-                <p class="text-white mb-0">contact : {{ user.contact }}</p>
-                <p class="text-white mb-0">category : {{ user.category }}</p> 
-              </div>
-          </div>
-          <div class="card-body p-4 text-black" style="background-color: beige;">
-            <div class="mb-2">
-              <label for="" class="fw-bold">Skills : </label>
-              <p class="lead fw-normal mb-1 border-bottom">{{ profile_obj.skills }}</p>
-              {% if profile_obj.resume %}
-              <div class="mb-2">
-                <label for="" class="fw-bold">Resume : </label>
-                <a href="{{ profile_obj.resume.url }}" target="_blank" class="lead fw-normal mb-1 border-bottom">View Resume</a>
-              </div>
-              {% endif %}
+            <h3 class="py-3">{{ user.full_name }}</h3>
+          
             </div>
-            <a href="{% url 'user:updateprofile' %}" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
-                style="z-index: 1;">
-                Update Profile
-              </a>
+          </div>
+          <div class="col-sm-7">
+            <div class="card-block py-4 px-3">
+              <h6 class="m-b-20 p-b-5 b-b-default">User Information</h6>
+              <p class="">Email : {{ user.email }}</p>
+              <p class="t">contact : {{ user.contact }}</p>
+              <p class="">category : {{ user.category }}</p>
+              
+              <div class="mb-2">
+                  <label for="" class="">Skills : {{ profile_obj.skills }} </label>
+              </div>
+              
+              <div class="py-2">
+                  {% if profile_obj.resume %}
+                  <div class="mb-2">
+                    <label for="" class="">Resume : </label>
+                    <a href="{{ profile_obj.resume.url }}" target="_blank" class="lead fw-normal mb-1 border-bottom text-decoration-none">View Resume</a>
+                  </div>
+                  {% endif %}
+                </div>
+                <a href="{% url 'user:updateprofile' %}" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                    style="z-index: 1;">
+                    Update Profile
+                  </a>
+              </div>
+              
+            </div>
           </div>
         </div>
       </div>
     </div>
-</div> -->
+</div>
 
 {% endblock main_content %}

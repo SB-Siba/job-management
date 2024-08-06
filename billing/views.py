@@ -13,7 +13,7 @@ class QuotationListView(ListView):
     template_name = 'admin/billing/quotation_list.html'
     context_object_name = 'quotations'
 
-    @method_decorator(super_admin_only)
+    
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 

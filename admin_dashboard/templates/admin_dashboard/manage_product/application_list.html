@@ -65,7 +65,6 @@ tr:hover
         <table>
             <thead>
                 <tr>
-<<<<<<< HEAD
                     <th>User Full Name</th>
                     <th>Job Category</th>
                     <th>Company Name</th>
@@ -74,29 +73,6 @@ tr:hover
                     <th>Applied At</th>
                     <th>Resume</th>
                     <th>Status</th>
-=======
-                    <td>{{ application.user.full_name }}</td>
-                    <td>{{ application.job.catagory }}</td>
-                    <td>{{ application.job.company_name }}</td>
-                    <td>{{ application.email }}</td>
-                    <td>{{ application.contact }}</td>
-                    <td>{{ application.applied_at }}</td>
-                    <td>
-                        {% if application.resume %}
-                        <a href="{{ MEDIA }} {{ application.resume }}" download = "document.pdf">Download Resume</a>
-                        {% else %}
-                            No resume uploaded
-                        {% endif %}
-                    </td>
-                    <td>
-                        <select name="status_{{ application.id }}">
-                            <option value="Applied" {% if application.status == 'Applied' %}selected{% endif %}>Applied</option>
-                            <option value="Interviewed" {% if application.status == 'Interviewed' %}selected{% endif %}>Interviewed</option>
-                            <option value="Hired" {% if application.status == 'Hired' %}selected{% endif %}>Hired</option>
-                            <option value="Rejected" {% if application.status == 'Rejected' %}selected{% endif %}>Rejected</option>
-                        </select>
-                    </td>
->>>>>>> 9033c2a1fa64d86608c524cd2a98a6af692e6f9d
                 </tr>
             </thead>
             <tbody>

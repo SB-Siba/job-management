@@ -27,7 +27,7 @@
     }
     td
     {
-        width: 50px;
+        width: 100px;
         padding: 10px;
        
     }
@@ -35,6 +35,13 @@
     {
       background-color: rgb(244, 212, 169);
     }
+    .create_test form {
+      margin-top: 21px;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 2rem;
+  }
 </style>
 
 
@@ -117,21 +124,19 @@
       </tr>
     </table>
 
-    <h2>Application List</h2>
+    <div>
+      <h2>Application List</h2>
 
     <form method="post">
         {% csrf_token %}
         <table>
             <thead>
                 <tr>
-                    <th>User Full Name</th>
+                    <th>User Name</th>
                     <th>Job Category</th>
-                    <th>Company Name</th>
                     <th>Email</th>
                     <th>Contact</th>
-                    <th>Applied At</th>
-                    <th>Resume</th>
-                    <th>Status</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -139,29 +144,15 @@
                     <tr>
                         <td>{{ application.user.full_name }}</td>
                         <td>{{ application.job.category }}</td>
-                        <td>{{ application.job.company_name }}</td>
                         <td>{{ application.email }}</td>
                         <td>{{ application.contact }}</td>
-                        <td>{{ application.applied_at }}</td>
-                        <td>
-                            {% if application.resume %}
-                                <a href="{{ application.resume.url }}">Download</a>
-                            {% else %}
-                                No resume uploaded
-                            {% endif %}
-                        </td>
-                        <td>
-                            <select name="status_{{ application.id }}">
-                                <option value="Applied" {% if application.status == 'Applied' %}selected{% endif %}>Applied</option>
-                                <option value="Interviewed" {% if application.status == 'Interviewed' %}selected{% endif %}>Interviewed</option>
-                                <option value="Hired" {% if application.status == 'Hired' %}selected{% endif %}>Hired</option>
-                                <option value="Rejected" {% if application.status == 'Rejected' %}selected{% endif %}>Rejected</option>
-                            </select>
-                        </td>
+                        
                     </tr>
-                {% endfor %}
-      </tbody>
-    </table>
+                  </tbody>
+                </table>
+            {% endfor %}
+    </div>
+      
 
     <a href="{% url 'admin_dashboard:job_list' %}">Back to Job List</a>
   </div>
