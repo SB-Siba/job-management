@@ -120,10 +120,17 @@ class Logout(View):
         return redirect('user:home')
  
 class LogoutConfirmationView(View):
-    template_name = app +'authtemp/logout_confirmation.html'
- 
+    template_name = app + 'authtemp/logout_confirmation.html'
+
     def get(self, request):
-        return render(request, self.template_name)
+        # Capture the previous page URL
+        previous_page = request.META.get('HTTP_REFERER', '/')
+        return render(request, self.template_name, {'previous_page': previous_page})
+    
+class LogoutActionView(View):
+    def post(self, request):
+        logout(request)
+        return redirect('admin_dashboard')  # Replace 'admin_dashboard' with your desired redirect URL after logout
  
  
 class CancelLogoutView(View):

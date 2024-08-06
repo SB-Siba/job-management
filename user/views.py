@@ -41,8 +41,33 @@ from app_common.models import (
 from helpers.utils import dict_filter,paginate # Import dict_filter function
 import json
 
+from django.shortcuts import render
+from django.utils.decorators import method_decorator
+from . import models as common_models
+
+
 app = "user/"
 
+# class LogoutConfirmationView(View):
+#     template_name = 'authtemp/logout_confirmation.html'  # Adjust the path if needed
+
+#     def get(self, request):
+#         # Capture the previous page URL
+#         previous_page = request.META.get('HTTP_REFERER', '/')
+#         return render(request, self.template_name, {'previous_page': previous_page})
+
+# class LogoutActionView(View):
+#     def post(self, request):
+#         Logout(request)
+#         return redirect('admin_dashboard')  # Replace 'admin_dashboard' with your desired redirect URL after logout
+
+class JobListView(View):
+    template_name = 'job_list.html'  
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['job_list'] = Job.objects.count()  # Get the count of job openings
+        # Add other context variables as needed
+        return context
 
 class HomeView(View):
     template_client = app + 'client/client_index.html'
@@ -57,7 +82,7 @@ class HomeView(View):
 
         welcome_message = f"Welcome, {user.full_name}!"
  
-        if user.is_staff:  # Check if user is marked as client (is_staff)
+        if user.is_staff:
             jobs = Job.objects.filter(client=user).order_by('-posted_at')
             context = {
                 'jobs': jobs,
@@ -65,19 +90,53 @@ class HomeView(View):
             }
             return render(request, self.template_client, context)
 
-        # If user is authenticated but not a client, treat as candidate
+        # Filter jobs for the authenticated user
         job_list = Job.objects.filter(status='published', expiry_date__gt=timezone.now()).order_by('-published_date')
         if user.category:
             job_list = job_list.filter(category=user.category)
         paginated_data = paginate(request, job_list, 50)
+
+        # Get applied job count and applied job IDs as a list
+        applied_job_ids = Application.objects.filter(user=user).values_list('job_id', flat=True)
+        applied_job_count = applied_job_ids.count()
+
+        # Calculate job openings count
+        job_opening_count = job_list.count()
+
         form = ApplicationForm()  # This form will be used for the application modal/form
+        categories = Category.objects.all()
+
         context = {
             "job_list": job_list,
             "data_list": paginated_data,
             "form": form,
+            "applied_jobs": applied_job_ids,  # Pass applied job IDs to context
+            "applied_job_count": applied_job_count,  # Pass applied job count to context
+            "job_opening_count": job_opening_count,  # Pass job opening count to context
+            "categories": categories,
         }
- 
+
         return render(request, self.template_user, context)
+
+
+
+@method_decorator(utils.super_admin_only, name='dispatch')
+class UserDashboard(View):
+    template = "user/index.html"
+
+    def get(self, request):
+        total_applied_jobs = common_models.JobApplication.objects.count() 
+        total_job_openings = common_models.Job.objects.filter(status='published').count()  # Assuming clients are not superusers
+        job_categories = common_models.Job.objects.values_list('category', flat=True).distinct()
+        total_job_categories = job_categories.count()
+
+        context = {
+            'total_applied_jobs': total_applied_jobs,
+            'total_job_openings': total_job_openings,
+            'total_job_categories': total_job_categories,
+        }
+
+        return render(request, self.template, context)
 
 
 class ProfileView(View):
@@ -202,6 +261,16 @@ class UserJobFilter(View):
         return render(request, self.template, context)
 
 
+class UserJobDetail(View):
+    template = app + "jobs/job_details.html"
+    def get(self, request, *args, **kwargs):
+        job_id = kwargs.get("pk")
+        job = get_object_or_404(Job, pk=job_id)
+        context = {
+            'job': job
+        }
+        return render(request, self.template, context)
+    
 
 @method_decorator(login_required, name='dispatch')
 
@@ -228,13 +297,17 @@ class ApplyForJobView(View):
 
 
 class AppliedJobsView(View):
-    template_name = app + 'jobs/applied_jobs.html'
+    template_name = 'user/jobs/applied_jobs.html'
 
     def get(self, request):
         applied_jobs = Application.objects.filter(user=request.user)
-        return render(request, self.template_name, {'applied_jobs': applied_jobs})
+        applied_jobs_count = applied_jobs.count() if applied_jobs else 0
+        return render(request, self.template_name, {
+            'applied_jobs': applied_jobs,
+            'applied_jobs_count': applied_jobs_count
+        })
+
     def post(self, request):
-       
         return redirect('user:applied_jobs')
         
 class ApplicationSuccess(View):
@@ -351,9 +424,9 @@ class JobOpening(View):
 
 # client 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class PostJob(View):
-    template_name = app + 'client/post_job.html'
+    template_name = 'user/client/post_job.html'
 
     def get(self, request):
         form = JobForm(user=request.user)
@@ -394,11 +467,16 @@ class ClientJobEditView(View):
 
 
 class ClientJobList(View):
-    template_name = app + 'client/job_list.html'
-    
+    template_name = app+ 'client/client_job_list.html'
+
     def get(self, request):
+        print("ClientJobList view is called")
         job_list = Job.objects.filter(client=request.user).order_by('-id')
-        paginated_data = paginate(request, job_list, 50)
+        print(f"Job list: {job_list}")
+        
+        # Apply pagination
+        paginated_data = paginate(request, job_list, 50)  # Display 50 jobs per page
+        
         context = {
             "job_list": job_list,
             "data_list": paginated_data
@@ -520,17 +598,15 @@ class ApplicationList(View):
 
 
 
-class EmployeeList(View): 
-    template_name = app + "client/employee_list.html"
+class EmployeeListView(View):
+    model = Employee
+    template_name = 'user/employee_list.html'
+    context_object_name = 'employees'
 
     def get(self, request, job_id):
-        job = get_object_or_404(Job, id=job_id, client=request.user)
-        employees = Employee.objects.filter(application__job=job)
-        context = {
-            "job": job,
-            "employees": employees,
-        }
-        return render(request, self.template_name, context)
+        job = get_object_or_404(Job, id=job_id)
+        employees = Employee.objects.filter(job=job)
+        return render(request, self.template_name, {'employees': employees, 'job': job})
 
 
 
@@ -583,3 +659,6 @@ class ThankYou(View):
     template = app + "thankyoupage.html"
     def get(self, request):
         return render(request, self.template)
+    
+
+    

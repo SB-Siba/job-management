@@ -1,5 +1,6 @@
-{% extends 'user/index.html' %}
-{% block content %}
+{% extends 'user/starters.html' %}
+
+{% block main_content %}
 <h2>Jobs You Have Applied For</h2>
 {% if applied_jobs %}
     <ul>
@@ -8,10 +9,11 @@
                 <strong>{{ application.job.category.title }}</strong>
                 <br> Applied on: {{ application.applied_at }}
                 <br> Status: {{ application.status }}
-                <a href="{% url 'job_detail' application.job.id %}">View Job Details</a>  </li>
+                <a href="{% url 'user:job_detail' application.job.id %}">View Job Details</a>
+            </li>
         {% endfor %}
     </ul>
 {% else %}
     <p>You have not applied for any jobs yet.</p>
 {% endif %}
-{% endblock %}
+{% endblock main_content %}

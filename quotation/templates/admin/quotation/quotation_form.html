@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a New Quotation</title>
+    <style>
+        h1 {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        #bill {
+            margin-top: -20px;
+        }
+
+        .fixed-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            padding: 20px;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        .scrollable-content {
+            margin-top: 220px; /* Adjust based on your fixed container height */
+            padding: 20px;
+            max-height: calc(100vh - 220px); /* Adjust to fill remaining viewport height */
+            overflow-y: auto;
+        }
+
+        .form-field {
+            margin-bottom: 15px;
+            width: 60%;
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-field input, .form-field select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-field .error {
+            color: red;
+            font-size: 0.875em;
+        }
+
+        .row-single-column {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .person-details-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Four columns of equal width */
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .item-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr 2fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .item-row div {
+            margin-bottom: 5px;
+        }
+
+        .item-row label {
+            display: block;
+        }
+
+        #items-container {
+            max-height: 400px; /* Set maximum height for the items container */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            margin-bottom: 20px; /* Space for the button */
+            display: none; /* Hide items container initially */
+        }
+
+        .add-item-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            margin-top: -10px;
+        }
+
+        .add-item-button:hover {
+            background-color: #0056b3;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between; /* Spread buttons across the row */
+            align-items: center;
+            margin-top: 20px; /* Add space above the buttons */
+        }
+
+        .go-back-button, .preview-button, .save-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none; /* Remove underline from the anchor button */
+            display: inline-block;
+        }
+
+        .go-back-button:hover, .preview-button:hover, .save-button:hover {
+            background-color: #0056b3;
+        }
+
+        .right-buttons {
+            display: flex;
+            gap: 10px; /* Space between the Preview and Save buttons */
+        }
+
+        /* Modal styles */
+        .modal-dialog-scrollable {
+            max-width: 100%;
+            width: 90%; /* Adjust modal width */
+        }
+
+        .modal-body {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Popup content styles */
+        .popup-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .popup-content li {
+            margin-bottom: 10px;
+        }
+
+        .popup-content li strong {
+            display: block;
+        }
+
+        .item-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .item-table th, .item-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .item-table th {
+            background-color: #f2f2f2;
+        }
+
+    </style>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="fixed-container">
+        <h1>Create a New Quotation</h1>
+    </div>
+
+    <div class="scrollable-content">
+        <form id="quotation-form" method="post">
+            {% csrf_token %}
+        
+            <!-- Bill To Section -->
+            <h2 id="bill">Bill To</h2>
+            <div class="row-single-column">
+                <div class="form-field">
+                    <label for="company_name">Company Name</label>
+                    {{ form.company_name }}
+                    <div class="error">{{ form.company_name.errors }}</div>
+                </div>
+                <div class="form-field">
+                    <label for="address">Address</label>
+                    {{ form.address }}
+                    <div class="error">{{ form.address.errors }}</div>
+                </div>
+                <div class="form-field">
+                    <label for="phone_number">Phone Number</label>
+                    {{ form.phone_number }}
+                    <div class="error">{{ form.phone_number.errors }}</div>
+                </div>
+            </div>
+            
+        
+            <!-- Person Details Section -->
+            <h2>Person Details</h2>
+            <div class="person-details-row">
+                <div class="form-field">
+                    <label for="title">Title</label>
+                    {{ form.title }}
+                    <div class="error">{{ form.title.errors }}</div>
+                </div>
+                <div class="form-field">
+                    <label for="first_name">First Name</label>
+                    {{ form.first_name }}
+                    <div class="error">{{ form.first_name.errors }}</div>
+                </div>
+                <div class="form-field">
+                    <label for="middle_name">Middle Name</label>
+                    {{ form.middle_name }}
+                    <div class="error">{{ form.middle_name.errors }}</div>
+                </div>
+                <div class="form-field">
+                    <label for="last_name">Last Name</label>
+                    {{ form.last_name }}
+                    <div class="error">{{ form.last_name.errors }}</div>
+                </div>
+            </div>
+        
+            <!-- Items Section -->
+            <button id="add-item" type="button" class="add-item-button">Add Item</button>
+            <h2>Items</h2>
+            <div id="items-container">
+                {{ item_formset.management_form }}
+                {% for item_form in item_formset %}
+                <div class="item-row">
+                    <div>
+                        {{ item_form.sr_no.label_tag }} {{ item_form.sr_no }}
+                        {{ item_form.sr_no.errors }}
+                    </div>
+                    <div>
+                        {{ item_form.name.label_tag }} {{ item_form.name }}
+                        {{ item_form.name.errors }}
+                    </div>
+                    <div>
+                        {{ item_form.description.label_tag }} {{ item_form.description }}
+                        {{ item_form.description.errors }}
+                    </div>
+                    <div>
+                        {{ item_form.quantity.label_tag }} {{ item_form.quantity }}
+                        {{ item_form.quantity.errors }}
+                    </div>
+                    <div>
+                        {{ item_form.amount.label_tag }} {{ item_form.amount }}
+                        {{ item_form.amount.errors }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        
+            <div class="button-container">
+                <a href="{% url 'quotation:quotation_list' %}" class="btn btn-primary go-back-button">Go to Quotation List</a>
+                <div class="right-buttons">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="preview-button" data-toggle="modal" data-target="#exampleModalScrollable">Preview</button>
+                    <button type="submit" class="save-button">Save</button>
+                </div>
+            </div>
+        </form>
+        
+        
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Quotation Preview</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="popup-content">
+                        <h2>Bill To</h2>
+                        <ul>
+                            <li><strong>Company Name:</strong> <span id="preview_company_name"></span></li>
+                            <li><strong>Address:</strong> <span id="preview_address"></span></li>
+                            <li><strong>Phone Number:</strong> <span id="preview_phone_number"></span></li>
+                            <li><strong>Title:</strong> <span id="preview_title"></span></li>
+                            <li><strong>First Name:</strong> <span id="preview_first_name"></span></li>
+                            <li><strong>Middle Name:</strong> <span id="preview_middle_name"></span></li>
+                            <li><strong>Last Name:</strong> <span id="preview_last_name"></span></li>
+                        </ul>
+        
+                        <h2>Items</h2>
+                        <table class="item-table">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No.</th>
+                                    <th>Item Name</th>
+                                    <th>Description</th>
+                                    <th>Quantity</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="preview_items">
+                                <!-- Item rows will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button type="button" class="publish-button">Publish</button>
+                    <button type="button" class="print-button">Print</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Preview Popup Script -->
+    <script>
+        document.querySelector('.preview-button').addEventListener('click', function() {
+            document.getElementById('preview_company_name').innerText = document.getElementById('id_company_name').value;
+            document.getElementById('preview_address').innerText = document.getElementById('id_address').value;
+            document.getElementById('preview_phone_number').innerText = document.getElementById('id_phone_number').value;
+            document.getElementById('preview_title').innerText = document.getElementById('id_title').value;
+            document.getElementById('preview_first_name').innerText = document.getElementById('id_first_name').value;
+            document.getElementById('preview_middle_name').innerText = document.getElementById('id_middle_name').value;
+            document.getElementById('preview_last_name').innerText = document.getElementById('id_last_name').value;
+
+            // Populate item details in the preview popup
+            var itemsContainer = document.getElementById('preview_items');
+            itemsContainer.innerHTML = ''; // Clear existing items
+            
+            document.querySelectorAll('#items-container .item-row').forEach(function(row, index) {
+                var srNo = row.querySelector('[name$="-sr_no"]').value;
+                var name = row.querySelector('[name$="-name"]').value;
+                var description = row.querySelector('[name$="-description"]').value;
+                var quantity = row.querySelector('[name$="-quantity"]').value;
+                var amount = row.querySelector('[name$="-amount"]').value;
+                
+                var itemRow = `
+                    <tr>
+                        <td>${srNo}</td>
+                        <td>${name}</td>
+                        <td>${description}</td>
+                        <td>${quantity}</td>
+                        <td>${amount}</td>
+                    </tr>
+                `;
+                itemsContainer.insertAdjacentHTML('beforeend', itemRow);
+            });
+        });
+    </script>
+
+    <script>
+        document.getElementById('add-item').addEventListener('click', function() {
+            var itemsContainer = document.getElementById('items-container');
+            itemsContainer.style.display = 'block'; // Show items container
+            var totalForms = document.querySelectorAll('#items-container .item-row').length;
+            var newItem = `
+                <div class="item-row">
+                    <div>
+                        <input type="text" name="item-${totalForms}-sr_no" value="${totalForms + 1}" readonly>
+                    </div>
+                    <div>
+                        <input type="text" name="item-${totalForms}-name">
+                    </div>
+                    <div>
+                        <input type="text" name="item-${totalForms}-description">
+                    </div>
+                    <div>
+                        <input type="number" name="item-${totalForms}-quantity">
+                    </div>
+                    <div>
+                        <input type="number" step="0.01" name="item-${totalForms}-amount">
+                    </div>
+                </div>
+            `;
+            itemsContainer.insertAdjacentHTML('beforeend', newItem);
+            document.querySelector('.print-button').addEventListener('click', function() {
+                const popupContent = document.querySelector('.popup-content').innerHTML; // Update selector
+                const printWindow = window.open('', '', 'height=600,width=800');
+                printWindow.document.write('<html><head><title>Print Preview</title>');
+                printWindow.document.write('<style>body{font-family: Arial, sans-serif; margin: 20px;} .item-table {width: 100%; border-collapse: collapse;} .item-table th, .item-table td {border: 1px solid #ccc; padding: 10px; text-align: left;} .item-table th {background-color: #f2f2f2;}</style>');
+                printWindow.document.write('</head><body >');
+                printWindow.document.write('<h2>Bill To</h2>');
+                printWindow.document.write(popupContent);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.focus();
+                printWindow.print();
+            });
+        });
+    </script>
+</body>
+</html>

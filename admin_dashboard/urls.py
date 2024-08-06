@@ -15,7 +15,7 @@ urlpatterns = [
     path('terms_and_conditions', views.ApiTermsCondition.as_view(),),
     path('about_us', views.ApiAbountUs.as_view(),),
     path('admin/', admin.site.urls),
-    path('billing/', include('billing.urls', namespace='billing')),
+    path('quotation/', include('quotation.urls', namespace='quotation')),
 
     # Userlist
     path("user/userslist", user.UserList.as_view(), name="userslist"),

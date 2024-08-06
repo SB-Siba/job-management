@@ -4,14 +4,44 @@
 {% load admin_dash %}
 
 <style>
+    .col-lg-4 {
+        opacity: 0;
+        transform: translateX(-50px);
+        animation: slideIn 0.8s forwards;
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .col-lg-4:nth-child(1) {
+        animation-delay: 0.2s;
+    }
+
+    .col-lg-4:nth-child(2) {
+        animation-delay: 0.6s;
+    }
+
+    .col-lg-4:nth-child(3) {
+        animation-delay: 1s;
+    }
+
     .card {
         border-radius: 15px !important;
-        background-color: linear-gradient(to bottom, hsl(247, 88%, 70%), hsl(282, 82%, 51%));
         box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
     }
+
     .small-box {
         width: 100% !important;
     }
+
     .chart-container {
         position: relative;
         width: 100%;
@@ -90,14 +120,14 @@ var myBarChart = new Chart(ctx, {
         }]
     },
     options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true
             }
         }
+    }
 });
 </script>
 
