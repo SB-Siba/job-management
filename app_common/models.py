@@ -115,7 +115,7 @@ class Application(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     email = models.EmailField(default='')
-    contact = models.IntegerField(null=True, blank=True, default=0)
+    contact = models.CharField(max_length=10, null=True, blank=True, validators=[RegexValidator(r'^\d{10}$')])
     resume = models.FileField(upload_to='resumes/', null=True, blank=True)
     applied_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='Applied')
@@ -155,7 +155,7 @@ class ContactMessage(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.user if self.user else self.email} - {self.status}"
+        return f"{self.user if self.user else 'Anonymous'} - {self.status}"
 
 class Employee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

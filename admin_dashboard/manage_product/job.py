@@ -87,6 +87,7 @@ class ApplicationList(View):
             "applications": applications,
             "MEDIA":settings.MEDIA_URL
         }
+        print("=================================================")
         return render(request, self.template, context)
 
     def post(self, request):

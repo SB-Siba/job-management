@@ -2,62 +2,46 @@
 {% load static %}
 {% block content %}
 <style>
-  
-    .base-table
-    {
+    .base-table {
         margin: 20px;
-       
-        
     } 
-
-    .table thead th 
-    {
+    .table thead th {
         font-size: 14px;
         color: rgb(255, 255, 255);
         border: 1px solid rgb(255, 255, 255);
     }
-    th,td {
+    th, td {
         border: 1px solid black;
         padding: 10px; /* Optional: Add padding inside the cells */
         font-family: merriwether;
-        
-      }
-
-      select {
+    }
+    select {
         background: transparent;
     }
-    
-thead , th
-{
-    background-color: black;
-}
-button
-{
-    padding: 10px;
-    margin: 10px;
-    border-radius: 15px;
-    box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
-    font-family: merriwether;
-    border-bottom: 1px solid black;
-}
-button:hover
-{
-    background-color: black;
-    color: white;
-}
-h2
-{
-    font-family: merriwether;
-}
-tr:hover
-{
-    background-color: rgb(244, 212, 169);
-}
-
-
+    thead, th {
+        background-color: black;
+    }
+    button {
+        padding: 10px;
+        margin: 10px;
+        border-radius: 15px;
+        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        font-family: merriwether;
+        border-bottom: 1px solid black;
+    }
+    button:hover {
+        background-color: black;
+        color: white;
+    }
+    h2 {
+        font-family: merriwether;
+    }
+    tr:hover {
+        background-color: rgb(244, 212, 169);
+    }
 </style>
-<h2 class="px-4">Application List</h2>
 
+<h2 class="px-4">Application List</h2>
 
 <div class="table">
     <form method="post" class="base-table">
@@ -73,6 +57,7 @@ tr:hover
                     <th>Applied At</th>
                     <th>Resume</th>
                     <th>Status</th>
+                    <th>WATI</th> <!-- New WATI column -->
                 </tr>
             </thead>
             <tbody>
@@ -86,7 +71,7 @@ tr:hover
                         <td>{{ application.applied_at }}</td>
                         <td>
                             {% if application.resume %}
-                                <a href="{{ application.resume.url }}">Download</a>
+                                <a href="{{ application.resume.url }}" download>Download</a>
                             {% else %}
                                 No resume uploaded
                             {% endif %}
@@ -99,6 +84,10 @@ tr:hover
                                 <option value="Rejected" {% if application.status == 'Rejected' %}selected{% endif %}>Rejected</option>
                             </select>
                         </td>
+                        <td>
+                            <!-- Link to send_message.html with the contact number -->
+                            <a href="">Send Message</a>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -106,27 +95,6 @@ tr:hover
         <button type="submit" class="px-5">Update Status</button>
     </form>
 </div>
-<script>
-    function toggleEmployeeForm(applicationId, status) {
-        const formRow = document.getElementById('employee-form-' + applicationId);
-        if (status === 'Hired') {
-            formRow.style.display = '';
-        } else {
-            formRow.style.display = 'none';
-        }
-    }
-</script>
-
-
-
-
-
-
-
-
-
-
-
 
 {% if applications.has_other_pages %}
     <ul class="pagination">
@@ -153,8 +121,5 @@ tr:hover
         {% endfor %}
     </ul>
 {% endif %}
-
-
-
 
 {% endblock content %}

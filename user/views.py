@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.conf import settings
 from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponse, Http404
 from django.views import View
 from django.contrib import messages
 from django.http import FileResponse, JsonResponse
@@ -23,6 +23,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse, reverse_lazy
 from django.core.mail import send_mail
 import json
+import os
 from django.core.validators import RegexValidator
 import random
 import string
@@ -37,13 +38,17 @@ from app_common.models import (
     Employee,
     
 )
-
 from helpers.utils import dict_filter,paginate # Import dict_filter function
 import json
 
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from . import models as common_models
+
+from wati_api import whatsapp_api
+
+# from wati_api import api_client
+
 
 
 app = "user/"
@@ -294,8 +299,6 @@ class ApplyForJobView(View):
         
         return redirect('user:home')  # Redirect back to the job list view
 
-
-
 class AppliedJobsView(View):
     template_name = 'user/jobs/applied_jobs.html'
 
@@ -376,12 +379,7 @@ class contactMesage(View):
             print(f"Form errors: {form.errors}")
             messages.warning(request, "Invalid form data. Please correct the errors.")
             return self.get(request)
-       
-       
-     
         
-     
-
 class AboutPage(View):
     template = app + "about.html"
 
@@ -413,7 +411,6 @@ class Sector(View):
 
     def get(self,request):
         return render(request,self.template)
-
 
 class JobOpening(View):
     template = "user/job_opening.html"
@@ -560,8 +557,6 @@ class JobDetail(View):
             'status_form': status_form,
         })
 
-
-
 class ApplicationList(View):
     template_name = app + "client/application_list.html"
 
@@ -573,30 +568,56 @@ class ApplicationList(View):
     def post(self, request, job_id):
         applications = Application.objects.filter(job_id=job_id)
 
+        client = whatsapp_api.WatiAPIClient(
+            base_url=settings.WATI_BASE_URL,
+            api_key=settings.WATI_API_KEY
+        )
+
         for application in applications:
             status = request.POST.get(f'status_{application.id}')
 
-            if status == 'Hired':
-                form = forms.EmployeeForm(request.POST)
-                if form.is_valid():
-                    Employee.objects.create(
-                        user=application.user,
-                        job=application.job,
-                        employer=request.user,  # assuming the logged-in user is the employer
-                        salary=form.cleaned_data['salary'],
-                        period_start=form.cleaned_data['period_start'],
-                        period_end=form.cleaned_data['period_end'],
-                    )
-                    messages.success(request, f'{application.user.full_name} has been hired and added as an employee.')
-                else:
-                    return render(request, self.template_name, {'applications': applications, 'form': form})
+            if status:
+                application.status = status
+                application.save()
 
-            application.status = status
-            application.save()
-        
-        return redirect('user:application_list', job_id=job_id)
+                if status == 'Hired':
+                    form = forms.EmployeeForm(request.POST)
+                    if form.is_valid():
+                        Employee.objects.create(
+                            user=application.user,
+                            job=application.job,
+                            employer=request.user,
+                            salary=form.cleaned_data['salary'],
+                            period_start=form.cleaned_data['period_start'],
+                            period_end=form.cleaned_data['period_end'],
+                        )
 
+                        phone_number = application.contact
+                        template_name = "new_chat_v1"
+                        parameters = [{"name": "name", "value": application.user.full_name}]
 
+                        response = client.send_message(phone_number, template_name, parameters)
+                        print("WhatsApp API Response:", response)
+
+                        messages.success(request, f'{application.user.full_name} has been hired and added as an employee.')
+                    else:
+                        return render(request, self.template_name, {'applications': applications, 'form': form})
+
+        messages.success(request, 'Application status updated successfully.')
+        return redirect('admin_dashboard:application_list')
+
+class DownloadResumeView(View):
+    def get(self, request, application_id):
+        application = get_object_or_404(Application, id=application_id)
+        resume_path = os.path.join(settings.MEDIA_ROOT, application.resume.name)
+
+        if os.path.exists(resume_path):
+            with open(resume_path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/pdf")
+                response['Content-Disposition'] = f'inline; filename={os.path.basename(resume_path)}'
+                return response
+        else:
+            raise Http404("Resume not found.")
 
 class EmployeeListView(View):
     model = Employee
@@ -607,9 +628,6 @@ class EmployeeListView(View):
         job = get_object_or_404(Job, id=job_id)
         employees = Employee.objects.filter(job=job)
         return render(request, self.template_name, {'employees': employees, 'job': job})
-
-
-
 
 class EmployeeListOverview(View):
     template_name = app + 'client/employee_list_overview.html'

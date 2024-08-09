@@ -379,17 +379,15 @@
                 itemsContainer.insertAdjacentHTML('beforeend', itemRow);
             });
         });
-    </script>
-
-    <script>
         document.getElementById('add-item').addEventListener('click', function() {
             var itemsContainer = document.getElementById('items-container');
             itemsContainer.style.display = 'block'; // Show items container
+
             var totalForms = document.querySelectorAll('#items-container .item-row').length;
             var newItem = `
                 <div class="item-row">
                     <div>
-                        <input type="text" name="item-${totalForms}-sr_no" value="${totalForms + 1}" readonly>
+                        <input type="text" name="${totalForms}-sr_no" value="${totalForms}" >
                     </div>
                     <div>
                         <input type="text" name="item-${totalForms}-name">
@@ -406,7 +404,14 @@
                 </div>
             `;
             itemsContainer.insertAdjacentHTML('beforeend', newItem);
-            document.querySelector('.print-button').addEventListener('click', function() {
+
+            // Remove existing event listeners to avoid duplicate listeners
+            document.querySelectorAll('.print-button').forEach(button => {
+                button.removeEventListener('click', printButtonClickHandler);
+            });
+
+            // Add event listener for the print button
+            function printButtonClickHandler() {
                 const popupContent = document.querySelector('.popup-content').innerHTML; // Update selector
                 const printWindow = window.open('', '', 'height=600,width=800');
                 printWindow.document.write('<html><head><title>Print Preview</title>');
@@ -418,7 +423,9 @@
                 printWindow.document.close();
                 printWindow.focus();
                 printWindow.print();
-            });
+            }
+        
+            document.querySelector('.print-button').addEventListener('click', printButtonClickHandler);
         });
     </script>
 </body>

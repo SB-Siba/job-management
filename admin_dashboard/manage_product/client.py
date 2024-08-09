@@ -7,6 +7,10 @@ from django.utils.decorators import method_decorator
 from app_common import models as common_model
 from . import forms
 from helpers import utils
+from django.http import JsonResponse
+from django.contrib.auth.models import User
+from admin_dashboard.manage_product import forms 
+from django.urls import reverse_lazy
 
 
 app = "admin_dashboard/manage_product/"
@@ -27,7 +31,7 @@ class AdminClientListView(View):
 class AdminClientCreateView(View):
     
     template = app + "client_form.html"
-    form_class = forms. ClientForm
+    form_class = forms.ClientForm
     
     def get(self, request):
         form = self.form_class()
@@ -71,3 +75,52 @@ class ClientDetailView(View):
             'job_data': job_data,
         }
         return render(request, self.template_name, context)
+    
+# UpdateClientView for editing client details
+class EditClientView(View):
+    form_class = forms.ClientForm
+    template_name = 'admin_dashboard/client_list.html'
+    success_url = reverse_lazy('admin_dashboard:client_list')
+
+    def get(self, request, pk):
+        client = get_object_or_404(common_model.User, id=pk, is_staff=True, is_superuser=False)
+        form = self.form_class(instance=client)
+        return render(request, self.template_name, {'form': form, 'client': client})
+
+    def post(self, request, pk):
+        client = get_object_or_404(common_model.User, id=pk, is_staff=True, is_superuser=False)
+        form = self.form_class(request.POST, instance=client)
+
+        if form.is_valid():
+            updated_client = form.save()
+
+            if request.is_ajax():
+                return JsonResponse({
+                    'success': True,
+                    'client': {
+                        'id': updated_client.id,
+                        'full_name': updated_client.get_full_name(),
+                        'email': updated_client.email,
+                        'contact': updated_client.contact,
+                    },
+                    'message': 'Client updated successfully.'
+                })
+            else:
+                messages.success(request, 'Client updated successfully.')
+                return redirect(self.success_url)
+        else:
+            if request.is_ajax():
+                return JsonResponse({'success': False, 'errors': form.errors})
+            else:
+                messages.error(request, 'There was an error updating the client. Please check the details and try again.')
+                return render(request, self.template_name, {'form': form, 'client': client})
+
+
+# DeleteClientView for deleting a client
+class DeleteClientView(View):
+    def post(self, request, client_id):
+        client = get_object_or_404(common_model.User, id=client_id, is_staff=True, is_superuser=False)
+        client.delete()
+        messages.success(request, 'Client deleted successfully.')
+        return JsonResponse({'success': True, 'message': 'Client deleted successfully.'})
+
