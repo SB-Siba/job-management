@@ -1,0 +1,14 @@
+<!-- quotation/templates/quotation/quotation_detail.html -->
+{% extends "base.html" %}
+{% block content %}
+<h1>Quotation Detail</h1>
+<p>Client: {{ quotation.client }}</p>
+<p>Total Amount: {{ quotation.total_amount }}</p>
+<h2>Items</h2>
+<ul>
+    {% for item in quotation.quotationitem_set.all %}
+    <li>{{ item.item.name }} (x{{ item.quantity }})</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'quotation:quotation_list' %}">Back to List</a>
+{% endblock %}

@@ -5,26 +5,24 @@ from django.core.validators import RegexValidator
 from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .manager import MyAccountManager
-from django.dispatch import receiver
-from django.db.models.signals import post_save
 
-def document_path(self, filename):
+# Utility Functions
+def document_path(instance, filename):
     basefilename, file_extension = os.path.splitext(filename)
     myuuid = uuid.uuid4()
-    return 'files/{basename}{randomstring}{ext}'.format(basename=basefilename, randomstring=str(myuuid), ext=file_extension)
+    return f'files/{basefilename}{myuuid}{file_extension}'
 
 def generate_random_string():
-    random_uuid = uuid.uuid4()
-    random_string = random_uuid.hex
-    return random_string
+    return uuid.uuid4().hex
 
-def user_logo_path(self, filename):
+def user_logo_path(instance, filename):
     basefilename, file_extension = os.path.splitext(filename)
     myuuid = uuid.uuid4()
-    return 'user/logo/{basename}{randomstring}{ext}'.format(basename=basefilename, randomstring=str(myuuid), ext=file_extension)
+    return f'user/logo/{basefilename}{myuuid}{file_extension}'
 
+# Models
 class Category(models.Model):
-    title = models.CharField(max_length=255, null=True, blank=True, unique=True)
+    title = models.CharField(max_length=255, unique=True, null=True, blank=True)
     description = models.TextField()
 
     def __str__(self):
@@ -50,22 +48,18 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     @property
     def full_contact_number(self):
-        if self.contact:
-            return '+91' + self.contact
-        return 'No contact present'
+        return f'+91{self.contact}' if self.contact else 'No contact present'
 
     def get_token(self, *args, **kwargs):
-        token = generate_random_string()
-        self.token = token
+        self.token = generate_random_string()
         super().save(*args, **kwargs)
-        return token
+        return self.token
 
     def __str__(self):
         return self.email
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    email = models.EmailField(default='')
     profile_pic = models.ImageField(upload_to="user_profile_pic/", null=True, blank=True)
     skills = models.TextField(null=True, blank=True)
     resume = models.FileField(upload_to="user_resume/", null=True, blank=True)
@@ -93,7 +87,7 @@ class Job(models.Model):
 
     title = models.CharField(max_length=255, null=True, blank=True)
     client = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, limit_choices_to={'is_staff': True})
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.CharField(max_length=300, null=True, blank=True)
     location = models.CharField(max_length=100, null=True, blank=True)
     posted_at = models.DateField(default=timezone.now)
@@ -162,7 +156,7 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f"{self.user if self.user else self.email} - {self.status}"
-        
+
 class Employee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     employer = models.ForeignKey(User, related_name='employees', on_delete=models.CASCADE)

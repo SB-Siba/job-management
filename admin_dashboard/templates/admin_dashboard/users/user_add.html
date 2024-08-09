@@ -1,14 +1,7 @@
 {% extends 'admin_dashboard/starter.html' %}
 {% load static %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New User</title>
-    <link rel="stylesheet" href="{% static 'app_common/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'app_common/css/styles.css' %}">
+
     <style>
         .custom-card-header {
             background-color: white !important;
@@ -44,8 +37,7 @@
             font-family: merriwether;
         }
     </style>
-</head>
-<body>
+
     <div class="container">
         <div class="row justify-content-center mb-5">
             <div class="col-md-8">
@@ -67,9 +59,6 @@
             </div>
         </div>
     </div>
-    <script src="{% static 'app_common/js/jquery.min.js' %}"></script>
-    <script src="{% static 'app_common/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'app_common/js/main.js' %}"></script>
-</body>
-</html>
+   
+
 {% endblock content %}

@@ -79,7 +79,7 @@ tr:hover
                 {% for application in applications %}
                     <tr>
                         <td>{{ application.user.full_name }}</td>
-                        <td>{{ application.job.catagory }}</td>
+                        <td>{{ application.job.category|default:'No category available' }}</td>
                         <td>{{ application.job.company_name }}</td>
                         <td>{{ application.email }}</td>
                         <td>{{ application.contact }}</td>

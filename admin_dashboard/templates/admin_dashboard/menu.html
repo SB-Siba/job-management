@@ -131,10 +131,10 @@
                 <div class="collapse" id="quotationManagement">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a href="{% url 'billing:quotation_list' %}" class="nav-link font-bold"><i class="fas fa-list-alt"></i>View Quotations</a>
+                            <a href="{% url 'quotation:quotation_list' %}" class="nav-link font-bold"><i class="fas fa-list-alt"></i>View Quotations</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'billing:quotation_add' %}" class="nav-link font-bold"><i class="fas fa-plus"></i>Add Quotation</a>
+                            <a href="{% url 'quotation:quotation_create' %}" class="nav-link font-bold"><i class="fas fa-plus"></i>Add Quotation</a>
                         </li>
                     </ul>
                 </div>
@@ -146,10 +146,10 @@
                 <div class="collapse" id="invoiceManagement">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a href="{% url 'billing:invoice_list' %}" class="nav-link font-bold"><i class="fas fa-list-alt"></i>View Invoices</a>
+                            <a href="{% url 'quotation:invoice_list' %}" class="nav-link font-bold"><i class="fas fa-list-alt"></i>View Invoices</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'billing:invoice_add' %}" class="nav-link font-bold"><i class="fas fa-plus"></i>Add Invoice</a>
+                            <a href="{% url 'quotation:invoice_add' %}" class="nav-link font-bold"><i class="fas fa-plus"></i>Add Invoice</a>
                         </li>
                     </ul>
                 </div>

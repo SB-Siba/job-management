@@ -1,0 +1,94 @@
+
+
+{% extends "user/index.html" %}
+{% block main_content %}
+
+<style>
+    .create_test 
+    {
+        width: 70%;
+        font-family: merriwether;
+        padding: 40px;
+        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        border-radius: 15px !important;
+        background:transparent;
+    }
+    .gap-4 
+    {
+        display: flex;
+        justify-content: center;
+        
+    }
+    th
+    {
+        width: 100px;
+        padding: 8px;
+    }
+    tr
+    {
+        width: 100%;
+       
+    }
+    td
+    {
+        width: 100px;
+        padding: 12px;
+        text-align: right;
+
+    }
+    tr:hover
+    {
+      background-color: rgb(244, 212, 169);
+    }
+    .create_test form {
+      margin-top: 21px;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 2rem;
+  }
+  
+</style>
+
+<div class="gap-4 py-5">
+    <div class="create_test">
+      <div class="border-bottom mb-2">
+         <h1 class="text-center">Job Details</h1>
+      </div>
+       
+      
+      <table style="width: 600px;">
+        <tr>
+          <th>Title</th>
+        <td class="align-end">{{ job.title }}</td>
+        </tr>
+        <tr>
+          <th>Company</th>
+        <td>{{ job.company_name }}</td>
+        </tr>
+  
+        <tr>
+          <th>Location</th>
+        <td>{{ job.location }}</td>
+        </tr>
+  
+        <tr>
+          <th>Posted At</th>
+        <td>{{ job.posted_at }}</td>
+        </tr>
+  
+        <tr>
+          <th>Status</th>
+        <td>{{ job.get_status_display }}</td>
+        </tr>
+        <tr>
+          <th>Published Date</th>
+        <td>{{ job.published_date }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+
+
+{% endblock %}

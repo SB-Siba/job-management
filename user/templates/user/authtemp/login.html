@@ -165,39 +165,6 @@
        
     </form>
  
-  <!--
-    <div class="bg-bg d-flex align-items-center justify-content-center">
-        <div class="col-12 col-md-9 col-lg-7" id="CaRd">
-            <div class="card">
-                <div class="card-body">
-                    <h1 class="ls-tight font-bolder h2 text-center">Log In Here</h1>
-                    <form method="post" action="">
-                        <div class="form-group mt-2">
-                            {% include 'snippets/alert.html' %}
-                        </div>
-                        {% csrf_token %}
-                        {% for field in form %}
-                        <div class="form-group">
-                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                            {{ field }}
-                        </div>
-                        {% endfor %}
-                        <div class="form-group mt-5">
-                            <button class="btn btn-primary" type="submit">Sign in</button>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <a href="{% url 'user:password-reset' %}" class="text-sm text-muted text-primary-hover" style="font-weight: bold;">Forgot password?</a>
-                        </div>
-                    </form>
-                    <div class="text-center mt-3">
-                        <small>Don't have an account?</small>
-                        <a href="{% url 'user:signup' %}" class="text-warning text-sm font-semibold">Sign up</a>
-                    </div>
-                </div>
-            </div>
-           
-        </div>
-    </div> -->
   <!-- Bootstrap JS and dependencies -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

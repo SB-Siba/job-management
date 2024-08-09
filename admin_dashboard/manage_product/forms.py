@@ -43,9 +43,20 @@ class JobForm(forms.ModelForm):
         model = common_models.Job
         fields = ['category', 'client', 'title', 'description', 'location', 'company_name', 'company_website', 'company_logo', 'vacancies', 'posted_at', 'expiry_date', 'job_type', 'status']
         widgets = {
-            'posted_at': forms.DateInput(attrs={'type': 'date'}),
-            'expiry_date': forms.DateInput(attrs={'type': 'date'}),
-        }
+            'category' : forms.Select(attrs={'class': 'form-control'}),
+            'client' : forms.Select(attrs={'class': 'form-control'}),
+            'title' : forms.TextInput(attrs={'class': 'form-control'}),
+            'description' : forms.Textarea(attrs={'class': 'form-control'}),
+            'location' : forms.TextInput(attrs={'class': 'form-control'}),
+            'company_name' : forms.TextInput(attrs={'class': 'form-control'}),
+            'company_website' : forms.URLInput(attrs={'class': 'form-control'}),
+            'company_logo' : forms.FileInput(attrs={'class': 'form-control'}),
+            'vacancies' : forms.NumberInput(attrs={'class': 'form-control'}),
+            'posted_at' : forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'expiry_date' : forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'job_type' : forms.Select(attrs={'class': 'form-control'}),
+            'status' : forms.Select(attrs={'class': 'form-control'}),
+            }
 
    
     def __init__(self, *args, **kwargs):
@@ -65,7 +76,7 @@ class ApplicationForm(forms.ModelForm):
         model =common_models.Application
         fields = ['full_name','email','contact','resume']  
     full_name = forms.CharField(max_length=255)
-    full_name.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
+    full_name.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Full name',"required":"required"})
     
     email = forms.EmailField(max_length=255)
     email.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Email',"required":"required"})
