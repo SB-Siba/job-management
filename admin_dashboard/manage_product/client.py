@@ -76,44 +76,19 @@ class ClientDetailView(View):
         }
         return render(request, self.template_name, context)
     
-# UpdateClientView for editing client details
-class EditClientView(View):
-    form_class = forms.ClientForm
-    template_name = 'admin_dashboard/client_list.html'
-    success_url = reverse_lazy('admin_dashboard:client_list')
-
-    def get(self, request, pk):
-        client = get_object_or_404(common_model.User, id=pk, is_staff=True, is_superuser=False)
-        form = self.form_class(instance=client)
-        return render(request, self.template_name, {'form': form, 'client': client})
-
-    def post(self, request, pk):
-        client = get_object_or_404(common_model.User, id=pk, is_staff=True, is_superuser=False)
-        form = self.form_class(request.POST, instance=client)
-
-        if form.is_valid():
-            updated_client = form.save()
-
-            if request.is_ajax():
-                return JsonResponse({
-                    'success': True,
-                    'client': {
-                        'id': updated_client.id,
-                        'full_name': updated_client.get_full_name(),
-                        'email': updated_client.email,
-                        'contact': updated_client.contact,
-                    },
-                    'message': 'Client updated successfully.'
-                })
-            else:
-                messages.success(request, 'Client updated successfully.')
-                return redirect(self.success_url)
+class ClientUpdateView(View):
+    template = app + "client_form.html"
+    def get(request, user_id):
+        user = get_object_or_404(User, id=user_id)
+        if request.method == 'POST':
+            form = forms.UserUpdateForm(request.POST, instance=user)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'User details updated successfully.')
+                return redirect('user_detail', user_id=user.id)  # Replace 'user_detail' with your actual user detail view name
         else:
-            if request.is_ajax():
-                return JsonResponse({'success': False, 'errors': form.errors})
-            else:
-                messages.error(request, 'There was an error updating the client. Please check the details and try again.')
-                return render(request, self.template_name, {'form': form, 'client': client})
+            form = forms.UserUpdateForm(instance=user)
+        return render(request, 'update_user.html', {'form': form})
 
 
 # DeleteClientView for deleting a client

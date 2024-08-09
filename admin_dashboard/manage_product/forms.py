@@ -134,3 +134,14 @@ class JobSelectionForm(forms.Form):
         super(JobSelectionForm, self).__init__(*args, **kwargs)
         if category:
             self.fields['jobs'].queryset = common_models.Job.objects.filter(category=category)
+
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = common_models.User
+        fields = ['full_name', 'email', 'contact', 'category', 'wallet', 'token', 'meta_data']
+        widgets = {
+            'meta_data': forms.Textarea(attrs={'rows': 3}),
+            'wallet': forms.NumberInput(attrs={'step': '0.01'}),
+        }
