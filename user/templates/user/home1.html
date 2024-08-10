@@ -17,18 +17,10 @@
         border-radius: 10px;
         
     }
-    .dashboard , .row
-    {
-        font-family: merriwether;
-    }
     .footer
     {
         background-color: rgb(215, 243, 246);
         border-radius: 0px 0px 15px 15px;
-    }
-    .modal-dialog
-    {
-        font-family: merriwether;
     }
     .form-select
     {
@@ -36,16 +28,6 @@
         border: 0;
         box-shadow: none;
     }
-
-
-
-
-
-
-
-
-
-
     .ag-courses_box {
         display: -webkit-box;
         display: -ms-flexbox;
@@ -60,12 +42,9 @@
       }
       .ag-courses_item {
         -ms-flex-preferred-size: calc(33.33333% - 30px);
-        flex-basis: calc(33.33333% - 30px);
-        
+        flex-basis: calc(33.33333% - 30px);     
         margin: 0 15px 30px;
-      
         overflow: hidden;
-      
         border-radius: 28px;
         box-shadow: 0px 0px 5px rgb(108, 217, 247);
       }
@@ -74,7 +53,6 @@
         padding: 30px 20px;
         overflow: hidden;
         position: relative;
-       
       }
       .ag-courses-item_link:hover,
       .ag-courses-item_link:hover .ag-courses-item_date {
@@ -89,27 +67,22 @@
       .ag-courses-item_title {
         min-height: 87px;
         margin: 0 0 25px;
-      
         overflow: hidden;
-      
         font-weight: bold;
         font-size: 30px;
         color: #FFF;
-      
         z-index: 2;
         position: relative;
       }
       .ag-courses-item_date-box {
         font-size: 18px;
         color: #FFF;
-      
         z-index: 2;
         position: relative;
       }
       .ag-courses-item_date {
         font-weight: bold;
         color: #f9b234;
-      
         -webkit-transition: color .5s ease;
         -o-transition: color .5s ease;
         transition: color .5s ease
@@ -118,14 +91,11 @@
         height: 128px;
         width: 128px;
         background-color: #f9b234;
-      
         z-index: 1;
         position: absolute;
         top: -75px;
         right: -75px;
-      
         border-radius: 50%;
-      
         -webkit-transition: all .5s ease;
         -o-transition: all .5s ease;
         transition: all .5s ease;
@@ -145,9 +115,6 @@
       .ag-courses_item:nth-child(6n) .ag-courses-item_bg {
         background-color: #4c49ea;
       }
-      
-      
-      
       @media only screen and (max-width: 979px) {
         .ag-courses_item {
           -ms-flex-preferred-size: calc(50% - 30px);
@@ -157,7 +124,6 @@
           font-size: 24px;
         }
       }
-      
       @media only screen and (max-width: 767px) {
         .ag-format-container {
           width: 96%;
@@ -172,7 +138,6 @@
         .ag-courses-item_title {
           min-height: 72px;
           line-height: 1;
-      
           font-size: 24px;
         }
         .ag-courses-item_link {
@@ -182,15 +147,11 @@
           font-size: 16px;
         }
       }
-
-
-
       .select-container {
         position: relative;
         display: inline-block;
         width: 100%; /* Adjust as needed */
       }
-      
       #category-select {
         width: 100%; /* Make sure it fills the container */
         padding-right: 30px; /* Make space for the icon */
@@ -198,7 +159,6 @@
         -moz-appearance: none; /* Remove default arrow in Firefox */
         -webkit-appearance: none; /* Remove default arrow in Safari */
       }
-      
       .select-container i {
         position: absolute;
         right: 10px; /* Position on the right */
@@ -207,12 +167,7 @@
         pointer-events: none; /* Ensure clicks go to the select */
         color: #000; /* Change color as needed */
       }
-      
 </style>
-
-
-
-
 
 <main class="py-1 bg-surface-secondary">
     <div class="ag-format-container">
@@ -222,7 +177,7 @@
               <div class="ag-courses-item_bg"></div>
       
               <div class="ag-courses-item_title">
-                <span class="h6 text-muted d-block"> Applied Jobs : </span>
+                <span class="h6 text-muted d-block"> <b>Applied Jobs :</b> </span>
                
                 <div class="d-flex justify-content-end">
                   <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
@@ -243,7 +198,7 @@
               <div class="ag-courses-item_bg"></div>
               <div class="ag-courses-item_title">
                 <div class="col">
-                    <span class="h6 text-muted d-block">Job Openings : </span>
+                    <span class="h6 text-muted d-block"><b>Job Openings :</b> </span>
                 
                 </div>
                 <div class="d-flex justify-content-end">
@@ -265,7 +220,7 @@
               <div class="ag-courses-item_bg"></div>
       
               <div class="ag-courses-item_title mb-3">
-                <div class="col"><span class="h6 text-muted d-block">Job Category</span>
+                <div class="col"><span class="h6 text-muted d-block"><b>Job Category :</b></span>
                  
                 </div>
                 <div class="d-flex justify-content-end">

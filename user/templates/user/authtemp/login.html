@@ -1,11 +1,11 @@
 {% extends 'app_common/authentication/master.html' %} {% load static %}
  
 {% block content %}
-<body>
+
     <style>
         .background{
             width: 430px;
-            height: 520px;
+            height: 400px;
             position: absolute;
             transform: translate(-50%,-50%);
             left: 50%;
@@ -22,7 +22,7 @@
                 #1845ad,
                 #23a2f6
             );
-            left: -80px;
+            left: -90px;
             top: -80px;
         }
         .shape:last-child{
@@ -31,11 +31,11 @@
                 #ff512f,
                 #f09819
             );
-            right: -30px;
+            right: -70px;
             bottom: -80px;
         }
         form{
-            height: 520px;
+            height: 420px;
             width: 400px;
             background-color: rgba(255,255,255,0.13);
             position: absolute;
@@ -46,7 +46,7 @@
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255,255,255,0.1);
             box-shadow: 0 0 40px rgba(8,7,16,0.6);
-            padding: 50px 35px;
+            padding: 30px 25px;
         }
         form *{
             font-family: 'Poppins',sans-serif;
@@ -64,17 +64,17 @@
        
         label{
             display: block;
-            margin-top: 30px;
+            margin-top: 15px;
             font-size: 16px;
             font-weight: 500;
         }
         input{
             display: block;
-            height: 50px;
+            height: 45px;
             width: 100%;
             background-color: rgba(255,255,255,0.07);
             border-radius: 3px;
-            padding: 0 10px;
+            padding: 0 8px;
             margin-top: 8px;
             font-size: 14px;
             font-weight: 300;
@@ -83,18 +83,18 @@
             color: #e5e5e5;
         }
         button{
-            margin-top: 40px;
+            margin-top: 20px;
             width: 100%;
             background-color: #ffffff;
             color: #080710;
-            padding: 15px 0;
+            padding: 8px 0;
             font-size: 18px;
             font-weight: 600;
             border-radius: 5px;
             cursor: pointer;
         }
         .social{
-          margin-top: 30px;
+          margin-top: 25px;
           display: flex;
         }
         .social div{
@@ -109,12 +109,6 @@
         .social div:hover{
           background-color: rgba(255,255,255,0.47);
         }
-        .social .fb{
-          margin-left: 25px;
-        }
-        .social i{
-          margin-right: 4px;
-        }
         .form-label
         {
             color: white;
@@ -122,6 +116,7 @@
         .form-control
         {
             background: transparent;
+            color: white;
         }
         .btm-color
         {
@@ -150,16 +145,22 @@
         </div>
         {% endfor %}
         <div class="form-group">
-            <button class="bg-white btn-color" type="submit">Log in</button>
+            <button class="bg-white btn-color" type="submit">Login</button>
         </div>
        
             <div class="social d-flex justify-content-evenly">
-                <div class="text-center">
-                    <a href="{% url 'user:password-reset' %}" class="text-sm text-white text-primary-hover font-semibold" style="font-weight: bold;">Forgot?</a>
-                </div>
-                <div class="text-center">
-                    <a href="{% url 'user:signup' %}" class="text-white text-sm text-primary-hover font-semibold">Sign up</a>
-                </div>
+                <a href="{% url 'user:password-reset' %}">
+                    <div class="text-center">
+                        Forgot?
+                    </div>
+                </a>
+                
+                <a href="{% url 'user:signup' %}">
+                    <div class="text-center">
+                        Sign up
+                    </div>
+                </a>
+                
             </div>
        
        
@@ -170,5 +171,5 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="{% static 'app_common/js/main.js'%}"></script>
-</body>
+
 {% endblock content %}
