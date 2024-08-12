@@ -136,10 +136,10 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'noreplyf577@gmail.com'
-EMAIL_HOST_PASSWORD = 'your-email-password'
+EMAIL_HOST_PASSWORD = 'lxlb pidz ggno lujv'
 
 WATI_BASE_URL = "https://api.wati.io"
-WATI_API_KEY = "9692199548"
+WATI_API_KEY = "1234567890"
 
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'

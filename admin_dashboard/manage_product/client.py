@@ -77,19 +77,31 @@ class ClientDetailView(View):
         return render(request, self.template_name, context)
     
 class ClientUpdateView(View):
-    template = app + "client_form.html"
-    def get(request, user_id):
-        user = get_object_or_404(User, id=user_id)
-        if request.method == 'POST':
-            form = forms.UserUpdateForm(request.POST, instance=user)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'User details updated successfully.')
-                return redirect('user_detail', user_id=user.id)  # Replace 'user_detail' with your actual user detail view name
-        else:
-            form = forms.UserUpdateForm(instance=user)
-        return render(request, 'update_user.html', {'form': form})
+    template_name = 'client_edit.html'
 
+    def get(self, request, uid):
+        client = get_object_or_404(User, pk=uid)
+        form = forms.ClientUpdateForm(instance=client)
+        context = {
+            'form': form,
+            'client_id': uid,
+            'username': client.email,  # Or another field if needed
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, uid):
+        client = get_object_or_404(User, pk=uid)
+        form = forms.ClientUpdateForm(request.POST, instance=client)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Client updated successfully.')
+            return redirect('admin_dashboard:client_list')  # Redirect to the client list or detail view
+        context = {
+            'form': form,
+            'client_id': uid,
+            'username': client.email,  # Or another field if needed
+        }
+        return render(request, self.template_name, context)
 
 # DeleteClientView for deleting a client
 class DeleteClientView(View):

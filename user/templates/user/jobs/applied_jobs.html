@@ -1,19 +1,134 @@
-{% extends 'user/starters.html' %}
-
+{% extends 'user/starters.html' %} 
 {% block main_content %}
-<h2>Jobs You Have Applied For</h2>
-{% if applied_jobs %}
-    <ul>
-        {% for application in applied_jobs %}
-            <li>
-                <strong>{{ application.job.category.title }}</strong>
-                <br> Applied on: {{ application.applied_at }}
-                <br> Status: {{ application.status }}
-                <a href="{% url 'user:job_detail' application.job.id %}">View Job Details</a>
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>You have not applied for any jobs yet.</p>
-{% endif %}
+<style>
+  .container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 40px 0;
+    font-family: merriwether;
+  
+  }
+  .container .card {
+    position: relative;
+    width: 260px;
+    height: 270px;
+    background: rgba(255, 255, 255, 0.05);
+    margin: 20px;
+    box-shadow: 0 0 5px 0px rgba(97, 97, 97, 0.5);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px); 
+  }
+  .container .card .content {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: 0.5s;
+  }
+  .container .card:hover .content {
+    transform: translateY(-20px);
+  }
+  .container .card .content .imgBx {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+  }
+  .container .card .content .imgBx img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .container .card .content .contentBx h3 {
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    font-size: 18px;
+    text-align: center;
+    margin: 20px 0 10px;
+    line-height: 1.1em;
+  }
+
+  .container .card .content .contentBx h3 span {
+    font-size: 12px;
+    font-weight: 300;
+    text-transform: initial;
+  }
+  .container .card .sci {
+    position: absolute;
+    bottom: 50px;
+    display: flex;
+  }
+  .container .card .sci li {
+    list-style: none;
+    margin: 0 10px;
+    transform: translateY(40px);
+    transition: 0.5s;
+    opacity: 0;
+  }
+  .container .card:hover .sci li {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+
+  .container .card .sci li a {
+    color: #fff;
+    font-size: 20px;
+  }
+  .fs
+  {
+    font-size: 17px;
+  }
+  .btn
+  {
+    background-color: #fff;
+    color: black;
+    border: 1px solid black;
+  }
+  .btn:hover
+  {
+    background-color: black;
+    color: white;
+  }
+</style>
+<section>
+  <div class="container">
+    
+        {% if applied_jobs %}
+        
+          {% for application in applied_jobs %}
+          <div class="card px-1">
+            <strong>{{ application.job.category.title }}</strong>
+            <br />
+            <div class="">
+                <span class="fs">Applied on: {{ application.applied_at|date:"M d, Y" }}</span><br />
+                <span class="fs">Time: {{ application.applied_at|date:"h:i A" }}</span><br />
+                <span class="fs">Status: {{ application.status }}</span>
+            </div>
+            
+            <div class="pt-4">
+                <a class="btn" href="{% url 'user:job_detail' application.job.id %}"
+              >View Job Details</a
+            >
+            </div>
+        </div>
+          {% endfor %}
+        
+        {% else %}
+        <p>You have not applied for any jobs yet.</p>
+        {% endif %}
+  </div>
+</section>
 {% endblock main_content %}

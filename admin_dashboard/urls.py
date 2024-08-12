@@ -5,6 +5,7 @@ from .credentials import credential
 from .manage_product import user,catagory,job,client
 from user.views import ApplicationList, DownloadResumeView
 from .manage_product.client import  DeleteClientView
+from .manage_product.client import ClientUpdateView
 
 # from .order import order
 from .contact_messages import messages
@@ -43,7 +44,7 @@ urlpatterns = [
     path('clients/', client.AdminClientListView.as_view(), name='client_list'),
     path('clients/create/', client.AdminClientCreateView.as_view(), name='client_create'),
     path('client/<client_id>/', client.ClientDetailView.as_view(), name='client_detail'),
-    path('client/edit/<int:pk>/', client.ClientUpdateView.as_view(), name='edit_client'),
+    path('client/edit/<int:uid>/', ClientUpdateView.as_view(), name='edit_client'),
     path('client/delete/<int:client_id>/', DeleteClientView.as_view(), name='delete_client'),
 
     # #product web

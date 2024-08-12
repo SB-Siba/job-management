@@ -119,6 +119,14 @@ class Application(models.Model):
     resume = models.FileField(upload_to='resumes/', null=True, blank=True)
     applied_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='Applied')
+    hiring_date = models.DateField(auto_now_add=True, null=True, blank=True)
+    hiring_time = models.TimeField(auto_now_add=True, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.status == 'Hired' and (not self.hiring_date or not self.hiring_time):
+            self.hiring_date = timezone.now().date()
+            self.hiring_time = timezone.now().time()
+        super(Application, self).save(*args, **kwargs)
 
     @property
     def user_full_name(self):

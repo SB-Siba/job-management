@@ -78,7 +78,7 @@ class HomeView(View):
     template_client = app + 'client/client_index.html'
     template_user = app + 'home1.html'
     unauthenticated_template = app + 'home_for_landing.html'
- 
+
     def get(self, request):
         user = request.user
         if not user.is_authenticated:
@@ -86,7 +86,7 @@ class HomeView(View):
             return render(request, self.unauthenticated_template, {'jobs': jobs})
 
         welcome_message = f"Welcome, {user.full_name}!"
- 
+
         if user.is_staff:
             jobs = Job.objects.filter(client=user).order_by('-posted_at')
             context = {
@@ -108,6 +108,9 @@ class HomeView(View):
         # Calculate job openings count
         job_opening_count = job_list.count()
 
+        # Get the hired employee details if the user is hired
+        hired_employee = Application.objects.filter(user=user, status='Hired').first()
+
         form = ApplicationForm()  # This form will be used for the application modal/form
         categories = Category.objects.all()
 
@@ -119,11 +122,9 @@ class HomeView(View):
             "applied_job_count": applied_job_count,  # Pass applied job count to context
             "job_opening_count": job_opening_count,  # Pass job opening count to context
             "categories": categories,
+            "hired_employee": hired_employee,  # Pass hired employee details to context
         }
-
         return render(request, self.template_user, context)
-
-
 
 @method_decorator(utils.super_admin_only, name='dispatch')
 class UserDashboard(View):
@@ -142,7 +143,6 @@ class UserDashboard(View):
         }
 
         return render(request, self.template, context)
-
 
 class ProfileView(View):
     template = app + "userprofile.html"
@@ -267,7 +267,7 @@ class UserJobFilter(View):
 
 
 class UserJobDetail(View):
-    template = app + "jobs/job_details.html"
+    template = app + "jobs/user_job_details.html"
     def get(self, request, *args, **kwargs):
         job_id = kwargs.get("pk")
         job = get_object_or_404(Job, pk=job_id)
@@ -278,26 +278,45 @@ class UserJobDetail(View):
     
 
 @method_decorator(login_required, name='dispatch')
-
 class ApplyForJobView(View):
     template = app + 'job_apply.html'
     model = Application
+    
     def get(self, request, pk):
         job = get_object_or_404(Job, pk=pk)
-        form = ApplicationForm()
+        user_profile = get_object_or_404(UserProfile, user=request.user)
+        
+        # Pre-fill form with user's profile data and disable name and email fields
+        form = ApplicationForm(initial={
+            'full_name': user_profile.user.full_name,
+            'email': user_profile.user.email,
+            'contact': user_profile.user.contact,
+        })
+        
+        # Disable the 'full_name' and 'email' fields
+        form.fields['full_name'].disabled = True
+        form.fields['email'].disabled = True
+        
         return render(request, self.template, {'job': job, 'form': form})
 
     def post(self, request, pk):
         job = get_object_or_404(Job, pk=pk)
         form = ApplicationForm(request.POST, request.FILES)
-        resume = request.POST['resume']
-        full_name = request.POST['full_name']
-        email = request.POST['email']
-        contact = request.POST['contact']
-        applied_obj = self.model(job = job,email = email,user = request.user,contact = contact,resume = resume)
-        applied_obj.save()
         
-        return redirect('user:home')  # Redirect back to the job list view
+        if form.is_valid():
+            applied_obj = self.model(
+                job=job,
+                user=request.user,
+                full_name=form.cleaned_data['full_name'],
+                email=form.cleaned_data['email'],
+                contact=form.cleaned_data['contact'],
+                resume=form.cleaned_data['resume']
+            )
+            applied_obj.save()
+            
+            return redirect('user:home')
+        
+        return render(request, self.template, {'job': job, 'form': form})  # Redirect back to the job list view
 
 class AppliedJobsView(View):
     template_name = 'user/jobs/applied_jobs.html'

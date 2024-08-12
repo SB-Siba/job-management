@@ -22,7 +22,6 @@ from . import serializer as job_serializer
 from . import forms
 from app_common import models as common_model
 
-
 app = "admin_dashboard/manage_product/"
 
 # ================================================== product management ==========================================
@@ -77,17 +76,16 @@ class JobEdit(View):
         return render(request, self.template_name, {'form': form, 'job': job})
         
 @method_decorator(utils.super_admin_only, name='dispatch')
+
 class ApplicationList(View):
-    model = common_model.Application
     template = app + "application_list.html"
 
     def get(self, request):
         applications = common_model.Application.objects.all()
         context = {
             "applications": applications,
-            "MEDIA":settings.MEDIA_URL
+            "MEDIA": settings.MEDIA_URL
         }
-        print("=================================================")
         return render(request, self.template, context)
 
     def post(self, request):
@@ -98,6 +96,7 @@ class ApplicationList(View):
                 application.status = value
                 application.save()
                 if value == 'Hired':
+                    # Create or get Employee object
                     common_model.Employee.objects.get_or_create(
                         user=application.user,
                         employer=application.job.client,
@@ -109,7 +108,6 @@ class ApplicationList(View):
                     )
         messages.success(request, 'Application status updated successfully.')
         return redirect('admin_dashboard:application_list')
-
 
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobSearch(View):
@@ -211,12 +209,16 @@ class JobAdd(View):
 class JobDelete(View):
     model = common_model.Job
 
-    def get(self, request, job_uid):
+    def post(self, request, job_uid):
         job = get_object_or_404(self.model, id=job_uid)
         job.delete()
-        messages.info(request, 'Job deleted successfully.')
 
-        return redirect("admin_dashboard:job_list")
+        if request.is_ajax():
+            return JsonResponse({'success': True})
+
+        # Optionally handle non-AJAX requests here
+        messages.info(request, 'Job deleted successfully.')
+        return JsonResponse({'success': True}) 
 
 
 

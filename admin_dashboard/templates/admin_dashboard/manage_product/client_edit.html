@@ -1,62 +1,54 @@
+<!-- templates/client_edit.html -->
 {% extends 'admin_dashboard/starter.html' %}
 
 {% block content %}
 <style>
-    .container 
-    {
+    .container {
         display: flex;
         justify-content: center;
     }
-    .create_test 
-    {
+    .edit_client {
         width: 70%;
-        font-family: merriwether;
-        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        font-family: Merriweather, sans-serif;
+        box-shadow: 0 2px 12px rgba(247, 88%, 70%, 0.3);
         border-radius: 15px !important;
-        background:transparent;
+        background: transparent;
     }
-    p{
+    p {
         margin-top: 15px;
         margin-bottom: 10px;
     }
-    button{
+    button {
         width: 100%;
     }
-    .btn
-    {
+    .btn {
         color: black;
         background-color: rgb(198, 198, 198);
         border: 1px solid black;
     }
-    .btn:hover
-    {
+    .btn:hover {
         color: white;
         background-color: black;
-
     }
-    label
-    {
+    label {
         padding-bottom: 8px;
     }
 </style>
 
 <section class="content">
     <div class="container pb-4">
-        <div class="card create_test"> 
+        <div class="card edit_client">
             <div class="card-header">
-                <h2 class="text-center">Update User Information</h2>
+                <h2 class="text-center">Update Client Information</h2>
             </div>
             <div class="card-body">
-                <form method="post" enctype="multipart/form-data" style="font-family: merriwether;">
+                <form method="post" enctype="multipart/form-data" style="font-family: Merriweather, sans-serif;">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <div class="mt-4 d-flex justify-content-center"> 
+                    <div class="mt-4 d-flex justify-content-center">
                         <button class="btn" type="submit">Update</button>
-
                     </div>
-                    
                 </form>
-                
             </div>
         </div>
     </div>
