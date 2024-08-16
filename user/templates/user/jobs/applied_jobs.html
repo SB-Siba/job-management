@@ -1,10 +1,6 @@
-{% extends 'user/starters.html' %} {% block main_content %}
+{% extends 'user/starters.html' %} 
+{% block main_content %}
 <style>
-
-    
-
-     
-
   .container {
     position: relative;
     z-index: 1;
@@ -16,7 +12,6 @@
     font-family: merriwether;
   
   }
-
   .container .card {
     position: relative;
     width: 260px;
@@ -28,10 +23,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(10px);
-    
+    backdrop-filter: blur(10px); 
   }
-
   .container .card .content {
     position: relative;
     display: flex;
@@ -40,18 +33,15 @@
     flex-direction: column;
     transition: 0.5s;
   }
-
   .container .card:hover .content {
     transform: translateY(-20px);
   }
-
   .container .card .content .imgBx {
     position: relative;
     width: 150px;
     height: 150px;
     overflow: hidden;
   }
-
   .container .card .content .imgBx img {
     position: absolute;
     top: 0;
@@ -60,7 +50,6 @@
     height: 100%;
     object-fit: cover;
   }
-
   .container .card .content .contentBx h3 {
     color: #fff;
     text-transform: uppercase;
@@ -77,13 +66,11 @@
     font-weight: 300;
     text-transform: initial;
   }
-
   .container .card .sci {
     position: absolute;
     bottom: 50px;
     display: flex;
   }
-
   .container .card .sci li {
     list-style: none;
     margin: 0 10px;
@@ -91,7 +78,6 @@
     transition: 0.5s;
     opacity: 0;
   }
-
   .container .card:hover .sci li {
     transform: translateY(0px);
     opacity: 1;
@@ -117,10 +103,7 @@
     color: white;
   }
 </style>
-
-
 <section>
-
   <div class="container">
     
         {% if applied_jobs %}
@@ -146,8 +129,6 @@
         {% else %}
         <p>You have not applied for any jobs yet.</p>
         {% endif %}
-      
-   
   </div>
 </section>
 {% endblock main_content %}

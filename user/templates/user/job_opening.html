@@ -35,7 +35,7 @@ Opening {% endblock title %}
     flex-direction: column;
     justify-content: space-between;
     z-index: 2; /* Ensure cards appear above bubbles */
-    border-top: 4px solid #007bff; /* Top border for card color accent */
+    border-top: 4px solid teal; /* Top border for card color accent */
   }
   
   .job-card:hover {
@@ -55,7 +55,7 @@ Opening {% endblock title %}
   .job-title {
     margin: 0;
     font-size: 22px;
-    color: #007bff; /* Main accent color */
+    color: #1d3557; /* Main accent color */
   }
   
   .job-category {
@@ -137,6 +137,20 @@ Opening {% endblock title %}
     font-weight: bolder;
     font-family: merriwether;
   }
+
+  .img-banner {
+    height: 80vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.img-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
 </style>
 
 
@@ -174,39 +188,5 @@ Opening {% endblock title %}
 </div>
 
 
-
-
-
-<!-- <div>
-  {% for job in jobs %}
-
-  <div class="">
-    <div class="">
-      <div class="">
-        <div>
-          <div style="">
-            <h3 class="">
-              {{ job.title }}
-            </h3>
-            <h4>
-              {{ job.category }}
-            </h4>
-            <p>{{ job.company_name }}</p>
-            <p>{{ job.location }}</p>
-          </div>
-          <div>
-            <p>{{ job.job_type }}</p>
-            <p>{{ job.description }}</p>
-          </div>
-          <p>
-            Active {{ job.published_date|timesince }} ago
-          </p>
-          <a href="{% url 'user:login' %}" class="btn">Apply now</a>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-</div> -->
   {% endblock main_content %}
 

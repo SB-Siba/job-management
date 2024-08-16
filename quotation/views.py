@@ -11,6 +11,7 @@ from .forms import QuotationForm, InvoiceForm
 from .decorators import super_admin_only
 from helpers import utils
 from django.forms import modelformset_factory
+from django.db import models
 
 # Quotation Views
 @method_decorator(super_admin_only, name='dispatch')

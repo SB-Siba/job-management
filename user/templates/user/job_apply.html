@@ -192,18 +192,17 @@ Apply For Job
         right: 20px;
         z-index: 3;
       }
-      input
-      {
-        padding: 10px 0px 10px 0px;
-      }
-      
-    </style>
-
+</style>
 <div class="bg">
     <div class="container">
-        <div class="card border-0">
-            <h1 class="card_title text-center pb-4">Apply For Job</h1>
-            
+        <div class="card">
+            <h1 class="card_title">Apply For Job</h1>
+            <p class="card_title-info">
+                We aim to build long-term
+                relationships with our clients by
+                consistently delivering exceptional
+                service and value.
+            </p>
             <form action="" method="post" class="card_form">
                 {% csrf_token %}
                 {% for field in form %}
@@ -211,17 +210,15 @@ Apply For Job
                 {{field.label}}
                 {{field}}
                 </div>
-                {% endfor %}
+                {% endfor %}    
                     <button class="card_button" type="submit">Apply Now</button>
             </form>
         </div>
 
         <div class="fish-shadow-con">
             <svg class="fish-shadow" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMin slice" viewBox="0 0 743 645">
-    
                 <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
                     <path d="M177.367 337.568L182.709 357.739C198.517 417.421 249.748 460.995 311.193 467.019L421.508 477.834C478.237 483.396 532.831 454.649 560.346 404.729C607.09 319.923 557.549 214.182 462.47 195.822L375.079 178.946C368.369 177.651 361.766 175.854 355.324 173.572C251.651 136.837 149.205 231.245 177.367 337.568Z" class="line" id="Line" />
-    
                     <g xmlns="http://www.w3.org/2000/svg" id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <g id="Group" transform="translate(-103.000000, 3.000000)" fill="#F2AFAF">
                             <g id="l-1" transform="translate(118.396084, 37.985234) rotate(-89.000000) translate(-118.396084, -37.985234) translate(104.396084, 23.985234)">
@@ -373,5 +370,5 @@ Apply For Job
         </svg>
     </div>
 </div>
-
+</body>
 {% endblock main_content %}

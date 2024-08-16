@@ -3,7 +3,9 @@ from . import views
 from django.contrib import admin
 from .credentials import credential
 from .manage_product import user,catagory,job,client
-
+from user.views import ApplicationList, DownloadResumeView
+from .manage_product.client import  DeleteClientView
+from .manage_product.client import ClientUpdateView
 
 # from .order import order
 from .contact_messages import messages
@@ -16,6 +18,8 @@ urlpatterns = [
     path('about_us', views.ApiAbountUs.as_view(),),
     path('admin/', admin.site.urls),
     path('quotation/', include('quotation.urls', namespace='quotation')),
+    path('applications/<int:job_id>/', ApplicationList.as_view(), name='application_list'),
+    path('applications/download_resume/<int:application_id>/', DownloadResumeView.as_view(), name='download_resume'),
 
     # Userlist
     path("user/userslist", user.UserList.as_view(), name="userslist"),
@@ -33,11 +37,15 @@ urlpatterns = [
     path("category/category_delete/<str:category_id>", catagory.categoryDelete.as_view(), name="category_delete"),
 
     # # category api
+    path('wati-api/', include('wati_api.urls')),
+
     
     #client list
     path('clients/', client.AdminClientListView.as_view(), name='client_list'),
     path('clients/create/', client.AdminClientCreateView.as_view(), name='client_create'),
     path('client/<client_id>/', client.ClientDetailView.as_view(), name='client_detail'),
+    path('client/edit/<int:uid>/', ClientUpdateView.as_view(), name='edit_client'),
+    path('client/delete/<int:client_id>/', DeleteClientView.as_view(), name='delete_client'),
 
     # #product web
     path("job/job_list/", job.JobList.as_view(), name="job_list"),
@@ -63,4 +71,4 @@ urlpatterns = [
     path("contact_messages/all_mesages/",messages.ContactMessageList.as_view(), name="all_contact_message"),
     path("contact_messages/contact_message_detail/<str:uid>",messages.ContactMessageDetail.as_view(), name="contact_message_detail"),
     path("contact_messages/contact_message_reply/<str:uid>",messages.ContactMessagereply.as_view(), name="contact_message_reply"),
-]
+] 

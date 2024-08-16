@@ -115,10 +115,18 @@ class Application(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     email = models.EmailField(default='')
-    contact = models.IntegerField(null=True, blank=True, default=0)
+    contact = models.CharField(max_length=10, null=True, blank=True, validators=[RegexValidator(r'^\d{10}$')])
     resume = models.FileField(upload_to='resumes/', null=True, blank=True)
     applied_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='Applied')
+    hiring_date = models.DateField(auto_now_add=True, null=True, blank=True)
+    hiring_time = models.TimeField(auto_now_add=True, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.status == 'Hired' and (not self.hiring_date or not self.hiring_time):
+            self.hiring_date = timezone.now().date()
+            self.hiring_time = timezone.now().time()
+        super(Application, self).save(*args, **kwargs)
 
     @property
     def user_full_name(self):
@@ -155,7 +163,7 @@ class ContactMessage(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.user if self.user else self.email} - {self.status}"
+        return f"{self.user if self.user else 'Anonymous'} - {self.status}"
 
 class Employee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
