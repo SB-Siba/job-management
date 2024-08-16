@@ -15,10 +15,6 @@ class MaxFileSizeValidator:
         if file.size > self.max_size:
             raise ValidationError(f"For performence purpose file-size should not exceed {self.max_size/1024} KB.")
 
-
-
-
-
 # # =================================================== manage category  =============================================
 class categoryEntryForm(forms.ModelForm):
     class Meta:
@@ -31,12 +27,8 @@ class categoryEntryForm(forms.ModelForm):
     
     title = forms.CharField(max_length=255)
     title.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
-
     description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
     description.widget.attrs.update({'class': 'form-control','type':'text'})
-
-
-
 
 class JobForm(forms.ModelForm):
     class Meta:
@@ -70,7 +62,6 @@ def validate_contact(value):
     if len(str(value)) != 10 or not str(value).isdigit():
         raise ValidationError('Contact number must be exactly 10 digits and only contain numbers')
 
-
 class ApplicationForm(forms.ModelForm):
     class Meta:
         model =common_models.Application
@@ -100,8 +91,6 @@ class EditUserForm(forms.Form):
     full_name = forms.CharField(label="Full Name",max_length=50,widget=forms.TextInput(attrs={"class":"form-control"}))
     contact = forms.IntegerField(label="Contact",widget=forms.NumberInput(attrs={"class":"form-control"}))
 
-
-
 class AddUserForm(forms.ModelForm):
     class Meta:
         model = common_models.User
@@ -122,15 +111,12 @@ class AddUserForm(forms.ModelForm):
         required=True,  # Make the role field required explicitly
     )
     
-
 class ClientForm(forms.ModelForm):
-
     class Meta:
         model = common_models.User
         fields = ['email', 'full_name', 'contact', 'password']
 
     password = forms.CharField(widget=forms.PasswordInput)
-
 
 class CategoryFilterForm(forms.Form):
     model = common_models.Category
@@ -146,8 +132,6 @@ class JobSelectionForm(forms.Form):
         if category:
             self.fields['jobs'].queryset = common_models.Job.objects.filter(category=category)
 
-
-
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = common_models.User
@@ -156,8 +140,6 @@ class UserUpdateForm(forms.ModelForm):
             'meta_data': forms.Textarea(attrs={'rows': 3}),
             'wallet': forms.NumberInput(attrs={'step': '0.01'}),
         }
-
-
 
 class ClientUpdateForm(forms.ModelForm):
     class Meta:

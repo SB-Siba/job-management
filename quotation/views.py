@@ -36,6 +36,7 @@ class QuotationDetailView(View):
 
 ItemFormSet = modelformset_factory(Item, fields=('sr_no', 'name', 'description', 'quantity', 'amount'), extra=1, can_delete=True)
 
+
 @method_decorator(super_admin_only, name='dispatch')
 class QuotationCreateView(CreateView):
     model = Quotation
@@ -114,12 +115,35 @@ class InvoiceDetailView(View):
 
 
 @method_decorator(super_admin_only, name='dispatch')
-class InvoiceCreateView(CreateView):
-    model = Invoice
-    form_class = InvoiceForm
-    template_name = 'admin/quotation/invoice_form.html'
-    success_url = reverse_lazy('quotation:invoice_list')
+class InvoiceCreateView(View):
+    template_name = 'admin/quotation/create_invoice.html'
 
+    def get(self, request):
+        form = InvoiceForm()
+        context = {
+            'form': form,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        form = InvoiceForm(request.POST)
+        if form.is_valid():
+            # Create a new invoice using form data
+            Invoice.objects.create(
+                company_name=form.cleaned_data['company_name'],
+                address=form.cleaned_data['address'],
+                email=form.cleaned_data['email'],
+                phone_number=form.cleaned_data['phone_number'],
+                client=form.cleaned_data.get('client'),
+                job=form.cleaned_data.get('job'),
+                employee=form.cleaned_data.get('employee'),
+            )
+            return redirect('invoice_list')  # Adjust this to the URL where you want to redirect after creation
+        else:
+            context = {
+                'form': form,
+            }
+            return render(request, self.template_name, context)
 
 @method_decorator(super_admin_only, name='dispatch')
 class InvoiceUpdateView(UpdateView):

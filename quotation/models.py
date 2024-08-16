@@ -2,8 +2,6 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 
-from app_common.models import User
-
 class Client(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     company_name = models.CharField(max_length=255, null=True, blank=True)
@@ -13,7 +11,7 @@ class Client(models.Model):
     phone = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):
-        return self.company_name
+        return self.company_name or self.name or "Unnamed Client"
 
 
 class Item(models.Model):
@@ -30,24 +28,22 @@ class Item(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return self.name or "Unnamed Item"
 
 class Quotation(models.Model):
-    client = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    created_at = models.DateTimeField(null=True, blank=True)
-    # total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
-    
-    # Additional fields for the quotation
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     company_name = models.CharField(max_length=255, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
-    phone_number = models.CharField(max_length=10,null=True, blank=True)
-    title = models.CharField(max_length=10,null=True, blank=True)
-    first_name = models.CharField(max_length=50,null=True, blank=True)
+    phone_number = models.CharField(max_length=20, null=True, blank=True)
+    title = models.CharField(max_length=50, null=True, blank=True)
+    first_name = models.CharField(max_length=50, null=True, blank=True)
     middle_name = models.CharField(max_length=50, blank=True)
-    last_name = models.CharField(max_length=50,null=True, blank=True)
-    
+    last_name = models.CharField(max_length=50, null=True, blank=True)
+
     def __str__(self):
-        return f'Quotation {self.id}'
+        return f'Quotation {self.id} for {self.client}'
+
 
 class QuotationItem(models.Model):
     quotation = models.ForeignKey(Quotation, on_delete=models.CASCADE, null=True, blank=True)
@@ -57,10 +53,17 @@ class QuotationItem(models.Model):
     def __str__(self):
         return f"{self.item.name} (x{self.quantity})"
 
+
 class Invoice(models.Model):
-    quotation = models.OneToOneField(Quotation, on_delete=models.CASCADE, null=True, blank=True)
-    issued_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    paid = models.BooleanField(default=False, null=True, blank=True)
+    quotation = models.ForeignKey(Quotation, on_delete=models.CASCADE, null=True, blank=True)
+    issued_at = models.DateTimeField(auto_now_add=True)
+    paid = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Invoice #{self.id} for Quotation #{self.quotation.id}"
+        return f"Invoice #{self.id} for Quotation #{self.quotation.id}" if self.quotation else f"Invoice #{self.id}"
+
+class Job(models.Model):
+    title = models.CharField(max_length=255)
+
+class Employee(models.Model):
+    title = models.CharField(max_length=255)

@@ -13,6 +13,7 @@ from app_common import models as common_model
 from user import forms
 from .forms import EditUserForm,AddUserForm,JobSelectionForm,CategoryFilterForm
 import logging
+from django.http import JsonResponse
 
 logger = logging.getLogger(__name__)
 app = "admin_dashboard/users/"
@@ -105,24 +106,18 @@ class AddUserView(View):
             user.save()
             messages.success(request, f"User {user.full_name} has been successfully added.")
             return redirect('admin_dashboard:userslist')
-        messages.error(request, "There was an error adding the user. Please check the details and try again.")
+        # messages.error(request, "User with this Email already exists")
         return render(request, self.template, {'form': form})
 
 
 class DeleteUser(View):
-    model = common_model.User
-    template = app + "confirm_delete.html"  # A template to confirm deletion
-
-    def get(self, request, user_id):
-        user = get_object_or_404(self.model, id=user_id)
-        return render(request, self.template, {"user": user})
+    template = app+ "user_list.html"
 
     def post(self, request, user_id):
-        user = get_object_or_404(self.model, id=user_id)
+        user = get_object_or_404(common_model.User, id=user_id)
         user.delete()
-        messages.success(request, f"User {user.full_name} has been successfully deleted.")
-        return redirect('admin_dashboard:userslist')
-
+        messages.success(request, f'User {user.full_name} deleted successfully.')
+        return redirect('admin_dashboard:user_list')
 
 class UserDetailView(View):
     model = common_model.User

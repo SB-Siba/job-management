@@ -4,20 +4,24 @@ from django import forms
 from .models import Quotation, QuotationItem, Invoice
 from django.forms import modelformset_factory
 from django.core.validators import RegexValidator
-from .models import Item
+from .models import Item, Invoice, Client, Job, Employee
 
 
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        exclude = ['sr_no']  # Exclude sr_no as it is auto-incremented
-        fields = ['name', 'description', 'quantity', 'amount']
+        fields = ['sr_no', 'name', 'description', 'quantity', 'amount']
         widgets = {
+            'sr_no': forms.TextInput(attrs={'readonly': 'readonly'}),  # Set sr_no as read-only
             'description': forms.TextInput(attrs={'placeholder': 'Enter item description'}),
         }
 
-
-ItemFormSet = modelformset_factory(Item, form=ItemForm, extra=1)
+ItemFormSet = modelformset_factory(
+    Item, 
+    fields=('sr_no', 'name', 'description', 'quantity', 'amount'), 
+    extra=1, 
+    can_delete=True
+)
 
 
 class QuotationForm(forms.ModelForm):
@@ -35,7 +39,6 @@ class QuotationForm(forms.ModelForm):
         validators=[RegexValidator(r'^\d{10}$', 'Enter a valid 10-digit phone number.')],
         error_messages={'invalid': 'Enter a valid 10-digit phone number.'}
     )
-
     class Meta:
         model = Quotation
         fields = ['company_name', 'address', 'phone_number', 'title', 'first_name', 'middle_name', 'last_name']
@@ -57,7 +60,11 @@ class QuotationItemForm(forms.ModelForm):
         fields = ['item', 'quantity']
 
 
-class InvoiceForm(forms.ModelForm):
-    class Meta:
-        model = Invoice
-        fields = ['quotation', 'paid']
+class InvoiceForm(forms.Form):
+    company_name = forms.CharField(max_length=255)
+    address = forms.CharField(widget=forms.Textarea)
+    email = forms.EmailField()
+    phone_number = forms.CharField(max_length=20)
+    client = forms.ModelChoiceField(queryset=Client.objects.all(), required=False)
+    job = forms.ModelChoiceField(queryset=Job.objects.all(), required=False)
+    employee = forms.ModelChoiceField(queryset=Employee.objects.all(), required=False)

@@ -76,7 +76,6 @@ class JobEdit(View):
         return render(request, self.template_name, {'form': form, 'job': job})
         
 @method_decorator(utils.super_admin_only, name='dispatch')
-
 class ApplicationList(View):
     template = app + "application_list.html"
 

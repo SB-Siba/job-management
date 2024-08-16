@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-
+from django.db import transaction
 from helpers import utils
 from . import forms
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -586,44 +586,45 @@ class ApplicationList(View):
 
     def post(self, request, job_id):
         applications = Application.objects.filter(job_id=job_id)
-
         client = whatsapp_api.WatiAPIClient(
             base_url=settings.WATI_BASE_URL,
             api_key=settings.WATI_API_KEY
         )
 
-        for application in applications:
-            status = request.POST.get(f'status_{application.id}')
+        with transaction.atomic():
+            for application in applications:
+                status = request.POST.get(f'status_{application.id}')
+                
+                if status:
+                    application.status = status
+                    application.save()
 
-            if status:
-                application.status = status
-                application.save()
+                    if status == 'Hired':
+                        form = forms.EmployeeForm(request.POST)
+                        if form.is_valid():
+                            Employee.objects.create(
+                                user=application.user,
+                                job=application.job,
+                                employer=request.user,
+                                salary=form.cleaned_data['salary'],
+                                period_start=form.cleaned_data['period_start'],
+                                period_end=form.cleaned_data['period_end'],
+                            )
 
-                if status == 'Hired':
-                    form = forms.EmployeeForm(request.POST)
-                    if form.is_valid():
-                        Employee.objects.create(
-                            user=application.user,
-                            job=application.job,
-                            employer=request.user,
-                            salary=form.cleaned_data['salary'],
-                            period_start=form.cleaned_data['period_start'],
-                            period_end=form.cleaned_data['period_end'],
-                        )
+                            phone_number = application.user.contact
+                            template_name = "new_chat_v1"
+                            parameters = [{"name": "name", "value": application.user.full_name}]
 
-                        phone_number = application.contact
-                        template_name = "new_chat_v1"
-                        parameters = [{"name": "name", "value": application.user.full_name}]
+                            response = client.send_message(phone_number, template_name, parameters)
+                            print("WhatsApp API Response:", response)
 
-                        response = client.send_message(phone_number, template_name, parameters)
-                        print("WhatsApp API Response:", response)
+                            messages.success(request, f'{application.user.full_name} has been hired and added as an employee.')
+                        else:
+                            return render(request, self.template_name, {'applications': applications, 'form': form})
 
-                        messages.success(request, f'{application.user.full_name} has been hired and added as an employee.')
-                    else:
-                        return render(request, self.template_name, {'applications': applications, 'form': form})
+            messages.success(request, 'Application status updated successfully.')
 
-        messages.success(request, 'Application status updated successfully.')
-        return redirect('admin_dashboard:application_list')
+        return redirect('user:application_list', job_id=job_id)
 
 class DownloadResumeView(View):
     def get(self, request, application_id):

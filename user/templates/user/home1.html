@@ -281,7 +281,7 @@
           <div class="content-box p-4 bg-light">
               <div class="d-flex justify-content-between align-items-center">
                   <h5 class="mb-4">Employee Details</h5>
-                  <i class="bi bi-chevron-down toggle-btn" id="toggle-btn"></i>
+                  <i class="bi bi-chevron-up toggle-btn" id="toggle-btn"></i>
               </div>
 
               <div class="toggle-content" id="toggle-content">
@@ -299,11 +299,11 @@
                       </thead>
                       <tbody>
                           <tr>
-                              <td>{{ hired_employee.job.company_name }}</td> <!-- Assuming client is related to Job and has company_name -->
-                              <td>{{ hired_employee.job.title }}</td> <!-- Assuming title is a field in Job -->
-                              <td>{{ hired_employee.job.category.title }}</td> <!-- Assuming category is related to Job and has a name -->
-                              <td>{{ hired_employee.hiring_date|date:"Y-m-d" }}</td> <!-- Assuming created_at is when the application was marked as hired -->
-                              <td>{{ hired_employee.hiring_time|time:"H:i" }}</td> <!-- Assuming created_at is when the application was marked as hired -->
+                              <td>{{ hired_employee.job.company_name }}</td>
+                              <td>{{ hired_employee.job.title }}</td>
+                              <td>{{ hired_employee.job.category.title }}</td>
+                              <td>{{ hired_employee.hiring_date|date:"Y-m-d" }}</td>
+                              <td>{{ hired_employee.hiring_time|time:"H:i" }}</td>
                           </tr>
                       </tbody>
                   </table>

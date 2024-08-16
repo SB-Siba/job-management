@@ -50,7 +50,7 @@ tr:hover
                   {% else %}
                     {{ message.message }}
                   {% endif %}
-                  <span uid="{{ message.uid }}" onclick="message_detail(this)" style="color:blue">Open</span>
+                  <span uid="{{ message.uid }}" onclick="message_detail(this)" style="color:blue; cursor: pointer;">Open</span>
                 </td>
                 <td>{{ message.created_at }}</td>
               </tr>
@@ -64,7 +64,7 @@ tr:hover
 
 <!-- message list modal -->
 <div class="modal fade" id="contact_message" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
+  <div class="modal-dialog modal-l">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Message: <span style="color:blue" id="contact_message_id"></span></h5>
@@ -74,14 +74,13 @@ tr:hover
         <div id="contact_message_message"></div>
         <hr>
         <div class="contact_message_edit">
-          <h5>Message Reply</h5>
           <center id="reply_alert"></center>
           <form id="message_reply_form" onsubmit="event.preventDefault();">
             {% csrf_token %}
             {{ form.as_p }}
             <br>
             <center>
-              <button class="btn btn-success" type="button" onclick="submit_reply()">Submit Reply</button>
+              <button class="btn btn-success" type="button" onclick="submit_reply()">Submit</button>
             </center>
           </form>
         </div>
