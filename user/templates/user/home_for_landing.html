@@ -1,10 +1,36 @@
 {% extends 'user/landing_page.html' %} {% load static %} {% block title %}
 home page {% endblock title %} {% block main_content %}
 
+<style>
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+  .box-1{
+    height: 85vh;
+    width: 100%;
+  }
+  .box-1 img{
+    height: 100%;
+    width: 100%;
+
+  }
+  @media (max-width:576px)  {
+    .box-1{
+      height: 50vh;
+    }
+    .box-1 img{
+      height: 50vh;
+      object-fit: cover;
+
+    }
+   
+  }
+</style>
 
 
-
-<div class="container-fluid p-0">
+<div class="container p-0">
   <div class="row g-0">
     <div class="col-lg-12 col-12">
       <div class="text-center mb-5 pb-2">
@@ -69,12 +95,12 @@ home page {% endblock title %} {% block main_content %}
             </div>
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <div class="box-1" style="height: 70vh; width: 100%">
+                <div class="box-1">
                   <img
                     src="{% static 'images/se1.jpg' %}"
-                    class="d-block w-100"
+                    class="d-block"
                     alt="..."
-                    style="height: 100vh"
+                   
                   />
                   <div class="overlaytext px-0 py-0 mx-0 my-0">
                     
@@ -83,12 +109,12 @@ home page {% endblock title %} {% block main_content %}
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="box-1" style="height: 70vh; width: 100%">
+                <div class="box-1">
                   <img
                     src="{% static 'images/se2.jpg' %}"
-                    class="d-block w-100"
+                    class="d-block"
                     alt="..."
-                    style="height: 100vh"
+                    
                   />
                   <div class="overlaytext px-0 py-0 mx-0 my-0">
 
@@ -97,12 +123,12 @@ home page {% endblock title %} {% block main_content %}
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="box-1" style="height: 70vh; width: 100%">
+                <div class="box-1">
                   <img
                     src="{% static 'images/se3.jpg' %}"
-                    class="d-block w-100"
+                    class="d-block"
                     alt="..."
-                    style="height: 100vh"
+                    
                   />
                   <div class="overlaytext px-0 py-0 mx-0 my-0">
 
@@ -111,12 +137,12 @@ home page {% endblock title %} {% block main_content %}
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="box-1" style="height: 70vh; width: 100%">
+                <div class="box-1">
                   <img
                     src="{% static 'images/se9.jpg' %}"
-                    class="d-block w-100"
+                    class="d-block"
                     alt="..."
-                    style="height: 100vh"
+                    
                   />
                   <div class="overlaytext px-0 py-0 mx-0 my-0">
                     
@@ -125,12 +151,12 @@ home page {% endblock title %} {% block main_content %}
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="box-1" style="height: 70vh; width: 100%">
+                <div class="box-1">
                   <img
                     src="{% static 'images/se5.jpg' %}"
-                    class="d-block w-100"
+                    class="d-block"
                     alt="..."
-                    style="height: 100vh"
+                    
                   />
                   <div class="overlaytext px-0 py-0 mx-0 my-0">
                     
@@ -139,12 +165,12 @@ home page {% endblock title %} {% block main_content %}
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="box-1" style="height: 70vh; width: 100%">
+                <div class="box-1">
                   <img
                     src="{% static 'images/se4.jpg' %}"
-                    class="d-block w-100"
+                    class="d-block"
                     alt="..."
-                    style="height: 100vh"
+                    
                   />
                   <div class="overlaytext px-0 py-0 mx-0 my-0">
                     
@@ -153,12 +179,12 @@ home page {% endblock title %} {% block main_content %}
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="box-1" style="height: 70vh; width: 100%">
+                <div class="box-1">
                   <img
                     src="{% static 'images/se7.jpg' %}"
-                    class="d-block w-100"
+                    class="d-block"
                     alt="..."
-                    style="height: 100vh"
+                  
                   />
                   <div class="overlaytext px-0 py-0 mx-0 my-0">
                     
@@ -167,12 +193,12 @@ home page {% endblock title %} {% block main_content %}
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="box-1" style="height: 70vh; width: 100%">
+                <div class="box-1">
                   <img
                     src="{% static 'images/s9.jpg' %}"
-                    class="d-block w-100"
+                    class="d-block"
                     alt="..."
-                    style="height: 100vh"
+                    
                   />
                   <div class="overlaytext px-0 py-0 mx-0 my-0">
                     
@@ -184,7 +210,7 @@ home page {% endblock title %} {% block main_content %}
           </div>
           <button
             class="carousel-control-prev"
-            type="button"
+            type="button" style=""
             data-bs-target="#carouselExample"
             data-bs-slide="prev"
           >

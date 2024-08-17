@@ -36,7 +36,7 @@
                     <h2 class="text-center py-1">Add Category</h2>
                 </div>
                 <div class="card-body">
-                    <form method="post" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data" class="px-5 py-5">
                         {% csrf_token %}
                         {% if form.errors %}
                             <div class="alert alert-danger">

@@ -16,10 +16,8 @@ Opening {% endblock title %}
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    
     position: relative;
-    z-index: 2; /* Ensure cards appear above bubbles */
-    font-family: merriwether;
+    z-index: 2;
   }
   
   .job-card {
@@ -135,11 +133,10 @@ Opening {% endblock title %}
   {
     font-size: 25px;
     font-weight: bolder;
-    font-family: merriwether;
   }
 
   .img-banner {
-    height: 80vh;
+    height: 70vh;
     width: 100%;
     overflow: hidden;
     position: relative;
@@ -151,25 +148,43 @@ Opening {% endblock title %}
     object-fit: cover;
     object-position: center;
 }
+.img-banner .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(107, 107, 107, 0.5); /* Black overlay with 50% opacity */
+  pointer-events: none; /* Make the overlay non-interactive */
+}
+@media (max-width: 768px) {
+  /* For tablets and smaller screens */
+  .img-banner {
+    width: 100%;
+    height: auto; /* Let the height adapt to the content */
+  }
+
+  .img-banner img {
+    width: 100%; /* Ensures the image is fully responsive */
+    height: auto;
+  }
+}
 </style>
 
 
 
 <!-- Banner -->
 <div class="img-banner">
-  <img
-    src="{% static 'images/se6.jpg' %}"
-    alt="Banner Image"
-  />
+  <img src="{% static 'images/job.jpg' %}" alt="Banner Image" />
+  <div class="overlay"></div>
 </div>
 
-
 <div class="bubble-background">
-  <div class="job-listings">
+  <div class="job-listings my-5">
     {% for job in jobs %}
     <div class="job-card">
       <div class="job-header py-2 px-4">
-        <h3 class="job-title">{{ job.title }}</h3>
+        <h3 class="">{{ job.title }}</h3>
         <h4 class="job-category">{{ job.category }}</h4>
       </div>
       <div class="job-details px-4">
