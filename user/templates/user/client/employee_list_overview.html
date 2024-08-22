@@ -1,5 +1,5 @@
 <!-- templates/user/employee_list.html -->
-
+{% extends "user/client/client_stater.html" %}
 {% block content %}
 <div class="container mt-4">
     <h2>Employees for Job: {{ job.title }}</h2>
@@ -31,6 +31,6 @@
             {% endfor %}
         </tbody>
     </table>
-    <a href="{% url 'user:job_list' %}">Back to Job List</a>
+    <a href="{% url 'user:client_job_list' %}">Back to Job List</a>
 </div>
 {% endblock %}

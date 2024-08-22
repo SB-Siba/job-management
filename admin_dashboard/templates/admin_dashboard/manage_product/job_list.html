@@ -90,9 +90,9 @@
                                 <a href="{% url 'admin_dashboard:job_edit' job.id %}" class="px-2 btn btn-sm btn-square btn-neutral">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                <a href="{% url 'admin_dashboard:job_list' %}" onclick="openDeleteModal('{% url 'admin_dashboard:job_delete' job.id %}', '{{ job.title }}'); return false;" class="btn-icon delete">
+                                <a href="#" onclick="openDeleteModal('{% url 'admin_dashboard:job_delete' job.id %}', '{{ job.title }}'); return false;" class="btn-icon delete">
                                     <i class="bi bi-trash text-danger"></i>
-                                </a>
+                                </a>                                
                             </td>
                         </tr>
                         {% endfor %}
@@ -105,9 +105,8 @@
         </div>
     </div>
 </main>
-
 <!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -155,65 +154,17 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-    function openDeleteModal(actionUrl, jobTitle) {
-        // Set the form action URL
-        document.getElementById('deleteForm').action = actionUrl;
+    function openDeleteModal(actionUrl, jobName) {
+    // Set the form's action URL to the one provided
+    document.getElementById('deleteForm').action = actionUrl;
 
-        // Set the job title in the modal
-        document.getElementById('jobToDelete').textContent = jobTitle;
+    // Set the job name in the modal
+    document.getElementById('jobToDelete').textContent = jobName;
 
-        // Display the modal
-        var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-        deleteModal.show();
+    // Get the delete modal instance and show it
+    var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    deleteModal.show();
     }
-
-    document.getElementById('deleteForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
-
-        var form = event.target;
-        var formData = new FormData(form);
-
-        fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRFToken': form.querySelector('input[name="csrfmiddlewaretoken"]').value
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Hide the modal
-                var deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
-                deleteModal.hide();
-
-                // Redirect to the job list page
-                window.location.href = "{% url 'admin_dashboard:job_list' %}";
-
-                // Display the success message (if needed)
-                var messageDiv = document.getElementById('successMessage');
-                if (!messageDiv) {
-                    messageDiv = document.createElement('div');
-                    messageDiv.id = 'successMessage';
-                    messageDiv.className = 'alert alert-success';
-                    document.querySelector('main').insertBefore(messageDiv, document.querySelector('main').firstChild);
-                }
-                messageDiv.innerText = 'Job deleted successfully.';
-                messageDiv.style.display = 'block';
-
-                // Hide the message after 2 seconds
-                setTimeout(() => {
-                    messageDiv.style.display = 'none';
-                }, 2000);
-            } else {
-                console.error('Deletion failed:', data);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    });
 </script>
 
 {% endblock js %}

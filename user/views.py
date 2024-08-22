@@ -44,7 +44,8 @@ import json
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from . import models as common_models
-
+from .forms import ReplaceEmployeeForm
+from app_common.models import EmployeeReplacementRequest
 from wati_api import whatsapp_api
 
 # from wati_api import api_client
@@ -65,15 +66,7 @@ app = "user/"
 #     def post(self, request):
 #         Logout(request)
 #         return redirect('admin_dashboard')  # Replace 'admin_dashboard' with your desired redirect URL after logout
-
-class JobListView(View):
-    template_name = 'job_list.html'  
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['job_list'] = Job.objects.count()  # Get the count of job openings
-        # Add other context variables as needed
-        return context
-
+    
 class HomeView(View):
     template_client = app + 'client/client_index.html'
     template_user = app + 'home1.html'
@@ -95,10 +88,14 @@ class HomeView(View):
             }
             return render(request, self.template_client, context)
 
-        # Filter jobs for the authenticated user
+        # Get the selected category from the request
+        selected_category = request.GET.get('category')
+
+        # Filter jobs based on the selected category and status
         job_list = Job.objects.filter(status='published', expiry_date__gt=timezone.now()).order_by('-published_date')
-        if user.category:
-            job_list = job_list.filter(category=user.category)
+        if selected_category:
+            job_list = job_list.filter(category_id=selected_category)
+
         paginated_data = paginate(request, job_list, 50)
 
         # Get applied job count and applied job IDs as a list
@@ -121,7 +118,8 @@ class HomeView(View):
             "applied_jobs": applied_job_ids,  # Pass applied job IDs to context
             "applied_job_count": applied_job_count,  # Pass applied job count to context
             "job_opening_count": job_opening_count,  # Pass job opening count to context
-            "categories": categories,
+            "categories": categories,  # Pass categories to context
+            "selected_category": selected_category,  # Pass selected category to context
             "hired_employee": hired_employee,  # Pass hired employee details to context
         }
         return render(request, self.template_user, context)
@@ -441,23 +439,6 @@ class JobOpening(View):
 # client 
 
 # @method_decorator(login_required, name='dispatch')
-class PostJob(View):
-    template_name = 'user/client/post_job.html'
-
-    def get(self, request):
-        form = JobForm(user=request.user)
-        return render(request, self.template_name, {'form': form})
-
-    def post(self, request):
-        form = JobForm(request.POST, request.FILES, user=request.user)
-        if form.is_valid():
-            job = form.save(commit=False)
-            job.client = request.user
-            job.save()
-            messages.success(request, 'Job added successfully.')
-            return redirect('user:job_list')
-        return render(request, self.template_name, {'form': form})
-
 
 class ClientJobEditView(View):
     template_name = 'job_form.html'
@@ -483,7 +464,7 @@ class ClientJobEditView(View):
 
 
 class ClientJobList(View):
-    template_name = app+ 'client/client_job_list.html'
+    template_name = app+ 'client/job_list.html'
 
     def get(self, request):
         print("ClientJobList view is called")
@@ -499,10 +480,45 @@ class ClientJobList(View):
         }
         return render(request, self.template_name, context)
 
+class ReplaceEmployeeView(View):
+    template_name = app +'client/replace_employee.html'
+    form_class = ReplaceEmployeeForm
+
+    def get_object(self):
+        application_id = self.kwargs.get('application_id')
+        return get_object_or_404(Application, id=application_id)
+
+    def get(self, request, application_id):
+        application = self.get_object()
+        form = self.form_class(initial={
+            'application_id': application.id,
+            'email': application.user.email,
+        })
+        return render(request, self.template_name, {'form': form, 'application': application})
+
+    def post(self, request, application_id):
+        application = self.get_object()
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # Create a new EmployeeReplacementRequest with form data
+            EmployeeReplacementRequest.objects.create(
+                client_email=form.cleaned_data['email'],
+                current_employee=application.user.email,
+                new_employee_name=form.cleaned_data['new_employee_name'],
+                new_employee_email=form.cleaned_data['new_employee_email'],
+                new_employee_phone=form.cleaned_data['new_employee_phone'],
+            )
+            return redirect(reverse_lazy('user:home'))  # Redirect after successful submission
+        else:
+            return self.form_invalid(form)
+
+    def form_invalid(self, form):
+        application = self.get_object()
+        return render(self.request, self.template_name, {'form': form, 'application': application})
 
 class JobDetail(View):
-    template_name = app + 'client/job_detail.html'
-    
+    template_name = 'user/client/job_detail.html'
+
     def get(self, request, job_id):
         job = get_object_or_404(Job, id=job_id)
         employees = Employee.objects.filter(job=job)
@@ -526,9 +542,9 @@ class JobDetail(View):
             form = forms.EmployeeForm(request.POST, instance=employee)
             if form.is_valid():
                 updated_employee = form.save(commit=False)
-                updated_employee.user = employee.user  # Ensure the user field is not set to NULL
-                updated_employee.employer = employee.employer  # Ensure the employer field is not set to NULL
-                updated_employee.job = job  # Ensure the job field is not set to NULL
+                updated_employee.user = employee.user
+                updated_employee.employer = employee.employer
+                updated_employee.job = job
                 updated_employee.save()
                 return redirect('user:job_detail', job_id=job.id)
 
@@ -543,7 +559,6 @@ class JobDetail(View):
             application.save()
 
             if status == 'Hired':
-                # Assuming 'salary', 'period_start', 'period_end' are passed in POST data
                 Employee.objects.create(
                     user=application.user,
                     job=application.job,
@@ -553,17 +568,15 @@ class JobDetail(View):
                     period_end=request.POST.get('period_end'),
                 )
             elif status == 'Rejected':
-                # Send rejection email
                 send_mail(
                     'Job Application Status',
-                    'Dear {},\n\nWe regret to inform you that your application for the position of {} at {} has been rejected.'.format(application.user.full_name, application.job.title, application.job.company_name),
+                    f'Dear {application.user.full_name},\n\nWe regret to inform you that your application for the position of {application.job.title} at {application.job.company_name} has been rejected.',
                     'your-email@example.com',
                     [application.email],
                     fail_silently=False,
                 )
             return redirect('user:job_detail', job_id=job.id)
 
-        # If no form is submitted or there's an error, reload data for the GET request
         employees = Employee.objects.filter(job=job)
         applications = Application.objects.filter(job=job)
         employee_form = forms.EmployeeForm()
@@ -575,7 +588,6 @@ class JobDetail(View):
             'employee_form': employee_form,
             'status_form': status_form,
         })
-
 class ApplicationList(View):
     template_name = app + "client/application_list.html"
 

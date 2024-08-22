@@ -211,14 +211,5 @@ class JobDelete(View):
     def post(self, request, job_uid):
         job = get_object_or_404(self.model, id=job_uid)
         job.delete()
-
-        if request.is_ajax():
-            return JsonResponse({'success': True})
-
-        # Optionally handle non-AJAX requests here
         messages.info(request, 'Job deleted successfully.')
-        return JsonResponse({'success': True}) 
-
-
-
-        
+        return redirect('admin_dashboard:job_list')

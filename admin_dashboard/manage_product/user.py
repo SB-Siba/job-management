@@ -14,6 +14,9 @@ from user import forms
 from .forms import EditUserForm,AddUserForm,JobSelectionForm,CategoryFilterForm
 import logging
 from django.http import JsonResponse
+from django.urls import reverse_lazy
+from .forms import EmployeeForm 
+
 
 logger = logging.getLogger(__name__)
 app = "admin_dashboard/users/"
@@ -217,3 +220,60 @@ class EmployeeDetail(View):
             "employee": employee,
         }
         return render(request, self.template_name, context)
+    
+class EmployeeEditView(View):
+    template_name = 'admin_dashboard/users/employee_update.html'
+    form_class = EmployeeForm
+
+
+    def get(self, request, employee_id):
+        # Fetch the employee object based on the ID
+        employee = get_object_or_404(common_model.Employee, id=employee_id)
+        print (employee, "==================")
+        # Create a form instance and populate it with data from the employee instance
+        form = self.form_class(instance=employee)
+        
+        # Add user-related initial values for the form fields
+        form.fields['user_full_name'].initial = employee.user.full_name
+        form.fields['user_email'].initial = employee.user.email
+        form.fields['contact'].initial = employee.user.contact
+
+        # Context data to render the template
+        context = {
+            'form': form,
+            'employee_id': employee_id,
+            'employee_name': employee.user.full_name,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, employee_id):
+        # Fetch the employee object based on the ID
+        employee = get_object_or_404(common_model.Employee, pk=employee_id)
+        # Bind form data to the form instance
+        form = self.form_class(request.POST, instance=employee)
+
+        if form.is_valid():
+            # Update the user-related fields
+            employee.user.full_name = form.cleaned_data['user_full_name']
+            employee.user.email = form.cleaned_data['user_email']
+            employee.user.contact = form.cleaned_data['contact']
+            # Save the user and employee
+            employee.user.save()
+            form.save()
+            return redirect('admin_dashboard:employee_list')
+        
+        else:
+            messages(request, "invild Details")
+            return redirect('admin_dashboard:employee_list')
+    
+
+class DeleteEmployee(View):
+    def post(self, request, employee_id):
+        # Fetch the employee object based on the ID
+        employee = get_object_or_404(common_model.Employee, id=employee_id)
+        # Delete the employee
+        employee.delete()
+        # Set a success message
+        messages.success(request, f'Employee {employee.user.full_name} deleted successfully.')
+        # Redirect to the employee list view
+        return redirect('admin_dashboard:employee_list')

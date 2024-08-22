@@ -150,3 +150,30 @@ class ClientUpdateForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'contact': forms.TextInput(attrs={'class': 'form-control', 'maxlength': '10'}),
         }
+
+class EmployeeForm(forms.ModelForm):
+    user_full_name = forms.CharField(max_length=255, label='Full Name')
+    user_email = forms.EmailField(label='Email')
+    contact = forms.CharField(max_length=15, label='Phone Number')
+
+    class Meta:
+        model = common_models.Employee
+        fields = ['user', 'salary', 'period_start', 'period_end', 'docs']  # Include all relevant fields from Employee
+
+    def __init__(self, *args, **kwargs):
+        super(EmployeeForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['user_full_name'].initial = self.instance.user.full_name
+            self.fields['user_email'].initial = self.instance.user.email
+            self.fields['contact'].initial = self.instance.user.contact
+
+    def save(self, commit=True):
+        employee = super(EmployeeForm, self).save(commit=False)
+        if commit:
+            user = self.instance.user
+            user.full_name = self.cleaned_data['user_full_name']
+            user.email = self.cleaned_data['user_email']
+            user.contact = self.cleaned_data['contact']
+            user.save()
+            employee.save()
+        return employee

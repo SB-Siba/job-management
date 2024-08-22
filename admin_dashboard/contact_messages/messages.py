@@ -47,7 +47,7 @@ class ContactMessageDetail(View):
                 'user': message.user.id if message.user else None,
                 'message': message.message,
                 'status': message.status,
-                # 'reply': message.reply,
+                'reply': message.reply,
                 'created_at': message.created_at.isoformat() if message.created_at else None,
                 # Add any other fields you need to include in the JSON response
             }

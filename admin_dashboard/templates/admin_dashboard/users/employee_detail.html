@@ -4,55 +4,62 @@
 {% block content %}
 
 <style>
-    .container 
-    {
+    .container {
         font-family: merriwether;
-
     }
-    .table tbody th
-    {
+    .table tbody th {
         font-size: 18px;
     }
 </style>
-    <div class="container">
-        <h1>Employee Details</h1>
-        <table class="table">
-            <tr>
-                <th>ID</th>
-                <td>{{ employee.id }}</td>
-            </tr>
-            <tr>
-                <th>User</th>
-                <td>{{ employee.user.full_name }}</td>
-            </tr>
-            <tr>
-                <th>Employer</th>
-                <td>{{ employee.employer.full_name }}</td>
-            </tr>
-            <tr>
-                <th>Salary</th>
-                <td>{{ employee.salary }}</td>
-            </tr>
-            <tr>
-                <th>Period Start</th>
-                <td>{{ employee.period_start }}</td>
-            </tr>
-            <tr>
-                <th>Period End</th>
-                <td>{{ employee.period_end }}</td>
-            </tr>
-            <tr>
-                <th>Documents</th>
-                <td>
-                    {% if employee.docs %}
-                        <a href="{{ employee.docs.url }}">Download</a>
-                    {% else %}
-                        No documents uploaded
-                    {% endif %}
-                </td>
-            </tr>
-        </table>
 
-        <a class="btn btn-primary my-5" href="{% url 'admin_dashboard:employee_list' %}">Back to Employee List</a>
-    </div>
+<div class="container">
+    <h1>Employee Details</h1>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <td>{{ employee.id }}</td>
+        </tr>
+        <tr>
+            <th>User</th>
+            <td>{{ employee.user.full_name }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ employee.user.email }}</td>
+        </tr>
+        <tr>
+            <th>Phone Number</th>
+            <td>{{ employee.user.phone_number }}</td>
+        </tr>
+        <tr>
+            <th>Employer</th>
+            <td>{{ employee.employer.full_name }}</td>
+        </tr>
+        <tr>
+            <th>Salary</th>
+            <td>{{ employee.salary }}</td>
+        </tr>
+        <tr>
+            <th>Period Start</th>
+            <td>{{ employee.period_start }}</td>
+        </tr>
+        <tr>
+            <th>Period End</th>
+            <td>{{ employee.period_end }}</td>
+        </tr>
+        <tr>
+            <th>Documents</th>
+            <td>
+                {% if employee.docs %}
+                    <a href="{{ employee.docs.url }}">Download</a>
+                {% else %}
+                    No documents uploaded
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    <a class="btn btn-primary my-5" href="{% url 'admin_dashboard:employee_list' %}">Back to Employee List</a>
+</div>
+
 {% endblock %}

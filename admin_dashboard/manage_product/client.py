@@ -111,3 +111,17 @@ class DeleteClientView(View):
         messages.success(request, 'Client deleted successfully.')
         return redirect('admin_dashboard:client_list')
 
+class ClientRequestView(View):
+    template_name = app+ 'client_request.html'
+    
+    def get(self, request, *args, **kwargs):
+        # Fetch all employee replacement requests
+        requests = common_model.EmployeeReplacementRequest.objects.all()
+        
+        # Pass the requests to the template context
+        context = {
+            'requests': requests
+        }
+        
+        # Render the template with the context data
+        return render(request, self.template_name, context)

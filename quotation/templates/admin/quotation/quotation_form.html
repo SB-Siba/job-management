@@ -2,64 +2,50 @@
 {% extends 'admin_dashboard/starter.html' %}
 {% load static %}
 {% block content %}
-
-
     <style>
-        
-
         .form-field {
             margin-bottom: 15px;
             width: 60%;
         }
-
         .form-field label {
             display: block;
             margin-bottom: 5px;
         }
-
         .form-field input, .form-field select {
            
             border-radius: 15px !important;
             box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
             padding: 8px;
             border: 1px solid #ccc;
-        
         }
-
         .form-field .error {
             color: red;
             font-size: 0.875em;
         }
-
         .row-single-column {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 40px;
             margin-bottom: 15px;
         }
-
         .person-details-row {
             display: grid;
             grid-template-columns: repeat(4, 1fr); /* Four columns of equal width */
             gap: 10px;
             margin-bottom: 15px;
         }
-
         .item-row {
             display: grid;
             grid-template-columns: 1fr 2fr 2fr 1fr 1fr;
             gap: 10px;
             margin-bottom: 10px;
         }
-
         .item-row div {
             margin-bottom: 5px;
         }
-
         .item-row label {
             display: block;
         }
-
         #items-container {
             max-height: 400px; /* Set maximum height for the items container */
             overflow-y: auto; /* Enable vertical scrolling */
@@ -70,32 +56,27 @@
             margin-bottom: 20px; /* Space for the button */
             display: none; /* Hide items container initially */
         }
-
         .add-item-button {
             background-color: rgb(185, 184, 184);
             color: rgb(0, 0, 0);
             border: none;
-            padding: 10px 20px;
-            
+            padding: 10px 20px;   
             cursor: pointer;
             margin-bottom: 20px;
             margin-top: -10px;
             border-radius: 15px !important;
             box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
         }
-
         .add-item-button:hover {
             background-color: #000000;
             color: white;
         }
-
         .button-container {
             display: flex;
             justify-content: space-between; /* Spread buttons across the row */
             align-items: center;
             margin-top: 20px; /* Add space above the buttons */
         }
-
         .go-back-button, .preview-button, .save-button {
             background-color: rgb(185, 184, 184);
             color: rgb(0, 0, 0);
@@ -107,62 +88,50 @@
             text-decoration: none; /* Remove underline from the anchor button */
             display: inline-block;
         }
-
         .go-back-button:hover, .preview-button:hover, .save-button:hover {
             background-color: #000000;
             color: white;
         }
-
         .right-buttons {
             display: flex;
             gap: 10px; /* Space between the Preview and Save buttons */
         }
-
         /* Modal styles */
         .modal-dialog-scrollable {
             max-width: 100%;
             width: 70%; /* Adjust modal width */
             font-family: merriwether;
         }
-
         .modal-body {
             max-height: 70vh;
             overflow-y: auto;
         }
-
         .modal-footer {
             display: flex;
             justify-content: flex-end;
             gap: 10px;
         }
-
         /* Popup content styles */
         .popup-content ul {
             list-style: none;
             padding: 0;
         }
-
         .popup-content li {
             margin-bottom: 10px;
         }
-
         .popup-content li strong {
             display: block;
         }
-
         .item-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-
         .item-table th, .item-table td {
             border: 1px solid #ccc;
             padding: 10px;
-            text-align: left;
-            
+            text-align: left;   
         }
-
         .item-table th {
             background-color: #f2f2f2;
         }
@@ -208,7 +177,6 @@
         <div class="border-bottom border-black mb-2">
             <h1 class="mb-2">Create a New Quotation</h1>
         </div>
-    
         <div class="scrollable-content">
             <form id="quotation-form" method="post">
                 {% csrf_token %}
@@ -232,8 +200,6 @@
                         <div class="error">{{ form.phone_number.errors }}</div>
                     </div>
                 </div>
-                
-            
                 <!-- Person Details Section -->
                 <h2>Personal Details</h2>
                 <div class="person-details-row pt-4">
@@ -299,8 +265,6 @@
                     </div>
                 </div>
             </form>
-            
-            
         </div>
     
         <!-- Modal -->

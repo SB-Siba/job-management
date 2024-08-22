@@ -1,4 +1,4 @@
-
+{% extends "user/client/client_stater.html" %}
 {% block content %}
 <h1>Job Details</h1>
 <table class="table">
@@ -28,108 +28,9 @@
     </tr>
     <tr>
         <th>Published Date</th>
-        <td>{{ job.published_date }}</td>
+        <td>{{ job.published_date|date:"F j, Y, g:i a" }}</td>
     </tr>
 </table>
 
-<h2>Employee List</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>User Full Name</th>
-            <th>Employer</th>
-            <th>Salary</th>
-            <th>Period Start</th>
-            <th>Period End</th>
-            <th>Documents</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for employee in employees %}
-            <tr>
-                <td>{{ employee.user.full_name }}</td>
-                <td>{{ employee.employer.full_name }}</td>
-                <td>{{ employee.salary }}</td>
-                <td>{{ employee.period_start }}</td>
-                <td>{{ employee.period_end }}</td>
-                <td>
-                    {% if employee.docs %}
-                        <a href="{{ employee.docs.url }}">Download</a>
-                    {% else %}
-                        No documents uploaded
-                    {% endif %}
-                </td>
-                <td>
-                    <!-- Form to edit employee details -->
-                    <form method="post" class="employee-form">
-                        {% csrf_token %}
-                        <input type="hidden" name="employee_id" value="{{ employee.id }}">
-                        <input type="text" name="salary" placeholder="Salary" value="{{ employee.salary }}" required>
-                        <input type="date" name="period_start" value="{{ employee.period_start|date:'Y-m-d' }}" required>
-                        <input type="date" name="period_end" value="{{ employee.period_end|date:'Y-m-d' }}" required>
-                        <button type="submit" name="employee_form">Update</button>
-                    </form>
-                </td>
-            </tr>
-        {% empty %}
-            <tr>
-                <td colspan="7">No employees found for this job.</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-<h2>Applications</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>User Full Name</th>
-            <th>Job Category</th>
-            <th>Company Name</th>
-            <th>Email</th>
-            <th>Contact</th>
-            <th>Applied At</th>
-            <th>Resume</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for application in applications %}
-            <tr>
-                <td>{{ application.user.full_name }}</td>
-                <td>{{ application.job.category }}</td>
-                <td>{{ application.job.company_name }}</td>
-                <td>{{ application.email }}</td>
-                <td>{{ application.contact }}</td>
-                <td>{{ application.applied_at }}</td>
-                <td>
-                    {% if application.resume %}
-                        <a href="{{ application.resume.url }}">Download</a>
-                    {% else %}
-                        No resume uploaded
-                    {% endif %}
-                </td>
-                <td>{{ application.status }}</td>
-                <td>
-                    <!-- Form to change application status -->
-                    <form method="post" class="status-form">
-                        {% csrf_token %}
-                        <input type="hidden" name="application_id" value="{{ application.id }}">
-                        <select name="status">
-                            {% for choice in application.STATUS_CHOICES %}
-                                <option value="{{ choice.0 }}" {% if application.status == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
-                            {% endfor %}
-                        </select>
-                        <button type="submit" name="status_form">Update</button>
-                    </form>
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-<a href="{% url 'admin_dashboard:job_edit' job.id %}" class="btn btn-warning">Edit</a>
-<a href="{% url 'user:job_list' %}" class="btn btn-secondary">Back to Job List</a>
+<a href="{% url 'user:client_job_list' %}" class="btn btn-secondary">Back to Job List</a>
 {% endblock %}

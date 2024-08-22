@@ -2,7 +2,7 @@
 
 from django import forms
 from .models import Quotation, QuotationItem, Invoice
-from django.forms import modelformset_factory
+from django.forms import modelformset_factory, formset_factory
 from django.core.validators import RegexValidator
 from .models import Item, Invoice, Client, Job, Employee
 
@@ -59,12 +59,32 @@ class QuotationItemForm(forms.ModelForm):
         model = QuotationItem
         fields = ['item', 'quantity']
 
+class CreateInvoiceForm(forms.ModelForm):
+    class Meta:
+        model = Invoice
+        fields = ['company_name', 'address', 'email', 'contact']
+        widgets = {
+            'address': forms.Textarea(attrs={
+                'rows': 3,
+                'cols': 40,
+                'placeholder': 'Enter full address here...',
+            })
+        }
 
-class InvoiceForm(forms.Form):
-    company_name = forms.CharField(max_length=255)
-    address = forms.CharField(widget=forms.Textarea)
-    email = forms.EmailField()
-    phone_number = forms.CharField(max_length=20)
-    client = forms.ModelChoiceField(queryset=Client.objects.all(), required=False)
-    job = forms.ModelChoiceField(queryset=Job.objects.all(), required=False)
-    employee = forms.ModelChoiceField(queryset=Employee.objects.all(), required=False)
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+        if user and not user.is_superuser:
+            for field in self.fields:
+                self.fields[field].widget.attrs['readonly'] = True
+
+class ItemForm(forms.Form):
+    sr_no = forms.IntegerField(required=True, widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    name = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    description = forms.CharField(required=True, widget=forms.Textarea(attrs={'class': 'form-control'}))
+    quantity = forms.IntegerField(required=True, widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    amount = forms.DecimalField(required=True, decimal_places=2, max_digits=10, widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
+# Create a formset factory with 10 forms
+ItemFormSet = formset_factory(ItemForm, extra=10)

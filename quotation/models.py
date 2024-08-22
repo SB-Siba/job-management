@@ -13,23 +13,6 @@ class Client(models.Model):
     def __str__(self):
         return self.company_name or self.name or "Unnamed Client"
 
-
-class Item(models.Model):
-    sr_no = models.PositiveIntegerField(unique=True, null=True, blank=True)  # Set editable=False
-    name = models.CharField(max_length=255, null=True, blank=True)
-    description = models.CharField(max_length=255, null=True, blank=True)
-    quantity = models.PositiveIntegerField(null=True, blank=True)
-    amount = models.FloatField(null=True, blank=True)
-
-    def save(self, *args, **kwargs):
-        if self.pk is None:  # Only set sr_no on new items
-            last_item = Item.objects.order_by('-sr_no').first()
-            self.sr_no = (last_item.sr_no + 1) if last_item else 1
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.name or "Unnamed Item"
-
 class Quotation(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -44,6 +27,22 @@ class Quotation(models.Model):
     def __str__(self):
         return f'Quotation {self.id} for {self.client}'
 
+class Item(models.Model):
+    quotation = models.ForeignKey(Quotation, on_delete=models.CASCADE, related_name='items')  # Foreign key relationship
+    sr_no = models.PositiveIntegerField(unique=True, null=True, blank=True)
+    name = models.CharField(max_length=255, null=True, blank=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    quantity = models.PositiveIntegerField(null=True, blank=True)
+    amount = models.FloatField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:  # Only set sr_no on new items
+            last_item = Item.objects.order_by('-sr_no').first()
+            self.sr_no = (last_item.sr_no + 1) if last_item else 1
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name or "Unnamed Item"
 
 class QuotationItem(models.Model):
     quotation = models.ForeignKey(Quotation, on_delete=models.CASCADE, null=True, blank=True)
@@ -55,12 +54,10 @@ class QuotationItem(models.Model):
 
 
 class Invoice(models.Model):
-    quotation = models.ForeignKey(Quotation, on_delete=models.CASCADE, null=True, blank=True)
-    issued_at = models.DateTimeField(auto_now_add=True)
-    paid = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"Invoice #{self.id} for Quotation #{self.quotation.id}" if self.quotation else f"Invoice #{self.id}"
+    company_name = models.CharField(max_length=255,null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
+    contact = models.CharField(max_length=20,null=True, blank=True)
 
 class Job(models.Model):
     title = models.CharField(max_length=255)
