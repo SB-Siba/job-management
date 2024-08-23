@@ -129,7 +129,6 @@
     .btm-color {
         color: #080710;
     }
-
     /* Mobile Responsive Styles */
     @media (max-width: 768px) {
         .background {
@@ -140,11 +139,9 @@
             top: 0;
             
         }
-
         .background .shape {
             display: none;
         }
-
         form {
             width: 90%;
             height: auto;
@@ -155,65 +152,51 @@
             top: 50%;
             left: 50%;
         }
-
         form h3 {
             font-size: 28px;
         }
-
         label {
             font-size: 14px;
         }
-
         input {
             height: 40px;
             font-size: 14px;
         }
-
         button {
             font-size: 16px;
             padding: 10px 0;
         }
-
         .social {
             flex-direction: column;
             gap: 10px;
         }
-
         .social div {
             width: 100%;
         }
     }
-
-    @media (max-width: 480px) {
-       
+    @media (max-width: 480px) {  
         form {
             width: 90%;
             padding: 20px;
         }
-
         form h3 {
             font-size: 24px;
         }
-
         label {
             font-size: 12px;
         }
-
         input {
             height: 35px;
             font-size: 12px;
         }
-
         button {
             font-size: 14px;
             padding: 8px 0;
         }
-
         .social div {
             font-size: 12px;
         }
     }
-    
 @media only screen and (prefers-color-scheme: dark) 
 {
     :root:not([data-theme=light]) 
@@ -227,10 +210,8 @@
     <div class="shape"></div>
     <div class="shape"></div>
 </div>
-
 <form method="post" action="">
     <h3>Login Here</h3>
-
     {% csrf_token %}
     {% for field in form %}
     <div class="form-group">
@@ -241,7 +222,6 @@
     <div class="form-group">
         <button class="bg-white btn-color" type="submit">Login</button>
     </div>
-
     <div class="social">
         <a href="{% url 'user:password-reset' %}">
             <div>Forgot?</div>
@@ -251,5 +231,4 @@
         </a>
     </div>
 </form>
-
 {% endblock content %}

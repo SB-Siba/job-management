@@ -1,7 +1,5 @@
 {% extends 'app_common/authentication/master.html' %} {% load static %} 
-
 {% block content %}
-
 <style>
     .background{
         width: 430px;
@@ -10,7 +8,6 @@
         transform: translate(-50%,-50%);
         left: 50%;
         top: 56%;
-
     }
     .background .shape{
         height: 200px;
@@ -36,7 +33,6 @@
         bottom: -60px;
     }
     form{
-        
         width: 400px;
         background-color: rgba(255,255,255,0.13);
         position: absolute;
@@ -48,7 +44,6 @@
         border: 2px solid rgba(255,255,255,0.1);
         box-shadow: 0 0 40px rgba(8,7,16,0.6);
         padding: 30px 35px;
-        
     }
     form *{
         font-family: 'Poppins',sans-serif;
@@ -63,7 +58,6 @@
         line-height: 42px;
         text-align: center;
     }
-    
     label{
         display: block;
         margin-top: 10px;
@@ -83,8 +77,7 @@
     ::placeholder{
         color: #e5e5e5;
     }
-    button{
-       
+    button{  
         width: 100%;
         background-color: #ffffff;
         color: #080710;
@@ -122,9 +115,7 @@
     .btm-color
     {
         color: #080710;
-
     }
-
      /* Mobile Responsive Styles */
      @media (max-width: 768px) {
         .background {
@@ -132,14 +123,11 @@
             height: auto;
             transform: none;
             left: 0;
-            top: 0;
-            
+            top: 0;       
         }
-
         .background .shape {
             display: none;
         }
-
         form {
             width: 90%;
             height: auto;
@@ -150,65 +138,51 @@
             top: 50%;
             left: 50%;
         }
-
         form h3 {
             font-size: 28px;
         }
-
         label {
             font-size: 14px;
         }
-
         input {
             height: 40px;
             font-size: 14px;
         }
-
         button {
             font-size: 16px;
             padding: 10px 0;
         }
-
         .social {
             flex-direction: column;
             gap: 10px;
         }
-
         .social div {
             width: 100%;
         }
     }
-
-    @media (max-width: 480px) {
-       
+    @media (max-width: 480px) {   
         form {
-            width: 90%;
+           width: 90%;
             padding: 20px;
         }
-
         form h3 {
             font-size: 24px;
         }
-
         label {
             font-size: 12px;
         }
-
         input {
             height: 35px;
             font-size: 12px;
         }
-
         button {
             font-size: 14px;
             padding: 8px 0;
         }
-
         .social div {
             font-size: 12px;
         }
     }
-    
 @media only screen and (prefers-color-scheme: dark) 
 {
     :root:not([data-theme=light]) 
@@ -217,13 +191,10 @@
     }
 }
 </style>
-
-
 <div class="background">
     <div class="shape"></div>
     <div class="shape"></div>
 </div>
-
     <form method="post" action="" class="py-5 my-5">
         <h1 class="ls-tight font-bolder h2 text-center">Register Here</h1>
         <div class="form-group mt-2">
@@ -245,8 +216,6 @@
                     Log in
                 </div>
             </a>
-            
         </div>
     </form>
- 
-    {% endblock content %}
+{% endblock content %}
