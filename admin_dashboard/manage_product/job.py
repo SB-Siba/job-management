@@ -81,9 +81,30 @@ class ApplicationList(View):
 
     def get(self, request):
         applications = common_model.Application.objects.all()
+
+        application_status_options = []
+        for application in applications:
+            status_options = {
+                'id': application.id,
+                'user_full_name': application.user.full_name,
+                'job_category': application.job.category if application.job else 'No category available',
+                'company_name': application.job.company_name if application.job else 'No company available',
+                'email': application.email,
+                'contact': application.contact,
+                'applied_at': application.applied_at,
+                'status_options': [
+                    {'value': 'Applied', 'selected': application.status == 'Applied'},
+                    {'value': 'Interviewed', 'selected': application.status == 'Interviewed'},
+                    {'value': 'Hired', 'selected': application.status == 'Hired'},
+                    {'value': 'Rejected', 'selected': application.status == 'Rejected'},
+                ],
+            }
+            application_status_options.append(status_options)
+
         context = {
             "applications": applications,
-            "MEDIA": settings.MEDIA_URL
+            "application_status_options": application_status_options,
+            "MEDIA": settings.MEDIA_URL,
         }
         return render(request, self.template, context)
 
@@ -94,12 +115,13 @@ class ApplicationList(View):
                 application = common_model.Application.objects.get(id=application_id)
                 application.status = value
                 application.save()
+
                 if value == 'Hired':
                     # Create or get Employee object
                     common_model.Employee.objects.get_or_create(
                         user=application.user,
                         employer=application.job.client,
-                        application =application,
+                        application=application,
                         defaults={
                             'salary': 0,
                             'period_start': timezone.now(),

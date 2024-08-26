@@ -83,20 +83,19 @@
                 </tr>
             </thead>
             <tbody>
-                {% for application in applications %}
+                {% for application in application_status_options %}
                     <tr>
-                        <td>{{ application.user.full_name }}</td>
-                        <td>{{ application.job.category|default:'No category available' }}</td>
-                        <td>{{ application.job.company_name }}</td>
+                        <td>{{ application.user_full_name }}</td>
+                        <td>{{ application.job_category }}</td>
+                        <td>{{ application.company_name }}</td>
                         <td>{{ application.email }}</td>
                         <td>{{ application.contact }}</td>
                         <td>{{ application.applied_at }}</td>
                         <td>
                             <select name="status_{{ application.id }}">
-                                <option value="Applied" {% if application.status == 'Applied' %}selected{% endif %}>Applied</option>
-                                <option value="Interviewed" {% if application.status == 'Interviewed' %}selected{% endif %}>Interviewed</option>
-                                <option value="Hired" {% if application.status == 'Hired' %}selected{% endif %}>Hired</option>
-                                <option value="Rejected" {% if application.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                                {% for option in application.status_options %}
+                                    <option value="{{ option.value }}" {% if option.selected %}selected{% endif %}>{{ option.value }}</option>
+                                {% endfor %}
                             </select>
                         </td>
                         <td>
@@ -104,7 +103,7 @@
                         </td>
                     </tr>
                 {% endfor %}
-            </tbody>
+            </tbody>            
         </table>
         <button type="submit" class="px-5">Update Status</button>
     </form>
