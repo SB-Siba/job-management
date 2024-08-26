@@ -91,16 +91,15 @@ class Job(models.Model):
     description = models.CharField(max_length=300, null=True, blank=True)
     location = models.CharField(max_length=100, null=True, blank=True)
     posted_at = models.DateField(default=timezone.now)
-    published_date = models.DateTimeField(null=True, blank=True)
+    published_date = models.DateTimeField(default=timezone.now) 
     expiry_date = models.DateTimeField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
-    company_name = models.CharField(max_length=255, default='Default Company')
+    company_name = models.CharField(max_length=255)
     company_website = models.URLField(null=True, blank=True)
     company_logo = models.ImageField(upload_to='company_logos/', null=True, blank=True)
     vacancies = models.PositiveIntegerField(default=1)
     job_type = models.CharField(max_length=20, choices=JOB_TYPE_CHOICES, default=FULL_TIME)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='unpublished')
-    published_date = models.DateTimeField(null=True, blank=True)
 
     def publish(self):
         self.published_date = timezone.now()

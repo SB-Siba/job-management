@@ -1,22 +1,28 @@
 {% extends 'admin_dashboard/starter.html' %}
 {% load static %}
-{% block content %}
 {% load admin_dash %}
 
+{% block content %}
 <style>
-.table thead th
-{
-  font-size: 16px;
-}
-.card-header:first-child
-{
-  box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
-}
-tr:hover
-    {
-        background-color: rgb(244, 212, 169);
-    }
+  
+  .table thead th {
+    font-size: 16px;
+  }
+  
+  .card-header:first-child {
+    box-shadow: 0 2px 12px hsla(247, 88%, 70%, 0.3);
+  }
+  
+  tr:hover {
+    background-color: rgb(244, 212, 169);
+  }
+  
+  .message-cell {
+    white-space: pre-wrap; /* Preserve white space and wrap text */
+  }
+  
 </style>
+
 <main class="py-6 bg-surface-secondary">
   <div class="container-fluid">
     <div class="card">
@@ -36,20 +42,15 @@ tr:hover
           </thead>
           <tbody>
             {% for message in message_list %}
-              <tr>
-                <td>{{ message.user.full_name }}</td>
-                <td>{{ message.user.contact }}</td>
-                <td>{{ message.user.email }}</td>
-                <td>
-                  {% if message.message|length > 10 %}
-                    {{ message.message|slice:":10" }}...
-                  {% else %}
-                    {{ message.message }}
-                  {% endif %}
-                  <span uid="{{ message.uid }}" onclick="message_detail(this)" style="color:blue">Open</span>
-                </td>
-                <td>{{ message.created_at }}</td>
-              </tr>
+            <tr>
+              <td>{{ message.user.full_name }}</td>
+              <td>{{ message.user.contact }}</td>
+              <td>{{ message.user.email }}</td>
+              <td class="message-cell">
+                {{ message.message|linebreaks }} <!-- Use Django filter for line breaks -->
+              </td>
+              <td>{{ message.created_at }}</td>
+            </tr>
             {% endfor %}
           </tbody>
         </table>
@@ -58,37 +59,31 @@ tr:hover
   </div>
 </main>
 
-<!-- message list modal -->
-<div class="modal fade" id="contact_message" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Message: <span style="color:blue" id="contact_message_id"></span></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div id="contact_message_message"></div>
-        <hr>
-        <div class="contact_message_edit">
-          <h5>Message Reply</h5>
-          <center id="reply_alert"></center>
-          <form id="message_reply_form" onsubmit="event.preventDefault();">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <br>
-            <center>
-              <button class="btn btn-success" type="button" onclick="submit_reply()">Submit Reply</button>
-            </center>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Select all message cells
+    const messageCells = document.querySelectorAll(".message-cell");
+
+    messageCells.forEach(cell => {
+      // Get the original message text
+      const message = cell.innerText.trim();
+
+      // Split the message into words
+      const words = message.split(" ");
+      
+      // Format the message by adding <br> after every 5 words
+      let formattedMessage = "";
+      for (let i = 0; i < words.length; i++) {
+        formattedMessage += words[i] + " ";
+        if ((i + 1) % 5 === 0) formattedMessage += "<br>";
+      }
+
+      // Set the formatted message with line breaks as the cell's HTML content
+      cell.innerHTML = formattedMessage.trim();
+    });
+  });
+</script>
 
 {% endblock content %}
-{% block js %}
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="{% static 'admin_dashboard/js/contact_message.js' %}"></script>
-{% endblock js %}

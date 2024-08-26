@@ -99,6 +99,7 @@ class ApplicationList(View):
                     common_model.Employee.objects.get_or_create(
                         user=application.user,
                         employer=application.job.client,
+                        application =application,
                         defaults={
                             'salary': 0,
                             'period_start': timezone.now(),
