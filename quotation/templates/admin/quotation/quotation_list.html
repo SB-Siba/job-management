@@ -105,9 +105,9 @@
                     <td>{{ quotation.total_amount }}</td>
                     <td>{{ quotation.created_at }}</td>
                     <td class="action-icons">
-                        <a href="#" onclick="openEditModal({{ quotation.id }}, '{{ quotation.company_name }}', '{{ quotation.address }}', '{{ quotation.phone_number }}', '{{ quotation.title }}', '{{ quotation.first_name }}', '{{ quotation.middle_name }}', '{{ quotation.last_name }}'); return false;">
+                        <a href="#" onclick="openEditModal({{ quotation.id }}, '{{ quotation.company_name }}', '{{ quotation.address }}', '{{ quotation.phone_number }}', '{{ quotation.title }}', '{{ quotation.first_name }}', '{{ quotation.middle_name }}', '{{ quotation.last_name }}', '{% url 'quotation:quotation_update' quotation.id %}'); return false;">
                             <i class="fas fa-edit"></i>
-                        </a>
+                        </a>                        
                         <a href="#" onclick="openDeleteModal('{% url 'quotation:quotation_delete' quotation.id %}'); return false;">
                             <i class="fas fa-trash-alt"></i>
                         </a>
@@ -192,7 +192,7 @@
         </div>
     </div>
     <script>
-        function openEditModal(id, companyName, address, phoneNumber, title, firstName, middleName, lastName) {
+        function openEditModal(id, companyName, address, phoneNumber, title, firstName, middleName, lastName, actionUrl) {
             // Set the form field values
             document.getElementById('edit_company_name').value = companyName;
             document.getElementById('edit_address').value = address;
@@ -201,11 +201,16 @@
             document.getElementById('edit_first_name').value = firstName;
             document.getElementById('edit_middle_name').value = middleName;
             document.getElementById('edit_last_name').value = lastName;
+            document.getElementById('edit_last_name').value = lastName;
             document.getElementById('edit_id').value = id;
-
+                
+            // Set the form action URL
+            document.getElementById('editForm').action = actionUrl;
+                
             // Show the modal
             new bootstrap.Modal(document.getElementById('editModal')).show();
         }
+
 
         function openDeleteModal(actionUrl) {
             // Set the form action URL
