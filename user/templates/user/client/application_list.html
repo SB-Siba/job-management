@@ -1,7 +1,8 @@
 {% extends 'user/client/client_stater.html' %}
 {% block content %}
+{% for application in applications %}
   <h2>
-    <i class="fas fa-users"></i> Employees for Job: {{ job.title }}
+    <i class="fas fa-users"></i> Employees for {{ application.job.title }}
   </h2>
 
   <style>
@@ -37,7 +38,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for application in applications %}
+      
         <tr>
           <td>{{ application.user.full_name }}</td>
           <td>{{ application.user.email }}</td>
@@ -55,5 +56,5 @@
     </tbody>
   </table>
 
-  <a href="{% url 'user:client_job_list' %}">Back to Job List</a>
+  <a href="{% url 'user:home' %}">Back to Dashboard</a>
 {% endblock %}

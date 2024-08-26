@@ -26,10 +26,6 @@
         <th>Status</th>
         <td>{{ job.get_status_display }}</td>
     </tr>
-    <tr>
-        <th>Published Date</th>
-        <td>{{ job.published_date|date:"F j, Y, g:i a" }}</td>
-    </tr>
 </table>
 
 <a href="{% url 'user:client_job_list' %}" class="btn btn-secondary">Back to Job List</a>

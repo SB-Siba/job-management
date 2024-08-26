@@ -314,8 +314,28 @@ class ApplyForJobView(View):
             
             return redirect('user:home')
         
-        return render(request, self.template, {'job': job, 'form': form})  # Redirect back to the job list view
-
+        return render(request, self.template, {'job': job, 'form': form})
+    
+@method_decorator(login_required, name='dispatch')
+ 
+class ApplyForJobView(View):
+    template = app + 'job_apply.html'
+    model = Application
+    def get(self, request, pk):
+        job = get_object_or_404(Job, pk=pk)
+        form = ApplicationForm()
+        return render(request, self.template, {'job': job, 'form': form})
+ 
+    def post(self, request, pk):
+        job = get_object_or_404(Job, pk=pk)
+        form = ApplicationForm(request.POST, request.FILES)
+        resume = request.POST['resume']
+        full_name = request.POST['full_name']
+        email = request.POST['email']
+        contact = request.POST['contact']
+        applied_obj = self.model(job = job,email = email,user = request.user,contact = contact,resume = resume)
+        applied_obj.save()
+        return redirect('user:home')
 class AppliedJobsView(View):
     template_name = 'user/jobs/applied_jobs.html'
 
@@ -662,21 +682,22 @@ class EmployeeListView(View):
         return render(request, self.template_name, {'employees': employees, 'job': job})
 
 class EmployeeListOverview(View):
-    template_name = app + 'client/employee_list_overview.html'
+    template_name = 'user/client/employee_list_overview.html'
 
     def get(self, request):
-        if request.user.is_superuser:
-            employees = Employee.objects.all()
-        else:
-            jobs = Job.objects.filter(client=request.user)
-            employees = Employee.objects.filter(application__job__in=jobs)
-        
+        # Filter employees whose related application's status is 'Hired'
+        employees = Employee.objects.filter(application__status='Hired')
+        print(employees, "==========================")
+        # Optional: Print for debugging
+        for employee in employees:
+            print(employee.salary, "==========================")
+            print(employee.user.full_name, "==========================")
+
         context = {
             'employees': employees
         }
         return render(request, self.template_name, context)
-
-
+      
 
 class EmployeeDetail(View):
     template_name = app + "client/employee_detail.html"

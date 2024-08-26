@@ -1,32 +1,32 @@
-<!-- templates/user/employee_list.html -->
 {% extends "user/client/client_stater.html" %}
+
 {% block content %}
 <div class="container mt-4">
-    <h2>Employees for Job: {{ job.title }}</h2>
+    <h2>Hired Employees</h2>
     <table class="table">
         <thead>
             <tr>
-                <th>User Full Name</th>
-                <th>Employer</th>
+                <th>Employee Name</th>
+                <th>Job Category</th>
+                <th>Job Title</th>
                 <th>Salary</th>
                 <th>Period Start</th>
                 <th>Period End</th>
-                <!-- Add other relevant fields -->
             </tr>
         </thead>
         <tbody>
             {% for employee in employees %}
                 <tr>
-                    <td>{{ employee.user.full_name }}</td>
                     <td>{{ employee.employer.full_name }}</td>
+                    <td>{{ employee.application.job.category }}</td>
+                    <td>{{ employee.application.job.title }}</td>
                     <td>{{ employee.salary }}</td>
                     <td>{{ employee.period_start }}</td>
                     <td>{{ employee.period_end }}</td>
-                    <!-- Add other relevant fields -->
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="5">No employees found for this job.</td>
+                    <td colspan="6">No employees found.</td>
                 </tr>
             {% endfor %}
         </tbody>
