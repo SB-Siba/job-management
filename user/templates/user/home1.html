@@ -192,87 +192,87 @@
       
 </style>
 <main class="py-1 bg-surface-secondary">
-    <div class="ag-format-container">
-        <div class="ag-courses_box px-3">
-          <div class="ag-courses_item">
-            <a href="{% url 'user:applied_jobs' %}" class="ag-courses-item_link">
-              <div class="ag-courses-item_bg"></div>
-      
-              <div class="ag-courses-item_title">
-                <span class="h6 text-muted d-block"> Applied Jobs : </span>
-               
-                <div class="d-flex justify-content-end">
-                  <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
-                    <i class="bi bi-credit-card"></i>
-                  </div>
+  <div class="ag-format-container">
+      <div class="ag-courses_box px-3">
+        <div class="ag-courses_item">
+          <a href="{% url 'user:applied_jobs' %}" class="ag-courses-item_link">
+            <div class="ag-courses-item_bg"></div>
+    
+            <div class="ag-courses-item_title">
+              <span class="h6 text-muted d-block"> Applied Jobs : </span>
+             
+              <div class="d-flex justify-content-end">
+                <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
+                  <i class="bi bi-credit-card"></i>
                 </div>
               </div>
-              <div class="ag-courses-item_date-box">
-                <div class="mt-2 mb-0 text-sm"><span class="badge badge-pill bg-soft-success text-success me-1 fs-6"><i
-                  class="bi bi-arrow-up me-1 fs-6"></i>{{ applied_job_count|default:0 }} </span>
-                </div>
+            </div>
+            <div class="ag-courses-item_date-box">
+              <div class="mt-2 mb-0 text-sm"><span class="badge badge-pill bg-soft-success text-success me-1 fs-6"><i
+                class="bi bi-arrow-up me-1 fs-6"></i>{{ applied_job_count|default:0 }} </span>
               </div>
-            </a>
-          </div>
-      
-          <div class="ag-courses_item">
-            <a href="#" class="ag-courses-item_link">
-              <div class="ag-courses-item_bg"></div>
-              <div class="ag-courses-item_title">
-                <div class="col">
-                    <span class="h6 text-muted d-block">Job Openings : </span>
-                
-                </div>
-                <div class="d-flex justify-content-end">
-                  <div class="icon icon-shape bg-primary text-white text-lg rounded-circle"><i
-                    class="bi bi-people"></i>
-                  </div>
-                </div>
-              </div>
-              <div class="ag-courses-item_date-box">
-                <div class="mt-2 mb-0 text-sm"><span class="badge badge-pill bg-soft-success text-success me-1 fs-6"><i
-                  class="bi bi-arrow-up me-1 fs-6"></i>{{ job_opening_count|default:0 }}</span>
-                </div>
-              </div>
-            </a>
-          </div>
-      
-          <div class="ag-courses_item">
-            <a href="#" class="ag-courses-item_link">
-                <div class="ag-courses-item_bg"></div>
-        
-                <div class="ag-courses-item_title mb-3">
-                    <div class="col">
-                        <span class="h6 text-muted d-block">Job Category</span>
-                    </div>
-                    <div class="d-flex justify-content-end">
-                        <div class="icon icon-shape bg-warning text-white text-lg rounded-circle"><i
-                                class="bi bi-minecart-loaded"></i></div>
-                    </div>
-                </div>
-        
-                <div class="ag-courses-item_date-box">
-                    <div class="mb-0 text-sm">
-                        <span class="badge badge-pill bg-soft-success text-success">
-                            <div class="select-container d-flex align-items-center">
-                                <div class="select-container">
-                                    <select id="category-select" class="form-select" onchange="this.form.submit();">
-                                        <option value="" selected>
-                                            Select your category
-                                        </option>
-                                        {% for category in categories %}
-                                        <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>{{ category.title }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <i class="fas fa-chevron-down"></i>
-                                </div>
-                            </div>
-                        </span>
-                    </div>
-                </div>
-            </a>
+            </div>
+          </a>
         </div>
-        
+    
+        <div class="ag-courses_item">
+          <a href="#" class="ag-courses-item_link">
+            <div class="ag-courses-item_bg"></div>
+            <div class="ag-courses-item_title">
+              <div class="col">
+                  <span class="h6 text-muted d-block">Job Openings : </span>
+              
+              </div>
+              <div class="d-flex justify-content-end">
+                <div class="icon icon-shape bg-primary text-white text-lg rounded-circle"><i
+                  class="bi bi-people"></i>
+                </div>
+              </div>
+            </div>
+            <div class="ag-courses-item_date-box">
+              <div class="mt-2 mb-0 text-sm"><span class="badge badge-pill bg-soft-success text-success me-1 fs-6"><i
+                class="bi bi-arrow-up me-1 fs-6"></i>{{ job_opening_count|default:0 }}</span>
+              </div>
+            </div>
+          </a>
+        </div>
+          <div class="ag-courses_item">
+              <a href="#" class="ag-courses-item_link">
+                  <div class="ag-courses-item_bg"></div>
+                  <div class="ag-courses-item_title mb-3">
+                      <div class="col">
+                          <span class="h6 text-muted d-block">Job Category</span>
+                      </div>
+                      <div class="d-flex justify-content-end">
+                          <div class="icon icon-shape bg-warning text-white text-lg rounded-circle">
+                              <i class="bi bi-minecart-loaded"></i>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="ag-courses-item_date-box">
+                      <div class="mb-0 text-sm">
+                          <span class="badge badge-pill bg-soft-success text-success">
+                              <div class="select-container d-flex align-items-center">
+                                  <form method="get" action="{% url 'user:home' %}">
+                                      <div class="select-container">
+                                          <select id="category-select" name="category" class="form-select" onchange="this.form.submit();">
+                                              <option value="" {% if not selected_category %}selected{% endif %}>Select your category</option>
+                                              {% for category in categories %}
+                                              <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>{{ category.title }}</option>
+                                              {% endfor %}
+                                          </select>
+                                          <i class="fas fa-chevron-down"></i>
+                                      </div>
+                                  </form>
+                              </div>
+                          </span>
+                      </div>
+                  </div>
+              </a>
+          </div>
+      </div>
+  </div>
 </main>
 
 <div class="container my-4">
@@ -352,7 +352,6 @@
       {% endfor %}
   </div>
 </div>
-
 <!-- Job Details Modal -->
 <div class="modal fade" id="jobModal" tabindex="-1" aria-labelledby="jobModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">

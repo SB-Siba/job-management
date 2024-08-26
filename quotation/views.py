@@ -116,6 +116,7 @@ class CreateInvoiceView(View):
                 item.invoice = invoice  
                 item.save()
             
+            # Redirect to the InvoiceView with the specific invoice_id
             return redirect('quotation:invoice', invoice_id=invoice.id)
 
         context = {
@@ -123,15 +124,18 @@ class CreateInvoiceView(View):
             'formset': formset,
         }
         return render(request, self.template_name, context)
+
 class InvoiceView(View):
     template_name = 'admin/quotation/invoice.html'
 
-    def get(self, request):
-       
-        inv = Invoice.objects.all()
-        for inv in inv:
-            print(f"I Company Name: {inv.company_name}, Total Amount:")
-
+    def get(self, request, invoice_id):
+        # Fetch the specific invoice using the invoice_id
+        invoice = Invoice.objects.get(id=invoice_id)
+        
+        # Prepare the context with the invoice data
+        context = {
+            'invoice': invoice,
+        }
         
         # Render the template with the context
-        return render(request, self.template_name)
+        return render(request, self.template_name, context)

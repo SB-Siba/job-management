@@ -34,8 +34,7 @@ urlpatterns = [
     path("category/category_list", catagory.categoryList.as_view(), name="category_list"),
     path('category/category_add/', catagory.categoryAdd.as_view(), name='category_add'),
     path("category/category_update/<str:category_id>", catagory.categoryUpdate.as_view(), name="category_update"),
-    path("category/category_delete/<str:category_id>", catagory.categoryDelete.as_view(), name="category_delete"),
-
+    path('category_delete/<int:pk>/', catagory.CategoryDeleteView.as_view(), name='category_delete'),
     # # category api
     path('wati-api/', include('wati_api.urls')),
 

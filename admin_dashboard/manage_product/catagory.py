@@ -19,6 +19,8 @@ from .. import swagger_doc
 from . import serializer as product_serializer
 from . import forms
 from app_common import models as common_model
+from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404
 
 
 app = "admin_dashboard/manage_product/"
@@ -114,16 +116,15 @@ class categoryUpdate(View):
         return redirect("admin_dashboard:category_update", category_id = category_id)
 
 
-@method_decorator(utils.super_admin_only, name='dispatch')
-class categoryDelete(View):
+class CategoryDeleteView(View):
     model = common_model.Category
-    form_class = forms.categoryEntryForm
-    template = app + "category_update.html"
+    success_url = reverse_lazy('admin_dashboard:category_list')
 
-    def get(self,request, category_id):
-        category = self.model.objects.get(id= category_id).delete()
-        messages.info(request, "category is deleted successfully....")
-        return redirect("admin_dashboard:category_list")
-
-
-
+    def post(self, request, *args, **kwargs):
+        category_id = kwargs.get('pk')
+        category = get_object_or_404(self.model, id=category_id)
+        category.delete()
+        messages.info(request, 'Category deleted successfully.')
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': True})
+        return JsonResponse({'success': False}, status=400)
