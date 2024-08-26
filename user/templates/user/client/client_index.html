@@ -1,36 +1,49 @@
-{% extends 'user/client/client_stater.html' %}
-{% load static %}
+{% extends 'user/client/client_stater.html' %} 
+{% load static %} 
 {% block content %}
 
-
 <style>
-    .bg-surface-secondary {
-        --x-bg-opacity: 1;
-        background-color: linear-gradient(to bottom, hsl(247, 88%, 70%), hsl(282, 82%, 51%)); box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
-        
+    .openings {
+        height: 200px;
+        border: 1px solid rgb(4, 197, 4);
+        padding: 20px;
+        margin-bottom: 20px; /* Adds spacing between boxes */
+        border-radius: 15px;
     }
-    .card {
-        border-radius: 15px !important; /* Remove border radius */
-        background-color: linear-gradient(to bottom, hsl(247, 88%, 70%), hsl(282, 82%, 51%)); box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
-        
+    .openings:hover
+    {
+        color:rgb(4, 197, 4) ;
     }
-    .small-box {
-        width: 100% !important; /* Adjust the width of Box 1 and Box 2 */
-        
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px; /* Adds gap between flex items */
+        padding: 30px;
     }
 </style>
 
-<div class="main-content bg-surface-secondary">
+<div class="">
+  <h1 class="text-center">Job openings</h1>
+  <div class="row">
     {% for job in jobs %}
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link font-bold" href="{% url 'user:application_list' job.id %}" data-bs-toggle="collapse" data-bs-target="#employeeManagement" role="button" aria-expanded="false" aria-controls="employeeManagement">
-                    <i class="fas fa-users"></i> Applications for {{ job.title }} 
-    
-                </a>
-            </li>
-        </ul>
-        {% endfor %}
+    <div class="col-md-4 text-center">
+      <a href="{% url 'user:application_list' job.id %}">
+        <div class="openings">
+            {% if job.company_logo %}
+                                <img src="{{ job.company_logo.url }}" class="rounded-circle" style="width: 100px; height: 100px;">
+                                {% else %}
+                                No logo available
+                                {% endif %}
+                                <br>
+                                Job title:- {{ job.title }}
+                                <br>
+                                Category :- {{ job.category }}
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
 </div>
 
 {% endblock content %}

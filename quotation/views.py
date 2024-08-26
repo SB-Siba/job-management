@@ -1,17 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.utils import timezone
+from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-import pytz
-
-from .models import Quotation, Invoice, Item
-from .forms import QuotationForm, InvoiceForm
-from .decorators import super_admin_only
-from helpers import utils
 from django.forms import modelformset_factory
 from django.db import models
+
+from .models import Quotation, Invoice, Item
+from .forms import QuotationForm, CreateInvoiceForm
+from .decorators import super_admin_only
+from django import forms
+
 
 # Quotation Views
 @method_decorator(super_admin_only, name='dispatch')
@@ -29,13 +30,16 @@ class QuotationDetailView(View):
 
     def get(self, request, pk):
         quotation = get_object_or_404(Quotation, pk=pk)
-        context = {
-            'quotation': quotation
-        }
+        context = {'quotation': quotation}
         return render(request, self.template_name, context)
 
-ItemFormSet = modelformset_factory(Item, fields=('sr_no', 'name', 'description', 'quantity', 'amount'), extra=1, can_delete=True)
 
+ItemFormSet = modelformset_factory(
+    Item,
+    fields=('sr_no', 'name', 'description', 'quantity', 'amount'),
+    extra=1,
+    can_delete=True
+)
 @method_decorator(super_admin_only, name='dispatch')
 class QuotationCreateView(CreateView):
     model = Quotation
@@ -68,7 +72,8 @@ class QuotationCreateView(CreateView):
                 item.sr_no = last_sr_no + index
                 item.save()
 
-            return super().form_valid(form)
+            # Redirect to GenerateInvoiceView after successfully saving the quotation
+            return redirect('quotation:invoice_create', id=self.object.id)
         else:
             return self.form_invalid(form)
 
@@ -87,50 +92,44 @@ class QuotationDeleteView(DeleteView):
     template_name = 'admin/quotation/quotation_confirm_delete.html'
     success_url = reverse_lazy('quotation:quotation_list')
 
-
-# Invoice Views
-@method_decorator(super_admin_only, name='dispatch')
-class InvoiceListView(View):
-    template_name = 'admin/quotation/invoice_list.html'
+class CreateInvoiceView(View):
+    template_name = 'admin/quotation/create_invoice.html'
 
     def get(self, request):
-        invoices = Invoice.objects.all()
+        form = CreateInvoiceForm()
+        formset = ItemFormSet()
         context = {
-            'invoices': invoices
+            'form': form,
+            'formset': formset,
         }
         return render(request, self.template_name, context)
 
+    def post(self, request):
+        form = CreateInvoiceForm(request.POST)
+        formset = ItemFormSet(request.POST)
 
-@method_decorator(super_admin_only, name='dispatch')
-class InvoiceDetailView(View):
-    template_name = 'admin/quotation/invoice_detail.html'
+        if form.is_valid() and formset.is_valid():
+            invoice = form.save(commit=False)  
+            invoice.save() 
+            for item_form in formset:
+                item = item_form.save(commit=False)
+                item.invoice = invoice  
+                item.save()
+            
+            return redirect('quotation:invoice', invoice_id=invoice.id)
 
-    def get(self, request, pk):
-        invoice = get_object_or_404(Invoice, pk=pk)
         context = {
-            'invoice': invoice
+            'form': form,
+            'formset': formset,
         }
         return render(request, self.template_name, context)
+class InvoiceView(View):
+    template_name = 'admin/quotation/invoice.html'
 
+    def get(self, request):
+       
+       
 
-@method_decorator(super_admin_only, name='dispatch')
-class InvoiceCreateView(CreateView):
-    model = Invoice
-    form_class = InvoiceForm
-    template_name = 'admin/quotation/invoice_form.html'
-    success_url = reverse_lazy('quotation:invoice_list')
-
-
-@method_decorator(super_admin_only, name='dispatch')
-class InvoiceUpdateView(UpdateView):
-    model = Invoice
-    form_class = InvoiceForm
-    template_name = 'admin/quotation/invoice_form.html'
-    success_url = reverse_lazy('quotation:invoice_list')
-
-
-@method_decorator(super_admin_only, name='dispatch')
-class InvoiceDeleteView(DeleteView):
-    model = Invoice
-    template_name = 'admin/quotation/invoice_confirm_delete.html'
-    success_url = reverse_lazy('quotation:invoice_list')
+        
+        # Render the template with the context
+        return render(request, self.template_name)

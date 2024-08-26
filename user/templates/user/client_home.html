@@ -7,7 +7,6 @@
                 <a href="{% url 'user:client_job_list' %}" class="list-group-item list-group-item-action">Job Listings</a>
                 <a href="" class="list-group-item list-group-item-action">Profile</a>
                 <a href="" class="list-group-item list-group-item-action">Update Profile</a>
-                <a href="{% url 'user:post_job' %}" class="list-group-item list-group-item-action">Post New Job</a>
                 <a href="{% url 'user:employee_list_overview' %}" class="list-group-item list-group-item-action">All Employees</a>
                 {% for job in jobs %}
                     <a href="{% url 'user:application_list' job.id %}" class="list-group-item list-group-item-action">Applications for {{ job.title }}</a>

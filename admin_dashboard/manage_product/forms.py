@@ -15,10 +15,6 @@ class MaxFileSizeValidator:
         if file.size > self.max_size:
             raise ValidationError(f"For performence purpose file-size should not exceed {self.max_size/1024} KB.")
 
-
-
-
-
 # # =================================================== manage category  =============================================
 class categoryEntryForm(forms.ModelForm):
     class Meta:
@@ -31,12 +27,8 @@ class categoryEntryForm(forms.ModelForm):
     
     title = forms.CharField(max_length=255)
     title.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
-
     description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
     description.widget.attrs.update({'class': 'form-control','type':'text'})
-
-
-
 
 class JobForm(forms.ModelForm):
     class Meta:
@@ -70,7 +62,6 @@ def validate_contact(value):
     if len(str(value)) != 10 or not str(value).isdigit():
         raise ValidationError('Contact number must be exactly 10 digits and only contain numbers')
 
-
 class ApplicationForm(forms.ModelForm):
     class Meta:
         model =common_models.Application
@@ -100,8 +91,6 @@ class EditUserForm(forms.Form):
     full_name = forms.CharField(label="Full Name",max_length=50,widget=forms.TextInput(attrs={"class":"form-control"}))
     contact = forms.IntegerField(label="Contact",widget=forms.NumberInput(attrs={"class":"form-control"}))
 
-
-
 class AddUserForm(forms.ModelForm):
     class Meta:
         model = common_models.User
@@ -122,15 +111,12 @@ class AddUserForm(forms.ModelForm):
         required=True,  # Make the role field required explicitly
     )
     
-
 class ClientForm(forms.ModelForm):
-
     class Meta:
         model = common_models.User
         fields = ['email', 'full_name', 'contact', 'password']
 
     password = forms.CharField(widget=forms.PasswordInput)
-
 
 class CategoryFilterForm(forms.Form):
     model = common_models.Category
@@ -146,8 +132,6 @@ class JobSelectionForm(forms.Form):
         if category:
             self.fields['jobs'].queryset = common_models.Job.objects.filter(category=category)
 
-
-
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = common_models.User
@@ -156,8 +140,6 @@ class UserUpdateForm(forms.ModelForm):
             'meta_data': forms.Textarea(attrs={'rows': 3}),
             'wallet': forms.NumberInput(attrs={'step': '0.01'}),
         }
-
-
 
 class ClientUpdateForm(forms.ModelForm):
     class Meta:
@@ -168,3 +150,30 @@ class ClientUpdateForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'contact': forms.TextInput(attrs={'class': 'form-control', 'maxlength': '10'}),
         }
+
+class EmployeeForm(forms.ModelForm):
+    user_full_name = forms.CharField(max_length=255, label='Full Name')
+    user_email = forms.EmailField(label='Email')
+    contact = forms.CharField(max_length=15, label='Phone Number')
+
+    class Meta:
+        model = common_models.Employee
+        fields = ['user', 'salary', 'period_start', 'period_end', 'docs']  # Include all relevant fields from Employee
+
+    def __init__(self, *args, **kwargs):
+        super(EmployeeForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['user_full_name'].initial = self.instance.user.full_name
+            self.fields['user_email'].initial = self.instance.user.email
+            self.fields['contact'].initial = self.instance.user.contact
+
+    def save(self, commit=True):
+        employee = super(EmployeeForm, self).save(commit=False)
+        if commit:
+            user = self.instance.user
+            user.full_name = self.cleaned_data['user_full_name']
+            user.email = self.cleaned_data['user_email']
+            user.contact = self.cleaned_data['contact']
+            user.save()
+            employee.save()
+        return employee

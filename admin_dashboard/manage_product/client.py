@@ -8,7 +8,6 @@ from app_common import models as common_model
 from . import forms
 from helpers import utils
 from django.http import JsonResponse
-from django.contrib.auth.models import User
 from admin_dashboard.manage_product import forms 
 from django.urls import reverse_lazy
 
@@ -77,10 +76,10 @@ class ClientDetailView(View):
         return render(request, self.template_name, context)
     
 class ClientUpdateView(View):
-    template_name = 'client_edit.html'
+    template_name = 'admin_dashboard/manage_product/client_edit.html'
 
     def get(self, request, uid):
-        client = get_object_or_404(User, pk=uid)
+        client = get_object_or_404(common_model.User, pk=uid)
         form = forms.ClientUpdateForm(instance=client)
         context = {
             'form': form,
@@ -90,7 +89,7 @@ class ClientUpdateView(View):
         return render(request, self.template_name, context)
 
     def post(self, request, uid):
-        client = get_object_or_404(User, pk=uid)
+        client = get_object_or_404(common_model.User, pk=uid)
         form = forms.ClientUpdateForm(request.POST, instance=client)
         if form.is_valid():
             form.save()
@@ -105,9 +104,24 @@ class ClientUpdateView(View):
 
 # DeleteClientView for deleting a client
 class DeleteClientView(View):
+    template = app+ 'client_list.html'
     def post(self, request, client_id):
         client = get_object_or_404(common_model.User, id=client_id, is_staff=True, is_superuser=False)
         client.delete()
         messages.success(request, 'Client deleted successfully.')
-        return JsonResponse({'success': True, 'message': 'Client deleted successfully.'})
+        return redirect('admin_dashboard:client_list')
 
+class ClientRequestView(View):
+    template_name = app+ 'client_request.html'
+    
+    def get(self, request, *args, **kwargs):
+        # Fetch all employee replacement requests
+        requests = common_model.EmployeeReplacementRequest.objects.all()
+        
+        # Pass the requests to the template context
+        context = {
+            'requests': requests
+        }
+        
+        # Render the template with the context data
+        return render(request, self.template_name, context)

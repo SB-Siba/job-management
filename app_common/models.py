@@ -100,6 +100,11 @@ class Job(models.Model):
     vacancies = models.PositiveIntegerField(default=1)
     job_type = models.CharField(max_length=20, choices=JOB_TYPE_CHOICES, default=FULL_TIME)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='unpublished')
+    published_date = models.DateTimeField(null=True, blank=True)
+
+    def publish(self):
+        self.published_date = timezone.now()
+        self.save()
 
     def __str__(self):
         return self.title
@@ -154,7 +159,6 @@ class ContactMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     message = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=255, choices=STATUS, default='pending')
-    reply = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -194,3 +198,13 @@ class EditUser(models.Model):
 
     def __str__(self):
         return self.user.email
+class EmployeeReplacementRequest(models.Model):
+    client_email = models.EmailField()
+    current_employee = models.EmailField()
+    new_employee_name = models.CharField(max_length=255)
+    new_employee_email = models.EmailField()
+    new_employee_phone = models.CharField(max_length=20)
+    status = models.CharField(max_length=20, default='Pending')  # Status field to track the request status
+
+    def __str__(self):
+        return f"Request from {self.client_email} to replace {self.current_employee}"

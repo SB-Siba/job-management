@@ -22,7 +22,7 @@ urlpatterns = [
     path('applications/download_resume/<int:application_id>/', DownloadResumeView.as_view(), name='download_resume'),
 
     # Userlist
-    path("user/userslist", user.UserList.as_view(), name="userslist"),
+    path("user/userslist", user.UserList.as_view(), name="user_list"),
     path("user/deleteuser/<int:user_id>", user.DeleteUser.as_view(), name="deleteuser"),
     path('user/user_detail/<int:user_id>', user.UserDetailView.as_view(), name='user_detail'),
     path('edit_user/<int:user_id>',user.Edit_User.as_view(),name="edit_userrr"),
@@ -43,6 +43,7 @@ urlpatterns = [
     #client list
     path('clients/', client.AdminClientListView.as_view(), name='client_list'),
     path('clients/create/', client.AdminClientCreateView.as_view(), name='client_create'),
+    path('client-request/', client.ClientRequestView.as_view(), name='client_request'),
     path('client/<client_id>/', client.ClientDetailView.as_view(), name='client_detail'),
     path('client/edit/<int:uid>/', ClientUpdateView.as_view(), name='edit_client'),
     path('client/delete/<int:client_id>/', DeleteClientView.as_view(), name='delete_client'),
@@ -71,4 +72,12 @@ urlpatterns = [
     path("contact_messages/all_mesages/",messages.ContactMessageList.as_view(), name="all_contact_message"),
     path("contact_messages/contact_message_detail/<str:uid>",messages.ContactMessageDetail.as_view(), name="contact_message_detail"),
     path("contact_messages/contact_message_reply/<str:uid>",messages.ContactMessagereply.as_view(), name="contact_message_reply"),
+
+
+
+
+    path('employees/edit/<int:employee_id>/', user.EmployeeEditView.as_view(), name='employee_edit'),
+    path('employees/', user.EmployeeList.as_view(), name='employee_list'),
+    path('employees/delete/<int:employee_id>/', user.DeleteEmployee.as_view(), name='employee_delete'),
+    
 ] 

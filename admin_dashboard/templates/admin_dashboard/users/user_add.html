@@ -36,10 +36,9 @@
                 <div class="card">
                     <div class="card-header custom-card-header text-white">
                         <h2 class="text-center">Add New User</h2>
-                    </div>
+                    </div> 
                     <div class="card-body">
                         <form method="post" enctype="multipart/form-data" class="px-5 mx-5">
-                            {% include 'snippets/alert.html' %}
                             {% csrf_token %}
                             
                             {{ form.as_p }}

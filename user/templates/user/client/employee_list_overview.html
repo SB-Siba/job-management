@@ -1,36 +1,88 @@
 <!-- templates/user/employee_list.html -->
-
+{% extends "user/client/client_stater.html" %}
 {% block content %}
-<div class="container mt-4">
-    <h2>Employees for Job: {{ job.title }}</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>User Full Name</th>
-                <th>Employer</th>
-                <th>Salary</th>
-                <th>Period Start</th>
-                <th>Period End</th>
-                <!-- Add other relevant fields -->
-            </tr>
-        </thead>
-        <tbody>
-            {% for employee in employees %}
-                <tr>
-                    <td>{{ employee.user.full_name }}</td>
-                    <td>{{ employee.employer.full_name }}</td>
-                    <td>{{ employee.salary }}</td>
-                    <td>{{ employee.period_start }}</td>
-                    <td>{{ employee.period_end }}</td>
-                    <!-- Add other relevant fields -->
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="5">No employees found for this job.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="{% url 'user:job_list' %}">Back to Job List</a>
-</div>
+
+
+    <style>
+        thead{
+          background-color: rgba(38,137,13,1);  
+          color: white;  
+          border: 1px solid rgb(255, 255, 255);;
+        }
+        .table-bordered {
+          border: 1px solid rgba(38,137,13,1);;
+        }
+        
+        table caption {
+            padding: .5em 0;
+        }
+        .btn {
+          padding: 10px;
+          margin: 10px;
+          border-radius: 10px;
+          box-shadow: 0px 0px 20px hsla(247, 88%, 70%, .3);
+          font-family: merriwether;
+          border-bottom: 1px solid black;
+      }
+      .btn:hover {
+          background-color: black;
+          color: white;
+      }
+        
+        @media screen and (max-width: 767px) {
+          table caption {
+            display: none;
+          }
+        }
+        
+        .p {
+          text-align: center;
+          padding-top: 140px;
+          font-size: 14px;
+        }
+  </style>    
+
+    
+
+    <div class="container">
+        <div class="row">
+          <h1 class="text-center pb-4">All Employes {{ job.title }}</h1>
+          <div class="col-xs-12">
+            <div class="table-responsive" data-pattern="priority-columns">
+              <table summary="This table shows how to create responsive tables using RWD-Table-Patterns' functionality" class="table table-bordered table-hover">
+                
+                <thead>
+                    <tr>
+                        <th>User Full Name</th>
+                        <th>Employer</th>
+                        <th>Salary</th>
+                        <th>Period Start</th>
+                        <th>Period End</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for employee in employees %}
+                        <tr>
+                            <td>{{ employee.user.full_name }}</td>
+                            <td>{{ employee.employer.full_name }}</td>
+                            <td>{{ employee.salary }}</td>
+                            <td>{{ employee.period_start }}</td>
+                            <td>{{ employee.period_end }}</td>
+                           
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5">No employees found for this job.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <a href="{% url 'user:client_job_list' %}">Back to Job List</a>
+          </div>
+        </div>
+      </div>
+
+    
 {% endblock %}

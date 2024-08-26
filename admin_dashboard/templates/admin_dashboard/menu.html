@@ -60,7 +60,7 @@
                             <a href="{% url 'admin_dashboard:add_user' %}" class="nav-link font-bold"><i class="fas fa-users"></i>Add User</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'admin_dashboard:userslist' %}" class="nav-link font-bold"><i class="fas fa-user-plus"></i>View All Users </a>
+                            <a href="{% url 'admin_dashboard:user_list' %}" class="nav-link font-bold"><i class="fas fa-user-plus"></i>View All Users </a>
                         </li>
                     </ul>
                 </div>
@@ -113,6 +113,9 @@
                         <li class="nav-item">
                             <a href="{% url 'admin_dashboard:client_create' %}" class="nav-link font-bold"><i class="fas fa-file-alt"></i>Add Client</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{% url 'admin_dashboard:client_request' %}" class="nav-link font-bold"><i class="fas fa-file-alt"></i>Client's Request</a>
+                        </li>
                     </ul>
                 </div>
             </li>
@@ -134,21 +137,11 @@
                     </ul>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link font-bold" style="background:none" href="#" data-bs-toggle="collapse" data-bs-target="#invoiceManagement" role="button" aria-expanded="false" aria-controls="invoiceManagement">
-                    <i class="fas fa-file-invoice-dollar"></i> Invoice Management
-                </a>
-                <div class="collapse" id="invoiceManagement">
-                    <ul class="nav nav-sm flex-column">
-                        <li class="nav-item">
-                            <a href="{% url 'quotation:invoice_list' %}" class="nav-link font-bold"><i class="fas fa-list-alt"></i>View Invoices</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'quotation:invoice_add' %}" class="nav-link font-bold"><i class="fas fa-plus"></i>Add Invoice</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="{% url 'quotation:create_invoice' %}" class="nav-link font-bold"><i class="fas fa-list-alt"></i>Generate Invoices</a>
+                </li>
+            </ul>
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item">
