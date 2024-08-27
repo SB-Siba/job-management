@@ -1,8 +1,22 @@
 {% extends 'admin_dashboard/starter.html' %}
 {% block content %}
-<h1>Client's Requests</h1>
-
-<div class="table-responsive">
+<style>
+    .table-responsive {
+        max-height: 400px; /* Adjust this value as needed */
+        overflow-y: auto;
+    }
+ 
+    .sticky-header th {
+        position: sticky;
+        top: 0;
+        background-color: #343a40; /* Dark background for the header */
+        color: white;
+        z-index: 1000;
+    }
+</style>
+<h1 class="text-center">Client's Requests</h1>
+ 
+<div class="table-responsive p-5">
     <table class="table table-bordered table-hover">
         <thead class="thead-dark sticky-header">
             <tr>
@@ -26,19 +40,6 @@
         </tbody>
     </table>
 </div>
+ 
 
-<style>
-    .table-responsive {
-        max-height: 400px; /* Adjust this value as needed */
-        overflow-y: auto;
-    }
-
-    .sticky-header th {
-        position: sticky;
-        top: 0;
-        background-color: #343a40; /* Dark background for the header */
-        color: white;
-        z-index: 1000;
-    }
-</style>
 {% endblock %}

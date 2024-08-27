@@ -16,6 +16,21 @@
         color:black !important;
 
     }
+    textarea.form-control
+    {
+        min-height: 150px;
+    }
+    .btn
+    {
+        color: black;
+        background-color: rgb(200, 200, 200);
+        border: 1px solid hsla(247, 88%, 70%, .3);
+    }
+    .btn:hover
+    {
+        color: white;
+        background-color: black;
+    }
 </style>
 
 <main class="py-5 bg-surface-secondary">
@@ -27,7 +42,7 @@
                     {% csrf_token %}
                     {{form.as_p}}
                     <br>
-                    <center><button type="submit" class="btn btn-success">Update</button></center>
+                    <center><button type="submit" class="btn">Update</button></center>
                 </form>
 
             </div>

@@ -14,18 +14,10 @@
         border-radius: 10px;
         
     }
-    .dashboard , .row
-    {
-        font-family: merriwether;
-    }
     .footer
     {
         background-color: rgb(215, 243, 246);
         border-radius: 0px 0px 15px 15px;
-    }
-    .modal-dialog
-    {
-        font-family: merriwether;
     }
     .form-select
     {
@@ -43,16 +35,13 @@
         -ms-flex-wrap: wrap;
         flex-wrap: wrap;
       
-        padding: 50px 0;
+        padding: 20px 0;
       }
       .ag-courses_item {
         -ms-flex-preferred-size: calc(33.33333% - 30px);
-        flex-basis: calc(33.33333% - 30px);
-        
+        flex-basis: calc(33.33333% - 30px);     
         margin: 0 15px 30px;
-      
         overflow: hidden;
-      
         border-radius: 28px;
         box-shadow: 0px 0px 5px rgb(108, 217, 247);
       }
@@ -61,7 +50,6 @@
         padding: 30px 20px;
         overflow: hidden;
         position: relative;
-       
       }
       .ag-courses-item_link:hover,
       .ag-courses-item_link:hover .ag-courses-item_date {
@@ -76,27 +64,22 @@
       .ag-courses-item_title {
         min-height: 87px;
         margin: 0 0 25px;
-      
         overflow: hidden;
-      
         font-weight: bold;
         font-size: 30px;
         color: #FFF;
-      
         z-index: 2;
         position: relative;
       }
       .ag-courses-item_date-box {
         font-size: 18px;
         color: #FFF;
-      
         z-index: 2;
         position: relative;
       }
       .ag-courses-item_date {
         font-weight: bold;
         color: #f9b234;
-      
         -webkit-transition: color .5s ease;
         -o-transition: color .5s ease;
         transition: color .5s ease
@@ -105,14 +88,11 @@
         height: 128px;
         width: 128px;
         background-color: #f9b234;
-      
         z-index: 1;
         position: absolute;
         top: -75px;
         right: -75px;
-      
         border-radius: 50%;
-      
         -webkit-transition: all .5s ease;
         -o-transition: all .5s ease;
         transition: all .5s ease;
@@ -142,7 +122,6 @@
           font-size: 24px;
         }
       }
-      
       @media only screen and (max-width: 767px) {
         .ag-format-container {
           width: 96%;
@@ -157,7 +136,6 @@
         .ag-courses-item_title {
           min-height: 72px;
           line-height: 1;
-      
           font-size: 24px;
         }
         .ag-courses-item_link {
@@ -172,7 +150,6 @@
         display: inline-block;
         width: 100%; /* Adjust as needed */
       }
-      
       #category-select {
         width: 100%; /* Make sure it fills the container */
         padding-right: 30px; /* Make space for the icon */
@@ -180,7 +157,6 @@
         -moz-appearance: none; /* Remove default arrow in Firefox */
         -webkit-appearance: none; /* Remove default arrow in Safari */
       }
-      
       .select-container i {
         position: absolute;
         right: 10px; /* Position on the right */
@@ -189,6 +165,33 @@
         pointer-events: none; /* Ensure clicks go to the select */
         color: #000; /* Change color as needed */
       }
+
+table td,
+table th {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+thead th {
+  color: #fff;
+}
+
+.card {
+  border-radius: .5rem;
+}
+
+.table-scroll {
+  border-radius: .5rem;
+}
+
+.table-scroll table thead th {
+  font-size: 1.25rem;
+}
+thead {
+  top: 0;
+  position: sticky;
+}
       
 </style>
 <main class="py-1 bg-surface-secondary">
@@ -275,10 +278,10 @@
   </div>
 </main>
 
-<div class="container my-4">
+<div class="container">
   <div class="row">
       <div class="col-12">
-          <div class="content-box p-4 bg-light">
+          <div class="ag-courses_item content-box p-4 bg-light">
               <div class="d-flex justify-content-between align-items-center">
                   <h5 class="mb-4">Employee Details</h5>
                   <i class="bi bi-chevron-up toggle-btn" id="toggle-btn"></i>
@@ -308,14 +311,17 @@
                       </tbody>
                   </table>
                   {% else %}
-                  <!-- Message if no employee is hired -->
+                
                   <p>Still not Hired.</p>
                   {% endif %}
               </div>
+
           </div>
       </div>
   </div>
 </div>
+
+
 
 <div class="container py-3 px-3">
   <div class="row py-3 px-3">

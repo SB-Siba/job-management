@@ -4,19 +4,25 @@
 
 {% block content %}
 <style>
-  .card {
-    font-family: merriwether;
-  }
+  
   .table thead th {
     font-size: 16px;
   }
+  
   .card-header:first-child {
-    box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+    box-shadow: 0 2px 12px hsla(247, 88%, 70%, 0.3);
   }
+  
   tr:hover {
     background-color: rgb(244, 212, 169);
   }
+  
+  .message-cell {
+    white-space: pre-wrap; /* Preserve white space and wrap text */
+  }
+  
 </style>
+
 <main class="py-6 bg-surface-secondary">
   <div class="container-fluid">
     <div class="card">
@@ -36,15 +42,15 @@
           </thead>
           <tbody>
             {% for message in message_list %}
-              <tr>
-                <td>{{ message.user.full_name }}</td>
-                <td>{{ message.user.contact }}</td>
-                <td>{{ message.user.email }}</td>
-                <td>
-                  {{ message.message }} <!-- Display the full message here -->
-                </td>
-                <td>{{ message.created_at }}</td>
-              </tr>
+            <tr>
+              <td>{{ message.user.full_name }}</td>
+              <td>{{ message.user.contact }}</td>
+              <td>{{ message.user.email }}</td>
+              <td class="message-cell">
+                {{ message.message|linebreaks }} <!-- Use Django filter for line breaks -->
+              </td>
+              <td>{{ message.created_at }}</td>
+            </tr>
             {% endfor %}
           </tbody>
         </table>
@@ -52,4 +58,32 @@
     </div>
   </div>
 </main>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Select all message cells
+    const messageCells = document.querySelectorAll(".message-cell");
+
+    messageCells.forEach(cell => {
+      // Get the original message text
+      const message = cell.innerText.trim();
+
+      // Split the message into words
+      const words = message.split(" ");
+      
+      // Format the message by adding <br> after every 5 words
+      let formattedMessage = "";
+      for (let i = 0; i < words.length; i++) {
+        formattedMessage += words[i] + " ";
+        if ((i + 1) % 5 === 0) formattedMessage += "<br>";
+      }
+
+      // Set the formatted message with line breaks as the cell's HTML content
+      cell.innerHTML = formattedMessage.trim();
+    });
+  });
+</script>
+
 {% endblock content %}

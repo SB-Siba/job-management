@@ -1,14 +1,6 @@
 {% extends 'admin_dashboard/starter.html' %}
 {% load static %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New User</title>
-    <link rel="stylesheet" href="{% static 'app_common/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'app_common/css/styles.css' %}">
     <style>
         .card-header:first-child {
             box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
@@ -26,16 +18,12 @@
             background-color: rgb(185, 184, 184);
             padding: 13px;
             border-radius: 15px !important;
-            font-family: merriwether;
             font-size: 20px;
             width: 100%;   
         }
         button:hover {
             background-color: black;
             color: white;   
-        }
-        .card {
-            font-family: merriwether;
         }
         .alert-container {
             margin-bottom: 15px;
@@ -59,12 +47,12 @@
                         <!-- Display messages here -->
                       
                         
-                        <form method="post">
+                        <form method="post" class="px-5">
                             {% csrf_token %}
                             {{ form.as_p }}
                             <button type="submit" class="px-5">Save</button>
                         </form>
-                        <div class="mt-3 px-2">
+                        <div class="my-3 px-4">
                             <a href="{% url 'admin_dashboard:client_list' %}" class="text-black">
                                 <i class="fa-solid fa-arrow-left px-2" style="font-size: 12px;"></i>Back to Client List
                             </a>
@@ -74,9 +62,4 @@
             </div>
         </div>
     </div>
-    <script src="{% static 'app_common/js/jquery.min.js' %}"></script>
-    <script src="{% static 'app_common/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'app_common/js/main.js' %}"></script>
-</body>
-</html>
 {% endblock content %}

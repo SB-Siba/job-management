@@ -8,8 +8,7 @@ Contact Page
 </div>
 <style>
   svg {
-    height: 23rem;
-    margin-right: 4rem;
+    height: 20rem;
   }
 
   #envelope {
@@ -66,13 +65,14 @@ Contact Page
 
   .containerk {
     height: 100vh;
+    padding: 2rem;
   }
 
   form {
     min-width: 25rem;
 
     .title {
-      font-family: merriwether;
+      font-family: Merriwether, serif;
       color: #212529;
       font-size: 2.5rem;
     }
@@ -100,7 +100,7 @@ Contact Page
     }
 
     ::placeholder {
-      font-family: merriwether;
+      font-family: Merriwether, serif;
       font-weight: 600;
       font-size: 1.1rem;
       color: #838788;
@@ -110,7 +110,7 @@ Contact Page
 
     input,
     textarea {
-      font-family: merriwether;
+      font-family: Merriwether, serif;
       color: #212529;
       font-size: 1.1rem;
     }
@@ -125,7 +125,7 @@ Contact Page
   }
 
   .btn.btn-primary {
-    font-family: merriwether;
+    font-family: Merriwether, serif;
     font-weight: bold;
     height: 2.5rem;
     line-height: 2.5rem;
@@ -148,29 +148,165 @@ Contact Page
     background-size: 100% 100%;
     transform: translateY(-0.15em);
   }
-  #id_message
-  {
+
+  #id_message {
     height: 25vh;
   }
 
   textarea::placeholder {
     font-size: 18px; /* Change this value to your desired font size */
-    padding: 10PX;
+    padding: 10px;
     font-weight: lighter;
   }
+
   input::placeholder {
     font-size: 18px; /* Change this value to your desired font size */
-    padding: 10PX;
+    padding: 10px;
     font-weight: lighter;
   }
-  label
-  {
-    font-family: merriwether;
+
+  label {
+    font-family: Merriwether, serif;
     font-size: 18px;
   }
-  
+
+  /* Mobile Responsive Styles */
+  @media (max-width: 768px) {
+    svg {
+      height: 15rem;
+      margin-right: 2rem;
+    }
+
+    .containerk {
+      padding: 1rem;
+    }
+
+    form {
+      min-width: 100%;
+    }
+
+    .title {
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    .form-control.thick {
+      padding: 0.5rem 2rem;
+    }
+
+    .icon {
+      left: 1rem;
+      top: 0.9rem;
+    }
+
+    .btn.btn-primary {
+      width: 100%;
+      padding: 0 2rem;
+    }
+
+    #id_message {
+      height: 20vh;
+    }
+  }
+
+  @media (max-width: 480px) {
+    svg {
+      height: 12rem;
+      margin-right: 1rem;
+    }
+
+    .title {
+      font-size: 1.1rem;
+    }
+
+    .btn.btn-primary {
+      padding: 0 1.5rem;
+    }
+
+    #id_message {
+      height: 15vh;
+    }
+  }
+
+
+
+
+
+
+
+
+  .containerk {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 2rem;
+  }
+  form {
+    min-width: 25rem;
+  }
+
+  /* Mobile Responsive Styles */
+  @media (max-width: 768px) {
+    .containerk {
+      flex-direction: column;
+    }
+
+    svg {
+      height: 15rem;
+      margin-bottom: 2rem; /* Space between SVG and form */
+    }
+
+    form {
+      min-width: 100%;
+    }
+
+    .title {
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    .form-control.thick {
+      padding: 0.5rem 2rem;
+    }
+
+    .icon {
+      left: 1rem;
+      top: 0.9rem;
+    }
+
+    .btn.btn-primary {
+      width: 100%;
+      padding: 0 2rem;
+    }
+
+    #id_message {
+      height: 20vh;
+    }
+  }
+
+  @media (max-width: 480px) {
+   
+    .title {
+      font-size: 1.5rem;
+    }
+
+    .btn.btn-primary {
+      padding: 0 1.5rem;
+    }
+
+    #id_message {
+      height: 15vh;
+    }
+  }
 </style>
-  <div class="containerk px-4 d-flex justify-content-center align-items-center">
+
+
+  
+<div class="containerk">
+  <div class="svg-container px-4">
+   
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 790 563" fill="none">
       <g id="Image">
         <g id="g14">
@@ -924,21 +1060,21 @@ Contact Page
         </g>
       </g>
     </svg>
-
-    <!-- // FORM
-    -------------------------------------------------------------
-    ------------------------------------------------------------>
-    <div>
-      <form class="px-4 py-4" method="post" enctype="multipart/form-data" style="box-shadow: 0px 0px 5px black; border-radius: 15px;">
-        {% csrf_token %} {{form.as_p}}
-        <div>
-          <button class="btn btn-primary w-100" type="submit">
-            Send Message
-          </button>
-        </div>
-      </form>
-    </div>
   </div>
+
+
+  
+    <form class="px-4 py-4" method="post" enctype="multipart/form-data" style="box-shadow: 0px 0px 5px black; border-radius: 15px;">
+      {% csrf_token %} {{form.as_p}}
+      <div>
+        <button class="btn btn-primary w-100" type="submit">
+          Send Message
+        </button>
+      </div>
+    </form>
+  
+</div>
+
 
 
 {% endblock main_content %}

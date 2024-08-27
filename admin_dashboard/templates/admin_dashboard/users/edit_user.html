@@ -9,8 +9,7 @@
     }
     .create_test 
     {
-        width: 70%;
-        font-family: merriwether;
+        width: 50%;
         box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
         border-radius: 15px !important;
         background:transparent;
@@ -26,7 +25,7 @@
     {
         color: black;
         background-color: rgb(198, 198, 198);
-        border: 1px solid black;
+        
     }
     .btn:hover
     {
@@ -38,16 +37,20 @@
     {
         padding-bottom: 8px;
     }
+    h3
+    {
+        font-size: 30px;
+    }
 </style>
 
 <section class="content">
     <div class="container pb-4">
         <div class="card create_test"> 
             <div class="card-header">
-                <h2 class="text-center">Update User Information</h2>
+                <h3 class="text-center">Update User Information</h3>
             </div>
             <div class="card-body">
-                <form method="post" enctype="multipart/form-data" style="font-family: merriwether;">
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <div class="mt-4 d-flex justify-content-center"> 

@@ -18,8 +18,7 @@
     }
     th, td {
         border: 1px solid black;
-        padding: 10px; /* Optional: Add padding inside the cells */
-        font-family: Merriweather;
+        padding: 10px;
     }
     select {
         background: transparent;
@@ -80,7 +79,7 @@
                            data-client-name="{{ client.full_name }}" 
                            data-client-email="{{ client.email }}" 
                            data-client-phone="{{ client.contact }}" 
-                           class="btn-icon edit">
+                           class="btn-icon edit px-5">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                         <a href="#" onclick="openDeleteModal('{% url 'admin_dashboard:delete_client' client.id %}'); return false;" class="btn-icon delete">

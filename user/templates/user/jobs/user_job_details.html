@@ -2,87 +2,112 @@
 {% block main_content %}
 
 <style>
-    .create_test 
-    {
+    .create_test {
         width: 70%;
-        font-family: merriwether;
+        font-family: Merriwether, serif;
         padding: 40px;
         box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
         border-radius: 15px !important;
-        background:transparent;
+        background: transparent;
+        margin: 0 auto; /* Centering the container */
     }
-    .gap-4 
-    {
+
+    .gap-4 {
         display: flex;
         justify-content: center;
-        
+        flex-wrap: wrap; /* Allow content to wrap on smaller screens */
     }
-    th
-    {
-        width: 100px;
+
+    th {
         padding: 8px;
+        text-align: left;
     }
-    tr
-    {
+
+    tr {
         width: 100%;
-       
     }
-    td
-    {
-        width: 100px;
+
+    td {
         padding: 12px;
         text-align: right;
+    }
 
+    tr:hover {
+        background-color: rgb(244, 212, 169);
     }
-    tr:hover
-    {
-      background-color: rgb(244, 212, 169);
-    }
+
     .create_test form {
-      margin-top: 21px;
-      width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-      margin-bottom: 2rem;
+        margin-top: 21px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2rem;
+    }
+    table {
+      width: 100%; /* Ensure table takes full width */
   }
-  
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+        .create_test {
+            width: 90%; /* Reduce the width on smaller screens */
+            padding: 20px; /* Reduce padding */
+        }
+
+        table {
+            width: 100%; /* Ensure table takes full width */
+        }
+
+        th, td {
+            display: block; /* Stack table rows */
+            width: 100%;
+            text-align: left;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #f4f4f4; /* Add a background color for clarity */
+        }
+
+        tr {
+            margin-bottom: 10px; /* Add some spacing between rows */
+        }
+    }
 </style>
 
 <div class="gap-4 py-5">
     <div class="create_test">
-      <div class="border-bottom mb-2">
-         <h1 class="text-center">Job Details</h1>
-      </div>
-       
-      
-      <table style="width: 600px;">
-        <tr>
-          <th>Title</th>
-        <td class="align-end">{{ job.title }}</td>
-        </tr>
-        <tr>
-          <th>Company</th>
-        <td>{{ job.company_name }}</td>
-        </tr>
-  
-        <tr>
-          <th>Location</th>
-        <td>{{ job.location }}</td>
-        </tr>
-  
-        <tr>
-          <th>Published Date</th>
-        <td>{{ job.posted_at }}</td>
-        </tr>
-  
-        <tr>
-          <th>Status</th>
-        <td>{{ job.get_status_display }}</td>
-        </tr>
-       </table>
+        <div class="border-bottom mb-2">
+            <h1 class="text-center">Job Details</h1>
+        </div>
+        
+        <table>
+            <tr>
+                <th>Title</th>
+                <td>{{ job.title }}</td>
+            </tr>
+            <tr>
+                <th>Company</th>
+                <td>{{ job.company_name }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ job.location }}</td>
+            </tr>
+            <tr>
+                <th>Posted At</th>
+                <td>{{ job.posted_at }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ job.get_status_display }}</td>
+            </tr>
+            <tr>
+                <th>Published Date</th>
+                <td>{{ job.published_date }}</td>
+            </tr>
+        </table>
     </div>
-  </div>
-
-
+</div>
 
 {% endblock %}
+

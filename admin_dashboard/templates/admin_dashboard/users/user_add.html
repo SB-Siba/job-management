@@ -1,16 +1,11 @@
 {% extends 'admin_dashboard/starter.html' %}
 {% load static %}
 {% block content %}
-
     <style>
         .custom-card-header {
             background-color: white !important;
             box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
             color:black !important;
-        }
-        .custom-card-header h2 {
-            color:black  !important;
-            font-family: merriwether;
         }
         button{
             margin-top: 10px;
@@ -19,7 +14,6 @@
             background-color: rgb(185, 184, 184);
             padding: 13px;
             border-radius: 15px !important;
-            font-family: merriwether;
             font-size: 20px;
             width: 100%;   
         }
@@ -27,20 +21,18 @@
            background-color: black;
            color: white;   
         }
-        
-        p {
+       p {
             margin-top: 15px;
             margin-bottom: 15px;
             box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
             padding: 15px;
             border-radius: 15px !important;
-            font-family: merriwether;
-        }
+        } 
     </style>
 
     <div class="container">
         <div class="row justify-content-center mb-5">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-header custom-card-header text-white">
                         <h2 class="text-center">Add New User</h2>

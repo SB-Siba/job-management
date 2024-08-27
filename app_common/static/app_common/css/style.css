@@ -1,7 +1,4 @@
 /* cerate test */
-.create_test{
-
-}
 .create_test form{
     margin-top: 21px;
     width: 56%;
@@ -112,3 +109,7 @@
 #order_filter select{
     width: 70%;
 }
+
+
+
+

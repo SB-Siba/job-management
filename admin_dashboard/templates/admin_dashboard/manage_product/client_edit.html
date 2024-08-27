@@ -9,8 +9,7 @@
     }
     .edit_client {
         width: 70%;
-        font-family: Merriweather, sans-serif;
-        box-shadow: 0 2px 12px rgba(247, 88%, 70%, 0.3);
+        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
         border-radius: 15px !important;
         background: transparent;
     }
@@ -42,7 +41,7 @@
                 <h2 class="text-center">Update Client Information</h2>
             </div>
             <div class="card-body">
-                <form method="post" enctype="multipart/form-data" style="font-family: Merriweather, sans-serif;">
+                <form method="post" enctype="multipart/form-data" class="px-12 pb-5">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <div class="mt-4 d-flex justify-content-center">

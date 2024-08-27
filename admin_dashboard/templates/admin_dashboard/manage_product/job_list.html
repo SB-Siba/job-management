@@ -3,9 +3,6 @@
 {% block content %}
 
 <style>
-    .card {
-        font-family: Merriweather;
-    }
     .table thead th {
         font-size: 16px;
     }
@@ -76,7 +73,7 @@
                             <td>{{ job.vacancies }}</td>
                             <td>
                                 {% if job.company_logo %}
-                                <img src="{{ job.company_logo.url }}" class="rounded-circle" style="width: 100px; height: 100px;">
+                                <img src="{{ job.company_logo.url }}" class="rounded-circle" style="width: 70px; height: 70px;">
                                 {% else %}
                                 No logo available
                                 {% endif %}
@@ -86,7 +83,7 @@
                                 <a href="{% url 'admin_dashboard:job_edit' job.id %}" class="px-2 btn btn-sm btn-square btn-neutral">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                <a href="#" onclick="openDeleteModal('{% url 'admin_dashboard:job_delete' job.id %}', '{{ job.title }}'); return false;" class="btn-icon delete">
+                                <a href="{% url 'admin_dashboard:job_list' %}" onclick="openDeleteModal('{% url 'admin_dashboard:job_delete' job.id %}', '{{ job.title }}'); return false;" class="btn-icon delete px-5">
                                     <i class="bi bi-trash text-danger"></i>
                                 </a>                                
                             </td>

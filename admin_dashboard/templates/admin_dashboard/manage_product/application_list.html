@@ -4,7 +4,11 @@
 <style>
     .base-table {
         margin: 20px;
+        overflow-x: auto; 
     } 
+    .table {
+        width: 100%; 
+    }
     .table thead th {
         font-size: 14px;
         color: rgb(255, 255, 255);
@@ -12,8 +16,7 @@
     }
     th, td {
         border: 1px solid black;
-        padding: 10px; /* Optional: Add padding inside the cells */
-        font-family: merriwether;
+        padding: 10px;
     }
     select {
         background: transparent;
@@ -33,11 +36,31 @@
         background-color: black;
         color: white;
     }
-    h2 {
-        font-family: merriwether;
-    }
     tr:hover {
         background-color: rgb(244, 212, 169);
+    }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .table thead th, th, td {
+            font-size: 12px; 
+            padding: 8px;
+        }
+        button {
+            padding: 8px;
+            margin: 5px;
+            font-size: 12px;
+        }
+    }
+    @media (max-width: 480px) {
+        .table thead th, th, td {
+            font-size: 10px; 
+            padding: 5px;
+        }
+        button {
+            padding: 5px;
+            margin: 5px;
+            font-size: 10px;
+        }
     }
 </style>
 

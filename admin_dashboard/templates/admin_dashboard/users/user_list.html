@@ -3,30 +3,35 @@
 {% block content %}
 <style>
     p {
+        
         margin-top: 10px;
         margin-bottom: 10px;
         box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        border: 1px solid  hsla(247, 88%, 70%, .3);
         padding: 10px;
         border-radius: 15px;
     }
     select {
         background: transparent;
     }
-    .btn-primary {
-        display: flex;
-        justify-content: end;
+    .btn
+    {
+        color: black;
+        background-color: rgb(201, 201, 201);
+        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        border: 1px solid  hsla(247, 88%, 70%, .3);
     }
-    h1 {
-        font-family: merriwether;
+    .btn:hover
+    {
+        background-color: black;
+        color: white;
     }
     tr:hover {
         background-color: rgb(244, 212, 169);
     }
-    .card {
-        font-family: merriwether;
-    }
-    .table thead th {
-        font-size: 16px;
+    .table thead th
+    {
+      font-size: 16px;
     }
     .card-header:first-child {
         box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
@@ -36,14 +41,14 @@
     <div class="container-fluid">
         <div class="">
             <div class="row align-items-center">
-                <div class="col-sm col-12">
-                </div>
-                <div class="col-sm-auto col-6">
+                <div class="d-flex align-items-center">
                     <form method="post" id="filterForm">
                         {% csrf_token %}
                         {{ category_form.as_p }}
-                        <button type="submit" class="btn btn-primary">Filter by Category</button>
                     </form>
+                    <div class="px-5">
+                        <button type="submit" class="btn">Filter by Category</button>
+                    </div>
                 </div>
             </div>
         </div>

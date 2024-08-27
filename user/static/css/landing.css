@@ -1,6 +1,5 @@
 
 /* ---------- - about us -----------------*/
-
 .responsive-container-block {
     min-height: 75px;
     height: fit-content;
@@ -16,8 +15,7 @@
     margin-bottom: 0px;
     margin-left: auto;
     justify-content: flex-start;
-  }
-  
+  } 
   .text-blk {
     margin-top: 0px;
     margin-right: 0px;
@@ -29,7 +27,6 @@
     padding-left: 10px;
     line-height: 25px;
   }
-  
   .responsive-container-block.bigContainer {
     padding-top: 10px;
     padding-right: 30px;
@@ -39,7 +36,6 @@
     align-items: center;
     justify-content: center;
   }
-  
   .mainImg {
     color: black;
     width: 55%;
@@ -50,13 +46,11 @@
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
   }
-  
   .text-blk.headingText {
   font-size: 30px;
   font-family: metal;
   color: #1D3557;
   }
-  
   .allText {
     padding-top: 0px;
     padding-right: 0px;
@@ -69,12 +63,9 @@
     width: 40%;
     margin: 0 0 0 0;
   }
-  
-  
   .text-blk.description {
    font-family: merriwether;
   }
-  
   .explore {
     font-size: 20px;
     line-height: 28px;
@@ -103,7 +94,6 @@
     border-image-repeat: initial;
     cursor: pointer;
   }
-  
   .explore:hover {
     background-image: initial;
     background-position-x: initial;
@@ -117,7 +107,6 @@
     background-color: rgb(255, 235, 234);
     color: rgb(244, 152, 146);
   }
-  
   .responsive-container-block.Container {
     margin-top: 80px;
     margin-right: auto;
@@ -131,7 +120,6 @@
     padding-bottom: 10px;
     padding-left: 10px;
   }
-  
   .responsive-container-block.Container.bottomContainer {
     margin-top: 100px;
     margin-right: 0px;
@@ -140,29 +128,23 @@
     flex-direction: row-reverse;
     margin: 100px auto 50px auto;
   }
-  
   .allText.aboveText {
     margin: 0 0 0 40px;
   }
-  
   .allText.bottomText {
     margin: 0 40px 0 0;
   }
-  
   @media (max-width: 1024px) {
     .responsive-container-block.Container {
       max-width: 850px;
     }
-  
     .mainImg {
       width: 55%;
       height: auto;
     }
-  
     .text-blk.description {
       font-size: 20px;
     }
-  
     .allText {
       width: 40%;
       margin-top: 0px;
@@ -170,40 +152,32 @@
       margin-bottom: 0px;
       margin-left: 20px;
     }
-  
     .responsive-container-block.bigContainer {
       padding-top: 10px;
       padding-right: 10px;
       padding-bottom: 10px;
       padding-left: 10px;
     }
-  
     .text-blk.subHeadingText {
       font-size: 22px;
     }
-  
     .responsive-container-block.Container.bottomContainer {
       margin: 80px auto 50px auto;
     }
-  
-    .responsive-container-block.Container {
+   .responsive-container-block.Container {
       max-width: 830px;
     }
-  
     .allText.aboveText {
       margin: 30px 0 0 40px;
     }
-  
     .allText.bottomText {
       margin: 30px 40px 0 0;
     }
   }
-  
   @media (max-width: 768px) {
     .mainImg {
       width: 90%;
     }
-  
     .allText {
       width: 100%;
       margin-top: 0px;
@@ -219,50 +193,40 @@
       padding-bottom: 0px;
       padding-left: 0px;
     }
-  
     .responsive-container-block.Container {
       flex-direction: column;
       height: auto;
     }
-  
     .text-blk.headingText {
       text-align: center;
     }
-  
     .text-blk.subHeadingText {
       text-align: center;
       font-size: 25px;
     }
-  
     .text-blk.description {
       text-align: center;
       font-size: 25px;
     }
-  
     .allText {
       margin-top: 40px;
       margin-right: 0px;
       margin-bottom: 0px;
       margin-left: 0px;
     }
-  
     .allText.aboveText {
       margin: 40px 0 0 0;
     }
-  
     .responsive-container-block.Container {
       margin: 80px auto 50px auto;
     }
-  
     .responsive-container-block.Container.bottomContainer {
       margin: 50px auto 50px auto;
     }
-  
     .allText.bottomText {
       margin: 40px 0 0 0;
     }
   }
-  
   @media (max-width: 500px) {
     .responsive-container-block.Container {
       padding-top: 10px;
@@ -272,18 +236,15 @@
       width: 100%;
       max-width: 100%;
     }
-  
     .mainImg {
       width: 100%;
     }
-  
     .responsive-container-block.bigContainer {
       padding-top: 10px;
       padding-right: 25px;
       padding-bottom: 10px;
       padding-left: 25px;
     }
-  
     .text-blk.subHeadingText {
       font-size: 25px;
       padding-top: 0px;
@@ -291,7 +252,6 @@
       padding-bottom: 0px;
       padding-left: 0px;
     }
-  
     .text-blk.description {
       font-size: 15px;
       padding-top: 0px;
@@ -299,7 +259,6 @@
       padding-bottom: 0px;
       padding-left: 0px;
     }
-  
     .allText {
       padding-top: 0px;
       padding-right: 0px;
@@ -308,21 +267,6 @@
       width: 100%;
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   /* Base styles */
 .col-md-12 {
   display: flex;
@@ -330,32 +274,26 @@
   padding-bottom: 5rem;
   flex-wrap: wrap; /* Ensure that items wrap on smaller screens */
 }
-
 .snip1390 {
   flex: 1 1 30%; /* Flex items to be responsive */
   max-width: 30%; /* Limit the width */
   margin: 1rem; /* Add some margin */
   text-align: center; /* Center align text */
 }
-
 .profile {
   width: 100%; /* Make images responsive */
   border-radius: 50%; /* Round images */
 }
-
 h2 {
   font-size: 1.5rem; /* Adjust font size */
 }
-
 h4 {
   font-size: 1.2rem; /* Adjust font size */
 }
-
 blockquote {
   font-size: 1rem; /* Adjust font size */
   padding: 1rem;
 }
-
 /* Mobile styles */
 @media (max-width: 768px) {
   .snip1390 {
@@ -363,20 +301,135 @@ blockquote {
     max-width: 100%; /* Full width on smaller screens */
     margin: 0.5rem 0; /* Adjust margin */
   }
-
   .col-md-12 {
     padding-bottom: 2rem; /* Adjust padding */
   }
-
   h2 {
     font-size: 1.2rem; /* Adjust font size */
   }
-
   h4 {
     font-size: 1rem; /* Adjust font size */
   }
-
   blockquote {
     font-size: 0.9rem; /* Adjust font size */
   }
 }
+
+
+.container9
+{
+  background-color: rgb(220,210,249);
+}
+.kkk
+{
+  color: rgb(0, 0, 0);
+        font-family: metal;
+        margin-left: 30px;
+        border-bottom: 2px solid rgb(0, 0, 0);
+        padding-top: 20px;
+        display: inline-block;
+        margin-bottom: 0px;
+}
+/* about page------------------ */
+
+
+/* Animation for fading in elements */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Animation for sliding in images */
+.slide-in {
+  transform: translateX(-100%);
+  animation: slideIn 1s forwards;
+}
+
+@keyframes slideIn {
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Button hover and active effects */
+.animate-btn {
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.animate-btn:hover {
+  background-color: #ff512f;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.animate-btn:active {
+  background-color: #f09819;
+  transform: scale(0.95);
+}
+
+/* Add a subtle hover effect to the container */
+.Container {
+  transition: transform 0.3s;
+}
+
+.Container:hover {
+  transform: scale(1.02);
+}
+
+
+
+/* home page 2nd container Animation for the entire container */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.container {
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Card animation on hover */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Card image animation */
+.card__image-holder {
+  overflow: hidden;
+}
+
+.card__image {
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card__image {
+  transform: scale(1.1);
+}
+
+/* Card title and description animations */
+.card-title h2, .card-description {
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+
+
+
+
+
+
+

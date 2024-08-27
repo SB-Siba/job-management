@@ -3,28 +3,20 @@
 {% block content %}
 <!-- Styles -->
 <style>
-    .card {
-        font-family: Merriweather, serif;
-    }
     .table thead th {
         font-size: 16px;
     }
+
     .card-header:first-child {
         box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
     }
+
     tr:hover {
         background-color: rgb(244, 212, 169);
     }
-    .btn-icon {
-        background-color: transparent;
-        border: none;
-        color: #6c757d; /* Default text color */
-    }
-    .btn-icon:hover {
-        color: #0056b3; /* Change to desired color on hover */
-    }
-    .btn-icon i {
-        font-size: 1.25rem; /* Consistent icon size */
+
+    .btn-close:hover {
+        background-color: #f0ad4e; /* Change this to your desired hover color */
     }
 </style>
 
@@ -64,10 +56,10 @@
                             </td>
                             <td>{{ product_count }}</td>
                             <td>
-                                <a href="{% url 'admin_dashboard:category_update' category.id %}" class="btn-icon">
+                                <a href="{% url 'admin_dashboard:category_update' category.id %}" class="btn btn-sm btn-square btn-neutral">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                <a href="#" onclick="openDeleteModal('{% url 'admin_dashboard:category_delete' category.id %}'); return false;" class="btn-icon">
+                                <a href="#" onclick="openDeleteModal('{% url 'admin_dashboard:category_delete' category.id %}'); return false;" class="btn btn-sm btn-square btn-neutral text-danger-hover">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </td>

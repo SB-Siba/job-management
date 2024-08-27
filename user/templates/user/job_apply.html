@@ -1,14 +1,17 @@
+{% extends 'user/index.html' %}
+{% load static %}
+{% block title %}
+Apply For Job
+{% endblock title %}
 
 {% block main_content %} 
-
-<body>
 <style>
-    body {
-        font-family: Roboto, sans-serif;
+    .bg {
+        font-family: poppins;
         color: #515a6e;
         background-color: #d5eafc;
         height: 100%;
-        margin: 0;
+        box-sizing: 0;
         overflow: hidden;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -22,18 +25,15 @@
         -ms-flex-pack: center;
         justify-content: center;
       }
-      
       a {
         cursor: pointer;
         color: #000;
         text-decoration: none;
         transition: all 0.3s;
       }
-      
       a:hover {
         color: #000; /* Replace $color with actual color value */
       }
-      
       .fish, .fish-shadow {
         width: 740px;
         height: auto;
@@ -42,24 +42,19 @@
         left: -200px;
         animation: fish 3s forwards ease-in-out;
       }
-
       .fish-shadow:hover
       {
         color: white;
       }
-      
       .fish path, .fish-shadow path {
         fill: #fff;
       }
-      
-      .fish path:hover, .fish-shadow path:hover {
-        fill: #000; /* Replace $colorSecondary with actual color value */
+      .fish :hover, .fish-shadow path:hover {
+        fill: black; /* Replace $colorSecondary with actual color value */
       }
-      
       .line {
         fill: none;
       }
-      
       .fish-shadow-con {
         opacity: 0.2;
         filter: blur(10px);
@@ -67,7 +62,6 @@
         top: 0;
         left: 0;
       }
-      
       .fish-shadow {
         -webkit-filter: url("#goo");
         filter: url(#goo);
@@ -75,16 +69,12 @@
         left: -157px;
         opacity: 0.4;
       }
-      
       .fish-shadow path {
         fill: #211922;
       }
-      
       .fish-shadow path:hover {
         fill: #211922;
-        
       }
-      
       .container {
         position: relative;
         background-color: #fafafe;
@@ -95,7 +85,6 @@
         width: 320px;
         box-sizing: border-box;
       }
-      
       .container:before {
         content: "";
         position: absolute;
@@ -103,27 +92,23 @@
         bottom: 0;
         right: 0;
         height: 75%;
-        background-color: #fafafe;
+        background-color: #ffffff;
         border-radius: 10px;
         z-index: 2;
-        
       }
-      
       .card {
         position: relative;
         z-index: 2;
+        padding-top: 10px;
       }
-      
       .card_title {
         font-size: 24px;
         margin: 0;
       }
-      
       .card_title-info {
         font-size: 14px;
         margin: 7px 0 10px;
       }
-      
       .card_button {
         border-radius: 4px;
         border: none;
@@ -133,7 +118,7 @@
         font-size: 18px;
         line-height: 36px;
         font-weight: 500;
-        margin: 25px 0 10px;
+        margin: 15px 0 5px;
         color: #fff;
         background: linear-gradient(#000, #000); /* Replace with actual color values */
         box-shadow: 0 2px 12px -3px #000; /* Replace $color with actual color value */
@@ -141,34 +126,27 @@
         opacity: 0.9;
         transition: all 0.3s;
       }
-      
       .card_button:hover {
         opacity: 1;
         box-shadow: 0 2px 2px -3px #000; /* Replace $color with actual color value */
       }
-      
       .card_info {
         font-size: 14px;
       }
-      
       .input {
         display: flex;
         flex-direction: column-reverse;
         position: relative;
-        padding-top: 10px;
       }
-      
       .input + .input {
         margin-top: 10px;
       }
-      
       .input_label {
         color: #8597a3;
         position: absolute;
         top: 20px;
         transition: all 0.3s;
       }
-      
       .input_field {
         border: 0;
         padding: 0;
@@ -178,18 +156,15 @@
         font: inherit;
         font-size: 14px;
         line-height: 30px;
-      }
-      
+      } 
       .input_field:focus, .input_field:valid {
         outline: 0;
         border-bottom-color: #665856;
       }
-      
       .input_field:focus + .input_label, .input_field:valid + .input_label {
         color: #665856;
         transform: translateY(-25px);
       }
-      
       .input_eye {
         position: absolute;
         bottom: 0;
@@ -206,13 +181,11 @@
         -ms-flex-pack: center;
         justify-content: center;
       }
-      
       .input_eye svg {
         width: 24px;
         height: auto;
         stroke: #8597a3;
       }
-      
       .link {
         position: absolute;
         bottom: 20px;
@@ -240,8 +213,8 @@
                 {% endfor %}    
                     <button class="card_button" type="submit">Apply Now</button>
             </form>
-           
         </div>
+
         <div class="fish-shadow-con">
             <svg class="fish-shadow" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMin slice" viewBox="0 0 743 645">
                 <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">

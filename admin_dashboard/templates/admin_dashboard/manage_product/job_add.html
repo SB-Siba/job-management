@@ -10,12 +10,9 @@
         box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
         padding: 10px;
         border-radius: 15px !important;
-        font-family: merriwether;
         display: flex;
         
     }
-    
-   
     input, button, select, optgroup, textarea {
        background: transparent;
     }
@@ -27,7 +24,6 @@
     }
     .custom-card-header h2 {
         color:black  !important;
-        font-family: merriwether;
     }
     button{
         margin-top: 10px;
@@ -36,7 +32,6 @@
         background-color: rgb(185, 184, 184);
         padding: 13px;
         border-radius: 15px !important;
-        font-family: merriwether;
         font-size: 20px;
         width: 100%;   
     }
@@ -44,26 +39,25 @@
        background-color: black;
        color: white;   
     }
-    .card-body
-    {
-        font-family: merriweher;
-        
-    }
     .form-control
     {
         width: 100%;
+    }
+    textarea.form-control
+    {
+        height: 150px;
     }
 </style>
 
 <div class="container my-4">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-7">
             <div class="card">
                 <div class="card-header custom-card-header text-white col-md-12">
                     <h2 class="text-center">Add Job</h2>
                 </div>
                 <div class="card-body">
-                    <form method="post" enctype="multipart/form-data" class="">
+                    <form method="post" enctype="multipart/form-data" class="px-8">
                         {% include 'snippets/alert.html' %}
                         {% csrf_token %}
                         {{ form.as_p }}

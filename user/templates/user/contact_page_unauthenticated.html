@@ -6,15 +6,36 @@
 {% include 'snippets/alert.html' %}
 </div>
 <style>
+  .containerk {
+    display: flex;
+    flex-direction: row; /* Arrange side by side on larger screens */
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    padding: 2rem;
+  }
+  
+  .image-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  form {
+    flex: 1;
+    min-width: 25rem;
+  }
+  
   svg {
     height: 23rem;
     margin-right: 4rem;
   }
-
+  
   #envelope {
     animation: float 2s ease-in-out infinite;
   }
-
+  
   #star1,
   #star2,
   #star3,
@@ -23,6 +44,7 @@
   #star6 {
     animation: blink 1s ease-in-out infinite;
   }
+  
   #star2 {
     animation-delay: 100ms;
   }
@@ -38,7 +60,7 @@
   #star6 {
     animation-delay: 200ms;
   }
-
+  
   @keyframes float {
     0% {
       transform: translateY(0px);
@@ -50,7 +72,7 @@
       transform: translateY(0px);
     }
   }
-
+  
   @keyframes blink {
     0% {
       opacity: 0;
@@ -62,67 +84,53 @@
       opacity: 1;
     }
   }
-
-  .containerk {
-    height: 100vh;
+  
+  .form-control {
+    background-color: #f2f6f8;
+    border-radius: 2rem;
+    border: none;
+    box-shadow: 0px 7px 5px rgba(0, 0, 0, 0.11);
   }
-
-  form {
-    min-width: 25rem;
-
-    .title {
-      font-family: "Pacifico", cursive;
-      color: #212529;
-      font-size: 2.5rem;
-    }
-
-    .form-control {
-      background-color: #f2f6f8;
-      border-radius: 2rem;
-      border: none;
-      box-shadow: 0px 7px 5px rgba(0, 0, 0, 0.11);
-
-      &.thick {
-        height: 3.3rem;
-        padding: 0.5rem 3.5rem;
-      }
-
-      &:focus {
-        background-color: #f2f6f8;
-        border: none;
-        box-shadow: 0px 7px 5px rgba(0, 0, 0, 0.11);
-      }
-    }
-
-    .message .form-control {
-      padding: 0.5rem 1.8rem;
-    }
-
-    ::placeholder {
-      font-family: "Quicksand", sans-serif;
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: #838788;
-      position: relative;
-      left: 0;
-    }
-
-    input,
-    textarea {
-      font-family: "Quicksand", sans-serif;
-      color: #212529;
-      font-size: 1.1rem;
-    }
-
-    .icon {
-      color: #57565c;
-      height: 1.3rem;
-      position: absolute;
-      left: 1.5rem;
-      top: 1.1rem;
-    }
+  
+  .form-control.thick {
+    height: 3.3rem;
+    padding: 0.5rem 3.5rem;
   }
-
+  
+  .form-control:focus {
+    background-color: #f2f6f8;
+    border: none;
+    box-shadow: 0px 7px 5px rgba(0, 0, 0, 0.11);
+  }
+  
+  textarea {
+    height: 150px;
+  }
+  
+  ::placeholder {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #838788;
+    position: relative;
+    left: 0;
+  }
+  
+  input,
+  textarea {
+    font-family: "Quicksand", sans-serif;
+    color: #212529;
+    font-size: 1.1rem;
+  }
+  
+  .icon {
+    color: #57565c;
+    height: 1.3rem;
+    position: absolute;
+    left: 1.5rem;
+    top: 1.1rem;
+  }
+  
   .btn.btn-primary {
     font-family: "Quicksand", sans-serif;
     font-weight: bold;
@@ -131,36 +139,50 @@
     padding: 0 3rem;
     border: 0;
     border-radius: 3rem;
-    background-image: linear-gradient(
-      131deg,
-      #ffd340,
-      #ff923c,
-      #ff923c,
-      #ff923c
-    );
+    background-image: linear-gradient(131deg, #ffd340, #ff923c, #ff923c, #ff923c);
     background-size: 300% 100%;
     transition: all 0.3s ease-in-out;
   }
-
+  
   .btn.btn-primary:hover:enabled {
     box-shadow: 0 0.5em 0.5em -0.4em #ff923cba;
     background-size: 100% 100%;
     transform: translateY(-0.15em);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .containerk {
+      flex-direction: column; /* Stack elements vertically on mobile screens */
+      height: auto; /* Allow the container to adjust height based on content */
+      padding: 1rem; /* Add padding for better spacing on smaller screens */
+    }
+  
+    .image-wrapper {
+      margin-bottom: 2rem; /* Add space between image and form */
+    }
+  
+    form {
+      min-width: 100%; /* Allow the form to take full width on smaller screens */
+      padding: 0 1rem; /* Add some padding */
+    }
+  
+    svg {
+      height: 15rem; /* Reduce the SVG size on smaller screens */
+      margin-right: 0; /* Remove right margin on mobile */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    svg {
+      margin-bottom: 20px;
+      height: 12rem; /* Further reduce the SVG size for smaller mobile screens */
+    }
+  
+    form {
+      padding: 0 0.5rem; /* Adjust padding for very small screens */
+    }
+  }
   
 </style>
 

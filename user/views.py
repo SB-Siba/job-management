@@ -276,27 +276,15 @@ class UserJobDetail(View):
     
 
 @method_decorator(login_required, name='dispatch')
+ 
 class ApplyForJobView(View):
     template = app + 'job_apply.html'
     model = Application
-    
     def get(self, request, pk):
         job = get_object_or_404(Job, pk=pk)
-        user_profile = get_object_or_404(UserProfile, user=request.user)
-        
-        # Pre-fill form with user's profile data and disable name and email fields
-        form = ApplicationForm(initial={
-            'full_name': user_profile.user.full_name,
-            'email': user_profile.user.email,
-            'contact': user_profile.user.contact,
-        })
-        
-        # Disable the 'full_name' and 'email' fields
-        form.fields['full_name'].disabled = True
-        form.fields['email'].disabled = True
-        
+        form = ApplicationForm()
         return render(request, self.template, {'job': job, 'form': form})
-
+ 
     def post(self, request, pk):
         job = get_object_or_404(Job, pk=pk)
         form = ApplicationForm(request.POST, request.FILES)
