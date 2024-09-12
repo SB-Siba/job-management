@@ -45,28 +45,27 @@ function get_order_detail(element){
     })
 }
 
-function message_detail(element){
+function message_detail(element) {
     var uid = element.getAttribute('uid');
-    var url = '/admin_dashboard/contact_messages/contact_message_detail/'+uid;
-
-    var myModal = new bootstrap.Modal(document.getElementById('contact_message'));
-    
-    document.getElementById('contact_message_id').innerHTML = uid;
-
-    
-
-    axios.get(url)
-    .then(function (response) {
-        var data = response.data;
-        document.getElementById('contact_message_message').innerHTML=data.message;
-
-        // populating form
-        var form = document.getElementById('message_reply_form');
-        form.elements['reply'].innerHTML = data.reply;
-        form.elements['status'].value = data.status;
-        myModal.show();
+    // Fetch message details using the UID
+    axios.get('/api/get_message_detail/', {
+        params: {
+            uid: uid
+        }
     })
+    .then(function (response) {
+        // Update the modal with message details
+        document.getElementById('contact_message_id').innerText = response.data.message_id;
+        document.getElementById('contact_message_message').innerText = response.data.message_text;
+        // Show the modal
+        var modal = new bootstrap.Modal(document.getElementById('contact_message'));
+        modal.show();
+    })
+    .catch(function (error) {
+        console.error('There was an error fetching the message details:', error);
+    });
 }
+
 
 function submit_reply(){
     const formData = {};

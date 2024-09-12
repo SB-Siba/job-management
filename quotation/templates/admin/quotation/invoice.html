@@ -1,0 +1,146 @@
+{% extends 'admin_dashboard/starter.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Invoice</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2&family=Montserrat:wght@400;500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @media print {
+            #backButton {
+                display: none;
+            }
+            #downloadButton {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body style="background: #e7e9ed; color: #535b61; font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 22px;">
+    <table class="body-wrap" style="box-sizing: border-box; font-size: 14px; width: 100%; height: 100vh; margin: 0;">
+        <tbody>
+            <tr style="box-sizing: border-box; font-size: 14px; margin: 0;">
+                <td valign="top"></td>
+                <td class="container" width="850" style="box-sizing: border-box; font-size: 14px; max-width: 850px; margin: 0 auto;">
+                    <div class="content" style="box-sizing: border-box; font-size: 14px; max-width: 850px; margin: 0 auto; padding: 20px;">
+                        <table class="main" width="100%" cellpadding="0" cellspacing="0" style="box-sizing: border-box; font-size: 14px; border-radius: 3px; border: none;">
+                            <tbody>
+                                <tr style="box-sizing: border-box; font-size: 14px; margin: 0;">
+                                    <td class="content-wrap" style="box-sizing: border-box; font-size: 14px; padding: 36px 50px; border: 2px solid #e9e8e8; border-radius: 7px; background-color: #fff;">
+                                        <meta itemprop="name" content="Confirm Email">
+                                        <table width="100%" cellpadding="0" cellspacing="0" style="box-sizing: border-box; font-size: 14px; margin: 0;">
+                                            <tbody>
+                                                <tr style="box-sizing: border-box; font-size: 14px; margin: 0;">
+                                                    <td class="content-block" style="box-sizing: border-box; font-size: 14px; margin: 0; padding: 0 0 20px; border-bottom: 1px solid #dedede;">
+                                                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                                            <!-- Company Details (Left) -->
+                                                            <div style="flex: 1;">
+                                                                <b><p style="font-size: 1.5rem; margin: 0;">PRAVATI INTERNATIONAL</p></b>
+                                                                <p style="margin: 5px 0;">Friends Colony Mangalabag, Cuttuck - 753001</p>
+                                                                <p style="margin: 5px 0;">pravatiservices643@gmail.com</p>
+                                                                <p style="margin: 5px 0;">+91 96687-90643</p>
+                                                            </div>
+                                                            <!-- Invoice Details (Right) -->
+                                                            <div style="flex: 1; text-align: end;">
+                                                                <h3 style="color: #0c2f54; font-size: 1.5rem; font-weight: 600; margin: 0;">Invoice</h3>
+                                                                <p style="margin: 5px 0; font-size: 1.1em;">Order No - {{order.uid}}</p>
+                                                                <p style="margin: 5px 0; font-size: 1.1em;">{{order.date}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr style="box-sizing: border-box; font-size: 14px; margin: 0;">
+                                                    <td class="content-block" style="display: flex; box-sizing: border-box; font-size: 14px; margin: 0; padding: 1rem 0; justify-content: space-between;">
+                                                        <div>
+                                                            <h4 style="margin: 0; font-size: 1.2rem;">Invoiced To:</h4>
+                                                            <p style="margin: 5px 0; font-size: 1rem;">Company Name: {{ invoice.company_name }}</p>
+                                                            <p style="margin: 5px 0; font-size: 1rem;">Address: {{ invoice.address }}</p>
+                                                            <p style="margin: 5px 0; font-size: 1rem;">Email: {{ invoice.email }}</p>
+                                                            <p style="margin: 5px 0; font-size: 1rem;">Contact: {{ invoice.contact }}</p>
+                                                        </div>
+                                                    </td>
+                                                </tr>                                            
+                                                <tr style="box-sizing: border-box; font-size: 14px; margin: 0;">
+                                                    <td class="content-block" style="display: flex; justify-content: space-between; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0 0 29px;">
+                                                        <div>
+                                                            <h4 style="margin-bottom: -9px;">Payment Status</h4>
+                                                            <p style="margin-bottom: -9px;">{{order.payment_status}}</p>
+                                                        </div>
+                                                        <div style="margin-left: auto;">
+                                                            <h4 style="margin-bottom: -9px;">Order Status</h4>
+                                                            <p style="margin-bottom: -9px;">{{order.order_status}}</p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr style="box-sizing: border-box; font-size: 14px; margin: 0;">
+                                                    <td class="content-block" style="box-sizing: border-box; font-size: 14px; margin: 0; padding: 0 0 20px;">
+                                                        <table style="width: 100%; border: 1px solid lightgray; border-radius: 4px; border-collapse: collapse;">
+                                                            <tr>
+                                                                <th style="border-bottom: 1px solid #dddddd; background-color: #0000000f; text-align: left; padding: 11px;">Sl No</th>
+                                                                <th style="border-bottom: 1px solid #dddddd; background-color: #0000000f; text-align: left; padding: 11px;">Name</th>
+                                                                <th style="border-bottom: 1px solid #dddddd; background-color: #0000000f; text-align: left; padding: 11px;">Description</th>
+                                                                <th style="border-bottom: 1px solid #dddddd; background-color: #0000000f; text-align: left; padding: 11px;">Quantity</th>
+                                                                <th style="border-bottom: 1px solid #dddddd; background-color: #0000000f; text-align: end; padding: 11px;">Amount</th>
+                                                            </tr>
+                                                            {% for item in items %}
+                                                            <tr>
+                                                                <td style="border-bottom: 1px solid #dddddd; padding: 11px;">{{ forloop.counter }}</td>
+                                                                <td style="border-bottom: 1px solid #dddddd; padding: 11px;">{{ item.name }}</td>
+                                                                <td style="border-bottom: 1px solid #dddddd; padding: 11px;">{{ item.description }}</td>
+                                                                <td style="border-bottom: 1px solid #dddddd; padding: 11px;">{{ item.quantity }}</td>
+                                                                <td style="border-bottom: 1px solid #dddddd; text-align: end; padding: 11px;">{{ item.amount }}</td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                            <tr>
+                                                                <td colspan="4" style="border-bottom: 1px solid #dddddd; text-align: right; padding: 11px; background-color: #0000000f;">Total:</td>
+                                                                <td style="border-bottom: 1px solid #dddddd; text-align: end; padding: 11px; background-color: #0000000f;">{{ total_amount }}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+                                                <tr style="box-sizing: border-box; font-size: 14px; margin: 0;">
+                                                    <td class="content-block" style="box-sizing: border-box; font-size: 14px; margin: 0; padding: 20px 0 20px; border-top: 1px solid #dedede;">
+                                                        <p style="margin-bottom: 5px; text-align: center;">
+                                                            Thank you for choosing us.
+                                                        </p>
+                                                        <p style="margin-bottom: 5px; text-align: center;">For any queries, contact us at: pravatiservices643@gmail.com</p>
+                                                        <p style="margin-bottom: 0; text-align: center;">Phone No: +91 96687-90643</p>
+                                                    </td>
+                                                </tr>
+                                                <tr style="box-sizing: border-box; font-size: 14px; margin: 0;">
+                                                    <td class="content-block" style="text-align: center; box-sizing: border-box; font-size: 14px; margin: 0; padding: 10px 0;">
+                                                        <button id="downloadButton" onclick="downloadInvoice()" style="background-color: #2a7ae2; color: white; border: none; padding: 10px 20px; border-radius: 4px; font-size: 16px;">Download</button>
+                                                        <button id="backButton" onclick="history.back()" style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 4px; font-size: 16px;">Go Back</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+                <td valign="top"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        function downloadInvoice() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
+{% endblock %}

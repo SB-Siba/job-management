@@ -1,0 +1,379 @@
+{% extends 'admin_dashboard/starter.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .form-field {
+            width: 100%;
+        }
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+            
+        }
+        .form-field input, .form-field select {
+            border-radius: 15px !important;
+            box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+            padding: 8px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+        .form-field .error {
+            color: red;
+            font-size: 0.875em;
+        }
+        .row-single-column {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-bottom: 15px;
+        }
+        .person-details-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Four columns of equal width */
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .item-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr 2fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .item-row div {
+            margin-bottom: 5px;
+        }
+        .item-row label {
+            display: block;
+        }
+        #items-container {
+            max-height: 400px; /* Set maximum height for the items container */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            margin-bottom: 20px; /* Space for the button */
+            display: none; /* Hide items container initially */
+        }
+        .add-item-button {
+            background-color: rgb(185, 184, 184);
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            margin-top: -10px;
+            border-radius: 15px !important;
+            box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        }
+        .add-item-button:hover {
+            background-color: #000000;
+            color: white;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between; /* Spread buttons across the row */
+            align-items: center;
+            margin-top: 20px; /* Add space above the buttons */
+        }
+        .go-back-button, .preview-button, .save-button {
+            background-color: rgb(185, 184, 184);
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 15px !important;
+            box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+            cursor: pointer;
+            text-decoration: none; /* Remove underline from the anchor button */
+            display: inline-block;
+        }
+        .go-back-button:hover, .preview-button:hover, .save-button:hover {
+            background-color: #000000;
+            color: white;
+        }
+        .right-buttons {
+            display: flex;
+            gap: 10px; /* Space between the Preview and Save buttons */
+        }
+        /* Modal styles */
+        .modal-dialog-scrollable {
+            max-width: 100%;
+            width: 70%; /* Adjust modal width */
+            font-family: merriwether;
+        }
+        .modal-body {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        /* Popup content styles */
+        .popup-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        .popup-content li {
+            margin-bottom: 10px;
+        }
+        .popup-content li strong {
+            display: block;
+        }
+        .item-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .item-table th, .item-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        .item-table th {
+            background-color: #f2f2f2;
+        }
+        .fullcard {
+            border-radius: 15px !important;
+            box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+            font-family: merriwether;
+        }
+        textarea {
+            border-radius: 15px !important;
+            box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+            padding: 10px;
+            width: 250px;
+        }
+        .form-field label {
+            padding: 10px;
+            padding-bottom: 0px;
+        }
+        .box {
+            display: flex;
+            justify-content: space-evenly;
+        }
+        .b,.btn {
+            background-color: rgb(185, 184, 184);
+            color: rgb(0, 0, 0);
+            border-radius: 15px !important;
+            box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        }
+        .b,.btn:hover {
+            background-color: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
+        }
+        #items-container {
+            width: 100%;
+            margin: 20px 0;
+        }
+        
+        .item-table {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .item-header,
+        .item-row {
+            display: flex;
+            border-bottom: 1px solid #ddd; /* Adds a separator between rows */
+        }
+        
+        .item-header {
+            font-weight: bold;
+            background-color: #f0f0f0; /* Adds a background color to distinguish header */
+            border-bottom: 2px solid #ccc; /* Makes the header line thicker */
+        }
+        
+        .item-cell {
+            flex: 1; /* Ensures all cells are equally spaced */
+            padding: 10px;
+            text-align: left; /* Aligns text to the left for readability */
+        }
+        
+        .item-cell strong {
+            display: block; /* Makes header text bold */
+        }
+        
+        .item-row .item-cell {
+            display: flex;
+            align-items: center;
+        }
+        input{
+
+            width: 170px;
+            font-family: inherit;
+            line-height: inherit;
+            margin: 10px 0 10px 0;
+            border: 1px solid black;
+        }
+    </style>
+
+<div class="px-5 py-5"> 
+  <div class="fullcard px-5 py-5">
+      <div class="border-bottom border-black mb-2">
+          <h1 class="mb-2 text-center">Invoice Form</h1>
+      </div>
+      <div class="scrollable-content">
+          <form id="invoice-form" method="post">
+            {% csrf_token %}
+            <!-- Invoice Details Section -->
+            <div class="row-single-column">
+                <div class="form-field">
+                    <label for="company_name">Company Name</label>
+                    <input type="text" id="company_name" value="PRAVATI INTERNATIONAL" readonly>
+                </div>
+                <div class="form-field">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" value="Friends Colony Mangalabag, Cuttuck - 753001" readonly>
+                </div>
+                <div class="form-field">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" value="pravatiservices643@gmail.com" readonly>
+                </div>
+                <div class="form-field">
+                    <label for="phone_number">Phone Number</label>
+                    <input type="text" id="phone_number" value="+91 9668790643" readonly>
+                </div>
+            </div>
+            <!-- Company Address Section -->
+            <h2>Company Address</h2>
+            <div class="person-details-row pt-4">
+                <div class="form-field">
+                    <label for="company_name">Company Name</label>
+                    {{ form.company_name }}
+                    <div class="error">{{ form.company_name.errors }}</div>
+                </div>
+                <div class="form-field">
+                    <label for="address">Address</label>
+                    {{ form.address }}
+                    <div class="error">{{ form.address.errors }}</div>
+                </div>
+                <div class="form-field">
+                    <label for="email">Email</label>
+                    {{ form.email }}
+                    <div class="error">{{ form.email.errors }}</div>
+                </div>
+                <div class="form-field">
+                    <label for="contact">Contact</label>
+                    {{ form.contact }}
+                    <div class="error">{{ form.contact.errors }}</div>
+                </div>
+            </div>
+
+            <!-- Items Section -->
+            <button id="add-item" type="button" class="add-item-button">Add Item</button>
+            
+            <div id="items-container">
+                <h2>Items</h2>
+                {{ item_formset.management_form }}
+            
+                <!-- Table-like structure for proper alignment -->
+                <div class="item-table">
+            
+                    <!-- Header Row -->
+                    <div class="item-header">
+                        <div class="item-cell"><strong>Sr. No.</strong></div>
+                        <div class="item-cell"><strong>Name</strong></div>
+                        <div class="item-cell"><strong>Description</strong></div>
+                        <div class="item-cell"><strong>Quantity</strong></div>
+                        <div class="item-cell"><strong>Amount</strong></div>
+                    </div>
+            
+                    <!-- Item Rows -->
+                    {% for item_form in item_formset %}
+                    <div class="item-row">
+                        <div class="item-cell">
+                            {{ item_form.sr_no }}
+                            {{ item_form.sr_no.errors }}
+                        </div>
+                        <div class="item-cell">
+                            {{ item_form.name }}
+                            {{ item_form.name.errors }}
+                        </div>
+                        <div class="item-cell">
+                            {{ item_form.description }}
+                            {{ item_form.description.errors }}
+                        </div>
+                        <div class="item-cell">
+                            {{ item_form.quantity }}
+                            {{ item_form.quantity.errors }}
+                        </div>
+                        <div class="item-cell">
+                            {{ item_form.amount }}
+                            {{ item_form.amount.errors }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+                <!-- Save Button -->
+          
+            <button type="submit" class="btn">Save</button>
+
+          </form>
+
+
+        </div>
+
+          <div class="py-3">
+            <a href="{% url 'quotation:invoice' %}" class="btn">Generate Invoice</a>
+          </div>
+      </div>
+    </div>
+    <script>
+
+    function collectItemsData() {
+            var items = [];
+            document.querySelectorAll('.item-row').forEach(function(row) {
+                var srNo = row.querySelector('input[name*="sr_no"]').value;
+                var name = row.querySelector('input[name*="name"]').value;
+                var description = row.querySelector('input[name*="description"]').value;
+                var quantity = row.querySelector('input[name*="quantity"]').value;
+                var amount = row.querySelector('input[name*="amount"]').value;
+                items.push({
+                    sr_no: srNo,
+                    name: name,
+                    description: description,
+                    quantity: quantity,
+                    amount: amount
+                });
+            });
+            document.getElementById('items-data').value = JSON.stringify(items);
+        }
+
+
+      // Add Item Button Click Handler
+    document.getElementById('add-item').addEventListener('click', function() {
+        var itemsContainer = document.getElementById('items-container');
+        itemsContainer.style.display = 'block'; // Show items container
+        var totalForms = document.querySelectorAll('#items-container .item-row').length;
+        var newItem = `
+            <div class="item-row">
+                <div>
+                    <input type="text" name="item-${totalForms}-sr_no" value="${totalForms + 1}" readonly>
+                </div>
+                <div>
+                    <input type="text" name="item-${totalForms}-name">
+                </div>
+                <div>
+                    <input type="text" name="item-${totalForms}-description">
+                </div>
+                <div>
+                    <input type="number" name="item-${totalForms}-quantity">
+                </div>
+                <div>
+                    <input type="number" step="0.01" name="item-${totalForms}-amount">
+                </div>
+            </div>
+        `;
+        itemsContainer.insertAdjacentHTML('beforeend', newItem);
+    });
+
+
+     // Update item data when form is submitted
+     document.querySelector('form').addEventListener('submit', function() {
+        collectItemsData();
+    });
+    </script>
+{% endblock %}

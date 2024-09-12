@@ -5,30 +5,36 @@ from django.core.validators import RegexValidator
 from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .manager import MyAccountManager
-from django.dispatch import receiver
-from django.db.models.signals import post_save
 
-def document_path(self, filename):
+# Utility Functions
+def document_path(instance, filename):
     basefilename, file_extension = os.path.splitext(filename)
     myuuid = uuid.uuid4()
-    return 'files/{basename}{randomstring}{ext}'.format(basename=basefilename, randomstring=str(myuuid), ext=file_extension)
+    return f'files/{basefilename}{myuuid}{file_extension}'
 
 def generate_random_string():
-    random_uuid = uuid.uuid4()
-    random_string = random_uuid.hex
-    return random_string
+    return uuid.uuid4().hex
 
-def user_logo_path(self, filename):
+def user_logo_path(instance, filename):
     basefilename, file_extension = os.path.splitext(filename)
     myuuid = uuid.uuid4()
-    return 'user/logo/{basename}{randomstring}{ext}'.format(basename=basefilename, randomstring=str(myuuid), ext=file_extension)
+    return f'user/logo/{basefilename}{myuuid}{file_extension}'
 
+# Models
 class Category(models.Model):
-    title = models.CharField(max_length=255, null=True, blank=True, unique=True)
+    title = models.CharField(max_length=255, unique=True, null=True, blank=True)
     description = models.TextField()
 
     def __str__(self):
         return self.title
+    
+class Client(models.Model):
+    name = models.CharField(max_length=255)
+    is_admin = models.BooleanField(default=False)
+    # Other fields
+
+    def __str__(self):
+        return self.name
 
 class User(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length=255, null=True, blank=True)
@@ -50,22 +56,18 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     @property
     def full_contact_number(self):
-        if self.contact:
-            return '+91' + self.contact
-        return 'No contact present'
+        return f'+91{self.contact}' if self.contact else 'No contact present'
 
     def get_token(self, *args, **kwargs):
-        token = generate_random_string()
-        self.token = token
+        self.token = generate_random_string()
         super().save(*args, **kwargs)
-        return token
+        return self.token
 
     def __str__(self):
         return self.email
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    email = models.EmailField(default='')
     profile_pic = models.ImageField(upload_to="user_profile_pic/", null=True, blank=True)
     skills = models.TextField(null=True, blank=True)
     resume = models.FileField(upload_to="user_resume/", null=True, blank=True)
@@ -93,19 +95,23 @@ class Job(models.Model):
 
     title = models.CharField(max_length=255, null=True, blank=True)
     client = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, limit_choices_to={'is_staff': True})
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.CharField(max_length=300, null=True, blank=True)
     location = models.CharField(max_length=100, null=True, blank=True)
     posted_at = models.DateField(default=timezone.now)
-    published_date = models.DateTimeField(null=True, blank=True)
+    published_date = models.DateTimeField(default=timezone.now) 
     expiry_date = models.DateTimeField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
-    company_name = models.CharField(max_length=255, default='Default Company')
+    company_name = models.CharField(max_length=255)
     company_website = models.URLField(null=True, blank=True)
     company_logo = models.ImageField(upload_to='company_logos/', null=True, blank=True)
     vacancies = models.PositiveIntegerField(default=1)
     job_type = models.CharField(max_length=20, choices=JOB_TYPE_CHOICES, default=FULL_TIME)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='unpublished')
+
+    def publish(self):
+        self.published_date = timezone.now()
+        self.save()
 
     def __str__(self):
         return self.title
@@ -121,10 +127,18 @@ class Application(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     email = models.EmailField(default='')
-    contact = models.IntegerField(null=True, blank=True, default=0)
+    contact = models.CharField(max_length=10, null=True, blank=True, validators=[RegexValidator(r'^\d{10}$')])
     resume = models.FileField(upload_to='resumes/', null=True, blank=True)
     applied_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='Applied')
+    hiring_date = models.DateField(auto_now_add=True, null=True, blank=True)
+    hiring_time = models.TimeField(auto_now_add=True, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.status == 'Hired' and (not self.hiring_date or not self.hiring_time):
+            self.hiring_date = timezone.now().date()
+            self.hiring_time = timezone.now().time()
+        super(Application, self).save(*args, **kwargs)
 
     @property
     def user_full_name(self):
@@ -152,7 +166,6 @@ class ContactMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     message = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=255, choices=STATUS, default='pending')
-    reply = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -161,8 +174,8 @@ class ContactMessage(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.user if self.user else self.email} - {self.status}"
-        
+        return f"{self.user if self.user else 'Anonymous'} - {self.status}"
+
 class Employee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     employer = models.ForeignKey(User, related_name='employees', on_delete=models.CASCADE)
@@ -192,3 +205,13 @@ class EditUser(models.Model):
 
     def __str__(self):
         return self.user.email
+class EmployeeReplacementRequest(models.Model):
+    client_email = models.EmailField()
+    current_employee = models.EmailField()
+    new_employee_name = models.CharField(max_length=255)
+    new_employee_email = models.EmailField()
+    new_employee_phone = models.CharField(max_length=20)
+    status = models.CharField(max_length=20, default='Pending')  # Status field to track the request status
+
+    def __str__(self):
+        return f"Request from {self.client_email} to replace {self.current_employee}"

@@ -27,14 +27,14 @@
 <body>
   <div class="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
     <nav
-      class="navbar show navbar-vertical h-lg-screen navbar-expand-lg px-0 py-3 navbar-light bg-white border-bottom border-bottom-lg-0 border-end-lg scrollbar"
+      class="navbar show navbar-vertical h-lg-screen navbar-expand-lg py-0 navbar-light bg-white border-bottom border-bottom-lg-0 border-end-lg scrollbar"
       id="sidebar">
-      <div class="container-fluid"><button class="navbar-toggler ms-n2" type="button" data-bs-toggle="collapse"
+      <div class="container-fluid bg-black px-3">
+        <button class="navbar-toggler ms-n2" type="button" data-bs-toggle="collapse"
           data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false"
-          aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button><a
-          class="navbar-brand d-inline-block py-lg-2 mb-lg-1 px-lg-6 me-0 d-flex justify-content-center" href="">
-          <img
-            style="width: 90px; height: 50px ;" src="{% static 'images/audio_logo.png' %}" alt="..."></a>
+          aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+          <a
+          class="navbar-brand d-inline-block py-lg-2 mb-lg-1 px-lg-6 me-0 d-flex justify-content-center" href=""><h3 class="text-white text-center">Pravati <br> International</h3></a>
         <div class="navbar-user d-lg-none">
           <div class="dropdown"><a href="#" id="sidebarAvatar" role="button" data-bs-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
@@ -43,7 +43,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sidebarAvatar"><a href="#"
                 class="dropdown-item">Profile</a><a href="#" class="dropdown-item">Settings</a><a href="#"
-                class="dropdown-item">Billing</a>
+                class="dropdown-item">quotation</a>
               <hr class="dropdown-divider"><a href="" class="dropdown-item">Logout</a>
             </div>
           </div>
@@ -52,7 +52,7 @@
     </nav>
     <div class="flex-lg-1 h-screen overflow-y-lg-auto">
       <nav
-        class="navbar navbar-light position-lg-sticky top-lg-0 d-none d-lg-block overlap-10 flex-none bg-white border-bottom px-0 py-3"
+        class="navbar navbar-light position-lg-sticky top-lg-0 d-none d-lg-block overlap-10 flex-none bg-white border-bottom px-0 py-0"
         id="topbar">
         <div class="container-fluid">
           <div class="hstack gap-2"></div>
@@ -68,7 +68,7 @@
       
       {% block main_content %} 
 
-      {% endblock main_content %}
+    {% endblock main_content %}  
     </div>
   </div>
   <script src="{% static 'app_common/js/main.js'%}"></script>

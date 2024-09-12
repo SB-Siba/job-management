@@ -19,6 +19,8 @@ from .. import swagger_doc
 from . import serializer as product_serializer
 from . import forms
 from app_common import models as common_model
+from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404
 
 
 app = "admin_dashboard/manage_product/"
@@ -93,37 +95,38 @@ class categoryUpdate(View):
     form_class = forms.categoryEntryForm
     template = app + "catagory_update.html"
 
-    def get(self,request, category_id):
-        category = self.model.objects.get(id= category_id)
+    def get(self, request, category_id):
+        category = self.model.objects.get(id=category_id)
         context = {
             "form": self.form_class(instance=category),
         }
         return render(request, self.template, context)
     
     def post(self, request, category_id):
-        category = self.model.objects.get(id= category_id)
-        form = self.form_class(request.POST, request.FILES ,instance= category)
+        category = self.model.objects.get(id=category_id)
+        form = self.form_class(request.POST, request.FILES, instance=category)
         if form.is_valid():
             form.save()
-            messages.success(request, f"{request.POST['title']} is updated successfully.....")
+            messages.success(request, f"{request.POST['title']} is updated successfully.")
+            # Redirect to the category list view after successful update
+            return redirect("admin_dashboard:category_list")
         else:
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f'{field}: {error}')
+            # If form is invalid, stay on the same page to correct errors
+            return render(request, self.template, {'form': form})
 
-        return redirect("admin_dashboard:category_update", category_id = category_id)
 
-
-@method_decorator(utils.super_admin_only, name='dispatch')
-class categoryDelete(View):
+class CategoryDeleteView(View):
     model = common_model.Category
-    form_class = forms.categoryEntryForm
-    template = app + "category_update.html"
+    success_url = reverse_lazy('admin_dashboard:category_list')
 
-    def get(self,request, category_id):
-        category = self.model.objects.get(id= category_id).delete()
-        messages.info(request, "category is deleted successfully....")
-        return redirect("admin_dashboard:category_list")
-
-
-
+    def post(self, request, *args, **kwargs):
+        category_id = kwargs.get('pk')
+        category = get_object_or_404(self.model, id=category_id)
+        category.delete()
+        messages.info(request, 'Category deleted successfully.')
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': True})
+        return JsonResponse({'success': False}, status=400)

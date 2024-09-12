@@ -1,183 +1,207 @@
 {% extends 'user/landing_page.html' %} {% load static %} {% block title %} Job
 Opening {% endblock title %} 
 {% block main_content %}
+
+
 <style>
   
-
-.img-banner
-{
-  height: 80vh;
-  width: 100%;
-  object-fit: cover;
-}
-  
-  .nft {
-    user-select: none;
-    max-width: 350px;
-    border: 1px solid #ffffff22;
-    background-color: #282c34;
-    background: linear-gradient(
-      0deg,
-      rgba(40, 44, 52, 1) 0%,
-      rgba(17, 0, 32, 0.5) 100%
-    );
-    
-    border-radius: 0.7rem;
-    backdrop-filter: blur(7px);
-    -webkit-backdrop-filter: blur(7px);
+  .bubble-background {
+    position: relative;
+    min-height: 100vh; /* Ensure the background covers the viewport */
     overflow: hidden;
-    transition: 1s all;
-    hr {
-      width: 100%;
-      border: none;
-      border-bottom: 1px solid #88888855;
-      margin-top: 0;
-    }
-    ins {
-      text-decoration: none;
-    }
-    .main {
-      display: flex;
-      flex-direction: column;
-      width: 90%;
-      padding: 1rem;
-      .tokenImage {
-        border-radius: 0.5rem;
-        max-width: 100%;
-        height: 250px;
-        object-fit: cover;
-      }
-      .description {
-        margin: 0.5rem 0;
-        color: #a89ec9;
-      }
-      .tokenInfo {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .price {
-          display: flex;
-          align-items: center;
-          color: #ee83e5;
-          font-weight: 700;
-          ins {
-            margin-left: -0.3rem;
-            margin-right: 0.5rem;
-          }
-        }
-        .duration {
-          display: flex;
-          align-items: center;
-          color: #a89ec9;
-          margin-right: 0.2rem;
-          ins {
-            margin: 0.5rem;
-            margin-bottom: 0.4rem;
-          }
-        }
-      }
-      .creator {
-        display: flex;
-        align-items: center;
-        margin-top: 0.2rem;
-        margin-bottom: -0.3rem;
-        ins {
-          color: #a89ec9;
-          text-decoration: none;
-        }
-        .wrapper {
-          display: flex;
-          align-items: center;
-          border: 1px solid #ffffff22;
-          padding: 0.3rem;
-          margin: 0;
-          margin-right: 0.5rem;
-          border-radius: 100%;
-          box-shadow: inset 0 0 0 4px #000000aa;
-          img {
-            border-radius: 100%;
-            border: 1px solid #ffffff22;
-            width: 2rem;
-            height: 2rem;
-            object-fit: cover;
-            margin: 0;
-          }
-        }
-      }
-    }
-    ::before {
-      position: fixed;
-      content: "";
-      box-shadow: 0 0 100px 40px #ffffff08;
-      top: -10%;
-      left: -100%;
-      transform: rotate(-45deg);
-      height: 60rem;
-      transition: 2s all;
-    }
-    &:hover {
-      border: 1px solid #ffffff44;
-      box-shadow: 0 0px 5px #000000aa;
-      transform: scale(1.015);
-      filter: brightness(1.3);
-      ::before {
-        filter: brightness(0.5);
-        top: -100%;
-        left: 200%;
-      }
-    }
+    background-color: #ffffff; /* Background color in case of gradient issues */
   }
-  .buttony
-  {
-    background-color: #6754e2;
-    height:40px ;
-    font-weight: bold;
-    width: 130px;
-    border-radius: 5px;
+  
+  .job-listings {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .job-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 320px;
+    margin: 20px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeIn 0.6s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 2; /* Ensure cards appear above bubbles */
+    border-top: 4px solid teal; /* Top border for card color accent */
+  }
+  
+  .job-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .job-header,
+  .job-footer {
+    background-color: #f0f4ff; /* Light blue background for headers and footers */
+  }
+  
+  .job-header {
+    border-bottom: 1px solid #d0d7e4;
+  }
+  
+  .job-title {
+    margin: 0;
+    font-size: 22px;
+    color: #1d3557; /* Main accent color */
+  }
+  
+  .job-category {
+    font-size: 16px;
+    color: #333; /* Dark text for contrast */
+  }
+  
+  .job-details {
+    background-color: #ffffff;
+  }
+  
+  .job-company,
+  .job-location,
+  .job-type,
+  .job-description {
+    color: #555; /* Neutral gray for detail text */
+  }
+  
+  .job-time {
+    font-size: 14px;
+    color: #888;
+    margin: 0;
+  }
+  
+  .apply-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff5722; /* Bright orange button for a call-to-action */
     color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
   }
-  .buttony:hover
+  
+  .apply-btn:hover {
+    background-color: #e64a19; /* Darker orange on hover */
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Bubble Background Animation */
+ /* Continuous Scrolling Bubble Background Animation */
+.bubble-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background-image: radial-gradient(circle, rgba(120, 204, 198, 0.3) 20%, transparent 20%),
+                    radial-gradient(circle, rgba(208, 208, 208, 0.3) 20%, transparent 20%);
+  background-size: 100px 100px;
+  background-position: 0 0, 50px 50px;
+  opacity: 0.5;
+  animation: moveBubbles 20s linear infinite;
+  z-index: 0; /* Background layer */
+}
+
+@keyframes moveBubbles {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(0, -50%);
+  }
+}
+  h3
   {
-    color:#6754e2;
-    background-color: white;
-  } 
+    font-size: 25px;
+    font-weight: bolder;
+  }
+
+  .img-banner {
+    height: 70vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.img-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.img-banner .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(107, 107, 107, 0.5); /* Black overlay with 50% opacity */
+  pointer-events: none; /* Make the overlay non-interactive */
+}
+@media (max-width: 768px) {
+  /* For tablets and smaller screens */
+  .img-banner {
+    width: 100%;
+    height: auto; /* Let the height adapt to the content */
+  }
+
+  .img-banner img {
+    width: 100%; /* Ensures the image is fully responsive */
+    height: auto;
+  }
+}
 </style>
 
 
 
-  <!-- Banner -->
-  <div class="img-banner">
-    <img src="{% static 'images/se6.jpg' %}" alt="Banner Image" style="height: 100%; width: 100%;" />
-  </div>
+<!-- Banner -->
+<div class="img-banner">
+  <img src="{% static 'images/job.jpg' %}" alt="Banner Image" />
+  <div class="overlay"></div>
+</div>
 
-<div class="d-flex justify-content-evenly row mt-5">
-  {% for job in jobs %}
-
-    <div class="nft col-sm-4 px-4 mb-5">
-    <div class="nft col-sm-4 px-4">
-      <div class="main px-4">
-        
-          <div>
-
-            <div style="height: 150px;">
-            <h3 class="text-white" style="font-size: 20px; font-weight: bolder;">{{ job.title }}</h3>
-            <h4 class="text-white" style="font-size: 20px; font-weight: bolder;">{{ job.category }}</h4>
-            <p class="text-white">{{ job.company_name }}</p>
-            <p class="text-white">{{ job.location }}</p>
-            </div>
-            <div style="height: 100px;">
-              <p class="text-white">{{ job.job_type }}</p>
-              <p class="text-white">{{ job.description }}</p>
-            </div>
-            <p class="text-white">Active {{ job.published_date|timesince }} ago</p>
-            <a href="{% url 'user:login' %}" class="btn">Apply now</a>
-
-          </div>
-
-      
+<div class="bubble-background">
+  <div class="job-listings my-5">
+    {% for job in jobs %}
+    <div class="job-card">
+      <div class="job-header py-2 px-4">
+        <h3 class="">{{ job.title }}</h3>
+        <h4 class="job-category">{{ job.category }}</h4>
+      </div>
+      <div class="job-details px-4">
+        <p class="job-company">{{ job.company_name }}</p>
+        <p class="job-location">{{ job.location }}</p>
+        <p class="job-type">{{ job.job_type }}</p>
+        <p class="job-description">{{ job.description }}</p>
+      </div>
+      <div class="job-footer py-2 px-4">
+        <p class="job-time">Active {{ job.published_date|timesince }} ago</p>
+        <a href="{% url 'user:login' %}" class="btn apply-btn">Apply now</a>
       </div>
     </div>
     {% endfor %}
   </div>
+</div>
+
 
   {% endblock main_content %}
+

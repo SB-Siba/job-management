@@ -1,7 +1,36 @@
 {% extends 'user/landing_page.html' %} {% load static %} {% block title %}
 home page {% endblock title %} {% block main_content %}
 
-<div class="container-fluid p-0">
+<style>
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+  .box-1{
+    height: 85vh;
+    width: 100%;
+  }
+  .box-1 img{
+    height: 100%;
+    width: 100%;
+
+  }
+  @media (max-width:576px)  {
+    .box-1{
+      height: 50vh;
+    }
+    .box-1 img{
+      height: 50vh;
+      object-fit: cover;
+
+    }
+   
+  }
+</style>
+
+
+<div class="container p-0">
   <div class="row g-0">
     <div class="col-lg-12 col-12">
       <div class="text-center mb-5 pb-2">
@@ -66,12 +95,12 @@ home page {% endblock title %} {% block main_content %}
             </div>
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <div class="box-1" style="height: 70vh; width: 100%">
+                <div class="box-1">
                   <img
                     src="{% static 'images/se1.jpg' %}"
-                    class="d-block w-100"
+                    class="d-block"
                     alt="..."
-                    style="height: 100vh"
+                   
                   />
                   <div class="overlaytext px-0 py-0 mx-0 my-0">
                     
@@ -80,12 +109,12 @@ home page {% endblock title %} {% block main_content %}
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="box-1" style="height: 70vh; width: 100%">
+                <div class="box-1">
                   <img
                     src="{% static 'images/se2.jpg' %}"
-                    class="d-block w-100"
+                    class="d-block"
                     alt="..."
-                    style="height: 100vh"
+                    
                   />
                   <div class="overlaytext px-0 py-0 mx-0 my-0">
 
@@ -94,12 +123,12 @@ home page {% endblock title %} {% block main_content %}
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="box-1" style="height: 70vh; width: 100%">
+                <div class="box-1">
                   <img
                     src="{% static 'images/se3.jpg' %}"
-                    class="d-block w-100"
+                    class="d-block"
                     alt="..."
-                    style="height: 100vh"
+                    
                   />
                   <div class="overlaytext px-0 py-0 mx-0 my-0">
 
@@ -108,12 +137,12 @@ home page {% endblock title %} {% block main_content %}
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="box-1" style="height: 70vh; width: 100%">
+                <div class="box-1">
                   <img
                     src="{% static 'images/se9.jpg' %}"
-                    class="d-block w-100"
+                    class="d-block"
                     alt="..."
-                    style="height: 100vh"
+                    
                   />
                   <div class="overlaytext px-0 py-0 mx-0 my-0">
                     
@@ -122,12 +151,12 @@ home page {% endblock title %} {% block main_content %}
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="box-1" style="height: 70vh; width: 100%">
+                <div class="box-1">
                   <img
                     src="{% static 'images/se5.jpg' %}"
-                    class="d-block w-100"
+                    class="d-block"
                     alt="..."
-                    style="height: 100vh"
+                    
                   />
                   <div class="overlaytext px-0 py-0 mx-0 my-0">
                     
@@ -136,12 +165,12 @@ home page {% endblock title %} {% block main_content %}
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="box-1" style="height: 70vh; width: 100%">
+                <div class="box-1">
                   <img
                     src="{% static 'images/se4.jpg' %}"
-                    class="d-block w-100"
+                    class="d-block"
                     alt="..."
-                    style="height: 100vh"
+                    
                   />
                   <div class="overlaytext px-0 py-0 mx-0 my-0">
                     
@@ -150,12 +179,12 @@ home page {% endblock title %} {% block main_content %}
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="box-1" style="height: 70vh; width: 100%">
+                <div class="box-1">
                   <img
                     src="{% static 'images/se7.jpg' %}"
-                    class="d-block w-100"
+                    class="d-block"
                     alt="..."
-                    style="height: 100vh"
+                  
                   />
                   <div class="overlaytext px-0 py-0 mx-0 my-0">
                     
@@ -164,12 +193,12 @@ home page {% endblock title %} {% block main_content %}
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="box-1" style="height: 70vh; width: 100%">
+                <div class="box-1">
                   <img
                     src="{% static 'images/s9.jpg' %}"
-                    class="d-block w-100"
+                    class="d-block"
                     alt="..."
-                    style="height: 100vh"
+                    
                   />
                   <div class="overlaytext px-0 py-0 mx-0 my-0">
                     
@@ -181,7 +210,7 @@ home page {% endblock title %} {% block main_content %}
           </div>
           <button
             class="carousel-control-prev"
-            type="button"
+            type="button" style=""
             data-bs-target="#carouselExample"
             data-bs-slide="prev"
           >
@@ -259,7 +288,7 @@ home page {% endblock title %} {% block main_content %}
   </div>
 </section>
 
-<div class="container mt-4">
+<div class="mt-4">
   <div class="px-4 text-center">
     <h3
       style="
@@ -473,19 +502,9 @@ home page {% endblock title %} {% block main_content %}
   </div>
 </div>
 
-<div class="bubble" style="background-color: #6754e2;">
+<div class="container9 ">
   <div class="px-4 text-center">
-    <h3
-      style="
-        color: white;
-        font-family: metal;
-        margin-left: 30px;
-        border-bottom: 2px solid white;
-        padding-top: 20px;
-        display: inline-block;
-        margin-bottom: 0px;
-      "
-    >
+    <h3 class="kkk">
       INDUSTRIES WE SERVE
     </h3>
   </div>
@@ -501,14 +520,7 @@ home page {% endblock title %} {% block main_content %}
         </div>
         <div class="contentBx">
           <h3
-            class="card-title-x"
-            style="
-              color: #fff;
-              text-align: center;
-              font-family: metal;
-              font-size: 18px;
-            "
-          >
+            class="card-title-x text-black">
             HOSPITAL
           </h3>
         </div>
@@ -517,7 +529,6 @@ home page {% endblock title %} {% block main_content %}
         <li>
           <p
             class="card-text-x"
-            style="color: #fff; font-family: merriwether; font-size: 17px"
           >
             Local hospital excels in lifesaving tech, dedicated staff,
             compassionate care .
@@ -536,13 +547,7 @@ home page {% endblock title %} {% block main_content %}
         </div>
         <div class="contentBx">
           <h3
-            class="card-title-x"
-            style="
-              color: #fff;
-              text-align: center;
-              font-family: metal;
-              font-size: 18px;
-            "
+            class="card-title-x text-black"
           >
             HOTEL
           </h3>
@@ -552,7 +557,6 @@ home page {% endblock title %} {% block main_content %}
         <li>
           <p
             class="card-text-x"
-            style="color: #fff; font-family: merriwether; font-size: 17px"
           >
             Exceptional healthcare services ensure patient safety and efficient
             medical solutions .
@@ -571,13 +575,7 @@ home page {% endblock title %} {% block main_content %}
         </div>
         <div class="contentBx">
           <h3
-            class="card-title-x"
-            style="
-              color: #fff;
-              text-align: center;
-              font-family: metal;
-              font-size: 18px;
-            "
+            class="card-title-x text-black"
           >
             SCHOOL
           </h3>
@@ -587,7 +585,6 @@ home page {% endblock title %} {% block main_content %}
         <li>
           <p
             class="card-text-x"
-            style="color: #fff; font-family: merriwether; font-size: 17px"
           >
             Exceptional healthcare services ensure patient safety, efficiency,
             and innovative, effective medical solutions.
@@ -606,13 +603,7 @@ home page {% endblock title %} {% block main_content %}
         </div>
         <div class="contentBx">
           <h3
-            class="card-title-x"
-            style="
-              color: #fff;
-              text-align: center;
-              font-family: metal;
-              font-size: 18px;
-            "
+            class="card-title-x text-black"
           >
             GOVT. OFFICES
           </h3>
@@ -622,7 +613,6 @@ home page {% endblock title %} {% block main_content %}
         <li>
           <p
             class="card-text-x"
-            style="color: #fff; font-family: merriwether; font-size: 17px"
           >
             Government Offices Streamline Services with New Online Portal for
             Efficiency.
@@ -641,13 +631,7 @@ home page {% endblock title %} {% block main_content %}
         </div>
         <div class="contentBx">
           <h3
-            class="card-title-x"
-            style="
-              color: #fff;
-              text-align: center;
-              font-family: metal;
-              font-size: 18px;
-            "
+            class="card-title-x text-black"
           >
             NGO
           </h3>
@@ -657,7 +641,6 @@ home page {% endblock title %} {% block main_content %}
         <li>
           <p
             class="card-text-x"
-            style="color: #fff; font-family: merriwether; font-size: 17px"
           >
             NGO Launches Initiative to Empower Underprivileged Youth through
             Education
@@ -676,13 +659,7 @@ home page {% endblock title %} {% block main_content %}
         </div>
         <div class="contentBx">
           <h3
-            class="card-title-x"
-            style="
-              color: #fff;
-              text-align: center;
-              font-family: metal;
-              font-size: 18px;
-            "
+            class="card-title-x text-black"
           >
             MANUFACTURING COMPANY
           </h3>
@@ -692,7 +669,6 @@ home page {% endblock title %} {% block main_content %}
         <li>
           <p
             class="card-text-x"
-            style="color: #fff; font-family: merriwether; font-size: 17px"
           >
             Manufacturing Company Unveils Eco-Friendly Production Line, Reducing
             Carbon Footprint.
@@ -729,10 +705,9 @@ home page {% endblock title %} {% block main_content %}
       />
       <div>
         <h2>Eleanor Crisp</h2>
-        <h4>UX Design</h4>
+        
         <blockquote>
-          Dad buried in landslide! Jubilant throngs fill streets! Stunned father
-          inconsolable - demands recount!
+          Pravati International exceeded expectations with their outstanding service and professionalism. Highly recommend them for quality and efficient service needs .
         </blockquote>
       </div>
     </div>
@@ -744,10 +719,9 @@ home page {% endblock title %} {% block main_content %}
       />
       <div>
         <h2>Gordon Norman</h2>
-        <h4>Accountant</h4>
+        
         <blockquote>
-          Wormwood : Calvin, how about you? Calvin : Hard to say ma'am. I think
-          my cerebellum has just fused.
+          Pravati International exceeded expectations with exceptional service and professionalism. Their dedication and attention to detail greatly benefited us.
         </blockquote>
       </div>
     </div>
@@ -759,10 +733,9 @@ home page {% endblock title %} {% block main_content %}
       />
       <div>
         <h2>Sue Shei</h2>
-        <h4>Public Relations</h4>
+       
         <blockquote>
-          The strength to change what I can, the inability to accept what I
-          can't and the incapacity to tell the difference.
+          Pravati International is a reliable partner. Their excellent service and commitment to excellence benefited our business greatly .
         </blockquote>
       </div>
     </div>
