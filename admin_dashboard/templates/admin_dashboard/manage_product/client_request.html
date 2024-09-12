@@ -1,0 +1,45 @@
+{% extends 'admin_dashboard/starter.html' %}
+{% block content %}
+<style>
+    .table-responsive {
+        max-height: 400px; /* Adjust this value as needed */
+        overflow-y: auto;
+    }
+ 
+    .sticky-header th {
+        position: sticky;
+        top: 0;
+        background-color: #343a40; /* Dark background for the header */
+        color: white;
+        z-index: 1000;
+    }
+</style>
+<h1 class="text-center">Client's Requests</h1>
+ 
+<div class="table-responsive p-5">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark sticky-header">
+            <tr>
+                <th>Client Email</th>
+                <th>Current Employee</th>
+                <th>New Employee Name</th>
+                <th>New Employee Email</th>
+                <th>New Employee Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in requests %}
+            <tr>
+                <td>{{ request.client_email }}</td>
+                <td>{{ request.current_employee }}</td>
+                <td>{{ request.new_employee_name }}</td>
+                <td>{{ request.new_employee_email }}</td>
+                <td>{{ request.new_employee_phone }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+ 
+
+{% endblock %}

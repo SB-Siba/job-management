@@ -2,62 +2,69 @@
 {% load static %}
 {% block content %}
 <style>
-  
-    .base-table
-    {
+    .base-table {
         margin: 20px;
-       
-        
+        overflow-x: auto; 
     } 
-
-    .table thead th 
-    {
+    .table {
+        width: 100%; 
+    }
+    .table thead th {
         font-size: 14px;
         color: rgb(255, 255, 255);
         border: 1px solid rgb(255, 255, 255);
     }
-    th,td {
+    th, td {
         border: 1px solid black;
-        padding: 10px; /* Optional: Add padding inside the cells */
-        font-family: merriwether;
-        
-      }
-
-      select {
+        padding: 10px;
+    }
+    select {
         background: transparent;
     }
-    
-thead , th
-{
-    background-color: black;
-}
-button
-{
-    padding: 10px;
-    margin: 10px;
-    border-radius: 15px;
-    box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
-    font-family: merriwether;
-    border-bottom: 1px solid black;
-}
-button:hover
-{
-    background-color: black;
-    color: white;
-}
-h2
-{
-    font-family: merriwether;
-}
-tr:hover
-{
-    background-color: rgb(244, 212, 169);
-}
-
-
+    thead, th {
+        background-color: black;
+    }
+    button {
+        padding: 10px;
+        margin: 10px;
+        border-radius: 15px;
+        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        font-family: merriwether;
+        border-bottom: 1px solid black;
+    }
+    button:hover {
+        background-color: black;
+        color: white;
+    }
+    tr:hover {
+        background-color: rgb(244, 212, 169);
+    }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .table thead th, th, td {
+            font-size: 12px; 
+            padding: 8px;
+        }
+        button {
+            padding: 8px;
+            margin: 5px;
+            font-size: 12px;
+        }
+    }
+    @media (max-width: 480px) {
+        .table thead th, th, td {
+            font-size: 10px; 
+            padding: 5px;
+        }
+        button {
+            padding: 5px;
+            margin: 5px;
+            font-size: 10px;
+        }
+    }
 </style>
-<h2 class="px-4">Application List</h2>
 
+<h2 class="px-4">Application List</h2>
 
 <div class="table">
     <form method="post" class="base-table">
@@ -65,92 +72,74 @@ tr:hover
         <table>
             <thead>
                 <tr>
-<<<<<<< HEAD
                     <th>User Full Name</th>
                     <th>Job Category</th>
                     <th>Company Name</th>
                     <th>Email</th>
                     <th>Contact</th>
                     <th>Applied At</th>
-                    <th>Resume</th>
                     <th>Status</th>
-=======
-                    <td>{{ application.user.full_name }}</td>
-                    <td>{{ application.job.catagory }}</td>
-                    <td>{{ application.job.company_name }}</td>
-                    <td>{{ application.email }}</td>
-                    <td>{{ application.contact }}</td>
-                    <td>{{ application.applied_at }}</td>
-                    <td>
-                        {% if application.resume %}
-                        <a href="{{ MEDIA }} {{ application.resume }}" download = "document.pdf">Download Resume</a>
-                        {% else %}
-                            No resume uploaded
-                        {% endif %}
-                    </td>
-                    <td>
-                        <select name="status_{{ application.id }}">
-                            <option value="Applied" {% if application.status == 'Applied' %}selected{% endif %}>Applied</option>
-                            <option value="Interviewed" {% if application.status == 'Interviewed' %}selected{% endif %}>Interviewed</option>
-                            <option value="Hired" {% if application.status == 'Hired' %}selected{% endif %}>Hired</option>
-                            <option value="Rejected" {% if application.status == 'Rejected' %}selected{% endif %}>Rejected</option>
-                        </select>
-                    </td>
->>>>>>> 9033c2a1fa64d86608c524cd2a98a6af692e6f9d
+                    <th>Details</th>
                 </tr>
             </thead>
             <tbody>
-                {% for application in applications %}
+                {% for application in application_status_options %}
                     <tr>
-                        <td>{{ application.user.full_name }}</td>
-                        <td>{{ application.job.catagory }}</td>
-                        <td>{{ application.job.company_name }}</td>
+                        <td>{{ application.user_full_name }}</td>
+                        <td>{{ application.job_category }}</td>
+                        <td>{{ application.company_name }}</td>
                         <td>{{ application.email }}</td>
                         <td>{{ application.contact }}</td>
                         <td>{{ application.applied_at }}</td>
                         <td>
-                            {% if application.resume %}
-                                <a href="{{ application.resume.url }}">Download</a>
-                            {% else %}
-                                No resume uploaded
-                            {% endif %}
+                            <select name="status_{{ application.id }}">
+                                {% for option in application.status_options %}
+                                    <option value="{{ option.value }}" {% if option.selected %}selected{% endif %}>{{ option.value }}</option>
+                                {% endfor %}
+                            </select>
                         </td>
                         <td>
-                            <select name="status_{{ application.id }}">
-                                <option value="Applied" {% if application.status == 'Applied' %}selected{% endif %}>Applied</option>
-                                <option value="Interviewed" {% if application.status == 'Interviewed' %}selected{% endif %}>Interviewed</option>
-                                <option value="Hired" {% if application.status == 'Hired' %}selected{% endif %}>Hired</option>
-                                <option value="Rejected" {% if application.status == 'Rejected' %}selected{% endif %}>Rejected</option>
-                            </select>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#detailsModal-{{ application.id }}">View</a>
                         </td>
                     </tr>
                 {% endfor %}
-            </tbody>
+            </tbody>            
         </table>
         <button type="submit" class="px-5">Update Status</button>
     </form>
 </div>
-<script>
-    function toggleEmployeeForm(applicationId, status) {
-        const formRow = document.getElementById('employee-form-' + applicationId);
-        if (status === 'Hired') {
-            formRow.style.display = '';
-        } else {
-            formRow.style.display = 'none';
-        }
-    }
-</script>
 
-
-
-
-
-
-
-
-
-
-
+{% for application in applications %}
+<!-- Modal -->
+<div class="modal fade" id="detailsModal-{{ application.id }}" tabindex="-1" aria-labelledby="detailsModalLabel-{{ application.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailsModalLabel-{{ application.id }}">Application Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Full Name:</strong> {{ application.user.full_name }}</p>
+        <p><strong>Email:</strong> {{ application.email }}</p>
+        <p><strong>Phone Number:</strong> {{ application.contact }}</p>
+        <p><strong>Job Title:</strong> {{ application.job.title }}</p>
+        <p><strong>Job Category:</strong> {{ application.job.category|default:'No category available' }}</p>
+        <p><strong>Applied At:</strong> {{ application.applied_at }}</p>
+        <p><strong>Resume:</strong> 
+          {% if application.resume %}
+              <a href="{{ application.resume.url }}" download>Download Resume</a>
+          {% else %}
+              No resume uploaded
+          {% endif %}
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
 
 {% if applications.has_other_pages %}
     <ul class="pagination">
@@ -169,16 +158,5 @@ tr:hover
         {% endif %}
     </ul>
 {% endif %}
-
-{% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
-
-
-
 
 {% endblock content %}

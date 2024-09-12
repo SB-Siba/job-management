@@ -1,7 +1,6 @@
-{% extends 'app_common/authentication/master.html' %} {% load static %} 
-
+{% extends 'app_common/authentication/master.html' %} 
+{% load static %} 
 {% block content %}
-
 <style>
     .background{
         width: 430px;
@@ -9,8 +8,7 @@
         position: absolute;
         transform: translate(-50%,-50%);
         left: 50%;
-        top: 58%;
-
+        top: 56%;
     }
     .background .shape{
         height: 200px;
@@ -23,8 +21,8 @@
             #1845ad,
             #23a2f6
         );
-        left: -80px;
-        top: -80px;
+        left: -90px;
+        top: -10px;
     }
     .shape:last-child{
         background: linear-gradient(
@@ -32,11 +30,10 @@
             #ff512f,
             #f09819
         );
-        right: -30px;
-        bottom: -80px;
+        right: -100px;
+        bottom: -60px;
     }
     form{
-        
         width: 400px;
         background-color: rgba(255,255,255,0.13);
         position: absolute;
@@ -48,7 +45,6 @@
         border: 2px solid rgba(255,255,255,0.1);
         box-shadow: 0 0 40px rgba(8,7,16,0.6);
         padding: 30px 35px;
-        
     }
     form *{
         font-family: 'Poppins',sans-serif;
@@ -63,33 +59,30 @@
         line-height: 42px;
         text-align: center;
     }
-    
     label{
         display: block;
-        margin-top: 20px;
+        margin-top: 10px;
         font-size: 16px;
         font-weight: 500;
     }
     input{
         display: block;
-        height: 50px;
+        height: 40px;
         width: 100%;
         background-color: rgba(255,255,255,0.07);
         border-radius: 3px;
-        padding: 0 10px;
-        margin-top: 8px;
+        color: white;
         font-size: 14px;
         font-weight: 300;
     }
     ::placeholder{
         color: #e5e5e5;
     }
-    button{
-        margin-top: 10px;
+    button{  
         width: 100%;
         background-color: #ffffff;
         color: #080710;
-        padding: 15px 0;
+        padding: 8px 0;
         font-size: 18px;
         font-weight: 600;
         border-radius: 5px;
@@ -111,12 +104,6 @@
     .social div:hover{
       background-color: rgba(255,255,255,0.47);
     }
-    .social .fb{
-      margin-left: 25px;
-    }
-    .social i{
-      margin-right: 4px;
-    }
     .form-label
     {
         color: white;
@@ -124,24 +111,94 @@
     .form-control
     {
         background: transparent;
+        color: white;
     }
     .btm-color
     {
         color: #080710;
-
     }
+     /* Mobile Responsive Styles */
+     @media (max-width: 768px) {
+        .background {
+            width: 100%;
+            height: auto;
+            transform: none;
+            left: 0;
+            top: 0;       
+        }
+        .background .shape {
+            display: none;
+        }
+        form {
+            width: 90%;
+            height: auto;
+            padding: 20px;
+            box-shadow: none;
+            border: none;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+        }
+        form h3 {
+            font-size: 28px;
+        }
+        label {
+            font-size: 14px;
+        }
+        input {
+            height: 40px;
+            font-size: 14px;
+        }
+        button {
+            font-size: 16px;
+            padding: 10px 0;
+        }
+        .social {
+            flex-direction: column;
+            gap: 10px;
+        }
+        .social div {
+            width: 100%;
+        }
+    }
+    @media (max-width: 480px) {   
+        form {
+           width: 90%;
+            padding: 20px;
+        }
+        form h3 {
+            font-size: 24px;
+        }
+        label {
+            font-size: 12px;
+        }
+        input {
+            height: 35px;
+            font-size: 12px;
+        }
+        button {
+            font-size: 14px;
+            padding: 8px 0;
+        }
+        .social div {
+            font-size: 12px;
+        }
+    }
+@media only screen and (prefers-color-scheme: dark) 
+{
+    :root:not([data-theme=light]) 
+    {
+        padding: 20px;
+    }
+}
 </style>
-
-
 <div class="background">
     <div class="shape"></div>
     <div class="shape"></div>
 </div>
-
     <form method="post" action="" class="py-5 my-5">
         <h1 class="ls-tight font-bolder h2 text-center">Register Here</h1>
         <div class="form-group mt-2">
-            {% include 'snippets/alert.html' %}
         </div>
         {% csrf_token %}
         {% for field in form %}
@@ -153,74 +210,12 @@
         <div class="form-group mt-4">
             <button class="btn-color" type="submit">Register</button>
         </div>
-        <div class="social d-flex justify-content-end">
-            <div class="text-center">
-                <a href="/login" class="text-white text-sm font-semibold">Log in</a>
-            </div>
+        <div class="social d-flex justify-content-end mt-4">
+            <a href="/login">
+                <div class="text-center">
+                    Log in
+                </div>
+            </a>
         </div>
     </form>
-
-
-
-<!-- <form method="post" action="">
-    <h3>Login Here</h3>
-
-    <div class="form-group mt-2">
-        {% include 'snippets/alert.html' %}
-    </div>
-    {% csrf_token %}
-    {% for field in form %}
-    <div class="form-group">
-        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-        {{ field }}
-    </div>
-    {% endfor %}
-    <div class="form-group">
-        <button class="bg-white btn-color" type="submit">Log in</button>
-    </div>
-    
-        <div class="social d-flex justify-content-evenly">
-            <div class="text-center">
-                <a href="{% url 'user:password-reset' %}" class="text-sm text-white text-primary-hover font-semibold" style="font-weight: bold;">Forgot?</a>
-            </div>
-            <div class="text-center">
-                <a href="{% url 'user:signup' %}" class="text-white text-sm text-primary-hover font-semibold">Sign up</a>
-            </div>
-        </div>
-    
-    
-</form> -->
-
-    
-    <!-- <div class="bg-bg d-flex align-items-center justify-content-center">
-        <div class="col-12 col-md-9 col-lg-7" id="CaRd">
-            <div class="card">
-                <div class="card-body">
-                    <h1 class="ls-tight font-bolder h2 text-center">Register Here</h1>
-                    <form method="post" action="">
-                        <div class="form-group mt-2">
-                            {% include 'snippets/alert.html' %}
-                        </div>
-                        {% csrf_token %}
-                        {% for field in form %}
-                        <div class="form-group">
-                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                            {{ field }}
-                        </div>
-                        {% endfor %}
-                        <div class="form-group mt-5">
-                            <button class="btn btn-primary" type="submit">Register</button>
-                        </div>
-                        
-                    </form>
-                    <div class="text-center mt-3">
-                        <small class="custom-small-text">Already have an account?</small>
-                        <a href="/login" class="text-warning text-sm font-semibold">Log in</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- Bootstrap JS and dependencies -->
- 
-    {% endblock content %}
+{% endblock content %}

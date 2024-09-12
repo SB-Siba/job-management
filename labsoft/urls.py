@@ -20,13 +20,13 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    # path("admin/", admin.site.urls),
     path("all_things", include("app_common.urls")),
     path("admin_dashboard/", include("admin_dashboard.urls")),
     path('accounts/', include('django.contrib.auth.urls')),
     path("", include("user.urls")),   # for the home page of our website
     path('admin/', admin.site.urls),
-    path('billing/', include('billing.urls')),
+    path('quotation/', include('quotation.urls', namespace='quotation')),
 
     # ------------------------------------------------ swagger ---------------------------------
     path(

@@ -110,3 +110,18 @@ class ApplicationStatusForm(forms.ModelForm):
     class Meta:
         model = common_models.Application
         fields = ['status']
+
+class ReplaceEmployeeForm(forms.Form):
+    application_id = forms.IntegerField(widget=forms.HiddenInput())
+    email = forms.EmailField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    new_employee_name = forms.CharField(max_length=100, required=True)
+    new_employee_email = forms.EmailField(required=True)
+    new_employee_phone = forms.CharField(max_length=10, min_length=10, required=True)
+
+    def clean_new_employee_phone(self):
+        phone = self.cleaned_data.get('new_employee_phone')
+        if not phone.isdigit():
+            raise forms.ValidationError("Phone number must contain only digits.")
+        if len(phone) != 10:
+            raise forms.ValidationError("Phone number must be exactly 10 digits.")
+        return phone

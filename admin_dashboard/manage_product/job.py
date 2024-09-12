@@ -22,7 +22,6 @@ from . import serializer as job_serializer
 from . import forms
 from app_common import models as common_model
 
-
 app = "admin_dashboard/manage_product/"
 
 # ================================================== product management ==========================================
@@ -78,14 +77,34 @@ class JobEdit(View):
         
 @method_decorator(utils.super_admin_only, name='dispatch')
 class ApplicationList(View):
-    model = common_model.Application
     template = app + "application_list.html"
 
     def get(self, request):
         applications = common_model.Application.objects.all()
+
+        application_status_options = []
+        for application in applications:
+            status_options = {
+                'id': application.id,
+                'user_full_name': application.user.full_name,
+                'job_category': application.job.category if application.job else 'No category available',
+                'company_name': application.job.company_name if application.job else 'No company available',
+                'email': application.email,
+                'contact': application.contact,
+                'applied_at': application.applied_at,
+                'status_options': [
+                    {'value': 'Applied', 'selected': application.status == 'Applied'},
+                    {'value': 'Interviewed', 'selected': application.status == 'Interviewed'},
+                    {'value': 'Hired', 'selected': application.status == 'Hired'},
+                    {'value': 'Rejected', 'selected': application.status == 'Rejected'},
+                ],
+            }
+            application_status_options.append(status_options)
+
         context = {
             "applications": applications,
-            "MEDIA":settings.MEDIA_URL
+            "application_status_options": application_status_options,
+            "MEDIA": settings.MEDIA_URL,
         }
         return render(request, self.template, context)
 
@@ -96,19 +115,35 @@ class ApplicationList(View):
                 application = common_model.Application.objects.get(id=application_id)
                 application.status = value
                 application.save()
+
                 if value == 'Hired':
-                    common_model.Employee.objects.get_or_create(
-                        user=application.user,
-                        employer=application.job.client,
-                        defaults={
-                            'salary': 0,
-                            'period_start': timezone.now(),
-                            'period_end': timezone.now() + timezone.timedelta(days=365),
-                        }
-                    )
+                    # Check if the user has already been hired for this job
+                    existing_employee = common_model.Employee.objects.filter(
+                        user=application.user, job=application.job
+                    ).exists()
+
+                    if existing_employee:
+                        # User is already hired for this job
+                        messages.warning(
+                            request, f"{application.user.full_name} is already hired."
+                        )
+                    else:
+                        # Create Employee record if user is not already hired
+                        common_model.Employee.objects.create(
+                            user=application.user,
+                            employer=application.job.client,
+                            job=application.job,
+                            application=application,
+                            salary=0,  # Default value, you can adjust it
+                            period_start=timezone.now(),
+                            period_end=timezone.now() + timezone.timedelta(days=365),
+                        )
+                        messages.success(
+                            request, f'{application.user.full_name} has been hired successfully.'
+                        )
+
         messages.success(request, 'Application status updated successfully.')
         return redirect('admin_dashboard:application_list')
-
 
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobSearch(View):
@@ -210,13 +245,8 @@ class JobAdd(View):
 class JobDelete(View):
     model = common_model.Job
 
-    def get(self, request, job_uid):
+    def post(self, request, job_uid):
         job = get_object_or_404(self.model, id=job_uid)
         job.delete()
         messages.info(request, 'Job deleted successfully.')
-
-        return redirect("admin_dashboard:job_list")
-
-
-
-        
+        return redirect('admin_dashboard:job_list')

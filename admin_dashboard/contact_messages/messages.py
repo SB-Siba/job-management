@@ -41,7 +41,10 @@ class ContactMessageDetail(View):
 
     def get(self, request, uid):
         try:
+            print(f"Received UID: {uid}")  # Debugging print
             message = self.model.objects.get(uid=uid)
+            print(f"Message found: {message}")  # Debugging print
+
             data = {
                 'uid': message.uid,
                 'user': message.user.id if message.user else None,
@@ -49,12 +52,12 @@ class ContactMessageDetail(View):
                 'status': message.status,
                 'reply': message.reply,
                 'created_at': message.created_at.isoformat() if message.created_at else None,
-                # Add any other fields you need to include in the JSON response
             }
+            print(data)
             return JsonResponse(data, safe=False)
         except self.model.DoesNotExist:
+            print(f"Message with UID {uid} not found")  # Debugging print
             return JsonResponse({'error': 'Message not found'}, status=404)
-
 
 @method_decorator(utils.super_admin_only, name='dispatch')
 class ContactMessagereply(View):
