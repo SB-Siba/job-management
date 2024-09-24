@@ -321,8 +321,6 @@ thead {
   </div>
 </div>
 
-
-
 <div class="container py-3 px-3">
   <div class="row py-3 px-3">
       {% for job in job_list %}
@@ -340,10 +338,17 @@ thead {
                   <p class="card-text pt-2">Published {{ job.published_date|timesince }} ago</p>
                   <div class="py-2">
                       {% if job.id in applied_jobs %}
-                          <span class="applied-text">Applied</span>
+                          <!-- If the job is applied for -->
+                          <button class="btn btn-success" disabled>Applied</button>
+                      {% elif user_status == 'applied' or user_status == 'interviewed' or user_status == 'hired' %}
+                          <!-- If user has applied/interviewed/hired for another job, disable all "Apply now" buttons -->
+                          <button class="btn btn-primary" disabled>Apply now</button>
                       {% else %}
+                          <!-- Default "Apply now" button -->
                           <a href="{% url 'user:job-apply' job.id %}" class="btn btn-primary">Apply now</a>
                       {% endif %}
+                      
+                      <!-- Read More button (no change here) -->
                       <button class="btn btn-secondary py-2 mb-1" data-bs-toggle="modal" data-bs-target="#jobModal" 
                               data-title="{{ job.title }}"
                               data-description="{{ job.description }}"

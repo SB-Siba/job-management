@@ -324,6 +324,7 @@ class ApplyForJobView(View):
         applied_obj = self.model(job = job,email = email,user = request.user,contact = contact,resume = resume)
         applied_obj.save()
         return redirect('user:home')
+    
 class AppliedJobsView(View):
     template_name = 'user/jobs/applied_jobs.html'
 
@@ -523,7 +524,7 @@ class ReplaceEmployeeView(View):
     def form_invalid(self, form):
         application = self.get_object()
         return render(self.request, self.template_name, {'form': form, 'application': application})
-
+    
 class JobDetail(View):
     template_name = 'user/client/job_detail.html'
 
@@ -600,14 +601,19 @@ class ApplicationList(View):
     template_name = app + "client/application_list.html"
 
     def get(self, request, job_id):
+        # Get the job object to pass the job title globally
+        job = get_object_or_404(Job, id=job_id)
+
         # Show only hired employees in the client-side view
         applications = Application.objects.filter(job_id=job_id, status='Hired')
 
         form = EmployeeForm()
-        for i in applications:
-            print(i.job.title,"====================")
-            
-        return render(request, self.template_name, {'applications': applications, 'form': form, 'i':i})
+
+        return render(request, self.template_name, {
+            'applications': applications, 
+            'form': form, 
+            'job': job  # Passing the job object to template
+        })
 
     def post(self, request, job_id):
         applications = Application.objects.filter(job_id=job_id)
@@ -647,11 +653,16 @@ class ApplicationList(View):
 
                             messages.success(request, f'{application.user.full_name} has been hired and added as an employee.')
                         else:
-                            return render(request, self.template_name, {'applications': applications, 'form': form})
+                            return render(request, self.template_name, {
+                                'applications': applications, 
+                                'form': form, 
+                                'job': application.job  # Passing job to the form in case of validation errors
+                            })
 
             messages.success(request, 'Application status updated successfully.')
 
         return redirect('user:application_list', job_id=job_id)
+
 
 class DownloadResumeView(View):
     def get(self, request, application_id):

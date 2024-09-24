@@ -92,7 +92,7 @@
                         <td>{{ application.contact }}</td>
                         <td>{{ application.applied_at }}</td>
                         <td>
-                            <select name="status_{{ application.id }}">
+                            <select name="status" onchange="updateStatus(this, {{ application.id }})">
                                 {% for option in application.status_options %}
                                     <option value="{{ option.value }}" {% if option.selected %}selected{% endif %}>{{ option.value }}</option>
                                 {% endfor %}
@@ -105,7 +105,6 @@
                 {% endfor %}
             </tbody>            
         </table>
-        <button type="submit" class="px-5">Update Status</button>
     </form>
 </div>
 
@@ -158,5 +157,37 @@
         {% endif %}
     </ul>
 {% endif %}
+
+<script>
+    function updateStatus(selectElement, applicationId) {
+        // Get the selected status
+        var selectedStatus = selectElement.value;
+
+        // Send the POST request with JSON body
+        fetch('/admin_dashboard/update-status/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                'application_id': applicationId,
+                'status': selectedStatus
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                console.error('Failed to update status:', data.message);
+            }
+        })
+        .catch(error => {
+            // Handle network error
+            console.error('Error:', error);
+        });
+    }
+</script>
 
 {% endblock content %}

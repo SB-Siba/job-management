@@ -1,48 +1,35 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import User
-
-class Client(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
-    company_name = models.CharField(max_length=255, null=True, blank=True)
-    email = models.EmailField(null=True, blank=True)
-    address = models.TextField(null=True, blank=True)
-    name = models.CharField(max_length=255, null=True, blank=True)
-    phone = models.CharField(max_length=20, null=True, blank=True)
-
-    def __str__(self):
-        return self.company_name or self.name or "Unnamed Client"
+from app_common.models import Job, User
 
 class Quotation(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    company_name = models.CharField(max_length=255, null=True, blank=True)
-    address = models.TextField(null=True, blank=True)
-    phone_number = models.CharField(max_length=20, null=True, blank=True)
-    title = models.CharField(max_length=50, null=True, blank=True)
-    first_name = models.CharField(max_length=50, null=True, blank=True)
-    middle_name = models.CharField(max_length=50, blank=True)
-    last_name = models.CharField(max_length=50, null=True, blank=True)
+    client = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
+    job_title = models.ForeignKey(Job, on_delete=models.CASCADE,null=True, blank=True)
+    number_of_persons = models.PositiveIntegerField(null=True, blank=True)
+    experience_level = models.CharField(
+        max_length=50,
+        choices=[
+            ('FRESHER', 'FRESHER (Min. 1yr experience)'),
+            ('EXPERIENCED', 'Experienced (Min. 5 yrs)')
+        ],
+        null=True,
+        blank=True
+    )
+    salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
-        return f'Quotation {self.id} for {self.client}'
+        return f'Quotation {self.id}'
 
 class Item(models.Model):
-    quotation = models.ForeignKey(Quotation, on_delete=models.CASCADE, related_name='items')  # Foreign key relationship
-    sr_no = models.PositiveIntegerField(unique=True, null=True, blank=True)
-    name = models.CharField(max_length=255, null=True, blank=True)
-    description = models.CharField(max_length=255, null=True, blank=True)
-    quantity = models.PositiveIntegerField(null=True, blank=True)
-    amount = models.FloatField(null=True, blank=True)
-
-    def save(self, *args, **kwargs):
-        if self.pk is None:  # Only set sr_no on new items
-            last_item = Item.objects.order_by('-sr_no').first()
-            self.sr_no = (last_item.sr_no + 1) if last_item else 1
-        super().save(*args, **kwargs)
+    quotation = models.ForeignKey(Quotation, on_delete=models.CASCADE, related_name='items')
+    component = models.CharField(max_length=255, null=True, blank=True)
+    percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    supervisor = models.IntegerField(null=True, blank=True)
+    gda = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return self.name or "Unnamed Item"
+        return self.component or "Unnamed Component"
 
 class QuotationItem(models.Model):
     quotation = models.ForeignKey(Quotation, on_delete=models.CASCADE, null=True, blank=True)
@@ -55,12 +42,25 @@ class QuotationItem(models.Model):
 
 class Invoice(models.Model):
     company_name = models.CharField(max_length=255,null=True, blank=True)
-    address = models.TextField(null=True, blank=True)
-    email = models.EmailField(null=True, blank=True)
-    contact = models.CharField(max_length=20,null=True, blank=True)
+    notification_text = models.CharField(max_length=255, null=True, blank=True, default="AS PER LABOUR & ESI DEPARTMENT NOTIFICATION DT. 13.03.2024, GoO")
+    semi_skilled = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    unskilled = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    semi_skilled_manpower = models.IntegerField(null=True, blank=True)
+    unskilled_manpower = models.IntegerField(null=True, blank=True)
+    working_hours = models.IntegerField(null=True, blank=True)
+    working_days = models.IntegerField(null=True, blank=True)
+    other_allowances_semi_skilled = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    other_allowances_unskilled = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    semi_uniform_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    un_uniform_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    semi_reliever_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    un_reliever_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    semi_operational_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    un_operational_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
 
-class Job(models.Model):
-    title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.company_name or 'Invoice'
 
 class Employee(models.Model):
     title = models.CharField(max_length=255)
