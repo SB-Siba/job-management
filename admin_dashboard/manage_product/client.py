@@ -22,7 +22,7 @@ def is_admin(user):
 class AdminClientListView(View):
     template = app + "client_list.html"
     def get(self, request):
-        clients = common_model.User.objects.filter(is_staff=True, is_superuser=False)
+        clients = common_model.User.objects.filter(is_client=True)
         return render(request, self.template, {'clients': clients})
        
 
@@ -40,7 +40,7 @@ class AdminClientCreateView(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             client = form.save(commit=False)
-            client.is_staff = True  # Mark as client
+            client.is_client = True  # Mark as client
             client.set_password(form.cleaned_data['password'])
             client.save()
             messages.success(request, 'Client has been successfully added.')

@@ -4,149 +4,118 @@
 {% load admin_dash %}
 
 <style>
-
-.main-content,.row
+.custom-card-width
 {
-    background-color: #e0e0e0;
+    width: 31.5%;
 }
-/* Card styling */
-.card {
-    border-radius: 15px !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    color: #fff; /* White text for better contrast */
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-    background: linear-gradient(145deg,#2a3d3f, #00fafa, #2a3d3f); /* Teal to Light Blue */
-}
-
-/* Card hover effect */
-.card:hover {
-    transform: translateY(-10px); /* Lift effect */
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(145deg,#2a3d3f, #00fafa, #2a3d3f); /* Teal to Light Blue */
-}
-
-/* Individual card colors */
-.card:nth-child(1) {
-    background: linear-gradient(145deg,#2a3d3f, #03a5a5, #2a3d3f); /* Teal to Light Blue */
-   
-}
-
-.card:nth-child(3) {
-    background: linear-gradient(145deg, #f44336, #ff9800); /* Red to Orange */
-}
-
-/* Card hover effects */
-.card:nth-child(1):hover {
-    background: linear-gradient(145deg,#2a3d3f, #00fafa, #2a3d3f); /* Teal to Light Blue */
-}
-
-.card:nth-child(2):hover {
-    background: linear-gradient(145deg,#2a3d3f, #00fafa, #2a3d3f); /* Teal to Light Blue */
-}
-
-.card:nth-child(3):hover {
-    background: linear-gradient(145deg, #ff9800, #f44336); /* Reversed gradient */
-}
-
-/* Column animations */
-.col-lg-4 {
-    opacity: 0;
-    transform: translateY(20px); /* Initial position for animation */
-    animation: slideIn 0.8s forwards;
-}
-
-/* Keyframes for slide-in animation */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Animation delays for each column */
-.col-lg-4:nth-child(1) {
-    animation-delay: 0.2s;
-}
-
-.col-lg-4:nth-child(2) {
-    animation-delay: 0.6s;
-}
-
-.col-lg-4:nth-child(3) {
-    animation-delay: 1s;
-}
-
-/* Additional styling for card body */
-.card-body {
-    font-size: 18px;
-    text-align: center;
+.cookieCard {
+    width: 100%;
+    height: auto;
+    background: linear-gradient(to right, rgb(137, 104, 255), rgb(175, 152, 255));
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: center;
-    height: 100%;
-    color: white;
+    gap: 20px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive design adjustments */
-@media (max-width: 768px) {
-    .col-lg-4 {
-        margin-bottom: 20px;
-    }
+.cookieCard::before {
+  width: 150px;
+  height: 150px;
+  content: "";
+  background: linear-gradient(to right, rgb(142, 110, 255), rgb(208, 195, 255));
+  position: absolute;
+  z-index: 1;
+  border-radius: 50%;
+  right: -25%;
+  top: -25%;
+}
+
+.cookieHeading {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: rgb(241, 241, 241);
+  z-index: 2;
+}
+
+.cookieDescription {
+  font-size: 0.9em;
+  color: rgb(241, 241, 241);
+  z-index: 2;
+}
+
+.cookieDescription a {
+  color: rgb(241, 241, 241);
+}
+
+.acceptButton {
+  padding: 11px 20px;
+  background-color: #7b57ff;
+  transition-duration: .2s;
+  border: none;
+  color: rgb(241, 241, 241);
+  cursor: pointer;
+  font-weight: 600;
+  z-index: 2;
+}
+
+.acceptButton:hover {
+  background-color: #714aff;
+  transition-duration: .2s;
+}
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
 <div class="main-content">
     <div class="container-fluid py-3 px-5">
         <div id="dashboard" class="section py-5 px-5">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card" style="height: 150px;">
-                        <div class="card-body">
-                            Published Jobs : 
-                            <div class="px-4"><span>
-                               {{ published_jobs }} <i class="bi bi-arrow-up"></i></span>
-                              </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-4 mb-4 custom-card-width">
+                    <div class="cookieCard">
+                        <div class="cookieHeading">Published Jobs</div>
+                        <div class="cookieDescription">
+                            <span>{{ published_jobs }} <i class="bi bi-arrow-up"></i></span>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card" style="height: 150px;">
-                        <div class="card-body">
-                            Unpublished Jobs : 
-                            <div class="px-3">
-                                <span>{{ unpublished_jobs }} <i class="bi bi-arrow-up"></i></span>
-                               </div>
+                <div class="col-lg-4 col-md-4 mb-4 custom-card-width">
+                    <div class="cookieCard">
+                        <div class="cookieHeading">Unpublished Jobs</div>
+                        <div class="cookieDescription">
+                            <span>{{ unpublished_jobs }} <i class="bi bi-arrow-up"></i></span>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card" style="height: 150px;">
-                        <div class="card-body">
-                            Total Jobs: 
-                            <div class="px-4">
-                                <span>{{ job_count }} <i class="bi bi-arrow-up"></i></span>
-                               </div>
+                <div class="col-lg-4 col-md-4 mb-4 custom-card-width">
+                    <div class="cookieCard">
+                        <div class="cookieHeading">Total Jobs</div>
+                        <div class="cookieDescription">
+                            <span>{{ job_count }} <i class="bi bi-arrow-up"></i></span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-
-<div class="row justify-content-center">
-    <div class="col-lg-11 col-md-11 mb-4">
-        <div class="card" style="height: 360px;">
-            <div class="card-body">
-                <canvas id="myBarChart"></canvas>
+        <div class="row justify-content-center">
+            <div class="col-lg-11 col-md-11 mb-4">
+                <div class="cookieCard" style="height: 360px; display: flex; align-items: center; justify-content: center;">
+                    <div class="card-body">
+                        <canvas id="myBarChart" width="800" height="300"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

@@ -1,11 +1,14 @@
+from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.conf import settings
 #import requests
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 import json
+
+from requests import request
 from helpers import utils, api_permission
 from django.forms.models import model_to_dict
 import os
@@ -15,11 +18,13 @@ from django.utils import timezone
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.db import transaction
 from drf_yasg.utils import swagger_auto_schema
 # -------------------------------------------- custom import
 from .. import swagger_doc
 from . import serializer as job_serializer
 from . import forms
+from django.core.exceptions import MultipleObjectsReturned
 from app_common import models as common_model
 
 app = "admin_dashboard/manage_product/"
@@ -75,6 +80,23 @@ class JobEdit(View):
             return redirect('admin_dashboard:job_list')
         return render(request, self.template_name, {'form': form, 'job': job})
         
+
+class DeleteAllDataView(View):
+    def get(self, request):
+        try:
+            common_model.Job.objects.all().delete()
+            common_model.Application.objects.all().delete()
+          
+
+ 
+            message = "All data deleted successfully."
+            status_code = 200
+        except Exception as e:
+            message = f"Failed to delete data: {str(e)}"
+            status_code = 500
+        return HttpResponse(message, status=status_code)
+
+
 @method_decorator(utils.super_admin_only, name='dispatch')
 class ApplicationList(View):
     template = app + "application_list.html"
@@ -108,43 +130,125 @@ class ApplicationList(View):
         }
         return render(request, self.template, context)
 
-    def post(self, request):
-        for key, value in request.POST.items():
-            if key.startswith('status_'):
-                application_id = key.split('_')[1]
-                application = common_model.Application.objects.get(id=application_id)
-                application.status = value
+    # def post(self, request):
+    #     updated = False
+    
+    #     application_number = request.POST.get("application_number")
+    #     status = request.POST.get("status")
+    
+    #     print(application_number, status, "lklklk")
+    
+    #     application = None  # Initialize the application variable
+    
+    #     try:
+    #         application = common_model.Application.objects.get(id=application_number)
+    #         print(application, "Applic")
+    #     except common_model.Application.DoesNotExist:
+    #         messages.error(request, f"Application with ID {application_number} does not exist.")
+    #         return redirect('admin_dashboard:application_list')  # Exit early if application doesn't exist
+    
+    #     # Proceed only if the application is found
+    #     if application.status != status:
+    #         application.status = status
+    #         application.save()
+    #         updated = True
+    
+    #         if status == 'Hired':
+    #             try:
+    #                 existing_employees = common_model.Employee.objects.filter(
+    #                     user=application.user,
+    #                     job=application.job,
+    #                     employer=application.job.client
+    #                 )
+    #                 if existing_employees.exists():
+    #                     messages.warning(
+    #                         request,
+    #                         f"{application.email} is already hired for the {application.job.category} role."
+    #                     )
+    #                 else:
+    #                     common_model.Employee.objects.create(
+    #                         user=application.user,
+    #                         employer=application.job.client,
+    #                         job=application.job,
+    #                         application=application,
+    #                         salary=0,
+    #                         period_start=timezone.now(),
+    #                         period_end=timezone.now() + timezone.timedelta(days=365),
+    #                     )
+    #                     messages.success(
+    #                         request, f'{application.user.full_name} has been hired successfully for the {application.job.category} role.'
+    #                     )
+    #             except MultipleObjectsReturned:
+    #                 messages.error(
+    #                     request,
+    #                     f"Multiple entries found for {application.email}. Please check for duplicate records."
+    #                 )
+    
+    #     if updated:
+    #         messages.success(request, 'Application status updated successfully.')
+    #     else:
+    #         messages.info(request, 'No changes were made to the application statuses.')
+    
+    #     return redirect('admin_dashboard:application_list')
+
+@method_decorator(utils.super_admin_only, name='dispatch')
+class ApplicationUpdateView(View):
+    def post(self, request, *args, **kwargs):
+        try:
+            data = json.loads(request.body)
+            application_id = data.get('application_id')
+            new_status = data.get('status')
+            
+            if not application_id or not new_status:
+                return JsonResponse({'success': False, 'error': 'Missing parameters'}, status=400)
+            
+            application = common_model.Application.objects.get(id=application_id)
+            if application.status != new_status:
+                application.status = new_status
                 application.save()
 
-                if value == 'Hired':
-                    # Check if the user has already been hired for this job
-                    existing_employee = common_model.Employee.objects.filter(
-                        user=application.user, job=application.job
-                    ).exists()
-
-                    if existing_employee:
-                        # User is already hired for this job
-                        messages.warning(
-                            request, f"{application.user.full_name} is already hired."
-                        )
-                    else:
-                        # Create Employee record if user is not already hired
-                        common_model.Employee.objects.create(
+                # If status is 'Hired', handle employee creation
+                if new_status == 'Hired':
+                    try:
+                        existing_employees = common_model.Employee.objects.filter(
                             user=application.user,
-                            employer=application.job.client,
                             job=application.job,
-                            application=application,
-                            salary=0,  # Default value, you can adjust it
-                            period_start=timezone.now(),
-                            period_end=timezone.now() + timezone.timedelta(days=365),
+                            employer=application.job.client
                         )
-                        messages.success(
-                            request, f'{application.user.full_name} has been hired successfully.'
-                        )
+                        if existing_employees.exists():
+                            return JsonResponse({
+                                'success': False,
+                                'message': f'{application.email} is already hired for the {application.job.category} role.'
+                            })
+                        else:
+                            common_model.Employee.objects.create(
+                                user=application.user,
+                                employer=application.job.client,
+                                job=application.job,
+                                application=application,
+                                salary=0,
+                                period_start=timezone.now(),
+                                period_end=timezone.now() + timezone.timedelta(days=365),
+                            )
+                            return JsonResponse({
+                                'success': True,
+                                'message': f'{application.user.full_name} has been hired successfully for the {application.job.category} role.'
+                            })
+                    except common_model.Employee.MultipleObjectsReturned:
+                        return JsonResponse({
+                            'success': False,
+                            'error': 'Multiple employee entries found. Please check for duplicate records.'
+                        })
+                else:
+                    return JsonResponse({'success': True, 'message': 'Application status updated successfully.'})
 
-        messages.success(request, 'Application status updated successfully.')
-        return redirect('admin_dashboard:application_list')
+            return JsonResponse({'success': False, 'message': 'No changes made to the application status.'})
 
+        except common_model.Application.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Application not found.'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobSearch(View):
     model =common_model.Job
@@ -167,9 +271,6 @@ class JobSearch(View):
         }
         return render(request, self.template, context)
 
-
-
-    
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobFilter(View):
     model = common_model.Job
@@ -229,17 +330,14 @@ class JobAdd(View):
             job = form.save(commit=False)
             if request.user.is_superuser:
                 job.client = form.cleaned_data['client']
-                # Check form data for "published" selection
             if form.cleaned_data['status'] == 'published':
                 job.status = 'published'
-            else:  # Default to unpublished if not selected
+            else:
                 job.status = 'unpublished'
             job.save()
             messages.success(request, 'Job added successfully.')
             return redirect('admin_dashboard:job_list')
         return render(request, self.template, {'form': form})
-
-
 
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobDelete(View):

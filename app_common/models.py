@@ -27,14 +27,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
-    
-class Client(models.Model):
-    name = models.CharField(max_length=255)
-    is_admin = models.BooleanField(default=False)
-    # Other fields
-
-    def __str__(self):
-        return self.name
 
 class User(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length=255, null=True, blank=True)
@@ -48,6 +40,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     wallet = models.FloatField(default=0.0)
     token = models.CharField(max_length=100, null=True, blank=True)
     meta_data = models.JSONField(default=dict)
+    is_client = models.BooleanField(default=False)
+
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["password"]
@@ -94,7 +88,7 @@ class Job(models.Model):
     ]
 
     title = models.CharField(max_length=255, null=True, blank=True)
-    client = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, limit_choices_to={'is_staff': True})
+    client = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.CharField(max_length=300, null=True, blank=True)
     location = models.CharField(max_length=100, null=True, blank=True)
@@ -178,7 +172,7 @@ class ContactMessage(models.Model):
 
 class Employee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    employer = models.ForeignKey(User, related_name='employees', on_delete=models.CASCADE)
+    employer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='employer')
     job = models.ForeignKey(Job, on_delete=models.CASCADE, null=True, blank=True)
     application = models.ForeignKey(Application, on_delete=models.CASCADE, related_name='employees', null=True, blank=True)
     salary = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
@@ -186,8 +180,8 @@ class Employee(models.Model):
     period_end = models.DateField(null=True, blank=True)
     docs = models.FileField(upload_to='employee_docs/', null=True, blank=True)
 
-    def __str__(self):
-        return self.user.full_name or self.user.email
+    class Meta:
+        unique_together = ('user', 'job', 'employer')
 
 class CommunicationLog(models.Model):
     candidate = models.ForeignKey(UserProfile, on_delete=models.CASCADE)

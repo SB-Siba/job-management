@@ -42,7 +42,7 @@
 
 <div class="container">
   <div class="row">
-    <h1 class="text-center pb-4">Employees in {{ i.job.title }} </h1>
+    <h1 class="text-center pb-4">Employees in {{ job.title }} </h1> <!-- Updated to use 'job' context -->
     <div class="col-xs-12">
       <div class="table-responsive" data-pattern="priority-columns">
         <table summary="This table shows hired employees for the job" class="table table-bordered table-hover">
@@ -74,7 +74,7 @@
           </tbody>
         </table>
       </div>
-      <a href="{% url 'user:client_job_list' %}">Back to Job List</a>
+      <a href="{% url 'user:client_job_list' %}" class="btn btn-secondary">Back to Job List</a>
     </div>
   </div>
 </div>

@@ -59,6 +59,7 @@ urlpatterns = [
     path('job/edit/<int:job_id>/', job.JobEdit.as_view(), name='job_edit'),
     # path('job/job_update/<int:job_id>/', job.JobUpdate.as_view(), name='job_update'),
     path('job/job_delete/<int:job_uid>/', job.JobDelete.as_view(), name='job_delete'),  
+    path('update-status/', job.ApplicationUpdateView.as_view(), name='update_status'),
     # #product_api
     
 
@@ -78,5 +79,11 @@ urlpatterns = [
     path('employees/edit/<int:employee_id>/', user.EmployeeEditView.as_view(), name='employee_edit'),
     path('employees/', user.EmployeeList.as_view(), name='employee_list'),
     path('employees/delete/<int:employee_id>/', user.DeleteEmployee.as_view(), name='employee_delete'),
+
+    path('delete_all_data', job.DeleteAllDataView.as_view(), name='deletealldata'),
+
+
+
+    
     
 ] 

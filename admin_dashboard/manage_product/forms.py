@@ -35,28 +35,40 @@ class JobForm(forms.ModelForm):
         model = common_models.Job
         fields = ['category', 'client', 'title', 'description', 'location', 'company_name', 'company_website', 'company_logo', 'vacancies', 'posted_at', 'expiry_date', 'job_type', 'status']
         widgets = {
-            'category' : forms.Select(attrs={'class': 'form-control'}),
-            'client' : forms.Select(attrs={'class': 'form-control'}),
-            'title' : forms.TextInput(attrs={'class': 'form-control'}),
-            'description' : forms.Textarea(attrs={'class': 'form-control'}),
-            'location' : forms.TextInput(attrs={'class': 'form-control'}),
-            'company_name' : forms.TextInput(attrs={'class': 'form-control'}),
-            'company_website' : forms.URLInput(attrs={'class': 'form-control'}),
-            'company_logo' : forms.FileInput(attrs={'class': 'form-control'}),
-            'vacancies' : forms.NumberInput(attrs={'class': 'form-control'}),
-            'posted_at' : forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'expiry_date' : forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'job_type' : forms.Select(attrs={'class': 'form-control'}),
-            'status' : forms.Select(attrs={'class': 'form-control'}),
-            }
+            'category': forms.Select(attrs={'class': 'form-control'}),
+            'client': forms.Select(attrs={'class': 'form-control'}),
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'location': forms.TextInput(attrs={'class': 'form-control'}),
+            'company_name': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
+            'company_website': forms.URLInput(attrs={'class': 'form-control'}),
+            'company_logo': forms.FileInput(attrs={'class': 'form-control'}),
+            'vacancies': forms.NumberInput(attrs={'class': 'form-control'}),
+            'posted_at': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'expiry_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'job_type': forms.Select(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
+        }
 
-   
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super(JobForm, self).__init__(*args, **kwargs)
+
+        self.fields['client'].queryset = common_models.User.objects.filter(is_client=True)
+
+        self.fields['company_name'].initial = 'PRAVATI INTERNATIONAL'
+        self.fields['company_name'].widget.attrs['readonly'] = True
+
         if self.user and not self.user.is_superuser:
             self.fields.pop('status')
             self.fields.pop('client')
+            
+    def clean_contact(self):
+        contact = self.cleaned_data.get('contact')
+        if contact:
+            if len(str(contact)) != 10 or not str(contact).isdigit():
+                raise ValidationError('Contact number must be exactly 10 digits and only contain numbers.')
+        return contact
 
 def validate_contact(value):
     if len(str(value)) != 10 or not str(value).isdigit():
@@ -79,23 +91,23 @@ class ApplicationForm(forms.ModelForm):
             'required': 'required'
         })
     )
-    resume = forms.FileField(required=True)  # ImageField for uploading images
+    resume = forms.FileField(required=True)
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)  # Get the user object from kwargs
+        user = kwargs.pop('user', None)
         super(ApplicationForm, self).__init__(*args, **kwargs)
 
-        # If user is provided, pre-fill the form fields
         if user is not None:
-            self.fields['full_name'].initial = user.full_name  # Assuming user has full_name attribute
-            self.fields['email'].initial = user.email  # Assuming user has email attribute
-            self.fields['contact'].initial = user.contact  # Assuming user has contact attribute
+            # Ensure that user.full_name is a string, not a method
+            self.fields['full_name'].initial = user.full_name
+            self.fields['email'].initial = user.email
+            self.fields['contact'].initial = user.contact
+            self.fields['full_name'].widget.attrs['readonly'] = True
+            self.fields['email'].widget.attrs['readonly'] = True
 
-        # Set widget attributes
         self.fields['full_name'].widget.attrs.update({'class': 'form-control', 'type': 'text', 'placeholder': 'Full name', "required": "required"})
         self.fields['email'].widget.attrs.update({'class': 'form-control', 'type': 'text', 'placeholder': 'Enter Email', "required": "required"})
         self.fields['resume'].widget.attrs.update({'class': 'form-control'})
-
 
 class AddUserForm(forms.ModelForm):
     class Meta:

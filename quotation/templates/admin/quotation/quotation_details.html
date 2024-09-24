@@ -1,0 +1,52 @@
+{% extends 'admin_dashboard/starter.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .custom-header th {
+    color: white !important;
+}
+</style>
+<div class="container mt-4">
+    <h2 class="mb-4">Quotation Details for {{ user_obj.full_name }}</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead class="custom-header table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Job Title</th>
+                        <th>Number of Persons</th>
+                        <th>Experience Level</th>
+                        <th>Salary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if quotations %}
+                        {% for quotation in quotations %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ quotation.job_title.title }}</td>
+                                <td>{{ quotation.number_of_persons }}</td>
+                                <td>{{ quotation.experience_level }}</td>
+                                <td>{{ quotation.salary|floatformat:2 }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center">No job details available for this quotation.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="{% url 'quotation:quotation_list' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Quotation List
+        </a>
+    </div>
+</div>
+
+{% endblock content %}

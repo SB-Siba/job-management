@@ -1,75 +1,189 @@
 # quotation/forms.py
-
+from app_common.models import Job, User
 from django import forms
 from .models import Quotation, QuotationItem, Invoice
 from django.forms import modelformset_factory, formset_factory
 from django.core.validators import RegexValidator
-from .models import Item, Invoice, Client, Job, Employee
-
-
-class ItemForm(forms.ModelForm):
-    class Meta:
-        model = Item
-        fields = ['sr_no', 'name', 'description', 'quantity', 'amount']
-        widgets = {
-            'sr_no': forms.TextInput(attrs={'readonly': 'readonly'}),  # Set sr_no as read-only
-            'description': forms.TextInput(attrs={'placeholder': 'Enter item description'}),
-        }
-
-ItemFormSet = modelformset_factory(
-    Item, 
-    fields=('sr_no', 'name', 'description', 'quantity', 'amount'), 
-    extra=1, 
-    can_delete=True
-)
-
+# from .models import Invoice, Job
 
 class QuotationForm(forms.ModelForm):
-    TITLE_CHOICES = [
-        ('Mr.', 'Mr.'),
-        ('Mrs.', 'Mrs.'),
+    EXPERIENCE_CHOICES = [
+        ('FRESHER', 'FRESHER (Min. 1yr experience)'),
+        ('EXPERIENCED', 'Experienced (Min. 5 yrs)')
     ]
-
-    title = forms.ChoiceField(choices=TITLE_CHOICES, required=True)
-
-     # Enforce 10-digit phone number validation
-    phone_number = forms.CharField(
-        max_length=10,
-        min_length=10,
-        validators=[RegexValidator(r'^\d{10}$', 'Enter a valid 10-digit phone number.')],
-        error_messages={'invalid': 'Enter a valid 10-digit phone number.'}
+    client = forms.ModelChoiceField(
+        queryset=User.objects.filter(is_client = True),
+        required=False,
+        widget=forms.Select(attrs={'placeholder': 'Choose Client'})
     )
+
+    job_title = forms.ModelChoiceField(
+        queryset=Job.objects.all(),
+        required=False,
+        widget=forms.Select(attrs={'placeholder': 'Select job title'})
+    )
+    
+    number_of_persons = forms.IntegerField(
+        min_value=1, required=True, widget=forms.NumberInput(attrs={'placeholder': 'Enter number of persons'})
+    )
+    experience_level = forms.ChoiceField(
+        choices=EXPERIENCE_CHOICES, required=True, widget=forms.Select(attrs={'placeholder': 'Select experience level'})
+    )
+    salary = forms.DecimalField(
+        max_digits=10, decimal_places=2, required=True, widget=forms.NumberInput(attrs={'placeholder': 'Enter salary'})
+    )
+
     class Meta:
         model = Quotation
-        fields = ['company_name', 'address', 'phone_number', 'title', 'first_name', 'middle_name', 'last_name']
+        fields = ['client','job_title', 'number_of_persons', 'experience_level', 'salary']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['company_name'].widget.attrs.update({'placeholder': 'Enter company name'})
-        self.fields['address'].widget.attrs.update({'placeholder': 'Enter address'})
-        self.fields['phone_number'].widget.attrs.update({'placeholder': 'Enter phone number'})
-        self.fields['title'].widget.attrs.update({'placeholder': 'Select title'})
-        self.fields['first_name'].widget.attrs.update({'placeholder': 'Enter first name'})
-        self.fields['middle_name'].widget.attrs.update({'placeholder': 'Enter middle name (optional)'})
-        self.fields['last_name'].widget.attrs.update({'placeholder': 'Enter last name'})
-
-
-class QuotationItemForm(forms.ModelForm):
-    class Meta:
-        model = QuotationItem
-        fields = ['item', 'quantity']
+        self.fields['client'].widget.attrs.update({'placeholder': 'Choose Client'})
+        self.fields['job_title'].widget.attrs.update({'placeholder': 'Select job title'})
+        self.fields['number_of_persons'].widget.attrs.update({'placeholder': 'Enter number of persons'})
+        self.fields['experience_level'].widget.attrs.update({'placeholder': 'Select experience level'})
+        self.fields['salary'].widget.attrs.update({'placeholder': 'Enter salary'})
 
 class CreateInvoiceForm(forms.ModelForm):
+    notification_text = forms.CharField(
+        initial="AS PER LABOUR & ESI DEPARTMENT NOTIFICATION DT. 13.03.2024, GoO",
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Notification Text',
+        })
+    )
+
+    company_name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': "Enter Vendor's Name"
+        })
+    )
+
+    semi_skilled = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Semi Skilled Rate'
+        })
+    )
+    
+    semi_skilled_manpower = forms.IntegerField(
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control manpower-field',
+        })
+    )
+
+    unskilled = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Unskilled Rate'
+        })
+    )
+
+    unskilled_manpower = forms.IntegerField(
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control manpower-field',
+        })
+    )
+
+    working_hours = forms.IntegerField(
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Working Hours',
+        })
+    )
+
+    working_days = forms.IntegerField(
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Working Days',
+        })
+    )
+
+    other_allowances_semi_skilled = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        required=False,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Other Allowances for Semi Skilled'
+        })
+    )
+
+    other_allowances_unskilled = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        required=False,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Other Allowances for Unskilled'
+        })
+    )
+
+    semi_uniform_cost = forms.DecimalField(
+            max_digits=6, decimal_places=2, 
+            required=True,
+            widget=forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter Uniform Cost for Semi skilled'
+            })
+        )
+
+    un_uniform_cost = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        required=True,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Uniform Cost for Unskilled'
+        })
+    )
+
+    semi_reliever_cost = forms.DecimalField(
+            max_digits=6, decimal_places=2, 
+            required=True,
+            widget=forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter Reliever Cost for Semi skilled'
+            })
+        )
+
+    un_reliever_cost = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        required=True,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Reliever Cost for Unskilled'
+        })
+    )
+
+    semi_operational_cost = forms.DecimalField(
+            max_digits=6, decimal_places=2, 
+            required=True,
+            widget=forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter Operational Cost for Semi skilled'
+            })
+        )
+
+    un_operational_cost = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        required=True,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Operational Cost for Unskilled'
+        })
+    )
+
     class Meta:
         model = Invoice
-        fields = ['company_name', 'address', 'email', 'contact']
-        widgets = {
-            'address': forms.Textarea(attrs={
-                'rows': 3,
-                'cols': 40,
-                'placeholder': 'Enter full address here...',
-            })
-        }
+        fields = [
+            'company_name', 'notification_text', 'semi_skilled', 'semi_skilled_manpower', 
+            'unskilled', 'unskilled_manpower', 'working_hours', 'working_days', 
+            'other_allowances_semi_skilled', 'other_allowances_unskilled', 'semi_uniform_cost', 'un_uniform_cost',
+            'semi_reliever_cost', 'un_reliever_cost', 'semi_operational_cost', 'un_operational_cost'
+        ]
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
@@ -79,12 +193,3 @@ class CreateInvoiceForm(forms.ModelForm):
             for field in self.fields:
                 self.fields[field].widget.attrs['readonly'] = True
 
-class ItemForm(forms.Form):
-    sr_no = forms.IntegerField(required=True, widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    name = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    description = forms.CharField(required=True, widget=forms.Textarea(attrs={'class': 'form-control'}))
-    quantity = forms.IntegerField(required=True, widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    amount = forms.DecimalField(required=True, decimal_places=2, max_digits=10, widget=forms.NumberInput(attrs={'class': 'form-control'}))
-
-# Create a formset factory with 10 forms
-ItemFormSet = formset_factory(ItemForm, extra=10)
