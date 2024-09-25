@@ -12,7 +12,7 @@ class QuotationForm(forms.ModelForm):
         ('EXPERIENCED', 'Experienced (Min. 5 yrs)')
     ]
     client = forms.ModelChoiceField(
-        queryset=User.objects.filter(is_client = True),
+        queryset=User.objects.filter(is_active = True),
         required=False,
         widget=forms.Select(attrs={'placeholder': 'Choose Client'})
     )
@@ -39,6 +39,9 @@ class QuotationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.fields['client'].queryset = User.objects.filter(is_staff=True, is_superuser=False)
+        
         self.fields['client'].widget.attrs.update({'placeholder': 'Choose Client'})
         self.fields['job_title'].widget.attrs.update({'placeholder': 'Select job title'})
         self.fields['number_of_persons'].widget.attrs.update({'placeholder': 'Enter number of persons'})
