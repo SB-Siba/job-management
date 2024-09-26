@@ -107,7 +107,7 @@ class AddUserView(View):
             user.set_password(form.cleaned_data['password'])  # Ensure the password is hashed
             user.save()
             messages.success(request, f"User {user.full_name} has been successfully added.")
-            return redirect('admin_dashboard:userslist')
+            return redirect('admin_dashboard:user_list')
         # messages.error(request, "User with this Email already exists")
         return render(request, self.template, {'form': form})
 
@@ -167,7 +167,7 @@ class EmployeeList(View):
     template = app + "employee_list.html"
 
     def get(self, request):
-        employees = self.model.objects.filter(is_employee=True).order_by("id")
+        employees = self.model.objects.all().order_by("id")
         return render(request, self.template, {"employees": employees})
 
 class AdminEmployeeAssignView(View):

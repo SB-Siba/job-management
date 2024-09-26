@@ -26,8 +26,8 @@ class AdminDashboard(View):
     template = "admin_dashboard/index.html"
 
     def get(self, request):
-        total_employees = common_models.User.objects.filter(is_staff=True).count()
-        total_clients = common_models.User.objects.filter(is_superuser=False).count()  # Assuming clients are not superusers
+        total_employees = common_models.Employee.objects.all().count()
+        total_clients = common_models.User.objects.filter(is_superuser=False,is_staff=True).count()  # Assuming clients are not superusers
         total_jobs = common_models.Job.objects.count()
         total_candidates = common_models.User.objects.filter(is_staff=False).count()  # Assuming candidates are non-staff users
 
