@@ -96,23 +96,23 @@ WSGI_APPLICATION = "labsoft.wsgi.application"
 #     }
 # }
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": env_vars["DB_NAME"],
-#         "USER": env_vars["DB_USER"],
-#         "PASSWORD": env_vars["DB_PASSWORD"],
-#         "HOST": "127.0.0.1",
-#         "PORT": "5432",
-#     }
-# }
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": env_vars["DB_NAME"],
+        "USER": env_vars["DB_USER"],
+        "PASSWORD": env_vars["DB_PASSWORD"],
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
