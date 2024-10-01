@@ -1,72 +1,34 @@
-
 {% extends 'user/starters.html' %}
 {% load static %}
 {% block main_content %}
-{% load admin_dash %} 
+{% load admin_dash %}
 
 <main class="py-6 bg-surface-secondary">
-
   <div class="container-fluid d-flex justify-content-evenly row">
     {% for job in job_list %}
       <div class="col-xl-4 col-sm-6 col-12 d-flex">
-        
-        <div class="card" style="background: linear-gradient(to right,#0a504a,#38ef7d) !important;
-            color: #fff;">
-    
-    
-        
-            <div class="card-header">
-                <h3 class="card-title">{{ job.title }}</h3>
-                <h4 class="card-subtitle mb-2 text-muted">{{ job.catagory }}</h4>
-                <p class="card-text">{{ job.company_name }}</p>
-                <p class="card-text">{{ job.location }}</p>
-            </div>
-            <div class="card-body">
-                <p class="card-text">{{ job.job_type }}</p>
-                <p class="card-text">{{ job.description }}</p>
-            </div>
-            <div class="card-footer">
-                <p class="card-text">Active {{ job.published_date|timesince }} ago</p>
-                <a href="{% url 'user:job-apply' job.id %}" class="btn btn-primary">Apply now</a>
-            </div>
-        
-    
-   
+        <div class="card" style="background: linear-gradient(to right,#0a504a,#38ef7d) !important; color: #fff;">
+          <div class="card-header">
+            <h3 class="card-title">{{ job.title }}</h3>
+            <h4 class="card-subtitle mb-2 text-muted">{{ job.category }}</h4>
+            <p class="card-text">{{ job.company_name }}</p>
+            <p class="card-text">{{ job.location }}</p>
+          </div>
+          <div class="card-body">
+            <p class="card-text">{{ job.job_type }}</p>
+            <p class="card-text">{{ job.description }}</p>
+          </div>
+          <div class="card-footer">
+            <p class="card-text">Active {{ job.published_date|timesince }} ago</p>
+            {% if job.id in applied_jobs %}
+              <span class="text-success">Applied</span>
+            {% else %}
+              <a href="{% url 'user:job-apply' job.id %}" class="btn btn-primary">Apply now</a>
+            {% endif %}
+          </div>
         </div>
-        
       </div>
-      {% endfor %}
-      
-      </div>
-    </div>
+    {% endfor %}
   </div>
 </main>
-
-<!-- <div class="container">
-    <div class="row">
-        {% for job in job_list %}
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">{{ job.title }}</h3>
-                    <h4 class="card-subtitle mb-2 text-muted">{{ job.catagory }}</h4>
-                    <p class="card-text">{{ job.company_name }}</p>
-                    <p class="card-text">{{ job.location }}</p>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">{{ job.job_type }}</p>
-                    <p class="card-text">{{ job.description }}</p>
-                </div>
-                <div class="card-footer">
-                    <p class="card-text">Active {{ job.published_date|timesince }} ago</p>
-                    <a href="{% url 'user:job-apply' job.id %}" class="btn btn-primary">Apply now</a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div> -->
-
-
 {% endblock main_content %}
-

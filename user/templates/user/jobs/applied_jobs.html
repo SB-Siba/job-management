@@ -1,16 +1,17 @@
 {% extends 'user/index.html' %}
-
 {% block content %}
-  <h2>Jobs You Have Applied For</h2>
-  <ul>
-    {% for application in applied_jobs %}
-      <li>
-        <strong>{{ application.job.catagory.title }}</strong>
-        <br>
-        Applied on: {{ application.applied_at }}
-        <br>
-        Status: {{ application.status }}
-      </li>
-    {% endfor %}
-  </ul>
+<h2>Jobs You Have Applied For</h2>
+{% if applied_jobs %}
+    <ul>
+        {% for application in applied_jobs %}
+            <li>
+                <strong>{{ application.job.category.title }}</strong>
+                <br> Applied on: {{ application.applied_at }}
+                <br> Status: {{ application.status }}
+                <a href="{% url 'job_detail' application.job.id %}">View Job Details</a>  </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You have not applied for any jobs yet.</p>
+{% endif %}
 {% endblock %}

@@ -26,25 +26,25 @@ app = "admin_dashboard/manage_product/"
 # ================================================== patient management ==========================================
 
 @method_decorator(utils.super_admin_only, name='dispatch')
-class CatagoryList(View):
-    model = common_model.Catagory
-    form_class = forms.CatagoryEntryForm
+class categoryList(View):
+    model = common_model.Category
+    form_class = forms.categoryEntryForm
     template = app + "catagory_list.html"
 
     def get(self,request):
         
-        catagory_list = self.model.objects.all().order_by('-id')
-        catagorys = []
+        category_list = self.model.objects.all().order_by('-id')
+        categorys = []
         product_count = []
-        for i in catagory_list:
-            p_obj = common_model.Job.objects.filter(catagory = i).count()
-            catagorys.append(i)
+        for i in category_list:
+            p_obj = common_model.Job.objects.filter(category = i).count()
+            categorys.append(i)
             product_count.append(p_obj)
             
-        catagory_product_count_zip = zip(catagorys,product_count)
+        category_product_count_zip = zip(categorys,product_count)
         context = {
             "form": self.form_class,
-            "catagory_product_count_zip":catagory_product_count_zip,
+            "category_product_count_zip":category_product_count_zip,
         }
         return render(request, self.template, context)
     
@@ -58,19 +58,19 @@ class CatagoryList(View):
                 for error in errors:
                     messages.error(request, f'{field}: {error}')
 
-        return redirect("admin_dashboard:catagory_list")
+        return redirect("admin_dashboard:category_list")
 
 
 @method_decorator(utils.super_admin_only, name='dispatch')
-class CatagoryAdd(View):
-    model = common_model.Catagory
-    form_class = forms.CatagoryEntryForm
+class categoryAdd(View):
+    model = common_model.Category
+    form_class = forms.categoryEntryForm
     template = app + "catagory_add.html"
 
     def get(self, request):
-        catagory_list = self.model.objects.all().order_by('-id')
+        category_list = self.model.objects.all().order_by('-id')
         context = {
-            "catagory_list": catagory_list,
+            "category_list": category_list,
             "form": self.form_class,
         }
         return render(request, self.template, context)
@@ -79,31 +79,30 @@ class CatagoryAdd(View):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, f"Catagory added successfully.")
+            messages.success(request, "Category added successfully.")
         else:
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f'{field}: {error}')
 
-        return redirect("admin_dashboard:catagory_list")
-
-
+        return redirect("admin_dashboard:category_list")
+    
 @method_decorator(utils.super_admin_only, name='dispatch')
-class CatagoryUpdate(View):
-    model = common_model.Catagory
-    form_class = forms.CatagoryEntryForm
+class categoryUpdate(View):
+    model = common_model.Category
+    form_class = forms.categoryEntryForm
     template = app + "catagory_update.html"
 
-    def get(self,request, catagory_id):
-        catagory = self.model.objects.get(id= catagory_id)
+    def get(self,request, category_id):
+        category = self.model.objects.get(id= category_id)
         context = {
-            "form": self.form_class(instance=catagory),
+            "form": self.form_class(instance=category),
         }
         return render(request, self.template, context)
     
-    def post(self, request, catagory_id):
-        catagory = self.model.objects.get(id= catagory_id)
-        form = self.form_class(request.POST, request.FILES ,instance= catagory)
+    def post(self, request, category_id):
+        category = self.model.objects.get(id= category_id)
+        form = self.form_class(request.POST, request.FILES ,instance= category)
         if form.is_valid():
             form.save()
             messages.success(request, f"{request.POST['title']} is updated successfully.....")
@@ -112,44 +111,19 @@ class CatagoryUpdate(View):
                 for error in errors:
                     messages.error(request, f'{field}: {error}')
 
-        return redirect("admin_dashboard:catagory_update", catagory_id = catagory_id)
+        return redirect("admin_dashboard:category_update", category_id = category_id)
 
 
 @method_decorator(utils.super_admin_only, name='dispatch')
-class CatagoryDelete(View):
-    model = common_model.Catagory
-    form_class = forms.CatagoryEntryForm
-    template = app + "catagory_update.html"
+class categoryDelete(View):
+    model = common_model.Category
+    form_class = forms.categoryEntryForm
+    template = app + "category_update.html"
 
-    def get(self,request, catagory_id):
-        catagory = self.model.objects.get(id= catagory_id).delete()
-        messages.info(request, "Catagory is deleted successfully....")
-        return redirect("admin_dashboard:catagory_list")
+    def get(self,request, category_id):
+        category = self.model.objects.get(id= category_id).delete()
+        messages.info(request, "category is deleted successfully....")
+        return redirect("admin_dashboard:category_list")
 
 
-class CatagoryListApi(APIView):
 
-    permission_classes = [api_permission.is_authenticated]
-    serializer_class= product_serializer.CatagorySerializer
-    model= common_model.Catagory
-    pagination_class = utils.CustomPagination(50)
-
-    @swagger_auto_schema(
-        tags=["catagory"],
-        operation_description="It will return all catagory list",
-    )
-
-    def get(self, request):
-
-        catagory_list= self.model.objects.filter(hide="no").order_by('-id')
-        print(catagory_list)
-        paginator = self.pagination_class
-        page = paginator.paginate_queryset(catagory_list, request)
-        serialized_data= self.serializer_class(page, many=True).data
-
-        return Response({
-            'status': 200,
-            'catagory_list': serialized_data,
-            'pagination_meta_data': paginator.pagination_meta_data(),
-
-        })

@@ -2,10 +2,48 @@
 {% load static %}
 
 {% block content %}
-    <div class="container">
-        <h1>Employee List</h1>
-        <table class="table">
-            <thead>
+
+<style>
+    .container 
+    {
+        font-family: merriwether;
+    }
+    .table thead th 
+    {
+        font-size: 18px;
+        color: black;
+    }
+    .btn-info {
+        --x-btn-bg:  #3ac6a8;
+  
+    }
+    .card
+{
+  font-family: merriwether;
+}
+.table thead th
+{
+  font-size: 16px;
+}
+.card-header:first-child
+{
+  box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+}
+tr:hover
+    {
+        background-color: rgb(244, 212, 169);
+    }
+</style>
+
+<main class="py-5 bg-surface-secondary">
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-header border-bottom">
+            <h1 class="text-center py-1">All Employee</h1>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover table-nowrap">
+            <thead class="table-light">
                 <tr>
                     <th>ID</th>
                     <th>User</th>
@@ -18,19 +56,24 @@
             </thead>
             <tbody>
                 {% for employee in employees %}
-                    <tr>
-                        <td>{{ employee.id }}</td>
-                        <td>{{ employee.user.full_name }}</td>
-                        <td>{{ employee.employer.full_name }}</td>
-                        <td>{{ employee.salary }}</td>
-                        <td>{{ employee.period_start }}</td>
-                        <td>{{ employee.period_end }}</td>
-                        <td>
-                            <a href="{% url 'admin_dashboard:employee_detail' employee.id %}" class="btn btn-info">Details</a>
-                        </td>
-                    </tr>
-                {% endfor %}
+                <tr>
+                    <td>{{ employee.id }}</td>
+                    <td>{{ employee.user.full_name }}</td>
+                    <td>{{ employee.employer.full_name }}</td>
+                    <td>{{ employee.salary }}</td>
+                    <td>{{ employee.period_start }}</td>
+                    <td>{{ employee.period_end }}</td>
+                    <td>
+                        <a href="{% url 'admin_dashboard:employee_detail' employee.id %}" class="btn btn-info">Details</a>
+                    </td>
+                </tr>
+            {% endfor %}
             </tbody>
-        </table>
+          </table>
+        </div>
+      </div>
     </div>
+  </main>
+
+   
 {% endblock %}

@@ -1,7 +1,24 @@
 {% extends 'admin_dashboard/starter.html' %}
 {% load static %}
 {% block content %}
-
+<style>
+    .card
+{
+  font-family: merriwether;
+}
+.table thead th
+{
+  font-size: 16px;
+}
+.card-header:first-child
+{
+  box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+}
+tr:hover
+    {
+        background-color: rgb(244, 212, 169);
+    }
+</style>
 <center>
     {% include 'snippets/alert.html' %}
 </center>
@@ -10,14 +27,62 @@
         <div class="border-bottom pt-6">
             <div class="row align-items-center">
                 <div class="col-sm col-12">
-                    <h1 class="h2 ls-tight">Catagory List</h1>
+                    
                 </div>
             </div>
         </div>
     </div>
 </header>
 
+
 <main class="py-6 bg-surface-secondary">
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-header border-bottom">
+            <h1 class="h2 ls-tight">category List</h1>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover table-nowrap">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Name</th>
+                   
+                    <th scope="col">Job Count</th>
+                    <th scope="col">Action</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for category,product_count in category_product_count_zip %}
+                <tr>
+                    <td>
+                        <a class="text-heading text-primary-hover font-semibold" href="#">{{category.title}}</a>
+                    </td>
+                    
+                    
+                    <td>{{product_count}}</td>
+                    
+                    <td>
+                        <a href="{% url 'admin_dashboard:category_update' category.id %}" class="btn btn-sm btn-square btn-neutral">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                       <a href="{% url 'admin_dashboard:category_delete' category.id %}">
+                            <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                       </a>
+                        
+                    </td>
+                </tr> 
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+<!-- <main class="py-6 bg-surface-secondary">
     
     
     <div class="container-fluid">
@@ -38,27 +103,27 @@
                         <thead class="table-light">
                             <tr>
                                 <th scope="col">Name</th>
-                                <!-- <th scope="col">Description</th> -->
+                               
                                 <th scope="col">Job Count</th>
                                 <th scope="col">Action</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody id="test_table_tbody">
-                            {% for catagory,product_count in catagory_product_count_zip %}
+                            {% for category,product_count in category_product_count_zip %}
                                 <tr>
                                     <td>
-                                        <a class="text-heading text-primary-hover font-semibold" href="#">{{catagory.title}}</a>
+                                        <a class="text-heading text-primary-hover font-semibold" href="#">{{category.title}}</a>
                                     </td>
-                                    <!-- <td>{{catagory.description}}</td> -->
+                                    
                                     
                                     <td>{{product_count}}</td>
                                     
                                     <td >
-                                        <a href="{% url 'admin_dashboard:catagory_update' catagory.id %}" class="btn btn-sm btn-square btn-neutral">
+                                        <a href="{% url 'admin_dashboard:category_update' category.id %}" class="btn btn-sm btn-square btn-neutral">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                       <a href="{% url 'admin_dashboard:catagory_delete' catagory.id %}">
+                                       <a href="{% url 'admin_dashboard:category_delete' category.id %}">
                                             <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
                                                 <i class="bi bi-trash"></i>
                                             </button>
@@ -76,7 +141,7 @@
             </div>
         </div>
     </div>
-</main> 
+</main>  -->
 
 
 <!-- test create modal -->

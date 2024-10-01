@@ -113,7 +113,7 @@ class ApplicationList(View):
 @method_decorator(utils.super_admin_only, name='dispatch')
 class JobSearch(View):
     model =common_model.Job
-    form_class = forms.CatagoryEntryForm
+    form_class = forms.categoryEntryForm
     template = app + "job_list.html"
 
     def post(self, request):
@@ -122,7 +122,7 @@ class JobSearch(View):
         if filter_by == "uid":
             job_list = self.model.objects.filter(id=query)
         else:
-             job_list = self.model.objects.filter(catagory__title__icontains=query)
+             job_list = self.model.objects.filter(category__title__icontains=query)
 
         paginated_data = utils.paginate(request, job_list, 50)
         context = {
@@ -142,9 +142,9 @@ class JobFilter(View):
 
     def get(self, request):
         filter_by = request.GET.get("filter_by")
-        if filter_by == "catagory":
-            catagory_id = request.GET.get("catagory_id")
-            job_list = self.model.objects.filter(catagory_id=catagory_id).order_by('-id')
+        if filter_by == "category":
+            category_id = request.GET.get("category_id")
+            job_list = self.model.objects.filter(category_id=category_id).order_by('-id')
         else:
             job_list = self.model.objects.all().order_by('-id')
 
@@ -165,12 +165,15 @@ class JobDetail(View):
         job = get_object_or_404(self.model, id=job_uid)
         applications_count = common_model.Application.objects.filter(job=job).count()
         employees = common_model.Application.objects.filter(job=job,status='Hired')
+        applications = common_model.Application.objects.filter(job=job)
         client = job.client
         context = {
             "job": job,
             'applications_count': applications_count,
             "employees": employees,
             "client": client,
+            "applications": applications,
+
         }
         return render(request, self.template, context)
    
@@ -191,7 +194,11 @@ class JobAdd(View):
             job = form.save(commit=False)
             if request.user.is_superuser:
                 job.client = form.cleaned_data['client']
-            job.status = 'unpublished'
+                # Check form data for "published" selection
+            if form.cleaned_data['status'] == 'published':
+                job.status = 'published'
+            else:  # Default to unpublished if not selected
+                job.status = 'unpublished'
             job.save()
             messages.success(request, 'Job added successfully.')
             return redirect('admin_dashboard:job_list')

@@ -23,6 +23,9 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>/', authenticate.CustomPasswordResetConfirmView.as_view(),name='password_reset_confirm'),
     path('password-reset-complete/',authenticate.CustomPasswordResetCompleteView.as_view(),name='password_reset_complete'),
     path('logout', authenticate.Logout.as_view(), name = "logout"),
+    path('logout-confirmation/', authenticate.LogoutConfirmationView.as_view(), name='logout_confirmation'),
+    path('cancel-logout/', authenticate.CancelLogoutView.as_view(), name='cancel_logout'),
+
     #Page Urls
     path('',views.HomeView.as_view(),name="home"),
     path('profile/',views.ProfileView.as_view(),name="profile"),

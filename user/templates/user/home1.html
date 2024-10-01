@@ -1,28 +1,37 @@
-{% extends 'user/index.html' %}
-{%load static%}
+{% extends 'user/starters.html' %}
+{% load static %}
 {% block main_content %}
-
-
 
 <div class="container py-5 px-5">
     <div class="row py-5 px-5">
         {% for job in job_list %}
-        <div class="col-md-6 mb-6 px-5">
+        <div class="col-md-5 mb-5 px-5">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title"> Job Title : {{ job.title }}</h3>
-                    <h4 class="card-subtitle mb-2 text-muted">{{ job.catagory }}</h4>
+                    <h4 class="card-subtitle mb-2 text-muted">{{ job.category }}</h4>
                     <p class="card-text"> Company Name : {{ job.company_name }}</p>
                     <p class="card-text"> Location : {{ job.location }}</p>
                 </div>
                 <div class="card-body">
                     <p class="card-text"> Job Type : {{ job.job_type }}</p>
-                    <p class="card-text"> Job Description : {{ job.description }}</p>
+                    <!-- <p class="card-text"> Job Description : {{ job.description }}</p> -->
                 </div>
                 <div class="card-footer">
                     <p class="card-text">Active {{ job.published_date|timesince }} ago</p>
                     <div class="py-4">
-                        <a href="{% url 'user:job-apply' job.id %}" class="btn btn-primary ">Apply now</a>
+                        {% if job.id in applied_jobs %}
+                            <span class="applied-text" style="color: green; background-color: lightgreen;">Applied</span>
+                        {% else %}
+                            <a href="{% url 'user:job-apply' job.id %}" class="btn btn-primary">Apply now</a>
+                        {% endif %}
+                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#jobModal" 
+                                data-title="{{ job.title }}"
+                                data-description="{{ job.description }}"
+                                data-company="{{ job.company_name }}"
+                                data-location="{{ job.location }}"
+                                data-type="{{ job.job_type }}"
+                                data-category="{{ job.category }}">Read More</button>
                     </div>
                 </div>
             </div>
@@ -30,4 +39,57 @@
         {% endfor %}
     </div>
 </div>
+
+<!-- Job Details Modal -->
+<div class="modal fade" id="jobModal" tabindex="-1" aria-labelledby="jobModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jobModalLabel">Job Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h3 id="jobModalTitle"></h3>
+                <p><strong>Company:</strong> <span id="jobModalCompany"></span></p>
+                <p><strong>Location:</strong> <span id="jobModalLocation"></span></p>
+                <p><strong>Job Type:</strong> <span id="jobModalType"></span></p>
+                <p><strong>Category:</strong> <span id="jobModalCategory"></span></p>
+                <br>
+                <h4><u>Job Description :</u></h4>
+                <p id="jobModalDescription"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock main_content %}
+{% block js %}
+<script>
+    var jobModal = document.getElementById('jobModal')
+    jobModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget
+        var title = button.getAttribute('data-title')
+        var description = button.getAttribute('data-description')
+        var company = button.getAttribute('data-company')
+        var location = button.getAttribute('data-location')
+        var type = button.getAttribute('data-type')
+        var category = button.getAttribute('data-category')
+
+        var modalTitle = jobModal.querySelector('.modal-title')
+        var modalBodyTitle = jobModal.querySelector('#jobModalTitle')
+        var modalBodyCompany = jobModal.querySelector('#jobModalCompany')
+        var modalBodyLocation = jobModal.querySelector('#jobModalLocation')
+        var modalBodyType = jobModal.querySelector('#jobModalType')
+        var modalBodyCategory = jobModal.querySelector('#jobModalCategory')
+        var modalBodyDescription = jobModal.querySelector('#jobModalDescription')
+
+        modalTitle.textContent = 'Job Details'
+        modalBodyTitle.textContent = title
+        modalBodyCompany.textContent = company
+        modalBodyLocation.textContent = location
+        modalBodyType.textContent = type
+        modalBodyCategory.textContent = category
+        modalBodyDescription.textContent = description
+    })
+</script>
+{% endblock js %}

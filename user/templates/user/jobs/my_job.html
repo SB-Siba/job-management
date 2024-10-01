@@ -1,0 +1,32 @@
+{% extends 'user/starters.html' %}
+{% load static %}
+{% block main_content %}
+
+<main class="py-6 bg-surface-secondary">
+  <div class="container-fluid">
+    <h2>My Applied Jobs</h2>
+    <div class="row">
+      {% for application in user.jobapplication_set.all %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-header">
+              <h3>{{ application.job.title }}</h3>
+              <h4 class="card-subtitle mb-2 text-muted">{{ application.job.category }}</h4>
+              <p class="card-text">{{ application.job.company_name }}</p>
+              <p class="card-text">{{ application.job.location }}</p>
+            </div>
+            <div class="card-body">
+              <p class="card-text">{{ application.job.job_type }}</p>
+              <p class="card-text">{{ application.job.description }}</p>
+            </div>
+            <div class="card-footer">
+              <p class="card-text">Applied {{ application.applied_date|timesince }} ago</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+
+{% endblock main_content %}

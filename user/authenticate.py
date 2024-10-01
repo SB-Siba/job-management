@@ -1,7 +1,9 @@
+from django.forms import ValidationError
 from django.shortcuts import render, redirect,HttpResponse
 from django.views import View
 from django.contrib import messages
 from django.contrib import auth
+from django.contrib.auth import logout
 from django.conf import settings
 from django.views.generic.base import TemplateView
 from django.contrib.auth import get_user_model
@@ -116,7 +118,22 @@ class Logout(View):
     def get(self, request):
         logout(request)
         return redirect('user:home')
-
+ 
+class LogoutConfirmationView(View):
+    template_name = app +'authtemp/logout_confirmation.html'
+ 
+    def get(self, request):
+        return render(request, self.template_name)
+ 
+ 
+class CancelLogoutView(View):
+    def get(self, request):
+   
+        if request.user.is_superuser:
+            return redirect('admin_dashboard:admin_dashboard')
+ 
+        return redirect('user:home')
+        
 class CustomPasswordResetView(FormView):
     template_name = app + "authtemp/password_reset.html"
     template_email = app + "authtemp/password_reset_email.html"

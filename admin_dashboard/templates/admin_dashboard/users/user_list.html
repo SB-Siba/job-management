@@ -17,6 +17,29 @@
         display: flex;
         justify-content: end;
     }
+    h1
+    {
+        font-family: merriwether;
+        
+    }
+    tr:hover
+    {
+        background-color: rgb(244, 212, 169);
+    }
+    .card
+    {
+      font-family: merriwether;
+    }
+    .table thead th
+    {
+      font-size: 16px;
+    }
+    .card-header:first-child
+    {
+      box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+    }
+    
+    
     
 </style>
 
@@ -25,12 +48,12 @@
 </center>
 <header>
     <div class="container-fluid">
-        <div class="border-bottom pt-6">
+        <div class="">
             <div class="row align-items-center">
                 <div class="col-sm col-12">
                     <h1 class="h2 ls-tight">All Users</h1>
                 </div>
-                <div class="col-sm-auto col-12">
+                <div class="col-sm-auto col-6">
                     <form method="post" id="filterForm">
                         {% csrf_token %}
                         {{ category_form.as_p }}
@@ -42,60 +65,64 @@
     </div>
 </header>
 
+
+
 <main class="py-6 bg-surface-secondary">
     <div class="container-fluid">
-        <div class="vstack gap-4">
-            <div class="card">
-                <div class="table-responsive">
-                    <form method="post" id="userForm">
-                        {% csrf_token %}
-                        <table class="table table-hover table-nowrap">
-                            <thead class="table-light">
-                                <tr>
-                                    {% if job_form %}
-                                        <th scope="col"><input type="checkbox" id="selectAll"></th>
-                                    {% endif %}
-                                    <th scope="col"><strong>ID</strong></th>
-                                    <th scope="col"><strong>Name</strong></th>
-                                    <th scope="col"><strong>Contact</strong></th>
-                                    <th scope="col"><strong>Email</strong></th>
-                                    <th scope="col" style="padding-left: 100px;"><strong>Action</strong></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody id="test_table_tbody">
-                                {% for user in user_obj %}
-                                    <tr>
-                                        {% if job_form %}
-                                            <td><input type="checkbox" name="selected_users" value="{{ user.id }}"></td>
-                                        {% endif %}
-                                        <td><a class="text-heading text-primary-hover font-semibold" href="#">{{ user.id }}</a></td>
-                                        <td>{{ user.full_name }}</td>
-                                        <td>{{ user.contact }}</td>
-                                        <td>{{ user.email }}</td>
-                                        <td>
-                                            <a href="{% url 'admin_dashboard:user_detail' user.id %}" class="btn btn-secondary">View</a>
-                                            <a href="{% url 'admin_dashboard:edit_userrr' user.id %}" class="btn btn-secondary">Edit</a>
-                                            <a href="{% url 'admin_dashboard:deleteuser' user.id %}" class="btn btn-secondary">Delete</a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        {% if job_form %}
-                            <div class="card-footer py-2">
-                                {{ job_form.as_p }}
-                                <input type="hidden" name="category_id" value="{{ category.id }}">
-                                <button type="submit" name="action" value="send_selected" class="btn btn-primary my-4">Send Jobs to Selected Users</button>
-                                <button type="submit" name="action" value="send_all" class="btn btn-primary">Send Jobs to All Users</button>
-                            </div>
-                        {% endif %}
-                    </form>
-                </div>
-            </div>
+      <div class="card">
+        <div class="card-header border-bottom">
+            <h1 class="text-center pb-5">All Employee</h1>
         </div>
+        <div class="table-responsive">
+          <table class="table table-hover table-nowrap">
+            <form method="post" id="userForm">
+                {% csrf_token %}
+                <table class="table table-hover table-nowrap">
+                    <thead class="table-light">
+                        
+                        <tr>
+                            <th scope="col"><strong>ID</strong></th>
+                            <th scope="col"><strong>Name</strong></th>
+                            <th scope="col"><strong>Contact</strong></th>
+                            <th scope="col"><strong>Email</strong></th>
+                            <th scope="col" style="padding-left: 100px;"><strong>Action</strong></th>
+                       
+                        </tr>
+                        
+                        
+                    </thead>
+                    <tbody id="test_table_tbody">
+                        {% for user in user_obj %}
+                            <tr>
+                                
+                                <td><a class="text-heading text-primary-hover font-semibold" href="#">{{ user.id }}</a></td>
+                                <td>{{ user.full_name }}</td>
+                                <td>{{ user.contact }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>
+                                    <a href="{% url 'admin_dashboard:user_detail' user.id %}" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></a>
+                                    <a href="{% url 'admin_dashboard:edit_userrr' user.id %}" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="{% url 'admin_dashboard:deleteuser' user.id %}" class="btn btn-secondary"><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% if job_form %}
+                    <div class="card-footer py-2">
+                        {{ job_form.as_p }}
+                        <input type="hidden" name="category_id" value="{{ category.id }}">
+                        <button type="submit" name="action" value="send_selected" class="btn btn-primary my-4">Send Jobs to Selected Users</button>
+                        <button type="submit" name="action" value="send_all" class="btn btn-primary">Send Jobs to All Users</button>
+                    </div>
+                {% endif %}
+            </form>
+        </div>
+      </div>
     </div>
-</main>
+  </main>
+
+
 
 <script>
     document.getElementById('selectAll').addEventListener('change', function(e) {
