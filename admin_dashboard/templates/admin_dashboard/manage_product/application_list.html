@@ -125,14 +125,13 @@
         <p><strong>Job Category:</strong> {{ application.job.category|default:'No category available' }}</p>
         <p><strong>Applied At:</strong> {{ application.applied_at }}</p>
         <p><strong>Resume:</strong> 
-          {% if application.resume %}
-              <a href="{{ application.resume.url }}" download>Download Resume</a>
-          {% else %}
-              No resume uploaded
-          {% endif %}
+            {% if application.resume %}
+                <a href="{{ application.resume.url }}" target="_blank" class="btn btn-primary">View Resume</a>
+            {% else %}
+                No resume uploaded
+            {% endif %}
         </p>
-      </div>
-      <div class="modal-footer">
+            <class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
@@ -188,6 +187,7 @@
             console.error('Error:', error);
         });
     }
+
 </script>
 
 {% endblock content %}

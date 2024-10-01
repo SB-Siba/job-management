@@ -3,17 +3,66 @@ from django.contrib.auth.forms import PasswordChangeForm,PasswordResetForm,SetPa
 from app_common import models as common_models
 from django.contrib.auth import password_validation
 from django.core.validators import RegexValidator
-class SignUpForm(forms.Form):
-    full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.',
-                             widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    # phone_number = forms.IntegerField(help_text='Required. Enter a valid contact number .',
-    #                          widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    # Resume=forms.FileField(widget=forms.FileInput(attrs={'class': 'form-control'}))
 
+
+from django import forms
+import re
+
+class SignUpForm(forms.Form):
+    full_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        label='Full Name',
+        max_length=100
+    )
+    
+    email = forms.EmailField(
+        max_length=254,
+        help_text='Required. Inform a valid email address.',
+        widget=forms.EmailInput(attrs={'class': 'form-control'})
+    )
+    
+    contact = forms.CharField(
+        max_length=15,  # Adjust based on expected phone number format
+        help_text='Required. Enter a valid contact number.',
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        label='Password'
+    )
+    
+    confirm_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        label='Confirm Password'
+    )
+    
+    # Resume = forms.FileField(widget=forms.FileInput(attrs={'class': 'form-control'}))
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        # Password policy validation
+        if not re.search(r'[a-z]', password):
+            raise forms.ValidationError("Password must contain at least one lowercase letter.")
+        if not re.search(r'[A-Z]', password):
+            raise forms.ValidationError("Password must contain at least one uppercase letter.")
+        if not re.search(r'[0-9]', password):
+            raise forms.ValidationError("Password must contain at least one digit.")
+        if not re.search(r'[\W_]', password):
+            raise forms.ValidationError("Password must contain at least one special character.")
+        if len(password) < 8 or len(password) > 14:
+            raise forms.ValidationError("Password must be between 8 and 14 characters long.")
+        if " " in password:
+            raise forms.ValidationError("Password cannot contain spaces.")
+        return password
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
+        if password and confirm_password and password != confirm_password:
+            raise forms.ValidationError("Passwords do not match.")
+        return cleaned_data
 
 
 class LoginForm(forms.Form):

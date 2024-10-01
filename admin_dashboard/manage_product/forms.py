@@ -54,7 +54,7 @@ class JobForm(forms.ModelForm):
         self.user = kwargs.pop('user', None)
         super(JobForm, self).__init__(*args, **kwargs)
 
-        self.fields['client'].queryset = common_models.User.objects.filter(is_client=True)
+        self.fields['client'].queryset = common_models.User.objects.filter(is_staff=True,is_superuser=False)
 
         self.fields['company_name'].initial = 'PRAVATI INTERNATIONAL'
         self.fields['company_name'].widget.attrs['readonly'] = True
@@ -153,11 +153,7 @@ class JobSelectionForm(forms.Form):
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = common_models.User
-        fields = ['full_name', 'email', 'contact', 'category', 'wallet', 'token', 'meta_data']
-        widgets = {
-            'meta_data': forms.Textarea(attrs={'rows': 3}),
-            'wallet': forms.NumberInput(attrs={'step': '0.01'}),
-        }
+        fields = ['full_name', 'email', 'contact', 'category', 'resume']
 
 class ClientUpdateForm(forms.ModelForm):
     class Meta:

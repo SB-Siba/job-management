@@ -33,13 +33,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, null=True, blank=True)
     password = models.TextField(null=True, blank=True)
     contact = models.CharField(max_length=10, null=True, blank=True, validators=[RegexValidator(r'^\d{10}$')])
+    resume = models.FileField(upload_to='resumes/', null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
-    wallet = models.FloatField(default=0.0)
-    token = models.CharField(max_length=100, null=True, blank=True)
-    meta_data = models.JSONField(default=dict)
     is_client = models.BooleanField(default=False)
 
 

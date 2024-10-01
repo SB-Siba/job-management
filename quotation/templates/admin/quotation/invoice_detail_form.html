@@ -1,0 +1,209 @@
+{% extends 'admin_dashboard/starter.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .form-field {
+            margin-bottom: 10px;
+            width: 100%; /* Set width to 100% for better alignment */
+        }
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-field input, .form-field textarea {
+            border-radius: 15px !important;
+            box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+            padding: 8px;
+            border: 1px solid #ccc;
+            width: 100%; /* Ensure inputs take full width */
+        }
+        #items-container {
+            max-height: 400px; /* Set maximum height for the items container */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            margin-bottom: 20px; /* Space for the button */
+        }
+        .row-single-column {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr); /* 7 columns */
+            gap: 10px; /* Gap between columns */
+            margin-bottom: 15px;
+        }
+        .add-item-button {
+            background-color: rgb(185, 184, 184);
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 10px 20px;   
+            cursor: pointer;
+            margin-bottom: 20px;
+            border-radius: 15px !important;
+            box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        }
+        .add-item-button:hover {
+            background-color: #000000;
+            color: white;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+    </style>
+
+<div class="px-5 py-5">
+    <div class="fullcard px-5 py-5">
+        <div class="border-bottom border-black mb-2">
+            <h1 class="mb-2">Invoice</h1>
+        </div>
+        <div class="scrollable-content">
+            <form id="invoice-form" method="post">
+                {% csrf_token %}
+                <h2 class="py-1">Invoice Details</h2>
+                
+                <div class="form-field">
+                    <label for="company_name">Company Name:</label>
+                    <input type="text" name="company_name" required />
+                </div>
+                <div class="form-field">
+                    <label for="address">Address:</label>
+                    <textarea name="address" required></textarea>
+                </div>
+                <div class="form-field">
+                    <label for="description">Description:</label>
+                    <textarea name="description"></textarea>
+                </div>
+                
+                <!-- ESI and EPF Fields (Outside items-container) -->
+                <div class="form-field">
+                    <label for="esi">Enter ESI Amount:</label>
+                    <input type="number" step="0.01" name="esi" required />
+                </div>
+                <div class="form-field">
+                    <label for="epf">Enter EPF Amount:</label>
+                    <input type="number" step="0.01" name="epf" required />
+                </div>
+
+                <button type="button" class="add-item-button">Add Row</button>
+
+                <div id="items-container">
+                    <div class="row-single-column">
+                        <div class="form-field">
+                            <label for="employee_name">Employee Name</label>
+                            <input type="text" name="employee_name[]" required />
+                        </div>
+                        <div class="form-field">
+                            <label for="days_of_duty">Days of Duty</label>
+                            <input type="number" step="0.1" name="days_of_duty[]" required />
+                        </div>
+                        <div class="form-field">
+                            <label for="overtime_days">Overtime Days</label>
+                            <input type="number" step="0.1" name="overtime_days[]" required />
+                        </div>
+                        <div class="form-field">
+                            <label for="total_work_days">Total Work Days</label>
+                            <input type="number" step="0.1" name="total_work_days[]" required />
+                        </div>
+                        <div class="form-field">
+                            <label for="price_per_day">Price per Day</label>
+                            <input type="number" step="0.1" name="price_per_day[]" required />
+                        </div>
+                        <div class="form-field">
+                            <label for="total_price">Total Price</label>
+                            <input type="number" step="0.1" name="total_price[]" required />
+                        </div>
+                        <div class="form-field">
+                            <label for="remark">Remark</label>
+                            <input type="text" name="remark[]" maxlength="250" />
+                        </div>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button type="submit" class="save-button">Save Invoice</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const addButton = document.querySelector('.add-item-button');
+        const itemsContainer = document.getElementById('items-container');
+        const invoiceForm = document.getElementById('invoice-form');
+
+        addButton.addEventListener('click', function () {
+            const newRow = document.createElement('div');
+            newRow.className = 'row-single-column';
+            
+            newRow.innerHTML = `
+                <div class="form-field">
+                    <label for="employee_name">Employee Name</label>
+                    <input type="text" name="employee_name[]" required />
+                </div>
+                <div class="form-field">
+                    <label for="days_of_duty">Days of Duty</label>
+                    <input type="number" step="0.1" name="days_of_duty[]" required />
+                </div>
+                <div class="form-field">
+                    <label for="overtime_days">Overtime Days</label>
+                    <input type="number" step="0.1" name="overtime_days[]" required />
+                </div>
+                <div class="form-field">
+                    <label for="total_work_days">Total Work Days</label>
+                    <input type="number" step="0.1" name="total_work_days[]" required />
+                </div>
+                <div class="form-field">
+                    <label for="price_per_day">Price per Day</label>
+                    <input type="number" step="0.1" name="price_per_day[]" required />
+                </div>
+                <div class="form-field">
+                    <label for="total_price">Total Price</label>
+                    <input type="number" step="0.1" name="total_price[]" required />
+                </div>
+                <div class="form-field">
+                    <label for="remark">Remark</label>
+                    <input type="text" name="remark[]" maxlength="250" />
+                </div>
+            `;
+            
+            itemsContainer.appendChild(newRow);
+        });
+
+        invoiceForm.addEventListener('submit', function(event) {
+            const employeeDetails = [];
+            const employeeNames = document.getElementsByName('employee_name[]');
+            const daysOfDuty = document.getElementsByName('days_of_duty[]');
+            const overtimeDays = document.getElementsByName('overtime_days[]');
+            const totalWorkDays = document.getElementsByName('total_work_days[]');
+            const pricePerDay = document.getElementsByName('price_per_day[]');
+            const totalPrice = document.getElementsByName('total_price[]');
+            const remarks = document.getElementsByName('remark[]');
+
+            for (let i = 0; i < employeeNames.length; i++) {
+                employeeDetails.push({
+                    employee_name: employeeNames[i].value,
+                    days_of_duty: daysOfDuty[i].value,
+                    overtime_days: overtimeDays[i].value,
+                    total_work_days: totalWorkDays[i].value,
+                    price_per_day: pricePerDay[i].value,
+                    total_price: totalPrice[i].value,
+                    remark: remarks[i].value,
+                });
+            }
+
+            // Create a hidden input to store employee details as JSON
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'employee_details';
+            hiddenInput.value = JSON.stringify(employeeDetails);
+            invoiceForm.appendChild(hiddenInput);
+        });
+    });
+</script>
+
+{% endblock content %}

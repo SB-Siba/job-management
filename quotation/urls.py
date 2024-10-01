@@ -4,11 +4,18 @@ from . import views
 app_name = 'quotation'
 
 urlpatterns = [
-    path('quotations/', views.QuotationListView.as_view(), name='quotation_list'),
+    path('choose_quotation/', views.ChooseQuotationView.as_view(), name='choose_quotation'),
+    path('view_quotation/', views.ViewQuotationView.as_view(), name='view_quotation'),
+    path('quotation_list/', views.QuotationListView1.as_view(), name='quotation_list'),
+    path('quotation_list_2/', views.QuotationListView2.as_view(), name='quotation_list_2'),
     path('quotations/create/', views.QuotationCreateView.as_view(), name='quotation_create'),
     path('quotations/<int:pk>/delete/', views.QuotationDeleteView.as_view(), name='quotation_delete'),
-    path('quotation/<int:pk>/', views.QuotationDetailView.as_view(), name='quotation_detail'),
-    path('quotation/<int:id>/details/', views.QuotationDetailsView.as_view(), name='quotation_details'),
-    path('create-invoice/', views.CreateInvoiceView.as_view(), name='create_invoice'),
-    path('invoice/<int:invoice_id>/',views.InvoiceView.as_view(), name='invoice'),
+    path('quotation_delete_2/<int:pk>/delete/', views.QuotationDeleteView2.as_view(), name='quotation_delete_2'),
+    path('quotation/<int:pk>/', views.QuotationDetailView1.as_view(), name='quotation_details_1'),
+    path('quotation/<int:pk>/details/', views.QuotationDetailsView2.as_view(), name='quotation_details_2'),
+    path('quotation_create_2/', views.QuotationCreateView2.as_view(), name='quotation_create_2'),
+    path('invoice/add/', views.InvoiceDetailCreateView.as_view(), name='invoice_add'),
+    path('invoices/', views.InvoiceListView.as_view(), name='invoice_list'),
+    path('invoices/<int:invoice_id>/details/', views.InvoiceDetailView.as_view(), name='invoice_details'),
+    path('invoices/<int:pk>/delete/', views.InvoiceDeleteView.as_view(), name='invoice_delete'),
 ]

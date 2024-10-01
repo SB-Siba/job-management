@@ -1,0 +1,405 @@
+{% extends 'admin_dashboard/starter.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .form-field {
+            width: 100%;
+        }
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+            
+        }
+        .form-field input, .form-field select {
+            border-radius: 15px !important;
+            box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+            padding: 8px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+        .form-field .error {
+            color: red;
+            font-size: 0.875em;
+        }
+        .row-single-column {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-bottom: 15px;
+        }
+        .person-details-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Four columns of equal width */
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .manpower-field {
+            width: 100px; /* Adjust the width as needed */
+            display: inline-block;
+        }
+        .item-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr 2fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .item-row div {
+            margin-bottom: 5px;
+        }
+        .item-row label {
+            display: block;
+        }
+        /* .item-cell {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+        } */
+        #items-container {
+            max-height: 400px; /* Set maximum height for the items container */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            margin-bottom: 20px; /* Space for the button */
+            display: none; /* Hide items container initially */
+        }
+        .add-item-button {
+            background-color: rgb(185, 184, 184);
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            margin-top: -10px;
+            border-radius: 15px !important;
+            box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        }
+        .add-item-button:hover {
+            background-color: #000000;
+            color: white;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between; /* Spread buttons across the row */
+            align-items: center;
+            margin-top: 20px; /* Add space above the buttons */
+        }
+        .go-back-button, .preview-button, .save-button {
+            background-color: rgb(185, 184, 184);
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 15px !important;
+            box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+            cursor: pointer;
+            text-decoration: none; /* Remove underline from the anchor button */
+            display: inline-block;
+        }
+        .go-back-button:hover, .preview-button:hover, .save-button:hover {
+            background-color: #000000;
+            color: white;
+        }
+        .right-buttons {
+            display: flex;
+            gap: 10px; /* Space between the Preview and Save buttons */
+        }
+        /* Modal styles */
+        .modal-dialog-scrollable {
+            max-width: 100%;
+            width: 70%; /* Adjust modal width */
+            font-family: merriwether;
+        }
+        .modal-body {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        /* Popup content styles */
+        .popup-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        .popup-content li {
+            margin-bottom: 10px;
+        }
+        .popup-content li strong {
+            display: block;
+        }
+        .item-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .item-table th, .item-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        .item-table th {
+            background-color: #f2f2f2;
+        }
+        .fullcard {
+            border-radius: 15px !important;
+            box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+            font-family: merriwether;
+        }
+        textarea {
+            border-radius: 15px !important;
+            box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+            padding: 10px;
+            width: 250px;
+        }
+        .form-field label {
+            padding: 10px;
+            padding-bottom: 0px;
+        }
+        .box {
+            display: flex;
+            justify-content: space-evenly;
+        }
+        .b,.btn {
+            background-color: rgb(185, 184, 184);
+            color: rgb(0, 0, 0);
+            border-radius: 15px !important;
+            box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        }
+        .b,.btn:hover {
+            background-color: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
+        }
+        #items-container {
+            width: 100%;
+            margin: 20px 0;
+        }
+        
+        .item-table {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .item-header,
+        .item-row {
+            display: flex;
+            border-bottom: 1px solid #ddd; /* Adds a separator between rows */
+        }
+        
+        .item-header {
+            font-weight: bold;
+            background-color: #f0f0f0; /* Adds a background color to distinguish header */
+            border-bottom: 2px solid #ccc; /* Makes the header line thicker */
+        }
+        
+        .item-cell {
+            flex: 1; /* Ensures all cells are equally spaced */
+            padding: 10px;
+            text-align: left; /* Aligns text to the left for readability */
+        }
+        
+        .item-cell strong {
+            display: block; /* Makes header text bold */
+        }
+        
+        .item-row .item-cell {
+            display: flex;
+            align-items: center;
+        }
+        input{
+
+            width: 170px;
+            font-family: inherit;
+            line-height: inherit;
+            margin: 10px 0 10px 0;
+            border: 1px solid black;
+        }
+    </style>
+
+<div class="px-5 py-5"> 
+    <div class="fullcard px-5 py-5">
+        <div class="border-bottom border-black mb-2">
+            <h2 class="mb-2 text-center">CARE HOSPITAL, BHUBANESWAR GDA/SUPERVISOR SERVICES</h2>
+        </div>
+        <div class="scrollable-content">
+            <form id="invoice-form" method="post">
+                {% csrf_token %}
+              
+                <div class="row"></div>
+                    <div class="form-field col-md-12">
+                        <label for="subject">Subject</label>
+                        {{ form.subject }}
+                        {% if form.subject.errors %}
+                            <div class="error text-danger">{{ form.subject.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- To Field -->
+                <div class="row">
+                    <div class="form-field col-md-12">
+                        <label for="to">To</label>
+                        {{ form.to }}
+                        {% if form.to.errors %}
+                            <div class="error text-danger">{{ form.to.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-field col-md-12">
+                        <label for="company_name">Name of the Vendor</label>
+                        {{ form.company_name }}
+                        {% if form.company_name.errors %}
+                            <div class="error text-danger">{{ form.company_name.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+              
+                <!-- Notification Text -->
+                <div class="form-field">
+                    <label for="notification_text">Notification Text</label>
+                    {{ form.notification_text }}
+                    {% if form.notification_text.errors %}
+                        <div class="error text-danger">{{ form.notification_text.errors }}</div>
+                    {% endif %}
+                </div>
+              
+                <!-- Semi Skilled Field with Manpower -->
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="semi_skilled">Semi Skilled @ Rs.</label>
+                        {{ form.semi_skilled }}
+                        {% if form.semi_skilled.errors %}
+                            <div class="error text-danger">{{ form.semi_skilled.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="semi_skilled_manpower">Manpower</label>
+                        {{ form.semi_skilled_manpower }}
+                        {% if form.semi_skilled_manpower.errors %}
+                            <div class="error text-danger">{{ form.semi_skilled_manpower.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+              
+                <!-- Unskilled Field with Manpower -->
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="unskilled">Unskilled @ Rs.</label>
+                        {{ form.unskilled }}
+                        {% if form.unskilled.errors %}
+                            <div class="error text-danger">{{ form.unskilled.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="unskilled_manpower">Manpower</label>
+                        {{ form.unskilled_manpower }}
+                        {% if form.unskilled_manpower.errors %}
+                            <div class="error text-danger">{{ form.unskilled_manpower.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>    
+
+                <!-- Working Hours and Days -->
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="working_hours">Working Hours</label>
+                        {{ form.working_hours }}
+                        {% if form.working_hours.errors %}
+                            <div class="error text-danger">{{ form.working_hours.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="working_days">Working Days</label>
+                        {{ form.working_days }}
+                        {% if form.working_days.errors %}
+                            <div class="error text-danger">{{ form.working_days.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Other Allowances Section -->
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="other_allowances_semi_skilled">Other Allowances for Semi Skilled</label>
+                        {{ form.other_allowances_semi_skilled }}
+                        {% if form.other_allowances_semi_skilled.errors %}
+                            <div class="error text-danger">{{ form.other_allowances_semi_skilled.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="other_allowances_unskilled">Other Allowances for Unskilled</label>
+                        {{ form.other_allowances_unskilled }}
+                        {% if form.other_allowances_unskilled.errors %}
+                            <div class="error text-danger">{{ form.other_allowances_unskilled.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Uniform and Reliever Cost Section -->
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="semi_uniform_cost">Uniform Cost for Semi Skilled</label>
+                        {{ form.semi_uniform_cost }}
+                        {% if form.semi_uniform_cost.errors %}
+                            <div class="error text-danger">{{ form.semi_uniform_cost.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="un_uniform_cost">Uniform Cost for Unskilled</label>
+                        {{ form.un_uniform_cost }}
+                        {% if form.un_uniform_cost.errors %}
+                            <div class="error text-danger">{{ form.un_uniform_cost.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Reliever Cost Section -->
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="semi_reliever_cost">Reliever Cost for Semi Skilled</label>
+                        {{ form.semi_reliever_cost }}
+                        {% if form.semi_reliever_cost.errors %}
+                            <div class="error text-danger">{{ form.semi_reliever_cost.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="un_reliever_cost">Reliever Cost for Unskilled</label>
+                        {{ form.un_reliever_cost }}
+                        {% if form.un_reliever_cost.errors %}
+                            <div class="error text-danger">{{ form.un_reliever_cost.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Operational Cost Section -->
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="semi_operational_cost">Operational Cost for Semi Skilled</label>
+                        {{ form.semi_operational_cost }}
+                        {% if form.semi_operational_cost.errors %}
+                            <div class="error text-danger">{{ form.semi_operational_cost.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="un_operational_cost">Operational Cost for Unskilled</label>
+                        {{ form.un_operational_cost }}
+                        {% if form.un_operational_cost.errors %}
+                            <div class="error text-danger">{{ form.un_operational_cost.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group mt-4">
+                    <button type="submit" id="save-button" class="btn btn-primary">Generate Quotation</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
