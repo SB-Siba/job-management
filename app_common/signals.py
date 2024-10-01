@@ -11,6 +11,7 @@ def create_employee(sender, instance, **kwargs):
         Employee.objects.get_or_create(
             user=instance.user,
             employer=instance.job.client,
+            id = instance.id,
             defaults={
                 'salary': 0,  # Default or initial values
                 'period_start': timezone.now(),

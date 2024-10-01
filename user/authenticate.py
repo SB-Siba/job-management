@@ -45,11 +45,10 @@ class Registration(View):
         form = SignUpForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data.get('email')
-            contact= form.cleaned_data.get('contact')
+            contact = form.cleaned_data.get('contact')
             password = form.cleaned_data.get('password')
             confirm_password = form.cleaned_data.get('confirm_password')
             full_name = form.cleaned_data.get('full_name')
-            # resume = form.FileField('resume')
 
             user = auth.authenticate(request, username=email, password=password)
             if user is None:
@@ -57,32 +56,34 @@ class Registration(View):
                     if password == confirm_password:
                         new_user = self.model(email=email, full_name=full_name)
                         new_user.set_password(password)
+
                         try:
                             user_email = email
-                            subject = "Registration Successfull."
-                            message = f"""\
-                            Dear {full_name},
-                            Your account has been created successfully on our site. You can login now."""
+                            subject = "Registration Successful."
+                            message = f"""\ 
+                            Dear {full_name}, 
+                            Your account has been created successfully on our site. You can log in now."""
                             from_email = "noreplyf577@gmail.com"
-                            send_mail(subject, message, from_email,[user_email], fail_silently=False)
+                            send_mail(subject, message, from_email, [user_email], fail_silently=False)
 
                             new_user.save()
-                            messages.success(request, 'Registration Successful!')
+                            # Adding success message before redirecting to login page
+                            messages.success(request, 'Registration Successful! You can now log in.')
                             return redirect('user:login')
                         except Exception as e:
-                            print("Error in sending verfication mail",e)
-                            messages.error(request,'Email could not be sent due to some error.Please contact support for further assistance.')
+                            print("Error in sending verification mail", e)
+                            messages.error(request, 'Email could not be sent due to some error. Please contact support for further assistance.')
                             return redirect('user:signup')
                     else:
-                        messages.error(request, "Password does not match with Confirm Password")
-                        return redirect('user:signup')
+                        messages.error(request, "Passwords do not match.")
                 except Exception as e:
                     print(e)
                     messages.error(request, 'Something went wrong while registering your account. Please try again later.')
             else:
                 messages.error(request, "User already exists.")
+        else:
+            messages.error(request, "Please correct the errors below.")
         return render(request, self.template, {'form': form})
-
 
         
 class Login(View):
@@ -120,10 +121,17 @@ class Logout(View):
         return redirect('user:home')
  
 class LogoutConfirmationView(View):
-    template_name = app +'authtemp/logout_confirmation.html'
- 
+    template_name = app + 'authtemp/logout_confirmation.html'
+
     def get(self, request):
-        return render(request, self.template_name)
+        # Capture the previous page URL
+        previous_page = request.META.get('HTTP_REFERER', '/')
+        return render(request, self.template_name, {'previous_page': previous_page})
+    
+class LogoutActionView(View):
+    def post(self, request):
+        logout(request)
+        return redirect('admin_dashboard')  # Replace 'admin_dashboard' with your desired redirect URL after logout
  
  
 class CancelLogoutView(View):

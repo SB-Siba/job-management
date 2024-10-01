@@ -15,10 +15,6 @@ class MaxFileSizeValidator:
         if file.size > self.max_size:
             raise ValidationError(f"For performence purpose file-size should not exceed {self.max_size/1024} KB.")
 
-
-
-
-
 # # =================================================== manage category  =============================================
 class categoryEntryForm(forms.ModelForm):
     class Meta:
@@ -31,45 +27,60 @@ class categoryEntryForm(forms.ModelForm):
     
     title = forms.CharField(max_length=255)
     title.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
-
     description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
     description.widget.attrs.update({'class': 'form-control','type':'text'})
-
-
-
 
 class JobForm(forms.ModelForm):
     class Meta:
         model = common_models.Job
         fields = ['category', 'client', 'title', 'description', 'location', 'company_name', 'company_website', 'company_logo', 'vacancies', 'posted_at', 'expiry_date', 'job_type', 'status']
         widgets = {
-            'posted_at': forms.DateInput(attrs={'type': 'date'}),
-            'expiry_date': forms.DateInput(attrs={'type': 'date'}),
+            'category': forms.Select(attrs={'class': 'form-control'}),
+            'client': forms.Select(attrs={'class': 'form-control'}),
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'location': forms.TextInput(attrs={'class': 'form-control'}),
+            'company_name': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
+            'company_website': forms.URLInput(attrs={'class': 'form-control'}),
+            'company_logo': forms.FileInput(attrs={'class': 'form-control'}),
+            'vacancies': forms.NumberInput(attrs={'class': 'form-control'}),
+            'posted_at': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'expiry_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'job_type': forms.Select(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
         }
 
-   
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super(JobForm, self).__init__(*args, **kwargs)
+
+        self.fields['client'].queryset = common_models.User.objects.filter(is_staff=True,is_superuser=False)
+
+        self.fields['company_name'].initial = 'PRAVATI INTERNATIONAL'
+        self.fields['company_name'].widget.attrs['readonly'] = True
+
         if self.user and not self.user.is_superuser:
             self.fields.pop('status')
             self.fields.pop('client')
+            
+    def clean_contact(self):
+        contact = self.cleaned_data.get('contact')
+        if contact:
+            if len(str(contact)) != 10 or not str(contact).isdigit():
+                raise ValidationError('Contact number must be exactly 10 digits and only contain numbers.')
+        return contact
 
 def validate_contact(value):
     if len(str(value)) != 10 or not str(value).isdigit():
         raise ValidationError('Contact number must be exactly 10 digits and only contain numbers')
 
-
 class ApplicationForm(forms.ModelForm):
     class Meta:
-        model =common_models.Application
-        fields = ['full_name','email','contact','resume']  
-    full_name = forms.CharField(max_length=255)
-    full_name.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
-    
-    email = forms.EmailField(max_length=255)
-    email.widget.attrs.update({'class': 'form-control','type':'text','placeholder':'Enter Email',"required":"required"})
+        model = common_models.Application
+        fields = ['full_name', 'email', 'contact', 'resume']  
 
+    full_name = forms.CharField(max_length=255)
+    email = forms.EmailField(max_length=255)
     contact = forms.IntegerField(
         validators=[validate_contact],
         widget=forms.TextInput(attrs={
@@ -80,16 +91,23 @@ class ApplicationForm(forms.ModelForm):
             'required': 'required'
         })
     )
-    resume = forms.FileField(required=True)  # ImageField for uploading images
-    resume.widget.attrs.update({'class': 'form-control'})
+    resume = forms.FileField(required=True)
 
-class EditUserForm(forms.Form):
-    model =common_models.EditUser
-    email = forms.EmailField(label="Email",max_length=50,widget=forms.EmailInput(attrs={"class":"form-control"}))
-    full_name = forms.CharField(label="Full Name",max_length=50,widget=forms.TextInput(attrs={"class":"form-control"}))
-    contact = forms.IntegerField(label="Contact",widget=forms.NumberInput(attrs={"class":"form-control"}))
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(ApplicationForm, self).__init__(*args, **kwargs)
 
+        if user is not None:
+            # Ensure that user.full_name is a string, not a method
+            self.fields['full_name'].initial = user.full_name
+            self.fields['email'].initial = user.email
+            self.fields['contact'].initial = user.contact
+            self.fields['full_name'].widget.attrs['readonly'] = True
+            self.fields['email'].widget.attrs['readonly'] = True
 
+        self.fields['full_name'].widget.attrs.update({'class': 'form-control', 'type': 'text', 'placeholder': 'Full name', "required": "required"})
+        self.fields['email'].widget.attrs.update({'class': 'form-control', 'type': 'text', 'placeholder': 'Enter Email', "required": "required"})
+        self.fields['resume'].widget.attrs.update({'class': 'form-control'})
 
 class AddUserForm(forms.ModelForm):
     class Meta:
@@ -111,15 +129,12 @@ class AddUserForm(forms.ModelForm):
         required=True,  # Make the role field required explicitly
     )
     
-
 class ClientForm(forms.ModelForm):
-
     class Meta:
         model = common_models.User
         fields = ['email', 'full_name', 'contact', 'password']
 
     password = forms.CharField(widget=forms.PasswordInput)
-
 
 class CategoryFilterForm(forms.Form):
     model = common_models.Category
@@ -134,3 +149,45 @@ class JobSelectionForm(forms.Form):
         super(JobSelectionForm, self).__init__(*args, **kwargs)
         if category:
             self.fields['jobs'].queryset = common_models.Job.objects.filter(category=category)
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = common_models.User
+        fields = ['full_name', 'email', 'contact', 'category', 'resume']
+
+class ClientUpdateForm(forms.ModelForm):
+    class Meta:
+        model = common_models.User
+        fields = ['full_name', 'email', 'contact']  # Include the fields you want to update
+        widgets = {
+            'full_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'contact': forms.TextInput(attrs={'class': 'form-control', 'maxlength': '10'}),
+        }
+
+class EmployeeForm(forms.ModelForm):
+    user_full_name = forms.CharField(max_length=255, label='Full Name')
+    user_email = forms.EmailField(label='Email')
+    contact = forms.CharField(max_length=15, label='Phone Number')
+
+    class Meta:
+        model = common_models.Employee
+        fields = ['user', 'salary', 'period_start', 'period_end', 'docs']  # Include all relevant fields from Employee
+
+    def __init__(self, *args, **kwargs):
+        super(EmployeeForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['user_full_name'].initial = self.instance.user.full_name
+            self.fields['user_email'].initial = self.instance.user.email
+            self.fields['contact'].initial = self.instance.user.contact
+
+    def save(self, commit=True):
+        employee = super(EmployeeForm, self).save(commit=False)
+        if commit:
+            user = self.instance.user
+            user.full_name = self.cleaned_data['user_full_name']
+            user.email = self.cleaned_data['user_email']
+            user.contact = self.cleaned_data['contact']
+            user.save()
+            employee.save()
+        return employee

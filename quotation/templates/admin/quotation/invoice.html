@@ -1,0 +1,197 @@
+{% extends 'admin_dashboard/starter.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Invoice</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            background: #e7e9ed;
+            color: #535b61;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            line-height: 22px;
+            margin: 0;
+        }
+        .paper {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 850px;
+            position: relative;
+            overflow: hidden;
+        }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        .company-details {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .company-name {
+            font-size: 24px; 
+            font-weight: bold;
+        }
+        .invoice-info {
+            text-align: right; 
+        }
+        .invoice-heading {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .invoice-detail {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .summary {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        /* Button styles */
+        .download-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+        @media print {
+            .download-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <table class="body-wrap" style="width: 100%; height: 100vh; margin: 0;">
+        <tbody>
+            <tr>
+                <td valign="top"></td>
+                <td class="container" valign="top">
+                    <div class="paper" id="invoice-content">
+                        <img src="{% static 'app_common/img/logos/logo2.png' %}" class="watermark" style="height: 200px; width: auto;" alt="Watermark">
+                        <div class="company-details">
+                            <div>
+                                <img src="{% static 'app_common/img/logos/logo2.png' %}" class="logo-image img-fluid" style="height: 40px; width: 40px;" alt="Company Logo">
+                                <strong class="company-name">PRAVATI INTERNATIONAL</strong><br>
+                                Address: Friends Colony Mangalabag, Cuttack - 753001<br>
+                                Phone Number: +91 9114790643<br>
+                                Wapp Number: +91 9668790643<br>
+                                Email: <a href="mailto:pravatiservices643@gmail.com">pravatiservices643@gmail.com</a>
+                            </div>
+                            <div class="invoice-info">
+                                <p>Invoice No: <strong>PR/INVOICE/24-25/001</strong></p>
+                                <p>Invoice Date: <strong>{{ invoice.invoice_date }}</strong></p> <!-- Adjust if needed -->
+                            </div>
+                        </div>
+                        
+                        <!-- Invoice To Heading -->
+                        <div class="invoice-heading">Invoice To:</div>
+                        <div class="invoice-detail">
+                            <strong>{{ invoice.company_name }}</strong><br>
+                            Address: {{ invoice.address }}<br>
+                            Description: {{ invoice.description }}<br>
+                        </div>
+
+                        <!-- Invoice Detail Table -->
+                        <h2 class="invoice-heading">Invoice Details:</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Employee Name</th>
+                                    <th>Days of Duty</th>
+                                    <th>Overtime Days</th>
+                                    <th>Total Work Days</th>
+                                    <th>Price Per Day</th>
+                                    <th>Total Price</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for employee in employee_details %}
+                                <tr>
+                                    <td>{{ employee.employee_name }}</td>
+                                    <td>{{ employee.days_of_duty }}</td>
+                                    <td>{{ employee.overtime_days }}</td>
+                                    <td>{{ employee.total_work_days }}</td>
+                                    <td>{{ employee.price_per_day }}</td>
+                                    <td>{{ employee.total_price }}</td>
+                                    <td>{{ employee.remark }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="7">No employee details available.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <div class="summary">
+                            <h2 class="invoice-heading">Summary:</h2>
+                            <p>Subtotal Price: <strong>{{ subtotal_price }}</strong></p>
+                            <p>GST Percentage: <strong>18%</strong></p> <!-- Static GST Percentage -->
+                            <p>GST Amount: <strong>{{ gst_amount }}</strong></p>
+                            <p>ESI: <strong>{{ invoice.esi }}</strong></p>
+                            <p>EPF: <strong>{{ invoice.epf }}</strong></p>
+                            <p>Grand Total Amount: <strong>{{ grand_total_amount }}</strong></p>
+                            <p>Grand Total Amount (in words): <strong>{{ grand_total_amount_words }}</strong></p>
+                        </div>
+
+                        <!-- Download Invoice Button -->
+                        <button class="download-btn" onclick="printInvoice()">Download Invoice</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // Function to trigger the print dialog
+        function printInvoice() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
+{% endblock %}

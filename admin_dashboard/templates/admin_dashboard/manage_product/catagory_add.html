@@ -9,7 +9,6 @@
     }
     .custom-card-header h2 {
         color:black  !important;
-        font-family: merriwether;
     }
     button{
         margin-top: 10px;
@@ -18,7 +17,6 @@
         background-color: rgb(185, 184, 184);
         padding: 13px;
         border-radius: 15px !important;
-        font-family: merriwether;
         font-size: 20px;
         width: 100%;   
     }
@@ -26,10 +24,7 @@
        background-color: black;
        color: white;   
     }
-    .card-body
-    {
-        font-family: merriweher;
-    }
+    
   
 </style>
 
@@ -41,7 +36,7 @@
                     <h2 class="text-center py-1">Add Category</h2>
                 </div>
                 <div class="card-body">
-                    <form method="post" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data" class="px-5 py-5">
                         {% csrf_token %}
                         {% if form.errors %}
                             <div class="alert alert-danger">

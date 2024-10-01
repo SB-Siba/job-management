@@ -1,60 +1,385 @@
 {% extends 'user/starters.html' %}
 {% load static %}
 {% block main_content %}
+<style>
+    .card
+    {
+        border-radius: 15px;
+        background-color: #f8f9fa;    
+    }
+    .applied-text {
+        color: rgb(0, 0, 0);
+        background-color: rgb(150, 249, 150);
+        padding: 10px;
+        border-radius: 10px;
+        
+    }
+    .footer
+    {
+        background-color: rgb(215, 243, 246);
+        border-radius: 0px 0px 15px 15px;
+    }
+    .form-select
+    {
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+    }
+    .ag-courses_box {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: start;
+        -ms-flex-align: start;
+        align-items: flex-start;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+      
+        padding: 20px 0;
+      }
+      .ag-courses_item {
+        -ms-flex-preferred-size: calc(33.33333% - 30px);
+        flex-basis: calc(33.33333% - 30px);     
+        margin: 0 15px 30px;
+        overflow: hidden;
+        border-radius: 28px;
+        box-shadow: 0px 0px 5px rgb(108, 217, 247);
+      }
+      .ag-courses-item_link {
+        display: block;
+        padding: 30px 20px;
+        overflow: hidden;
+        position: relative;
+      }
+      .ag-courses-item_link:hover,
+      .ag-courses-item_link:hover .ag-courses-item_date {
+        text-decoration: none;
+        color: #FFF;
+      }
+      .ag-courses-item_link:hover .ag-courses-item_bg {
+        -webkit-transform: scale(10);
+        -ms-transform: scale(10);
+        transform: scale(10);
+      }
+      .ag-courses-item_title {
+        min-height: 87px;
+        margin: 0 0 25px;
+        overflow: hidden;
+        font-weight: bold;
+        font-size: 30px;
+        color: #FFF;
+        z-index: 2;
+        position: relative;
+      }
+      .ag-courses-item_date-box {
+        font-size: 18px;
+        color: #FFF;
+        z-index: 2;
+        position: relative;
+      }
+      .ag-courses-item_date {
+        font-weight: bold;
+        color: #f9b234;
+        -webkit-transition: color .5s ease;
+        -o-transition: color .5s ease;
+        transition: color .5s ease
+      }
+      .ag-courses-item_bg {
+        height: 128px;
+        width: 128px;
+        background-color: #f9b234;
+        z-index: 1;
+        position: absolute;
+        top: -75px;
+        right: -75px;
+        border-radius: 50%;
+        -webkit-transition: all .5s ease;
+        -o-transition: all .5s ease;
+        transition: all .5s ease;
+      }
+      .ag-courses_item:nth-child(2n) .ag-courses-item_bg {
+        background-color: #3ecd5e;
+      }
+      .ag-courses_item:nth-child(3n) .ag-courses-item_bg {
+        background-color: #e44002;
+      }
+      .ag-courses_item:nth-child(4n) .ag-courses-item_bg {
+        background-color: #952aff;
+      }
+      .ag-courses_item:nth-child(5n) .ag-courses-item_bg {
+        background-color: #cd3e94;
+      }
+      .ag-courses_item:nth-child(6n) .ag-courses-item_bg {
+        background-color: #4c49ea;
+      }
+    
+      @media only screen and (max-width: 979px) {
+        .ag-courses_item {
+          -ms-flex-preferred-size: calc(50% - 30px);
+          flex-basis: calc(50% - 30px);
+        }
+        .ag-courses-item_title {
+          font-size: 24px;
+        }
+      }
+      @media only screen and (max-width: 767px) {
+        .ag-format-container {
+          width: 96%;
+        }
+      
+      }
+      @media only screen and (max-width: 639px) {
+        .ag-courses_item {
+          -ms-flex-preferred-size: 100%;
+          flex-basis: 100%;
+        }
+        .ag-courses-item_title {
+          min-height: 72px;
+          line-height: 1;
+          font-size: 24px;
+        }
+        .ag-courses-item_link {
+          padding: 22px 40px;
+        }
+        .ag-courses-item_date-box {
+          font-size: 16px;
+        }
+      }
+      .select-container {
+        position: relative;
+        display: inline-block;
+        width: 100%; /* Adjust as needed */
+      }
+      #category-select {
+        width: 100%; /* Make sure it fills the container */
+        padding-right: 30px; /* Make space for the icon */
+        appearance: none; /* Remove default arrow in some browsers */
+        -moz-appearance: none; /* Remove default arrow in Firefox */
+        -webkit-appearance: none; /* Remove default arrow in Safari */
+      }
+      .select-container i {
+        position: absolute;
+        right: 10px; /* Position on the right */
+        top: 50%; /* Center vertically */
+        transform: translateY(-50%);
+        pointer-events: none; /* Ensure clicks go to the select */
+        color: #000; /* Change color as needed */
+      }
 
-<div class="container py-5 px-5">
-    <div class="row py-5 px-5">
-        {% for job in job_list %}
-        <div class="col-md-5 mb-5 px-5">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title"> Job Title : {{ job.title }}</h3>
-                    <h4 class="card-subtitle mb-2 text-muted">{{ job.category }}</h4>
-                    <p class="card-text"> Company Name : {{ job.company_name }}</p>
-                    <p class="card-text"> Location : {{ job.location }}</p>
+table td,
+table th {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+thead th {
+  color: #fff;
+}
+
+.card {
+  border-radius: .5rem;
+}
+
+.table-scroll {
+  border-radius: .5rem;
+}
+
+.table-scroll table thead th {
+  font-size: 1.25rem;
+}
+thead {
+  top: 0;
+  position: sticky;
+}
+      
+</style>
+<main class="py-1 bg-surface-secondary">
+  <div class="ag-format-container">
+      <div class="ag-courses_box px-3">
+        <div class="ag-courses_item">
+          <a href="{% url 'user:applied_jobs' %}" class="ag-courses-item_link">
+            <div class="ag-courses-item_bg"></div>
+    
+            <div class="ag-courses-item_title">
+              <span class="h6 text-muted d-block"> Applied Jobs : </span>
+             
+              <div class="d-flex justify-content-end">
+                <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
+                  <i class="bi bi-credit-card"></i>
                 </div>
-                <div class="card-body">
-                    <p class="card-text"> Job Type : {{ job.job_type }}</p>
-                    <!-- <p class="card-text"> Job Description : {{ job.description }}</p> -->
-                </div>
-                <div class="card-footer">
-                    <p class="card-text">Active {{ job.published_date|timesince }} ago</p>
-                    <div class="py-4">
-                        {% if job.id in applied_jobs %}
-                            <span class="applied-text" style="color: green; background-color: lightgreen;">Applied</span>
-                        {% else %}
-                            <a href="{% url 'user:job-apply' job.id %}" class="btn btn-primary">Apply now</a>
-                        {% endif %}
-                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#jobModal" 
-                                data-title="{{ job.title }}"
-                                data-description="{{ job.description }}"
-                                data-company="{{ job.company_name }}"
-                                data-location="{{ job.location }}"
-                                data-type="{{ job.job_type }}"
-                                data-category="{{ job.category }}">Read More</button>
-                    </div>
-                </div>
+              </div>
             </div>
+            <div class="ag-courses-item_date-box">
+              <div class="mt-2 mb-0 text-sm"><span class="badge badge-pill bg-soft-success text-success me-1 fs-6"><i
+                class="bi bi-arrow-up me-1 fs-6"></i>{{ applied_job_count|default:0 }} </span>
+              </div>
+            </div>
+          </a>
         </div>
-        {% endfor %}
-    </div>
+    
+        <div class="ag-courses_item">
+          <a href="#" class="ag-courses-item_link">
+            <div class="ag-courses-item_bg"></div>
+            <div class="ag-courses-item_title">
+              <div class="col">
+                  <span class="h6 text-muted d-block">Job Openings : </span>
+              
+              </div>
+              <div class="d-flex justify-content-end">
+                <div class="icon icon-shape bg-primary text-white text-lg rounded-circle"><i
+                  class="bi bi-people"></i>
+                </div>
+              </div>
+            </div>
+            <div class="ag-courses-item_date-box">
+              <div class="mt-2 mb-0 text-sm"><span class="badge badge-pill bg-soft-success text-success me-1 fs-6"><i
+                class="bi bi-arrow-up me-1 fs-6"></i>{{ job_opening_count|default:0 }}</span>
+              </div>
+            </div>
+          </a>
+        </div>
+          <div class="ag-courses_item">
+              <a href="#" class="ag-courses-item_link">
+                  <div class="ag-courses-item_bg"></div>
+                  <div class="ag-courses-item_title mb-3">
+                      <div class="col">
+                          <span class="h6 text-muted d-block">Job Category</span>
+                      </div>
+                      <div class="d-flex justify-content-end">
+                          <div class="icon icon-shape bg-warning text-white text-lg rounded-circle">
+                              <i class="bi bi-minecart-loaded"></i>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="ag-courses-item_date-box">
+                      <div class="mb-0 text-sm">
+                          <span class="badge badge-pill bg-soft-success text-success">
+                              <div class="select-container d-flex align-items-center">
+                                  <form method="get" action="{% url 'user:home' %}">
+                                      <div class="select-container">
+                                          <select id="category-select" name="category" class="form-select" onchange="this.form.submit();">
+                                              <option value="" {% if not selected_category %}selected{% endif %}>Select your category</option>
+                                              {% for category in categories %}
+                                              <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>{{ category.title }}</option>
+                                              {% endfor %}
+                                          </select>
+                                          <i class="fas fa-chevron-down"></i>
+                                      </div>
+                                  </form>
+                              </div>
+                          </span>
+                      </div>
+                  </div>
+              </a>
+          </div>
+      </div>
+  </div>
+</main>
+
+<div class="container">
+  <div class="row">
+      <div class="col-12">
+          <div class="ag-courses_item content-box p-4 bg-light">
+              <div class="d-flex justify-content-between align-items-center">
+                  <h5 class="mb-4">Employee Details</h5>
+                  <i class="bi bi-chevron-up toggle-btn" id="toggle-btn"></i>
+              </div>
+
+              <div class="toggle-content" id="toggle-content">
+                  {% if hired_employee %}
+                  <!-- Display Employee Details -->
+                  <table class="table table-bordered">
+                      <thead>
+                          <tr>
+                              <th>Company Name</th>
+                              <th>Job Title</th>
+                              <th>Category</th>
+                              <th>Hiring Date</th>
+                              <th>Hiring Time</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>{{ hired_employee.job.company_name }}</td>
+                              <td>{{ hired_employee.job.title }}</td>
+                              <td>{{ hired_employee.job.category.title }}</td>
+                              <td>{{ hired_employee.hiring_date|date:"Y-m-d" }}</td>
+                              <td>{{ hired_employee.hiring_time|time:"H:i" }}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  {% else %}
+                
+                  <p>Still not Hired.</p>
+                  {% endif %}
+              </div>
+
+          </div>
+      </div>
+  </div>
 </div>
 
+<div class="container py-3 px-3">
+  <div class="row py-3 px-3">
+      {% for job in job_list %}
+      <div class="col-md-6 mb-4 px-3">
+          <div class="card">
+              <div class="px-4 py-3 border-bottom border-dark">
+                  <h4 class="card-text"><b>Job Title :</b> {{ job.title }}</h4>
+                  <h6 class="text-muted"><small>{{ job.category }}</small></h6>
+                  <p class="card-text"><b>Company Name :</b> {{ job.company_name }}</p>
+                  <p class="card-text"><b>Location :</b> {{ job.location }}</p>
+                  <p class="card-text"><b>Job Type :</b> {{ job.job_type }}</p>
+              </div>
+              
+              <div class="px-4 footer">
+                  <p class="card-text pt-2">Published {{ job.published_date|timesince }} ago</p>
+                  <div class="py-2">
+                      {% if job.id in applied_jobs %}
+                          <!-- If the job is applied for -->
+                          <button class="btn btn-success" disabled>Applied</button>
+                      {% elif user_status == 'applied' or user_status == 'interviewed' or user_status == 'hired' %}
+                          <!-- If user has applied/interviewed/hired for another job, disable all "Apply now" buttons -->
+                          <button class="btn btn-primary" disabled>Apply now</button>
+                      {% else %}
+                          <!-- Default "Apply now" button -->
+                          <a href="{% url 'user:job-apply' job.id %}" class="btn btn-primary">Apply now</a>
+                      {% endif %}
+                      
+                      <!-- Read More button (no change here) -->
+                      <button class="btn btn-secondary py-2 mb-1" data-bs-toggle="modal" data-bs-target="#jobModal" 
+                              data-title="{{ job.title }}"
+                              data-description="{{ job.description }}"
+                              data-company="{{ job.company_name }}"
+                              data-location="{{ job.location }}"
+                              data-type="{{ job.job_type }}"
+                              data-category="{{ job.category }}">Read More</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+</div>
 <!-- Job Details Modal -->
 <div class="modal fade" id="jobModal" tabindex="-1" aria-labelledby="jobModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="jobModalLabel">Job Details</h5>
+                <h3 class="modal-title px-2" id="jobModalLabel">Job Details</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="px-4 py-3 border-bottom">
                 <h3 id="jobModalTitle"></h3>
-                <p><strong>Company:</strong> <span id="jobModalCompany"></span></p>
-                <p><strong>Location:</strong> <span id="jobModalLocation"></span></p>
-                <p><strong>Job Type:</strong> <span id="jobModalType"></span></p>
-                <p><strong>Category:</strong> <span id="jobModalCategory"></span></p>
-                <br>
+                <p><strong>Company :</strong> <span id="jobModalCompany"></span></p>
+                <p><strong>Location :</strong> <span id="jobModalLocation"></span></p>
+                <p><strong>Job Type :</strong> <span id="jobModalType"></span></p>
+                <p><strong>Category :</strong> <span id="jobModalCategory"></span></p>
+                
+            </div>
+            <div class="px-4 py-3">
                 <h4><u>Job Description :</u></h4>
                 <p id="jobModalDescription"></p>
             </div>
@@ -64,32 +389,49 @@
 
 {% endblock main_content %}
 {% block js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script>
-    var jobModal = document.getElementById('jobModal')
-    jobModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget
-        var title = button.getAttribute('data-title')
-        var description = button.getAttribute('data-description')
-        var company = button.getAttribute('data-company')
-        var location = button.getAttribute('data-location')
-        var type = button.getAttribute('data-type')
-        var category = button.getAttribute('data-category')
+  document.getElementById('toggle-btn').addEventListener('click', function() {
+            var content = document.getElementById('toggle-content');
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block';
+                this.classList.remove('bi-chevron-down');
+                this.classList.add('bi-chevron-up');
+            } else {
+                content.style.display = 'none';
+                this.classList.remove('bi-chevron-up');
+                this.classList.add('bi-chevron-down');
+            }
+        });
 
-        var modalTitle = jobModal.querySelector('.modal-title')
-        var modalBodyTitle = jobModal.querySelector('#jobModalTitle')
-        var modalBodyCompany = jobModal.querySelector('#jobModalCompany')
-        var modalBodyLocation = jobModal.querySelector('#jobModalLocation')
-        var modalBodyType = jobModal.querySelector('#jobModalType')
-        var modalBodyCategory = jobModal.querySelector('#jobModalCategory')
-        var modalBodyDescription = jobModal.querySelector('#jobModalDescription')
-
-        modalTitle.textContent = 'Job Details'
-        modalBodyTitle.textContent = title
-        modalBodyCompany.textContent = company
-        modalBodyLocation.textContent = location
-        modalBodyType.textContent = type
-        modalBodyCategory.textContent = category
-        modalBodyDescription.textContent = description
-    })
+  var jobModal = document.getElementById('jobModal');
+  jobModal.addEventListener('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      var button = event.relatedTarget;
+      
+      // Extract info from data-* attributes
+      var title = button.getAttribute('data-title');
+      var company = button.getAttribute('data-company');
+      var location = button.getAttribute('data-location');
+      var type = button.getAttribute('data-type');
+      var category = button.getAttribute('data-category');
+      var description = button.getAttribute('data-description');
+      
+      // Update the modal's content
+      var modalTitle = jobModal.querySelector('#jobModalTitle');
+      var modalCompany = jobModal.querySelector('#jobModalCompany');
+      var modalLocation = jobModal.querySelector('#jobModalLocation');
+      var modalType = jobModal.querySelector('#jobModalType');
+      var modalCategory = jobModal.querySelector('#jobModalCategory');
+      var modalDescription = jobModal.querySelector('#jobModalDescription');
+      
+      modalTitle.textContent = title;
+      modalCompany.textContent = company;
+      modalLocation.textContent = location;
+      modalType.textContent = type;
+      modalCategory.textContent = category;
+      modalDescription.textContent = description;
+  });
 </script>
 {% endblock js %}
+

@@ -7,15 +7,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-5mT7P2r4M1VY5j5zJ0EwR4u/yXSWOH3+1XgvmGpIM6n9N9Uq0la1sOTwdIj0x8zjX8DAaRqP9TyZbOP3yIFyPw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Other head elements -->
     <style>
-       
         .navbar-nav > .nav-item > .nav-link {
             background-color: #000;
             color: #fff;
             padding-top: var(--x-navbar-nav-link-padding-y);
             padding-bottom: var(--x-navbar-nav-link-padding-y);
             transition: all .15s linear;
-           
         }
+
         .nav-link {
             padding: var(--x-nav-link-padding-y) var(--x-nav-link-padding-x);
             font-size: var(--x-nav-link-font-size);
@@ -23,22 +22,20 @@
             color: #fff;
             transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
             display: block;
-            /* --x-nav-link-hover-color: #babef5; */
-            
         }
-        h2
-        {
+
+        h2 {
             font-size: 35px;
         }
+
         .h6 {
             color: #fff;
         }
-        .navbar-nav .nav-item .nav-link:hover{
-            color:gray;
-            
+
+        .navbar-nav .nav-item .nav-link:hover,
+        .navbar-nav .nav-item .nav-link.active {
+            color: #ffffff; 
         }
-        
-        
     </style>
 </head>
 <body>
@@ -49,7 +46,7 @@
                 <h2 class="text-center text-white">Pravati International</h2>
             </div>
             <li class="nav-item">
-                <a class="nav-link font-bold" style="background:none" href="{% url 'admin_dashboard:admin_dashboard' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
+                <a class="nav-link font-bold {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}" style="background:none" href="{% url 'admin_dashboard:admin_dashboard' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
                     <i class="fas fa-headset"></i> Admin Dashboard
                 </a>
             </li>
@@ -63,7 +60,7 @@
                             <a href="{% url 'admin_dashboard:add_user' %}" class="nav-link font-bold"><i class="fas fa-users"></i>Add User</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'admin_dashboard:userslist' %}" class="nav-link font-bold"><i class="fas fa-user-plus"></i>View All Users </a>
+                            <a href="{% url 'admin_dashboard:user_list' %}" class="nav-link font-bold"><i class="fas fa-user-plus"></i>View All Users </a>
                         </li>
                     </ul>
                 </div>
@@ -72,7 +69,7 @@
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link font-bold"style="background:none" href="#" data-bs-toggle="collapse" data-bs-target="#jobManagement" role="button" aria-expanded="false" aria-controls="jobManagement">
-                    <i class="fas fa-briefcase"></i> JOB Management
+                    <i class="fas fa-briefcase"></i> Job Management
                 </a>
                 <div class="collapse" id="jobManagement">
                     <ul class="nav nav-sm flex-column">
@@ -92,13 +89,13 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link font-bold" style="background:none" href="{% url 'admin_dashboard:application_list' %}" data-bs-target="#candidateAppManagement" role="button" aria-expanded="false" aria-controls="candidateAppManagement">
+                <a class="nav-link font-bold {% if request.resolver_match.url_name == 'application_list' %}active{% endif %}" style="background:none" href="{% url 'admin_dashboard:application_list' %}" data-bs-target="#candidateAppManagement" role="button" aria-expanded="false" aria-controls="candidateAppManagement">
                     <i class="fas fa-user"></i> Candidate List
                 </a>
                 
             </li>
             <li class="nav-item">
-                <a class="nav-link font-bold" style="background:none" href="{% url 'admin_dashboard:employee_list' %}" data-bs-target="#candidateAppManagement" role="button" aria-expanded="false" aria-controls="candidateAppManagement">
+                <a class="nav-link font-bold {% if request.resolver_match.url_name == 'employee_list' %}active{% endif %}" style="background:none" href="{% url 'admin_dashboard:employee_list' %}" data-bs-target="#candidateAppManagement" role="button" aria-expanded="false" aria-controls="candidateAppManagement">
                     <i class="fas fa-user"></i> Employee List
                 </a>
                 
@@ -116,58 +113,57 @@
                         <li class="nav-item">
                             <a href="{% url 'admin_dashboard:client_create' %}" class="nav-link font-bold"><i class="fas fa-file-alt"></i>Add Client</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{% url 'admin_dashboard:client_request' %}" class="nav-link font-bold"><i class="fas fa-file-alt"></i>Client's Request</a>
+                        </li>
                     </ul>
                 </div>
             </li>
             
         </ul>
-
-        
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link font-bold" style="background:none" href="#" data-bs-toggle="collapse" data-bs-target="#quotationManagement" role="button" aria-expanded="false" aria-controls="quotationManagement">
+                <a class="nav-link font-bold {% if request.resolver_match.url_name == 'quotation_list/quotation_create' %}active{% endif %}" style="background:none" href="#" data-bs-toggle="collapse" data-bs-target="#quotationManagement" role="button" aria-expanded="false" aria-controls="quotationManagement">
                     <i class="fas fa-file-invoice"></i> Quotation Management
                 </a>
                 <div class="collapse" id="quotationManagement">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a href="{% url 'billing:quotation_list' %}" class="nav-link font-bold"><i class="fas fa-list-alt"></i>View Quotations</a>
+                            <a href="{% url 'quotation:view_quotation' %}" class="nav-link font-bold"><i class="fas fa-list-alt"></i>View Quotations</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'billing:quotation_add' %}" class="nav-link font-bold"><i class="fas fa-plus"></i>Add Quotation</a>
+                            <a href="{% url 'quotation:choose_quotation' %}" class="nav-link font-bold"><i class="fas fa-plus"></i>Add Quotation</a>
                         </li>
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link font-bold" style="background:none" href="#" data-bs-toggle="collapse" data-bs-target="#invoiceManagement" role="button" aria-expanded="false" aria-controls="invoiceManagement">
+                <a class="nav-link font-bold {% if request.resolver_match.url_name == 'invoice_list' or request.resolver_match.url_name == 'invoice_create' %}active{% endif %}" 
+                   style="background:none" href="#" data-bs-toggle="collapse" data-bs-target="#invoiceManagement" role="button" aria-expanded="false" aria-controls="invoiceManagement">
                     <i class="fas fa-file-invoice-dollar"></i> Invoice Management
                 </a>
                 <div class="collapse" id="invoiceManagement">
                     <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                            <a href="{% url 'billing:invoice_list' %}" class="nav-link font-bold"><i class="fas fa-list-alt"></i>View Invoices</a>
+                            <a href="{% url 'quotation:invoice_list' %}" class="nav-link font-bold"><i class="fas fa-list-alt"></i> View Invoices</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'billing:invoice_add' %}" class="nav-link font-bold"><i class="fas fa-plus"></i>Add Invoice</a>
+                            <a href="{% url 'quotation:invoice_add' %}" class="nav-link font-bold"><i class="fas fa-plus"></i> Add Invoice</a>
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li>            
         </ul>
-        
-        
-
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link font-bold" style="background:none" href="{% url 'admin_dashboard:all_contact_message' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
+                <a class="nav-link font-bold {% if request.resolver_match.url_name == 'all_contact_message' %}active{% endif %}" style="background:none" href="{% url 'admin_dashboard:all_contact_message' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
                     <i class="fas fa-headset"></i> Contact Message
                 </a>
             </li>
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link font-bold"style="background:none" href="{% url 'user:logout_confirmation' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
+                <a class="nav-link font-bold {% if request.resolver_match.url_name == 'logout_confirmation' %}active{% endif %}" style="background:none" href="{% url 'user:logout_confirmation' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
                     <i class="fas fa-sign-out-alt"></i> Log Out
                 </a>
             </li>

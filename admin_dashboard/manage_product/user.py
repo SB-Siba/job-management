@@ -11,8 +11,12 @@ from admin_dashboard.manage_product import forms
 import os
 from app_common import models as common_model
 from user import forms
-from .forms import EditUserForm,AddUserForm,JobSelectionForm,CategoryFilterForm
+from .forms import AddUserForm,JobSelectionForm,CategoryFilterForm, UserUpdateForm
 import logging
+from django.http import JsonResponse
+from django.urls import reverse_lazy
+from .forms import EmployeeForm 
+
 
 logger = logging.getLogger(__name__)
 app = "admin_dashboard/users/"
@@ -89,7 +93,6 @@ class UserList(View):
         return render(request, self.template, {"user_obj": user_obj, "category_form": category_form, "job_form": job_form})
 
 
-
 class AddUserView(View):
     template = app + "user_add.html"
     form_class = AddUserForm
@@ -104,65 +107,66 @@ class AddUserView(View):
             user.set_password(form.cleaned_data['password'])  # Ensure the password is hashed
             user.save()
             messages.success(request, f"User {user.full_name} has been successfully added.")
-            return redirect('admin_dashboard:userslist')
-        messages.error(request, "There was an error adding the user. Please check the details and try again.")
+            return redirect('admin_dashboard:user_list')
+        # messages.error(request, "User with this Email already exists")
         return render(request, self.template, {'form': form})
 
 
 class DeleteUser(View):
-    model = common_model.User
-    template = app + "confirm_delete.html"  # A template to confirm deletion
-
-    def get(self, request, user_id):
-        user = get_object_or_404(self.model, id=user_id)
-        return render(request, self.template, {"user": user})
+    template = app+ "user_list.html"
 
     def post(self, request, user_id):
-        user = get_object_or_404(self.model, id=user_id)
+        user = get_object_or_404(common_model.User, id=user_id)
         user.delete()
-        messages.success(request, f"User {user.full_name} has been successfully deleted.")
-        return redirect('admin_dashboard:userslist')
-
+        messages.success(request, f'User {user.full_name} deleted successfully.')
+        return redirect('admin_dashboard:user_list')
 
 class UserDetailView(View):
     model = common_model.User
     template = app + "user_profile.html"
-    def get(self,request,user_id):
-        user_obj = self.model.objects.get(id=user_id)
-        return render(request, self.template, {"user_obj": user_obj})
+    
+    def get(self, request, user_id):
+        # Fetch user object
+        user_obj = get_object_or_404(self.model, id=user_id)
+        
+        # Fetch the profile for the user
+        profile_obj = common_model.UserProfile.objects.filter(user=user_obj).first()
 
+        return render(request, self.template, {
+            "user_obj": user_obj,
+            "profile_obj": profile_obj  # Pass profile data to the template
+        })
 class Edit_User(View):
     template = app + "edit_user.html"
-    def get(self,request,user_id):
-        user = common_model.User.objects.get(pk = user_id)
-        form = EditUserForm()
-        form.fields['email'].initial = user.email
-        form.fields['full_name'].initial = user.full_name
-        form.fields['contact'].initial = user.contact
-
-
+    
+    def get(self, request, user_id):
+        user = common_model.User.objects.get(pk=user_id)
+        
+        form = UserUpdateForm(instance=user)
+        
         data = {
-            'form':form,
-            'id':user_id,
-            'username':user.email,
-
+            'form': form,
+            'id': user_id,
+            'username': user.email,
         }
-        return render(request,self.template,data)
-    def post(self,request,user_id):
-        user = common_model.User.objects.get(pk = user_id)
+        return render(request, self.template, data)
+    
+    def post(self, request, user_id):
+        user = common_model.User.objects.get(pk=user_id)
+        
+        form = UserUpdateForm(request.POST, request.FILES, instance=user)
+        
+        if form.is_valid():
+            form.save()
 
-        form = EditUserForm(request.POST)
-        if form.is_valid:
-            email = request.POST.get("email")
-            full_name = request.POST.get("full_name")
-            contact = request.POST.get("contact")
-
-            user.email = email
-            user.full_name = full_name
-            user.contact = contact
-            user.save()
-
-        return redirect("admin_dashboard:user_detail",user_id)
+            return redirect("admin_dashboard:user_detail", user_id=user_id)
+        
+        data = {
+            'form': form,
+            'id': user_id,
+            'username': user.email,
+        }
+        return render(request, self.template, data)
 
 
 class EmployeeList(View):
@@ -170,15 +174,15 @@ class EmployeeList(View):
     template = app + "employee_list.html"
 
     def get(self, request):
-        employees = self.model.objects.filter(is_employee=True).order_by("id")
+        employees = self.model.objects.all().order_by("id")
         return render(request, self.template, {"employees": employees})
 
 class AdminEmployeeAssignView(View):
     template_name = 'admin_employee_assign.html'
 
     def get(self, request, user_id):
-        user = get_object_or_404(User, pk=user_id)
-        jobs = Job.objects.filter(application__user=user)  # Get jobs where the user has applied
+        user = get_object_or_404(common_model.User, pk=user_id)
+        jobs = common_model.Job.objects.filter(application__user=user)  # Get jobs where the user has applied
         context = {
             'user': user,
             'jobs': jobs,
@@ -186,9 +190,9 @@ class AdminEmployeeAssignView(View):
         return render(request, self.template_name, context)
 
     def post(self, request, user_id):
-        user = get_object_or_404(User, pk=user_id)
+        user = get_object_or_404(common_model.User, pk=user_id)
         job_id = request.POST.get('job_id')
-        job = get_object_or_404(Job, pk=job_id)
+        job = get_object_or_404(common_model.Job, pk=job_id)
 
         # Mark user as an employee
         user.is_employee = True
@@ -206,7 +210,7 @@ class EmployeeList(View):
     template_name = app + 'employee_list.html'
     
     def get(self, request):
-        employees = common_model.Employee.objects.all()
+        employees = common_model.Employee.objects.filter(application__status = "Hired")
         context = {
             'employees': employees
         }
@@ -222,3 +226,60 @@ class EmployeeDetail(View):
             "employee": employee,
         }
         return render(request, self.template_name, context)
+    
+class EmployeeEditView(View):
+    template_name = 'admin_dashboard/users/employee_update.html'
+    form_class = EmployeeForm
+
+
+    def get(self, request, employee_id):
+        # Fetch the employee object based on the ID
+        employee = get_object_or_404(common_model.Employee, id=employee_id)
+        print (employee, "==================")
+        # Create a form instance and populate it with data from the employee instance
+        form = self.form_class(instance=employee)
+        
+        # Add user-related initial values for the form fields
+        form.fields['user_full_name'].initial = employee.user.full_name
+        form.fields['user_email'].initial = employee.user.email
+        form.fields['contact'].initial = employee.user.contact
+
+        # Context data to render the template
+        context = {
+            'form': form,
+            'employee_id': employee_id,
+            'employee_name': employee.user.full_name,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, employee_id):
+        # Fetch the employee object based on the ID
+        employee = get_object_or_404(common_model.Employee, pk=employee_id)
+        # Bind form data to the form instance
+        form = self.form_class(request.POST, instance=employee)
+
+        if form.is_valid():
+            # Update the user-related fields
+            employee.user.full_name = form.cleaned_data['user_full_name']
+            employee.user.email = form.cleaned_data['user_email']
+            employee.user.contact = form.cleaned_data['contact']
+            # Save the user and employee
+            employee.user.save()
+            form.save()
+            return redirect('admin_dashboard:employee_list')
+        
+        else:
+            messages(request, "invild Details")
+            return redirect('admin_dashboard:employee_list')
+    
+
+class DeleteEmployee(View):
+    def post(self, request, employee_id):
+        # Fetch the employee object based on the ID
+        employee = get_object_or_404(common_model.Employee, id=employee_id)
+        # Delete the employee
+        employee.delete()
+        # Set a success message
+        messages.success(request, f'Employee {employee.user.full_name} deleted successfully.')
+        # Redirect to the employee list view
+        return redirect('admin_dashboard:employee_list')

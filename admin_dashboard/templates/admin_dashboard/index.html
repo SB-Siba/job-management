@@ -4,101 +4,189 @@
 {% load admin_dash %}
 
 <style>
-    .card {
-        border-radius: 15px !important;
-        background-color: linear-gradient(to bottom, hsl(247, 88%, 70%), hsl(282, 82%, 51%));
-        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
-    }
-    .small-box {
-        width: 100% !important;
-    }
-    .chart-container {
-        position: relative;
-        width: 100%;
-    }
+.custom-card-width
+{
+    width: 31.5%;
+}
+.cookieCard {
+    width: 100%;
+    height: auto;
+    background: linear-gradient(to right, rgb(137, 104, 255), rgb(175, 152, 255));
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.cookieCard::before {
+  width: 150px;
+  height: 150px;
+  content: "";
+  background: linear-gradient(to right, rgb(142, 110, 255), rgb(208, 195, 255));
+  position: absolute;
+  z-index: 1;
+  border-radius: 50%;
+  right: -25%;
+  top: -25%;
+}
+
+.cookieHeading {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: rgb(241, 241, 241);
+  z-index: 2;
+}
+
+.cookieDescription {
+  font-size: 0.9em;
+  color: rgb(241, 241, 241);
+  z-index: 2;
+}
+
+.cookieDescription a {
+  color: rgb(241, 241, 241);
+}
+
+.acceptButton {
+  padding: 11px 20px;
+  background-color: #7b57ff;
+  transition-duration: .2s;
+  border: none;
+  color: rgb(241, 241, 241);
+  cursor: pointer;
+  font-weight: 600;
+  z-index: 2;
+}
+
+.acceptButton:hover {
+  background-color: #714aff;
+  transition-duration: .2s;
+}
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>
-
-<div class="main-content bg-surface-secondary">
-    <div class="container-fluid py-5 px-5">
+<div class="main-content">
+    <div class="container-fluid py-3 px-5">
         <div id="dashboard" class="section py-5 px-5">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card" style="height: 150px;">
-                        <div class="card-body">
-                            Published Jobs: {{ published_jobs }}
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-4 mb-4 custom-card-width">
+                    <div class="cookieCard">
+                        <div class="cookieHeading">Published Jobs</div>
+                        <div class="cookieDescription">
+                            <span>{{ published_jobs }} <i class="bi bi-arrow-up"></i></span>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card" style="height: 150px;">
-                        <div class="card-body">
-                            Unpublished Jobs: {{ unpublished_jobs }}
+                <div class="col-lg-4 col-md-4 mb-4 custom-card-width">
+                    <div class="cookieCard">
+                        <div class="cookieHeading">Unpublished Jobs</div>
+                        <div class="cookieDescription">
+                            <span>{{ unpublished_jobs }} <i class="bi bi-arrow-up"></i></span>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card" style="height: 150px;">
-                        <div class="card-body">
-                            Total Jobs: {{ job_count }}
+                <div class="col-lg-4 col-md-4 mb-4 custom-card-width">
+                    <div class="cookieCard">
+                        <div class="cookieHeading">Total Jobs</div>
+                        <div class="cookieDescription">
+                            <span>{{ job_count }} <i class="bi bi-arrow-up"></i></span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<div class="row justify-content-center mt-5">
-    <div class="col-lg-11 col-md-11 mb-4">
-        <div class="card" style="height: 360px;">
-            <div class="card-body">
-                <canvas id="myBarChart"></canvas>
+        <div class="row justify-content-center">
+            <div class="col-lg-11 col-md-11 mb-4">
+                <div class="cookieCard" style="height: 360px; display: flex; align-items: center; justify-content: center;">
+                    <div class="card-body">
+                        <canvas id="myBarChart" width="800" height="300"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-var totalEmployees = {{ total_employees }};
-var totalClients = {{ total_clients }};
-var totalJobs = {{ total_jobs }};
-var totalCandidates = {{ total_candidates }};
 
-var ctx = document.getElementById('myBarChart').getContext('2d');
-var myBarChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Employees', 'Clients', 'Jobs', 'Candidates'],
-        datasets: [{
-            label: 'Total Count',
-            data: [totalEmployees, totalClients, totalJobs, totalCandidates],
-            backgroundColor: [
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(153, 102, 255, 0.2)'
-            ],
-            borderColor: [
-                'rgba(75, 192, 192, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(153, 102, 255, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
+<script>
+    var totalEmployees = {{ total_employees }};
+    var totalClients = {{ total_clients }};
+    var totalJobs = {{ total_jobs }};
+    var totalCandidates = {{ total_candidates }};
+    
+    var ctx = document.getElementById('myBarChart').getContext('2d');
+    var myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Employees', 'Clients', 'Jobs', 'Candidates'],
+            datasets: [{
+                label: 'Total Count',
+                data: [totalEmployees, totalClients, totalJobs, totalCandidates],
+                backgroundColor: [
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 206, 86, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
             responsive: true,
             maintainAspectRatio: false,
             scales: {
+                x: {
+                    ticks: {
+                        color: '#ffffff' // Set x-axis labels to white
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)' // Light grid lines
+                    }
+                },
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#ffffff' // Set y-axis labels to white
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)' // Light grid lines
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#ffffff' // Set legend text color to white
+                    }
+                },
+                tooltip: {
+                    bodyColor: '#ffffff', // Tooltip text color
+                    titleColor: '#ffffff', // Tooltip title text color
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)', // Tooltip background color for contrast
+                    borderColor: '#ffffff', // Tooltip border color
+                    borderWidth: 1
                 }
             }
         }
-});
-</script>
-
+    });
+    </script>
+    
 {% endblock content %}
