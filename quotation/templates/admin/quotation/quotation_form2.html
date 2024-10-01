@@ -228,7 +228,27 @@
             <form id="invoice-form" method="post">
                 {% csrf_token %}
               
-                <!-- Invoice Details Section -->
+                <div class="row"></div>
+                    <div class="form-field col-md-12">
+                        <label for="subject">Subject</label>
+                        {{ form.subject }}
+                        {% if form.subject.errors %}
+                            <div class="error text-danger">{{ form.subject.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- To Field -->
+                <div class="row">
+                    <div class="form-field col-md-12">
+                        <label for="to">To</label>
+                        {{ form.to }}
+                        {% if form.to.errors %}
+                            <div class="error text-danger">{{ form.to.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="form-field col-md-12">
                         <label for="company_name">Name of the Vendor</label>
@@ -376,7 +396,7 @@
 
                 <!-- Submit Button -->
                 <div class="form-group mt-4">
-                    <button type="submit" id="save-button" class="btn btn-primary">Generate Invoice</button>
+                    <button type="submit" id="save-button" class="btn btn-primary">Generate Quotation</button>
                 </div>
             </form>
         </div>

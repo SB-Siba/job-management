@@ -1,7 +1,7 @@
 # quotation/forms.py
 from app_common.models import Job, User
 from django import forms
-from .models import Quotation, QuotationItem, Invoice
+from .models import Invoice, Quotation, Quotation2
 from django.forms import modelformset_factory, formset_factory
 from django.core.validators import RegexValidator
 # from .models import Invoice, Job
@@ -48,7 +48,24 @@ class QuotationForm(forms.ModelForm):
         self.fields['experience_level'].widget.attrs.update({'placeholder': 'Select experience level'})
         self.fields['salary'].widget.attrs.update({'placeholder': 'Enter salary'})
 
-class CreateInvoiceForm(forms.ModelForm):
+class QuotationForm2(forms.ModelForm):
+
+    subject = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Subject'
+        })
+    )
+
+    to = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Recipient'
+        })
+    )
+
     notification_text = forms.CharField(
         initial="AS PER LABOUR & ESI DEPARTMENT NOTIFICATION DT. 13.03.2024, GoO",
         widget=forms.TextInput(attrs={
@@ -180,9 +197,9 @@ class CreateInvoiceForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Invoice
+        model = Quotation2
         fields = [
-            'company_name', 'notification_text', 'semi_skilled', 'semi_skilled_manpower', 
+            'subject', 'to', 'company_name', 'notification_text', 'semi_skilled', 'semi_skilled_manpower', 
             'unskilled', 'unskilled_manpower', 'working_hours', 'working_days', 
             'other_allowances_semi_skilled', 'other_allowances_unskilled', 'semi_uniform_cost', 'un_uniform_cost',
             'semi_reliever_cost', 'un_reliever_cost', 'semi_operational_cost', 'un_operational_cost'
@@ -196,3 +213,30 @@ class CreateInvoiceForm(forms.ModelForm):
             for field in self.fields:
                 self.fields[field].widget.attrs['readonly'] = True
 
+class InvoiceDetailForm(forms.ModelForm):
+    class Meta:
+        model = Invoice
+        fields = [
+            'company_name',
+            'address',
+            'description', 
+            'esi',
+            'epf',
+        ]
+
+        widgets = {
+            'company_name': forms.TextInput(attrs={'placeholder': 'Company Name'}),
+            'address': forms.Textarea(attrs={'placeholder': 'Address'}),
+            'description': forms.Textarea(attrs={'placeholder': 'Description'}),
+            'esi': forms.NumberInput(attrs={'placeholder': 'Enter ESI Amount', 'step': '0.01'}),
+            'epf': forms.NumberInput(attrs={'placeholder': 'Enter EPF Amount', 'step': '0.01'}),
+        }
+
+class EmployeeDetailsForm(forms.Form):
+    employee_name = forms.CharField(max_length=100, initial='Unknown Employee', widget=forms.TextInput(attrs={'placeholder': 'Employee Name'}))
+    days_of_duty = forms.DecimalField(max_digits=5, decimal_places=1, initial=0, widget=forms.NumberInput(attrs={'placeholder': 'Days of Duty'}))
+    overtime_days = forms.FloatField(initial=0, widget=forms.NumberInput(attrs={'placeholder': 'Overtime Days'}))
+    total_work_days = forms.FloatField(initial=0, widget=forms.NumberInput(attrs={'placeholder': 'Total Work Days'}))
+    price_per_day = forms.FloatField(initial=0, widget=forms.NumberInput(attrs={'placeholder': 'Price Per Day'}))
+    total_price = forms.FloatField(initial=0, widget=forms.NumberInput(attrs={'placeholder': 'Total Price'}))
+    remark = forms.CharField(max_length=250, required=False, widget=forms.Textarea(attrs={'placeholder': 'Remarks'}))

@@ -26,35 +26,86 @@
         </div>
         <div class="card-body px-5 mx-5 my-4">
           <div class="form-group row mb-3 px-5 mx-5">
-            <label class="col-sm-4 col-form-label font-weight-bold">Full Name :</label>
-            <div class="col-sm-8">
-              <p class="form-control-plaintext text-center">
-                {{ user_obj.full_name }}
-              </p>
-            </div>
+              <label class="col-sm-4 col-form-label font-weight-bold">Full Name :</label>
+              <div class="col-sm-8">
+                  <p class="form-control-plaintext text-center">
+                      {{ user_obj.full_name }}
+                  </p>
+              </div>
           </div>
+      
           <div class="form-group row mb-3 px-5 mx-5">
-            <label class="col-sm-4 col-form-label font-weight-bold">Email :</label>
-            <div class="col-sm-8">
-              <p class="form-control-plaintext text-center">
-                {{ user_obj.email }}
-              </p>
-            </div>
+              <label class="col-sm-4 col-form-label font-weight-bold">Email :</label>
+              <div class="col-sm-8">
+                  <p class="form-control-plaintext text-center">
+                      {{ user_obj.email }}
+                  </p>
+              </div>
           </div>
+      
           <div class="form-group row mb-3 px-5 mx-5">
-            <label class="col-sm-4 col-form-label font-weight-bold">Contact :</label>
-            <div class="col-sm-8">
-              <p class="form-control-plaintext text-center">
-                {{ user_obj.contact }}
-              </p>
-            </div>
+              <label class="col-sm-4 col-form-label font-weight-bold">Contact :</label>
+              <div class="col-sm-8">
+                  <p class="form-control-plaintext text-center">
+                      {{ user_obj.contact }}
+                  </p>
+              </div>
           </div>
+      
+          <div class="form-group row mb-3 px-5 mx-5">
+              <label class="col-sm-4 col-form-label font-weight-bold">Category :</label>
+              <div class="col-sm-8">
+                  <p class="form-control-plaintext text-center">
+                      {{ user_obj.category }}
+                  </p>
+              </div>
+          </div>
+      
+          <!-- Skills from the profile -->
+          <div class="form-group row mb-3 px-5 mx-5">
+              <label class="col-sm-4 col-form-label font-weight-bold">Skills :</label>
+              <div class="col-sm-8">
+                  <p class="form-control-plaintext text-center">
+                      {{ profile_obj.skills|default:"No skills provided" }}
+                  </p>
+              </div>
+          </div>
+      
+          <!-- Profile Picture -->
+          <div class="form-group row mb-3 px-5 mx-5">
+              <label class="col-sm-4 col-form-label font-weight-bold">Profile Picture :</label>
+              <div class="col-sm-8">
+                  <p class="form-control-plaintext text-center">
+                      {% if profile_obj.profile_pic %}
+                          <img src="{{ profile_obj.profile_pic.url }}" alt="Profile Picture" style="max-width: 100px; border-radius: 50%;" />
+                      {% else %}
+                          <span class="text-muted">No profile picture uploaded</span>
+                      {% endif %}
+                  </p>
+              </div>
+          </div>
+      
+          <!-- Resume -->
+          <div class="form-group row mb-3 px-5 mx-5">
+              <label class="col-sm-4 col-form-label font-weight-bold">Resume :</label>
+              <div class="col-sm-8">
+                  <p class="form-control-plaintext text-center">
+                      {% if profile_obj.resume %}
+                          <a href="{{ profile_obj.resume.url }}" target="_blank" class="btn btn-link">View Resume</a>
+                      {% else %}
+                          <span class="text-muted">No resume uploaded</span>
+                      {% endif %}
+                  </p>
+              </div>
+          </div>
+      
+          <!-- Back Button -->
           <div class="px-2 pt-4">
-            <a href="{% url 'admin_dashboard:user_list' %}" class="text-black">
-                <i class="fa-solid fa-arrow-left px-2" style="font-size: 12px;"></i>Back to User List
-            </a>
-        </div>
-        </div>
+              <a href="{% url 'admin_dashboard:user_list' %}" class="text-black">
+                  <i class="fa-solid fa-arrow-left px-2" style="font-size: 12px;"></i>Back to User List
+              </a>
+          </div>
+        </div>      
       </div>
     </div>
   </div>

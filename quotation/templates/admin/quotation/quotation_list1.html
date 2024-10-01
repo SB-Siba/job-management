@@ -98,7 +98,7 @@
 </style>
 
 <div class="container">
-    <h1 class="text-center">Quotations</h1>
+    <h1 class="text-center">Type-1 Quotations</h1>
     <div class="table">
         <form method="post" class="base-table">
             {% csrf_token %}
@@ -120,7 +120,7 @@
                         <td>{{ quotation.client.email }}</td>
                         <td>{{ quotation.created_at|date:"Y-m-d H:i:s" }}</td>
                         <td>
-                            <a href="{% url 'quotation:quotation_detail' quotation.client.id %}">
+                            <a href="{% url 'quotation:quotation_details_1' quotation.client.id %}">
                                 <i class="fa fa-eye px-3"></i>
                             </a>
                             <a href="#" onclick="openDeleteModal('{% url 'quotation:quotation_delete' quotation.id %}'); return false;">

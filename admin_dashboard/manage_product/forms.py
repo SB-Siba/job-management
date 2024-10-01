@@ -153,11 +153,7 @@ class JobSelectionForm(forms.Form):
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = common_models.User
-        fields = ['full_name', 'email', 'contact', 'category', 'wallet', 'token', 'meta_data']
-        widgets = {
-            'meta_data': forms.Textarea(attrs={'rows': 3}),
-            'wallet': forms.NumberInput(attrs={'step': '0.01'}),
-        }
+        fields = ['full_name', 'email', 'contact', 'category', 'resume']
 
 class ClientUpdateForm(forms.ModelForm):
     class Meta:

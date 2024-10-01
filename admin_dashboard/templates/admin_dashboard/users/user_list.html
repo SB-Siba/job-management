@@ -37,24 +37,6 @@
         box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
     }
 </style>
-<header>
-    <div class="container-fluid">
-        <div class="">
-            <div class="row align-items-center">
-                <div class="d-flex align-items-center">
-                    <form method="post" id="filterForm">
-                        {% csrf_token %}
-                        {{ category_form.as_p }}
-                    </form>
-                    <div class="px-5">
-                        <button type="submit" class="btn">Filter by Category</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-
 <main class="py-6 bg-surface-secondary">
     <div class="container-fluid">
         <div class="card">

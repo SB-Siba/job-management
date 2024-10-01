@@ -128,8 +128,7 @@ DELIVARY_CHARGE_PER_BAG = 0
 DELIVARY_FREE_ORDER_AMOUNT = 3000
 COUPON_ENABLE = True
 
-DOMAIN_NAME = "https://lakshmimart.co.in/"
-LOGO = DOMAIN_NAME + 'static/app_common/img/logos/logo.png'
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True

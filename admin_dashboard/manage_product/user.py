@@ -11,7 +11,7 @@ from admin_dashboard.manage_product import forms
 import os
 from app_common import models as common_model
 from user import forms
-from .forms import AddUserForm,JobSelectionForm,CategoryFilterForm
+from .forms import AddUserForm,JobSelectionForm,CategoryFilterForm, UserUpdateForm
 import logging
 from django.http import JsonResponse
 from django.urls import reverse_lazy
@@ -124,42 +124,49 @@ class DeleteUser(View):
 class UserDetailView(View):
     model = common_model.User
     template = app + "user_profile.html"
-    def get(self,request,user_id):
-        user_obj = self.model.objects.get(id=user_id)
-        return render(request, self.template, {"user_obj": user_obj})
+    
+    def get(self, request, user_id):
+        # Fetch user object
+        user_obj = get_object_or_404(self.model, id=user_id)
+        
+        # Fetch the profile for the user
+        profile_obj = common_model.UserProfile.objects.filter(user=user_obj).first()
 
+        return render(request, self.template, {
+            "user_obj": user_obj,
+            "profile_obj": profile_obj  # Pass profile data to the template
+        })
 class Edit_User(View):
     template = app + "edit_user.html"
-    def get(self,request,user_id):
-        user = common_model.User.objects.get(pk = user_id)
-        form = EditUserForm()
-        form.fields['email'].initial = user.email
-        form.fields['full_name'].initial = user.full_name
-        form.fields['contact'].initial = user.contact
-
-
+    
+    def get(self, request, user_id):
+        user = common_model.User.objects.get(pk=user_id)
+        
+        form = UserUpdateForm(instance=user)
+        
         data = {
-            'form':form,
-            'id':user_id,
-            'username':user.email,
-
+            'form': form,
+            'id': user_id,
+            'username': user.email,
         }
-        return render(request,self.template,data)
-    def post(self,request,user_id):
-        user = common_model.User.objects.get(pk = user_id)
+        return render(request, self.template, data)
+    
+    def post(self, request, user_id):
+        user = common_model.User.objects.get(pk=user_id)
+        
+        form = UserUpdateForm(request.POST, request.FILES, instance=user)
+        
+        if form.is_valid():
+            form.save()
 
-        form = EditUserForm(request.POST)
-        if form.is_valid:
-            email = request.POST.get("email")
-            full_name = request.POST.get("full_name")
-            contact = request.POST.get("contact")
-
-            user.email = email
-            user.full_name = full_name
-            user.contact = contact
-            user.save()
-
-        return redirect("admin_dashboard:user_detail",user_id)
+            return redirect("admin_dashboard:user_detail", user_id=user_id)
+        
+        data = {
+            'form': form,
+            'id': user_id,
+            'username': user.email,
+        }
+        return render(request, self.template, data)
 
 
 class EmployeeList(View):
@@ -174,8 +181,8 @@ class AdminEmployeeAssignView(View):
     template_name = 'admin_employee_assign.html'
 
     def get(self, request, user_id):
-        user = get_object_or_404(User, pk=user_id)
-        jobs = Job.objects.filter(application__user=user)  # Get jobs where the user has applied
+        user = get_object_or_404(common_model.User, pk=user_id)
+        jobs = common_model.Job.objects.filter(application__user=user)  # Get jobs where the user has applied
         context = {
             'user': user,
             'jobs': jobs,
@@ -183,9 +190,9 @@ class AdminEmployeeAssignView(View):
         return render(request, self.template_name, context)
 
     def post(self, request, user_id):
-        user = get_object_or_404(User, pk=user_id)
+        user = get_object_or_404(common_model.User, pk=user_id)
         job_id = request.POST.get('job_id')
-        job = get_object_or_404(Job, pk=job_id)
+        job = get_object_or_404(common_model.Job, pk=job_id)
 
         # Mark user as an employee
         user.is_employee = True
@@ -203,7 +210,7 @@ class EmployeeList(View):
     template_name = app + 'employee_list.html'
     
     def get(self, request):
-        employees = common_model.Employee.objects.all()
+        employees = common_model.Employee.objects.filter(application__status = "Hired")
         context = {
             'employees': employees
         }

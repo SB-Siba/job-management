@@ -114,7 +114,7 @@ class ApplicationList(View):
                 'company_name': application.job.company_name if application.job else 'No company available',
                 'email': application.email,
                 'contact': application.contact,
-                'applied_at': application.applied_at,
+                'applied_at': application.applied_at, 
                 'status_options': [
                     {'value': 'Applied', 'selected': application.status == 'Applied'},
                     {'value': 'Interviewed', 'selected': application.status == 'Interviewed'},
@@ -127,7 +127,7 @@ class ApplicationList(View):
         context = {
             "applications": applications,
             "application_status_options": application_status_options,
-            "MEDIA": settings.MEDIA_URL,
+            
         }
         return render(request, self.template, context)
 
@@ -212,45 +212,40 @@ class ApplicationUpdateView(View):
                 application.save()
 
                 # If status is 'Hired', handle employee creation
-                if new_status == 'Hired':
-                    try:
-                        # Use transaction to avoid race conditions
-                        with transaction.atomic():
-                            # Attempt to get or create an employee
-                            employee, created = common_model.Employee.objects.get_or_create(
-                                user=application.user,
-                                job=application.job,
-                                employer=application.job.client,
-                                defaults={
-                                    'application': application,
-                                    'salary': 0,
-                                    'period_start': timezone.now(),
-                                    'period_end': timezone.now() + timezone.timedelta(days=365),
-                                }
-                            )
-                            
-                            if created:
-                                return JsonResponse({
-                                    'success': True,
-                                    'message': f'{application.user.full_name} has been hired successfully for the {application.job.category} role.'
-                                })
-                            else:
-                                return JsonResponse({
-                                    'success': False,
-                                    'message': f'{application.email} is already hired for the {application.job.category} role.'
-                                })
-
-                    except common_model.Employee.MultipleObjectsReturned:
+            if new_status == 'Hired':
+                try:
+                    # Attempt to get or create an employee
+                    employee, created = common_model.Employee.objects.get_or_create(
+                        user=application.user,
+                        job=application.job,
+                        employer=application.job.client,
+                        defaults={
+                            'application': application,
+                            'salary': 0,
+                            'period_start': timezone.now(),
+                            'period_end': timezone.now() + timezone.timedelta(days=365),
+                        }
+                    )
+                    
+                    if created:
+                        return JsonResponse({
+                            'success': True,
+                            'message': f'{application.user.full_name} has been hired successfully for the {application.job.category} role.'
+                        })
+                    else:
                         return JsonResponse({
                             'success': False,
-                            'error': 'Multiple employee entries found. Please check for duplicate records.'
+                            'message': f'{application.email} is already hired for the {application.job.category} role.'
                         })
 
-                else:
-                    return JsonResponse({'success': True, 'message': 'Application status updated successfully.'})
+                except common_model.Employee.MultipleObjectsReturned:
+                    return JsonResponse({
+                        'success': False,
+                        'error': 'Multiple employee entries found. Please check for duplicate records.'
+                    })
 
-            return JsonResponse({'success': False, 'message': 'No changes made to the application status.'})
-
+            else:
+                return JsonResponse({'success': True, 'message': 'Application status updated successfully.'})
         except common_model.Application.DoesNotExist:
             return JsonResponse({'success': False, 'error': 'Application not found.'})
         except Exception as e:
