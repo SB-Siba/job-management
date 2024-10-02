@@ -71,7 +71,7 @@ class EmployeeDetails(models.Model):
 
 class Invoice(models.Model):
     invoice_detail_id = models.AutoField(primary_key=True)
-    employee_details = models.JSONField(default=list)  # Use JSONField to store multiple employee details
+    employee_details = models.JSONField(default=list, null=True, blank=True)  # Use JSONField to store multiple employee details
     company_name = models.CharField(max_length=200, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
