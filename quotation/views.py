@@ -185,12 +185,16 @@ class QuotationDetailsView2(View):
     def get(self, request, pk): 
         quotation = get_object_or_404(Quotation2, id=pk)
 
-        # Calculate totals and subtotals for semi-skilled and unskilled workers
+        # Calculate totals and subtotals for semi-skilled, unskilled, skilled, and high skilled workers
         semi_skilled_total = quotation.semi_skilled * quotation.semi_skilled_manpower * quotation.working_days
         unskilled_total = quotation.unskilled * quotation.unskilled_manpower * quotation.working_days
+        skilled_total = quotation.skilled * quotation.skilled_manpower * quotation.working_days
+        high_skilled_total = quotation.high_skilled * quotation.high_skilled_manpower * quotation.working_days
 
         semi_skilled_subtotal = semi_skilled_total + quotation.other_allowances_semi_skilled
         unskilled_subtotal = unskilled_total + quotation.other_allowances_unskilled
+        skilled_subtotal = skilled_total + quotation.other_allowances_skilled
+        high_skilled_subtotal = high_skilled_total + quotation.other_allowances_high_skilled
 
         # Percentages for EPF, ESI, Bonus, Leave Encashment, Gratuity
         epf_percent = Decimal('0.13')
@@ -201,87 +205,155 @@ class QuotationDetailsView2(View):
 
         semi_skilled_epf = round(semi_skilled_subtotal * epf_percent)
         unskilled_epf = round(unskilled_subtotal * epf_percent)
+        skilled_epf = round(skilled_subtotal * epf_percent)
+        high_skilled_epf = round(high_skilled_subtotal * epf_percent)
 
         semi_skilled_esi = round(semi_skilled_subtotal * esi_percent)
         unskilled_esi = round(unskilled_subtotal * esi_percent)
+        skilled_esi = round(skilled_subtotal * esi_percent)
+        high_skilled_esi = round(high_skilled_subtotal * esi_percent)
 
         semi_skilled_bonus = round(semi_skilled_subtotal * bonus_percent)
         unskilled_bonus = round(unskilled_subtotal * bonus_percent)
+        skilled_bonus = round(skilled_subtotal * bonus_percent)
+        high_skilled_bonus = round(high_skilled_subtotal * bonus_percent)
 
         semi_skilled_leave_encashment = round(semi_skilled_subtotal * leave_encashment_percent)
         unskilled_leave_encashment = round(unskilled_subtotal * leave_encashment_percent)
+        skilled_leave_encashment = round(skilled_subtotal * leave_encashment_percent)
+        high_skilled_leave_encashment = round(high_skilled_subtotal * leave_encashment_percent)
 
         semi_skilled_gratuity = round(semi_skilled_subtotal * gratuity_percent)
         unskilled_gratuity = round(unskilled_subtotal * gratuity_percent)
+        skilled_gratuity = round(skilled_subtotal * gratuity_percent)
+        high_skilled_gratuity = round(high_skilled_subtotal * gratuity_percent)
 
         # Additional costs (uniform, reliever, operational)
         semi_uniform_cost = quotation.semi_uniform_cost or 0
         un_uniform_cost = quotation.un_uniform_cost or 0
+        skilled_uniform_cost = quotation.skilled_uniform_cost or 0
+        high_skilled_uniform_cost = quotation.high_skilled_uniform_cost or 0
+
         semi_reliever_cost = quotation.semi_reliever_cost or 0
         un_reliever_cost = quotation.un_reliever_cost or 0
+        skilled_reliever_cost = quotation.skilled_reliever_cost or 0
+        high_skilled_reliever_cost = quotation.high_skilled_reliever_cost or 0
+
         semi_operational_cost = quotation.semi_operational_cost or 0
         un_operational_cost = quotation.un_operational_cost or 0
+        skilled_operational_cost = quotation.skilled_operational_cost or 0
+        high_skilled_operational_cost = quotation.high_skilled_operational_cost or 0
 
         # Total calculations
-        semi_skilled_total_cost = semi_skilled_subtotal + semi_skilled_epf + semi_skilled_esi + semi_skilled_bonus + semi_skilled_leave_encashment + semi_skilled_gratuity + semi_uniform_cost + semi_reliever_cost + semi_operational_cost
-        unskilled_total_cost = unskilled_subtotal + unskilled_epf + unskilled_esi + unskilled_bonus + unskilled_leave_encashment + unskilled_gratuity + un_uniform_cost + un_reliever_cost + un_operational_cost
+        semi_skilled_total_cost = (semi_skilled_subtotal + semi_skilled_epf + semi_skilled_esi + semi_skilled_bonus +
+                                   semi_skilled_leave_encashment + semi_skilled_gratuity + semi_uniform_cost + 
+                                   semi_reliever_cost + semi_operational_cost)
+        
+        unskilled_total_cost = (unskilled_subtotal + unskilled_epf + unskilled_esi + unskilled_bonus + 
+                                unskilled_leave_encashment + unskilled_gratuity + un_uniform_cost + 
+                                un_reliever_cost + un_operational_cost)
+
+        skilled_total_cost = (skilled_subtotal + skilled_epf + skilled_esi + skilled_bonus + 
+                              skilled_leave_encashment + skilled_gratuity + skilled_uniform_cost + 
+                              skilled_reliever_cost + skilled_operational_cost)
+
+        high_skilled_total_cost = (high_skilled_subtotal + high_skilled_epf + high_skilled_esi + high_skilled_bonus + 
+                                   high_skilled_leave_encashment + high_skilled_gratuity + high_skilled_uniform_cost + 
+                                   high_skilled_reliever_cost + high_skilled_operational_cost)
 
         # Service charge
         service_charge_percent = Decimal('0.028')  # Convert to Decimal
         semi_skilled_service_charge = round(semi_skilled_total_cost * service_charge_percent)
         unskilled_service_charge = round(unskilled_total_cost * service_charge_percent)
+        skilled_service_charge = round(skilled_total_cost * service_charge_percent)
+        high_skilled_service_charge = round(high_skilled_total_cost * service_charge_percent)
 
         # Final totals
         semi_skilled_final_total = semi_skilled_total_cost + semi_skilled_service_charge
         unskilled_final_total = unskilled_total_cost + unskilled_service_charge
+        skilled_final_total = skilled_total_cost + skilled_service_charge
+        high_skilled_final_total = high_skilled_total_cost + high_skilled_service_charge
 
         # GST
         gst_percent = Decimal('0.18')  # Convert to Decimal
         semi_skilled_gst = round(semi_skilled_final_total * gst_percent)
         unskilled_gst = round(unskilled_final_total * gst_percent)
+        skilled_gst = round(skilled_final_total * gst_percent)
+        high_skilled_gst = round(high_skilled_final_total * gst_percent)
 
         # Total manpower cost
         semi_skilled_total_manpower_cost = semi_skilled_final_total + semi_skilled_gst
         unskilled_total_manpower_cost = unskilled_final_total + unskilled_gst
+        skilled_total_manpower_cost = skilled_final_total + skilled_gst
+        high_skilled_total_manpower_cost = high_skilled_final_total + high_skilled_gst
 
         # Prepare context
         context = {
             'quotation': quotation,
             'semi_skilled_total': semi_skilled_total,
             'unskilled_total': unskilled_total,
+            'skilled_total': skilled_total,
+            'high_skilled_total': high_skilled_total,
             'semi_skilled_subtotal': semi_skilled_subtotal,
             'unskilled_subtotal': unskilled_subtotal,
+            'skilled_subtotal': skilled_subtotal,
+            'high_skilled_subtotal': high_skilled_subtotal,
             'semi_skilled_epf': semi_skilled_epf,
             'unskilled_epf': unskilled_epf,
+            'skilled_epf': skilled_epf,
+            'high_skilled_epf': high_skilled_epf,
             'semi_skilled_esi': semi_skilled_esi,
             'unskilled_esi': unskilled_esi,
+            'skilled_esi': skilled_esi,
+            'high_skilled_esi': high_skilled_esi,
             'semi_skilled_bonus': semi_skilled_bonus,
             'unskilled_bonus': unskilled_bonus,
+            'skilled_bonus': skilled_bonus,
+            'high_skilled_bonus': high_skilled_bonus,
             'semi_skilled_leave_encashment': semi_skilled_leave_encashment,
             'unskilled_leave_encashment': unskilled_leave_encashment,
+            'skilled_leave_encashment': skilled_leave_encashment,
+            'high_skilled_leave_encashment': high_skilled_leave_encashment,
             'semi_skilled_gratuity': semi_skilled_gratuity,
             'unskilled_gratuity': unskilled_gratuity,
+            'skilled_gratuity': skilled_gratuity,
+            'high_skilled_gratuity': high_skilled_gratuity,
             'semi_uniform_cost': semi_uniform_cost,
             'un_uniform_cost': un_uniform_cost,
+            'skilled_uniform_cost': skilled_uniform_cost,
+            'high_skilled_uniform_cost': high_skilled_uniform_cost,
             'semi_reliever_cost': semi_reliever_cost,
             'un_reliever_cost': un_reliever_cost,
+            'skilled_reliever_cost': skilled_reliever_cost,
+            'high_skilled_reliever_cost': high_skilled_reliever_cost,
             'semi_operational_cost': semi_operational_cost,
             'un_operational_cost': un_operational_cost,
+            'skilled_operational_cost': skilled_operational_cost,
+            'high_skilled_operational_cost': high_skilled_operational_cost,
             'semi_skilled_total_cost': semi_skilled_total_cost,
             'unskilled_total_cost': unskilled_total_cost,
+            'skilled_total_cost': skilled_total_cost,
+            'high_skilled_total_cost': high_skilled_total_cost,
             'semi_skilled_service_charge': semi_skilled_service_charge,
             'unskilled_service_charge': unskilled_service_charge,
+            'skilled_service_charge': skilled_service_charge,
+            'high_skilled_service_charge': high_skilled_service_charge,
             'semi_skilled_final_total': semi_skilled_final_total,
             'unskilled_final_total': unskilled_final_total,
+            'skilled_final_total': skilled_final_total,
+            'high_skilled_final_total': high_skilled_final_total,
             'semi_skilled_gst': semi_skilled_gst,
             'unskilled_gst': unskilled_gst,
-            'semi_skilled_total_cost_with_gst': semi_skilled_final_total + semi_skilled_gst,
-            'unskilled_total_cost_with_gst': unskilled_final_total + unskilled_gst,
+            'skilled_gst': skilled_gst,
+            'high_skilled_gst': high_skilled_gst,
             'semi_skilled_total_manpower_cost': semi_skilled_total_manpower_cost,
             'unskilled_total_manpower_cost': unskilled_total_manpower_cost,
+            'skilled_total_manpower_cost': skilled_total_manpower_cost,
+            'high_skilled_total_manpower_cost': high_skilled_total_manpower_cost,
         }
 
         return render(request, self.template_name, context)
+
 
 class InvoiceDetailCreateView(View):
     template_name = 'admin/quotation/invoice_detail_form.html'
@@ -331,30 +403,30 @@ class InvoiceListView(View):
         return render(request, self.template_name, context)
 
 class InvoiceDetailView(View):
-    template_name = 'admin/quotation/invoice.html'  # Adjust the template as necessary
+    template_name = 'admin/quotation/invoice.html'  # Adjust the template if necessary
 
     def get(self, request, *args, **kwargs):
         invoice_id = kwargs.get('invoice_id')  # Assuming you're passing the invoice ID in the URL
         invoice = get_object_or_404(Invoice, invoice_detail_id=invoice_id)
 
-        # Access employee details directly as it is already a list
-        employee_details = invoice.employee_details  # No need for json.loads()
+        # Access employee details (JSON) directly
+        employee_details = invoice.employee_details
 
-        # Calculate subtotal price
+        # Calculate subtotal price from employee details
         subtotal_price = Decimal(0)
         for employee in employee_details:
             subtotal_price += Decimal(employee.get('total_price', 0))  # Safely get the total price
 
-        # Calculate GST and total amount (if needed)
+        # Calculate GST and total amount (adjust GST percentage if needed)
         gst_percentage = Decimal(18)  # Example static GST percentage
         gst_amount = (subtotal_price * gst_percentage) / Decimal(100)
         total_amount = subtotal_price + gst_amount
 
-        # Prepare the grand total and amount in words
+        # Calculate grand total and convert it to words
         grand_total_amount = subtotal_price + gst_amount + (invoice.esi or 0) + (invoice.epf or 0)
         grand_total_amount_words = self.convert_to_words(grand_total_amount)
 
-        # Pass the calculated values to the template
+        # Pass all calculated values to the template
         return render(request, self.template_name, {
             'invoice': invoice,
             'employee_details': employee_details,  # Pass employee details to the template
@@ -366,7 +438,7 @@ class InvoiceDetailView(View):
         })
 
     def convert_to_words(self, amount):
-        # Convert the numeric amount into words
+        # Convert numeric amount to words
         return num2words(amount, to='currency', lang='en')
 
 class InvoiceDeleteView(View):
@@ -382,10 +454,3 @@ class InvoiceDeleteView(View):
             error_message = f"An unexpected error occurred: {str(e)}"
             return render(request, 'error.html', {'error_message': error_message}, status=400)
         
-def generate_invoice_number():
-    year = datetime.now().strftime('%y-%y')
-    number = str(random.randint(1, 999)).zfill(3)
-    return f"PR/INVOICE/{year}/{number}"
-
-invoice_number = generate_invoice_number()
-created_date = datetime.now().strftime('%Y-%m-%d')

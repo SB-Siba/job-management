@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.urls import path, include
 from . import views
 from django.contrib import admin
@@ -6,6 +7,7 @@ from .manage_product import user,catagory,job,client
 from user.views import ApplicationList, DownloadResumeView
 from .manage_product.client import  DeleteClientView
 from .manage_product.client import ClientUpdateView
+from django.conf.urls.static import static
 
 # from .order import order
 from .contact_messages import messages
@@ -82,8 +84,14 @@ urlpatterns = [
 
     path('delete_all_data', job.DeleteAllDataView.as_view(), name='deletealldata'),
 
+    path('download-resume/<int:application_id>/', job.download_resume, name='download_resume')
+
+
+
 
 
     
     
 ] 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -135,7 +135,7 @@ Apply For Job
                 consistently delivering exceptional
                 service and value.
             </p>
-            <form action="" method="post" class="card_form">
+            <form action="" method="post" class="card_form" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% for field in form %}
                 <div class="mb-2 input">

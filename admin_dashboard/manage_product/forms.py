@@ -77,7 +77,7 @@ def validate_contact(value):
 class ApplicationForm(forms.ModelForm):
     class Meta:
         model = common_models.Application
-        fields = ['full_name', 'email', 'contact', 'resume']  
+        fields = ['full_name', 'email', 'contact', 'user_resume']  
 
     full_name = forms.CharField(max_length=255)
     email = forms.EmailField(max_length=255)
@@ -91,7 +91,7 @@ class ApplicationForm(forms.ModelForm):
             'required': 'required'
         })
     )
-    resume = forms.FileField(required=True)
+    user_resume = forms.FileField(required=True)
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
@@ -107,7 +107,7 @@ class ApplicationForm(forms.ModelForm):
 
         self.fields['full_name'].widget.attrs.update({'class': 'form-control', 'type': 'text', 'placeholder': 'Full name', "required": "required"})
         self.fields['email'].widget.attrs.update({'class': 'form-control', 'type': 'text', 'placeholder': 'Enter Email', "required": "required"})
-        self.fields['resume'].widget.attrs.update({'class': 'form-control'})
+        self.fields['user_resume'].widget.attrs.update({'class': 'form-control'})
 
 class AddUserForm(forms.ModelForm):
     class Meta:
