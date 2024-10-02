@@ -34,22 +34,44 @@ class Item(models.Model):
         return self.component or "Unnamed Component"
 
 class Quotation2(models.Model):
-    company_name = models.CharField(max_length=255,null=True, blank=True)
+    company_name = models.CharField(max_length=255, null=True, blank=True)
+    vendor_name = models.CharField(max_length=255,null=True, blank=True)
+    post1 = models.CharField(max_length=255, null=True, blank=True)
+    post2 = models.CharField(max_length=255, null=True, blank=True)
     notification_text = models.CharField(max_length=255, null=True, blank=True, default="AS PER LABOUR & ESI DEPARTMENT NOTIFICATION DT. 13.03.2024, GoO")
     semi_skilled = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     unskilled = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    skilled = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    high_skilled = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+
     semi_skilled_manpower = models.IntegerField(null=True, blank=True)
     unskilled_manpower = models.IntegerField(null=True, blank=True)
+    skilled_manpower = models.IntegerField(null=True, blank=True)
+    high_skilled_manpower = models.IntegerField(null=True, blank=True)
+
     working_hours = models.IntegerField(null=True, blank=True)
     working_days = models.IntegerField(null=True, blank=True)
+
     other_allowances_semi_skilled = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     other_allowances_unskilled = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    other_allowances_skilled = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    other_allowances_high_skilled = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+
     semi_uniform_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     un_uniform_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    skilled_uniform_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    high_skilled_uniform_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+
     semi_reliever_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     un_reliever_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    skilled_reliever_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    high_skilled_reliever_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+
     semi_operational_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     un_operational_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    skilled_operational_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    high_skilled_operational_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     subject = models.CharField(max_length=255, blank=True, null=True)
     to = models.CharField(max_length=255, blank=True, null=True)
