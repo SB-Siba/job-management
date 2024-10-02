@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 from django.db import models
 from django.conf import settings
@@ -71,7 +72,7 @@ class EmployeeDetails(models.Model):
 
 class Invoice(models.Model):
     invoice_detail_id = models.AutoField(primary_key=True)
-    employee_details = models.JSONField(default=list)  # Use JSONField to store multiple employee details
+    employee_details = models.JSONField(default=list)  # Store multiple employee details
     company_name = models.CharField(max_length=200, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
@@ -79,6 +80,28 @@ class Invoice(models.Model):
     esi = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     epf = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+    invoice_number = models.CharField(max_length=255, unique=True, blank=True, null=True)  # Invoice number field
 
     def __str__(self):
-        return f"Invoice {self.invoice_detail_id} - {self.company_name if self.company_name else 'Unnamed'}"
+        return f"Invoice {self.invoice_number if self.invoice_number else self.invoice_detail_id}"
+
+    def save(self, *args, **kwargs):
+        if not self.invoice_number:
+            self.invoice_number = self.generate_invoice_number()
+        super(Invoice, self).save(*args, **kwargs)
+
+    def generate_invoice_number(self):
+        current_year = datetime.now().year
+        next_year = current_year + 1
+        financial_year = f"{str(current_year)[-2:]}-{str(next_year)[-2:]}"
+        
+        # Get the latest invoice by invoice_detail_id
+        latest_invoice = Invoice.objects.order_by('-invoice_detail_id').first()
+        
+        if latest_invoice and latest_invoice.invoice_number:
+            last_number = int(latest_invoice.invoice_number.split('/')[-1])
+            serial_number = str(last_number + 1).zfill(3)
+        else:
+            serial_number = '001'
+
+        return f"PR/INVOICE/{financial_year}/{serial_number}"

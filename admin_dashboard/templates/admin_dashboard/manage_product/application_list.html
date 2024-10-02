@@ -125,8 +125,8 @@
         <p><strong>Job Category:</strong> {{ application.job.category|default:'No category available' }}</p>
         <p><strong>Applied At:</strong> {{ application.applied_at }}</p>
         <p><strong>Resume:</strong> 
-            {% if application.resume %}
-                <a href="{{ application.resume.url }}" target="_blank" class="btn btn-primary">View Resume</a>
+            {% if application.user_resume %}
+            <a href="{% url 'admin_dashboard:download_resume' application.id %}" class="btn btn-primary">Download Resume</a>
             {% else %}
                 No resume uploaded
             {% endif %}

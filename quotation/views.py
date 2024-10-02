@@ -331,30 +331,30 @@ class InvoiceListView(View):
         return render(request, self.template_name, context)
 
 class InvoiceDetailView(View):
-    template_name = 'admin/quotation/invoice.html'  # Adjust the template as necessary
+    template_name = 'admin/quotation/invoice.html'  # Adjust the template if necessary
 
     def get(self, request, *args, **kwargs):
         invoice_id = kwargs.get('invoice_id')  # Assuming you're passing the invoice ID in the URL
         invoice = get_object_or_404(Invoice, invoice_detail_id=invoice_id)
 
-        # Access employee details directly as it is already a list
-        employee_details = invoice.employee_details  # No need for json.loads()
+        # Access employee details (JSON) directly
+        employee_details = invoice.employee_details
 
-        # Calculate subtotal price
+        # Calculate subtotal price from employee details
         subtotal_price = Decimal(0)
         for employee in employee_details:
             subtotal_price += Decimal(employee.get('total_price', 0))  # Safely get the total price
 
-        # Calculate GST and total amount (if needed)
+        # Calculate GST and total amount (adjust GST percentage if needed)
         gst_percentage = Decimal(18)  # Example static GST percentage
         gst_amount = (subtotal_price * gst_percentage) / Decimal(100)
         total_amount = subtotal_price + gst_amount
 
-        # Prepare the grand total and amount in words
+        # Calculate grand total and convert it to words
         grand_total_amount = subtotal_price + gst_amount + (invoice.esi or 0) + (invoice.epf or 0)
         grand_total_amount_words = self.convert_to_words(grand_total_amount)
 
-        # Pass the calculated values to the template
+        # Pass all calculated values to the template
         return render(request, self.template_name, {
             'invoice': invoice,
             'employee_details': employee_details,  # Pass employee details to the template
@@ -366,7 +366,7 @@ class InvoiceDetailView(View):
         })
 
     def convert_to_words(self, amount):
-        # Convert the numeric amount into words
+        # Convert numeric amount to words
         return num2words(amount, to='currency', lang='en')
 
 class InvoiceDeleteView(View):
@@ -382,10 +382,3 @@ class InvoiceDeleteView(View):
             error_message = f"An unexpected error occurred: {str(e)}"
             return render(request, 'error.html', {'error_message': error_message}, status=400)
         
-def generate_invoice_number():
-    year = datetime.now().strftime('%y-%y')
-    number = str(random.randint(1, 999)).zfill(3)
-    return f"PR/INVOICE/{year}/{number}"
-
-invoice_number = generate_invoice_number()
-created_date = datetime.now().strftime('%Y-%m-%d')
