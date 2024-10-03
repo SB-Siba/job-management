@@ -70,10 +70,10 @@
 <body>
     <!-- Letter content at the top of the invoice -->
     <section class="my-2">
-        <p>Subject: {{ quotation.subject }}</p>
-        <p>To: {{ quotation.to }}</p>
+        <p class="data_style">To: {{ quotation.to }}</p>
+        <p class="data_style">Subject: {{ quotation.subject }}</p>
         <p>
-            Dear Sir/Madam,<br><br>
+            Dear Sir/Madam,<br>
             Please examine our quotation and allow us to commence our services in your Hospital. You will feel the difference and also save on your expenditure. We promise you that you will find our services to the standard set in line with your requirements. 
             Please feel free to call on us for any clarification required. Awaiting your positive response.
         </p>
@@ -200,7 +200,7 @@
                 <td style="padding: 8px;">{{ quotation.high_skilled_operational_cost }}</td>
             </tr>
             <tr>
-                <td class="data_style" style="padding: 8px;">Total cost per head</td>
+                <td class="data_style" style="padding: 8px;">Total</td>
                 <td></td>
                 <td class="data_style" style="padding: 8px;">{{ semi_skilled_total_cost }}</td>
                 <td class="data_style" style="padding: 8px;">{{ unskilled_total_cost }}</td>
@@ -208,12 +208,28 @@
                 <td class="data_style" style="padding: 8px;">{{ high_skilled_total_cost }}</td>
             </tr>
             <tr>
+                <td style="padding: 8px;">Service Charges</td>
+                <td style="padding: 8px;">{{ quotation.service_charge }}%</td>
+                <td style="padding: 8px;">{{ semi_skilled_service_charge }}</td>
+                <td style="padding: 8px;">{{ unskilled_service_charge }}</td>
+                <td style="padding: 8px;">{{ skilled_service_charge }}</td>
+                <td style="padding: 8px;">{{ high_skilled_service_charge }}</td>
+            </tr>
+            <tr>
+                <td class="data_style" style="padding: 8px;">Total cost per head</td>
+                <td></td>
+                <td class="data_style" style="padding: 8px;">{{ semi_skilled_final_total }}</td>
+                <td class="data_style" style="padding: 8px;">{{ unskilled_final_total }}</td>
+                <td class="data_style" style="padding: 8px;">{{ skilled_final_total }}</td>
+                <td class="data_style" style="padding: 8px;">{{ high_skilled_final_total }}</td>
+            </tr>
+            <tr>
                 <td class="data_style" style="padding: 8px;">GST</td>
-                <td class="data_style">2.8%</td>
-                <td class="data_style" style="padding: 8px;">{{ semi_skilled_service_charge }}</td>
-                <td class="data_style" style="padding: 8px;">{{ unskilled_service_charge }}</td>
-                <td class="data_style" style="padding: 8px;">{{ skilled_service_charge }}</td>
-                <td class="data_style" style="padding: 8px;">{{ high_skilled_service_charge }}</td>
+                <td class="data_style">18%</td>
+                <td class="data_style" style="padding: 8px;">{{ semi_skilled_gst }}</td>
+                <td class="data_style" style="padding: 8px;">{{ unskilled_gst }}</td>
+                <td class="data_style" style="padding: 8px;">{{ skilled_gst }}</td>
+                <td class="data_style" style="padding: 8px;">{{ high_skilled_gst }}</td>
             </tr>
             <tr>
                 <td class="data_style" style="padding: 8px;">Total Manpower Cost</td>

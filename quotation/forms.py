@@ -329,6 +329,14 @@ class QuotationForm2(forms.ModelForm):
         })
     )
 
+    service_charge = forms.DecimalField(
+        max_digits=5, 
+        decimal_places=2, 
+        required=True, 
+        label='Service Charge (%)',
+        help_text="Enter service charge percentage"
+    )
+
     class Meta:
         model = Quotation2
         fields = [
@@ -338,7 +346,7 @@ class QuotationForm2(forms.ModelForm):
             'semi_uniform_cost', 'un_uniform_cost', 'skilled_uniform_cost', 'high_skilled_uniform_cost',
             'semi_reliever_cost', 'un_reliever_cost', 'skilled_reliever_cost', 'high_skilled_reliever_cost',
             'semi_operational_cost', 'un_operational_cost', 'skilled_operational_cost', 'high_skilled_operational_cost', 
-            'post1', 'post2'
+            'post1', 'post2', 'service_charge'
         ]
 
     def __init__(self, *args, **kwargs):
