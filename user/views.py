@@ -311,19 +311,23 @@ class ApplyForJobView(View):
     model = Application
     def get(self, request, pk):
         job = get_object_or_404(Job, pk=pk)
-        form = ApplicationForm()
+        form = ApplicationForm(user=request.user)  # Pass the user to pre-fill details
         return render(request, self.template, {'job': job, 'form': form})
- 
+
     def post(self, request, pk):
         job = get_object_or_404(Job, pk=pk)
-        form = ApplicationForm(request.POST, request.FILES)
-        resume = request.POST['resume']
-        full_name = request.POST['full_name']
-        email = request.POST['email']
-        contact = request.POST['contact']
-        applied_obj = self.model(job = job,email = email,user = request.user,contact = contact,resume = resume)
-        applied_obj.save()
-        return redirect('user:home')
+        form = ApplicationForm(request.POST, request.FILES, user=request.user)
+        
+        if form.is_valid():
+            application = form.save(commit=False)  # Don't save to the database yet
+            application.job = job  # Associate the job with the application
+            application.user = request.user  # Set the user
+            application.save()  # Now save the application with the job and user
+            
+            return redirect('user:home')
+        else:
+            # If the form is not valid, render the form again with error messages
+            return render(request, self.template, {'job': job, 'form': form})
     
 class AppliedJobsView(View):
     template_name = 'user/jobs/applied_jobs.html'

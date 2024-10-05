@@ -220,15 +220,22 @@
     </style>
 
 <div class="px-5 py-5"> 
-    <div class="fullcard px-5 py-5">
-        <div class="border-bottom border-black mb-2">
-            <h2 class="mb-2 text-center">CARE HOSPITAL, BHUBANESWAR GDA/SUPERVISOR SERVICES</h2>
-        </div>
-        <div class="scrollable-content">
-            <form id="invoice-form" method="post">
-                {% csrf_token %}
-              
-                <div class="row"></div>
+
+        <form id="invoice-form" method="post">
+            {% csrf_token %}
+
+                <div class="row mb-3">
+                    <div class="form-field col-md-12">
+                        <label for="company_name">Company name</label>
+                        {{ form.company_name }}
+                        {% if form.company_name.errors %}
+                            <div class="error text-danger">{{ form.company_name.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+            <div class="scrollable-content">
+                <div class="row mb-3">
                     <div class="form-field col-md-12">
                         <label for="subject">Subject</label>
                         {{ form.subject }}
@@ -238,8 +245,7 @@
                     </div>
                 </div>
 
-                <!-- To Field -->
-                <div class="row">
+                <div class="row mb-3">
                     <div class="form-field col-md-12">
                         <label for="to">To</label>
                         {{ form.to }}
@@ -249,26 +255,46 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row mb-3">
                     <div class="form-field col-md-12">
-                        <label for="company_name">Name of the Vendor</label>
-                        {{ form.company_name }}
-                        {% if form.company_name.errors %}
-                            <div class="error text-danger">{{ form.company_name.errors }}</div>
+                        <label for="vendor_name">Name of the Vendor</label>
+                        {{ form.vendor_name }}
+                        {% if form.vendor_name.errors %}
+                            <div class="error text-danger">{{ form.vendor_name.errors }}</div>
                         {% endif %}
                     </div>
                 </div>
-              
-                <!-- Notification Text -->
-                <div class="form-field">
-                    <label for="notification_text">Notification Text</label>
-                    {{ form.notification_text }}
-                    {% if form.notification_text.errors %}
-                        <div class="error text-danger">{{ form.notification_text.errors }}</div>
-                    {% endif %}
+
+                <div class="row mb-3">
+                    <div class="form-field col-md-12">
+                        <label for="notification_text">Notification Text</label>
+                        {{ form.notification_text }}
+                        {% if form.notification_text.errors %}
+                            <div class="error text-danger">{{ form.notification_text.errors }}</div>
+                        {% endif %}
+                    </div>
                 </div>
-              
-                <!-- Semi Skilled Field with Manpower -->
+
+                <div class="row mb-3">
+                    <div class="form-field col-md-12">
+                        <label for="post1">Enter 1st Post Name</label>
+                        {{ form.post1 }}
+                        {% if form.post1.errors %}
+                            <div class="error text-danger">{{ form.post1.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row mb-3"></div>
+                    <div class="form-field col-md-12">
+                        <label for="post2">Enter 2nd Post Name</label>
+                        {{ form.post2 }}
+                        {% if form.post2.errors %}
+                            <div class="error text-danger">{{ form.post2.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
                 <div class="form-row">
                     <div class="col-md-6">
                         <label for="semi_skilled">Semi Skilled @ Rs.</label>
@@ -303,6 +329,42 @@
                         {% endif %}
                     </div>
                 </div>    
+
+                <!-- Skilled Section -->    
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="skilled">Skilled @ Rs.</label>
+                        {{ form.skilled }}
+                        {% if form.skilled.errors %}
+                            <div class="error text-danger">{{ form.skilled.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="skilled_manpower">Manpower</label>
+                        {{ form.skilled_manpower }}
+                        {% if form.skilled_manpower.errors %}
+                            <div class="error text-danger">{{ form.skilled_manpower.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+    
+                <!-- High Skilled Section -->
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="high_skilled">High Skilled @ Rs.</label>
+                        {{ form.high_skilled }}
+                        {% if form.high_skilled.errors %}
+                            <div class="error text-danger">{{ form.high_skilled.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="high_skilled_manpower">Manpower</label>
+                        {{ form.high_skilled_manpower }}
+                        {% if form.high_skilled_manpower.errors %}
+                            <div class="error text-danger">{{ form.high_skilled_manpower.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
 
                 <!-- Working Hours and Days -->
                 <div class="form-row">
@@ -340,6 +402,23 @@
                     </div>
                 </div>
 
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="other_allowances_skilled">Other Allowances for Skilled</label>
+                        {{ form.other_allowances_skilled }}
+                        {% if form.other_allowances_skilled.errors %}
+                            <div class="error text-danger">{{ form.other_allowances_skilled.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="other_allowances_high_skilled">Other Allowances for High Skilled</label>
+                        {{ form.other_allowances_high_skilled }}
+                        {% if form.other_allowances_high_skilled.errors %}
+                            <div class="error text-danger">{{ form.other_allowances_high_skilled.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
                 <!-- Uniform and Reliever Cost Section -->
                 <div class="form-row">
                     <div class="col-md-6">
@@ -354,6 +433,23 @@
                         {{ form.un_uniform_cost }}
                         {% if form.un_uniform_cost.errors %}
                             <div class="error text-danger">{{ form.un_uniform_cost.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="skilled_uniform_cost">Uniform Cost for Skilled</label>
+                        {{ form.skilled_uniform_cost }}
+                        {% if form.skilled_uniform_cost.errors %}
+                            <div class="error text-danger">{{ form.skilled_uniform_cost.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="high_skilled_uniform_cost">Uniform Cost for High Skilled</label>
+                        {{ form.high_skilled_uniform_cost }}
+                        {% if form.high_skilled_uniform_cost.errors %}
+                            <div class="error text-danger">{{ form.high_skilled_uniform_cost.errors }}</div>
                         {% endif %}
                     </div>
                 </div>
@@ -376,6 +472,23 @@
                     </div>
                 </div>
 
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="skilled_reliever_cost">Reliever Cost for Skilled</label>
+                        {{ form.skilled_reliever_cost }}
+                        {% if form.skilled_reliever_cost.errors %}
+                            <div class="error text-danger">{{ form.skilled_reliever_cost.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="high_skilled_reliever_cost">Reliever Cost for High Skilled</label>
+                        {{ form.high_skilled_reliever_cost }}
+                        {% if form.high_skilled_reliever_cost.errors %}
+                            <div class="error text-danger">{{ form.high_skilled_reliever_cost.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
                 <!-- Operational Cost Section -->
                 <div class="form-row">
                     <div class="col-md-6">
@@ -390,6 +503,34 @@
                         {{ form.un_operational_cost }}
                         {% if form.un_operational_cost.errors %}
                             <div class="error text-danger">{{ form.un_operational_cost.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="skilled_operational_cost">Operational Cost for Skilled</label>
+                        {{ form.skilled_operational_cost }}
+                        {% if form.skilled_operational_cost.errors %}
+                            <div class="error text-danger">{{ form.skilled_operational_cost.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="high_skilled_operational_cost">Operational Cost for High Skilled</label>
+                        {{ form.high_skilled_operational_cost }}
+                        {% if form.high_skilled_operational_cost.errors %}
+                            <div class="error text-danger">{{ form.high_skilled_operational_cost.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Service Charge Section -->
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="service_charge">Service Charge (%)</label>
+                        {{ form.service_charge }}
+                        {% if form.service_charge.errors %}
+                            <div class="error text-danger">{{ form.service_charge.errors }}</div>
                         {% endif %}
                     </div>
                 </div>

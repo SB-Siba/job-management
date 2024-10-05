@@ -70,127 +70,175 @@
 <body>
     <!-- Letter content at the top of the invoice -->
     <section class="my-2">
-        <p>Subject: {{ quotation.subject }}</p>
-        <p>To: {{ quotation.to }}</p>
+        <p class="data_style">To: {{ quotation.to }}</p>
+        <p class="data_style">Subject: {{ quotation.subject }}</p>
         <p>
-            Dear Sir/Madam,<br><br>
+            Dear Sir/Madam,<br>
             Please examine our quotation and allow us to commence our services in your Hospital. You will feel the difference and also save on your expenditure. We promise you that you will find our services to the standard set in line with your requirements. 
             Please feel free to call on us for any clarification required. Awaiting your positive response.
         </p>
         <div class="d-flex justify-content-center mb-5">
-            <h4 class="border-bottom border-2 border-dark">CARE HOSPITAL, BHUBANESWAR GDA/SUPERVISER SERVICES</h4>
+            <h4 class="border-bottom border-2 border-dark">{{ quotation.company_name }}</h4>
         </div>
         <table style="width: 100%; border: 2px solid black; border-collapse: collapse; margin-top: 5px;">
             <!-- Name of Vendor -->
             <tr>
                 <th class="data_style" style="padding: 8px;">Name of the Vendor</th>
-                <td colspan="3" class="data_style text-uppercase" style="padding: 8px;">{{ quotation.company_name }}</td>
+                <td colspan="5" class="data_style text-uppercase" style="padding: 8px;">{{ quotation.vendor_name }}</td>
             </tr>
     
             <!-- Table Headers -->
             <tr>
                 <th style="padding: 8px;">Component</th>
                 <th style="padding: 8px;">%</th>
-                <th style="padding: 8px;">Supervisors</th>
-                <th style="padding: 8px;">GDA</th>
+                <th colspan="2" style="padding: 8px;">{{ quotation.post1 }}</th>
+                <th colspan="2" style="padding: 8px;">{{ quotation.post2 }}</th>
             </tr>
             <tr>
                 <td colspan="2" class="data_style">{{ quotation.notification_text }}</td>
                 <td class="data_style" style="padding: 8px;">Semi Skilled @ Rs. {{ quotation.semi_skilled }}</td>
                 <td class="data_style" style="padding: 8px;">Un Skilled @ Rs. {{ quotation.unskilled }}</td>
+                <td class="data_style" style="padding: 8px;">Skilled @ Rs. {{ quotation.skilled }}</td>
+                <td class="data_style" style="padding: 8px;">High Skilled @ Rs. {{ quotation.high_skilled }}</td>
             </tr>
             <tr>
                 <td class="data_style" style="padding: 8px;">Manpower</td>
                 <td></td>
                 <td class="data_style" style="padding: 8px;">{{ quotation.semi_skilled_manpower }}</td>
                 <td class="data_style" style="padding: 8px;">{{ quotation.unskilled_manpower }}</td>
+                <td class="data_style" style="padding: 8px;">{{ quotation.skilled_manpower }}</td>
+                <td class="data_style" style="padding: 8px;">{{ quotation.high_skilled_manpower }}</td>
             </tr>
             <tr>
                 <td style="padding: 8px;">Basic + VDA</td>
                 <td>({{ quotation.working_hours }} Hrs Duty) / {{ quotation.working_days }} Days</td>
                 <td class="data_style" style="padding: 8px;">{{ semi_skilled_total }}</td>
                 <td class="data_style" style="padding: 8px;">{{ unskilled_total }}</td>
+                <td class="data_style" style="padding: 8px;">{{ skilled_total }}</td>
+                <td class="data_style" style="padding: 8px;">{{ high_skilled_total }}</td>
             </tr>
-    
-            <!-- Table Data -->
+
+            <!-- Other Rows for the New Fields -->
             <tr>
                 <td style="padding: 8px;">Other Allowances</td>
                 <td></td>
                 <td style="padding: 8px;">{{ quotation.other_allowances_semi_skilled }}</td>
                 <td style="padding: 8px;">{{ quotation.other_allowances_unskilled }}</td>
+                <td style="padding: 8px;">{{ quotation.other_allowances_skilled }}</td>
+                <td style="padding: 8px;">{{ quotation.other_allowances_high_skilled }}</td>
             </tr>
             <tr>
                 <td style="padding: 8px;">Sub Total</td>
                 <td></td>
                 <td class="data_style" style="padding: 8px;">{{ semi_skilled_subtotal }}</td>
                 <td class="data_style" style="padding: 8px;">{{ unskilled_subtotal }}</td>
+                <td class="data_style" style="padding: 8px;">{{ skilled_subtotal }}</td>
+                <td class="data_style" style="padding: 8px;">{{ high_skilled_subtotal }}</td>
             </tr>
             <tr>
                 <td style="padding: 8px;">EPF</td>
                 <td>13.00%</td>
                 <td style="padding: 8px;">{{ semi_skilled_epf }}</td>
                 <td style="padding: 8px;">{{ unskilled_epf }}</td>
+                <td style="padding: 8px;">{{ skilled_epf }}</td>
+                <td style="padding: 8px;">{{ high_skilled_epf }}</td>
             </tr>
             <tr>
                 <td style="padding: 8px;">ESI</td>
                 <td>3.25%</td>
                 <td style="padding: 8px;">{{ semi_skilled_esi }}</td>
                 <td style="padding: 8px;">{{ unskilled_esi }}</td>
+                <td style="padding: 8px;">{{ skilled_esi }}</td>
+                <td style="padding: 8px;">{{ high_skilled_esi }}</td>
             </tr>
             <tr>
                 <td style="padding: 8px;">Bonus</td>
                 <td>8.33%</td>
                 <td style="padding: 8px;">{{ semi_skilled_bonus }}</td>
                 <td style="padding: 8px;">{{ unskilled_bonus }}</td>
+                <td style="padding: 8px;">{{ skilled_bonus }}</td>
+                <td style="padding: 8px;">{{ high_skilled_bonus }}</td>
             </tr>
             <tr>
                 <td style="padding: 8px;">Leave Encashment</td>
                 <td>5.77%</td>
                 <td style="padding: 8px;">{{ semi_skilled_leave_encashment }}</td>
                 <td style="padding: 8px;">{{ unskilled_leave_encashment }}</td>
+                <td style="padding: 8px;">{{ skilled_leave_encashment }}</td>
+                <td style="padding: 8px;">{{ high_skilled_leave_encashment }}</td>
             </tr>
             <tr>
                 <td style="padding: 8px;">Gratuity</td>
                 <td>4.81%</td>
                 <td style="padding: 8px;">{{ semi_skilled_gratuity }}</td>
                 <td style="padding: 8px;">{{ unskilled_gratuity }}</td>
+                <td style="padding: 8px;">{{ skilled_gratuity }}</td>
+                <td style="padding: 8px;">{{ high_skilled_gratuity }}</td>
             </tr>
             <tr>
                 <td style="padding: 8px;">Uniform Cost</td>
                 <td></td>
                 <td style="padding: 8px;">{{ quotation.semi_uniform_cost }}</td>
                 <td style="padding: 8px;">{{ quotation.un_uniform_cost }}</td>
+                <td style="padding: 8px;">{{ quotation.skilled_uniform_cost }}</td>
+                <td style="padding: 8px;">{{ quotation.high_skilled_uniform_cost }}</td>
             </tr>
             <tr>
                 <td style="padding: 8px;">Reliever Cost</td>
                 <td></td>
                 <td style="padding: 8px;">{{ quotation.semi_reliever_cost }}</td>
                 <td style="padding: 8px;">{{ quotation.un_reliever_cost }}</td>
+                <td style="padding: 8px;">{{ quotation.skilled_reliever_cost }}</td>
+                <td style="padding: 8px;">{{ quotation.high_skilled_reliever_cost }}</td>
             </tr>
             <tr>
                 <td style="padding: 8px;">Operational Cost</td>
                 <td></td>
                 <td style="padding: 8px;">{{ quotation.semi_operational_cost }}</td>
                 <td style="padding: 8px;">{{ quotation.un_operational_cost }}</td>
+                <td style="padding: 8px;">{{ quotation.skilled_operational_cost }}</td>
+                <td style="padding: 8px;">{{ quotation.high_skilled_operational_cost }}</td>
+            </tr>
+            <tr>
+                <td class="data_style" style="padding: 8px;">Total</td>
+                <td></td>
+                <td class="data_style" style="padding: 8px;">{{ semi_skilled_total_cost }}</td>
+                <td class="data_style" style="padding: 8px;">{{ unskilled_total_cost }}</td>
+                <td class="data_style" style="padding: 8px;">{{ skilled_total_cost }}</td>
+                <td class="data_style" style="padding: 8px;">{{ high_skilled_total_cost }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px;">Service Charges</td>
+                <td style="padding: 8px;">{{ quotation.service_charge }}%</td>
+                <td style="padding: 8px;">{{ semi_skilled_service_charge }}</td>
+                <td style="padding: 8px;">{{ unskilled_service_charge }}</td>
+                <td style="padding: 8px;">{{ skilled_service_charge }}</td>
+                <td style="padding: 8px;">{{ high_skilled_service_charge }}</td>
             </tr>
             <tr>
                 <td class="data_style" style="padding: 8px;">Total cost per head</td>
                 <td></td>
-                <td class="data_style" style="padding: 8px;">{{ semi_skilled_total_cost }}</td>
-                <td class="data_style" style="padding: 8px;">{{ unskilled_total_cost }}</td>
+                <td class="data_style" style="padding: 8px;">{{ semi_skilled_final_total }}</td>
+                <td class="data_style" style="padding: 8px;">{{ unskilled_final_total }}</td>
+                <td class="data_style" style="padding: 8px;">{{ skilled_final_total }}</td>
+                <td class="data_style" style="padding: 8px;">{{ high_skilled_final_total }}</td>
             </tr>
             <tr>
                 <td class="data_style" style="padding: 8px;">GST</td>
-                <td class="data_style">2.8%</td>
-                <td class="data_style" style="padding: 8px;">{{ semi_skilled_service_charge }}</td>
-                <td class="data_style" style="padding: 8px;">{{ unskilled_service_charge }}</td>
+                <td class="data_style">18%</td>
+                <td class="data_style" style="padding: 8px;">{{ semi_skilled_gst }}</td>
+                <td class="data_style" style="padding: 8px;">{{ unskilled_gst }}</td>
+                <td class="data_style" style="padding: 8px;">{{ skilled_gst }}</td>
+                <td class="data_style" style="padding: 8px;">{{ high_skilled_gst }}</td>
             </tr>
             <tr>
                 <td class="data_style" style="padding: 8px;">Total Manpower Cost</td>
                 <td></td>
-                <td class="data_style" class="data_style" style="padding: 8px;">{{ semi_skilled_total_manpower_cost }}</td>
-                <td class="data_style" class="data_style" style="padding: 8px;">{{ unskilled_total_manpower_cost }}</td>
-            </tr>
+                <td class="data_style" style="padding: 8px;">{{ semi_skilled_total_manpower_cost }}</td>
+                <td class="data_style" style="padding: 8px;">{{ unskilled_total_manpower_cost }}</td>
+                <td class="data_style" style="padding: 8px;">{{ skilled_total_manpower_cost }}</td>
+                <td class="data_style" style="padding: 8px;">{{ high_skilled_total_manpower_cost }}</td>
+            </tr>            
         </table>
     
         <br>

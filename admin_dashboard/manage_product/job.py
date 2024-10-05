@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.conf import settings
 #import requests
 from django.db import transaction
-from django.http import JsonResponse,HttpResponse
+from django.http import FileResponse, Http404, JsonResponse,HttpResponse
 import json
 
 from requests import request
@@ -114,7 +114,7 @@ class ApplicationList(View):
                 'company_name': application.job.company_name if application.job else 'No company available',
                 'email': application.email,
                 'contact': application.contact,
-                'applied_at': application.applied_at, 
+                'applied_at': application.applied_at,
                 'status_options': [
                     {'value': 'Applied', 'selected': application.status == 'Applied'},
                     {'value': 'Interviewed', 'selected': application.status == 'Interviewed'},
@@ -352,3 +352,15 @@ class JobDelete(View):
         job.delete()
         messages.info(request, 'Job deleted successfully.')
         return redirect('admin_dashboard:job_list')
+
+def download_resume(request, application_id):
+    application = get_object_or_404(common_model.Application, id=application_id)
+    
+    if application.user_resume:
+        file_path = os.path.join(settings.MEDIA_ROOT, application.user_resume.name)
+        if os.path.exists(file_path):
+            return FileResponse(open(file_path, 'rb'), as_attachment=True)
+        else:
+            raise Http404("Resume not found")
+    else:
+        raise Http404("No resume uploaded")

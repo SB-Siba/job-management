@@ -50,6 +50,14 @@ class QuotationForm(forms.ModelForm):
 
 class QuotationForm2(forms.ModelForm):
 
+    company_name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': "Enter Company Name"
+        })
+    )
+
     subject = forms.CharField(
         required=True,
         widget=forms.TextInput(attrs={
@@ -74,7 +82,7 @@ class QuotationForm2(forms.ModelForm):
         })
     )
 
-    company_name = forms.CharField(
+    vendor_name = forms.CharField(
         required=True,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
@@ -82,6 +90,23 @@ class QuotationForm2(forms.ModelForm):
         })
     )
 
+    post1 = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': "Enter Post Name"
+        })
+    )
+    
+    post2 = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': "Enter Post Name"
+        })
+    )
+
+    # Semi-skilled
     semi_skilled = forms.DecimalField(
         max_digits=6, decimal_places=2, 
         widget=forms.NumberInput(attrs={
@@ -96,6 +121,7 @@ class QuotationForm2(forms.ModelForm):
         })
     )
 
+    # Unskilled
     unskilled = forms.DecimalField(
         max_digits=6, decimal_places=2, 
         widget=forms.NumberInput(attrs={
@@ -110,6 +136,37 @@ class QuotationForm2(forms.ModelForm):
         })
     )
 
+    # Skilled
+    skilled = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Skilled Rate'
+        })
+    )
+    
+    skilled_manpower = forms.IntegerField(
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control manpower-field',
+        })
+    )
+
+    # High-skilled
+    high_skilled = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter High Skilled Rate'
+        })
+    )
+
+    high_skilled_manpower = forms.IntegerField(
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control manpower-field',
+        })
+    )
+
+    # Working hours and days
     working_hours = forms.IntegerField(
         widget=forms.NumberInput(attrs={
             'class': 'form-control',
@@ -124,6 +181,7 @@ class QuotationForm2(forms.ModelForm):
         })
     )
 
+    # Other Allowances
     other_allowances_semi_skilled = forms.DecimalField(
         max_digits=6, decimal_places=2, 
         required=False,
@@ -142,14 +200,33 @@ class QuotationForm2(forms.ModelForm):
         })
     )
 
+    other_allowances_skilled = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        required=False,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Other Allowances for Skilled'
+        })
+    )
+
+    other_allowances_high_skilled = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        required=False,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Other Allowances for High Skilled'
+        })
+    )
+
+    # Uniform Cost
     semi_uniform_cost = forms.DecimalField(
-            max_digits=6, decimal_places=2, 
-            required=True,
-            widget=forms.NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter Uniform Cost for Semi skilled'
-            })
-        )
+        max_digits=6, decimal_places=2, 
+        required=True,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Uniform Cost for Semi skilled'
+        })
+    )
 
     un_uniform_cost = forms.DecimalField(
         max_digits=6, decimal_places=2, 
@@ -160,14 +237,33 @@ class QuotationForm2(forms.ModelForm):
         })
     )
 
+    skilled_uniform_cost = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        required=True,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Uniform Cost for Skilled'
+        })
+    )
+
+    high_skilled_uniform_cost = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        required=True,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Uniform Cost for High Skilled'
+        })
+    )
+
+    # Reliever Cost
     semi_reliever_cost = forms.DecimalField(
-            max_digits=6, decimal_places=2, 
-            required=True,
-            widget=forms.NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter Reliever Cost for Semi skilled'
-            })
-        )
+        max_digits=6, decimal_places=2, 
+        required=True,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Reliever Cost for Semi skilled'
+        })
+    )
 
     un_reliever_cost = forms.DecimalField(
         max_digits=6, decimal_places=2, 
@@ -178,14 +274,33 @@ class QuotationForm2(forms.ModelForm):
         })
     )
 
+    skilled_reliever_cost = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        required=True,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Reliever Cost for Skilled'
+        })
+    )
+
+    high_skilled_reliever_cost = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        required=True,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Reliever Cost for High Skilled'
+        })
+    )
+
+    # Operational Cost
     semi_operational_cost = forms.DecimalField(
-            max_digits=6, decimal_places=2, 
-            required=True,
-            widget=forms.NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter Operational Cost for Semi skilled'
-            })
-        )
+        max_digits=6, decimal_places=2, 
+        required=True,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Operational Cost for Semi skilled'
+        })
+    )
 
     un_operational_cost = forms.DecimalField(
         max_digits=6, decimal_places=2, 
@@ -196,13 +311,42 @@ class QuotationForm2(forms.ModelForm):
         })
     )
 
+    skilled_operational_cost = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        required=True,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Operational Cost for Skilled'
+        })
+    )
+
+    high_skilled_operational_cost = forms.DecimalField(
+        max_digits=6, decimal_places=2, 
+        required=True,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Operational Cost for High Skilled'
+        })
+    )
+
+    service_charge = forms.DecimalField(
+        max_digits=5, 
+        decimal_places=2, 
+        required=True, 
+        label='Service Charge (%)',
+        help_text="Enter service charge percentage"
+    )
+
     class Meta:
         model = Quotation2
         fields = [
-            'subject', 'to', 'company_name', 'notification_text', 'semi_skilled', 'semi_skilled_manpower', 
-            'unskilled', 'unskilled_manpower', 'working_hours', 'working_days', 
-            'other_allowances_semi_skilled', 'other_allowances_unskilled', 'semi_uniform_cost', 'un_uniform_cost',
-            'semi_reliever_cost', 'un_reliever_cost', 'semi_operational_cost', 'un_operational_cost'
+            'company_name', 'subject', 'to', 'vendor_name', 'notification_text', 'semi_skilled', 'semi_skilled_manpower', 
+            'unskilled', 'unskilled_manpower', 'skilled', 'skilled_manpower', 'high_skilled', 'high_skilled_manpower',
+            'working_hours', 'working_days', 'other_allowances_semi_skilled', 'other_allowances_unskilled', 'other_allowances_skilled', 'other_allowances_high_skilled',
+            'semi_uniform_cost', 'un_uniform_cost', 'skilled_uniform_cost', 'high_skilled_uniform_cost',
+            'semi_reliever_cost', 'un_reliever_cost', 'skilled_reliever_cost', 'high_skilled_reliever_cost',
+            'semi_operational_cost', 'un_operational_cost', 'skilled_operational_cost', 'high_skilled_operational_cost', 
+            'post1', 'post2', 'service_charge'
         ]
 
     def __init__(self, *args, **kwargs):
