@@ -262,7 +262,7 @@ class QuotationDetailsView2(View):
                                    high_skilled_reliever_cost + high_skilled_operational_cost)
 
         # Service charge
-        service_charge_percent = Decimal('0.028')  # Convert to Decimal
+        service_charge_percent = quotation.service_charge / 100
         semi_skilled_service_charge = round(semi_skilled_total_cost * service_charge_percent)
         unskilled_service_charge = round(unskilled_total_cost * service_charge_percent)
         skilled_service_charge = round(skilled_total_cost * service_charge_percent)

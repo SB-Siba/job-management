@@ -524,6 +524,17 @@
                     </div>
                 </div>
 
+                <!-- Service Charge Section -->
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="service_charge">Service Charge (%)</label>
+                        {{ form.service_charge }}
+                        {% if form.service_charge.errors %}
+                            <div class="error text-danger">{{ form.service_charge.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
                 <!-- Submit Button -->
                 <div class="form-group mt-4">
                     <button type="submit" id="save-button" class="btn btn-primary">Generate Quotation</button>
