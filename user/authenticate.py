@@ -46,39 +46,41 @@ class Registration(View):
         if form.is_valid():
             email = form.cleaned_data.get('email')
             contact = form.cleaned_data.get('contact')
-            password = form.cleaned_data.get('password')
-            confirm_password = form.cleaned_data.get('confirm_password')
+            pin = form.cleaned_data.get('pin')
+            confirm_pin = form.cleaned_data.get('confirm_pin')
             full_name = form.cleaned_data.get('full_name')
 
-            user = auth.authenticate(request, username=email, password=password)
+            # Since we're now using a PIN, authenticate logic can be adjusted if needed
+            user = auth.authenticate(request, username=contact, password=pin)
             if user is None:
                 try:
-                    if password == confirm_password:
-                        new_user = self.model(email=email, full_name=full_name)
-                        new_user.set_password(password)
+                    if pin == confirm_pin:
+                        new_user = self.model(contact=contact, full_name=full_name)
+                        new_user.set_password(pin)  # Using PIN as the password
+
+                        if email:
+                            new_user.email = email  # Set email only if provided
 
                         try:
-                            user_email = email
-                            subject = "Registration Successful."
-                            message = f"""\ 
-                            Dear {full_name}, 
-                            Your account has been created successfully on our site. You can log in now."""
-                            from_email = "noreplyf577@gmail.com"
-                            send_mail(subject, message, from_email, [user_email], fail_silently=False)
+                            # If an email is provided, send an email confirmation
+                            if email:
+                                subject = "Registration Successful."
+                                message = f"Dear {full_name}, your account has been created successfully. You can now log in."
+                                from_email = "noreply@example.com"
+                                send_mail(subject, message, from_email, [email], fail_silently=False)
 
                             new_user.save()
-                            # Adding success message before redirecting to login page
                             messages.success(request, 'Registration Successful! You can now log in.')
                             return redirect('user:login')
                         except Exception as e:
                             print("Error in sending verification mail", e)
-                            messages.error(request, 'Email could not be sent due to some error. Please contact support for further assistance.')
+                            messages.error(request, 'Error in sending email. Please try again later.')
                             return redirect('user:signup')
                     else:
-                        messages.error(request, "Passwords do not match.")
+                        messages.error(request, "PINs do not match.")
                 except Exception as e:
                     print(e)
-                    messages.error(request, 'Something went wrong while registering your account. Please try again later.')
+                    messages.error(request, 'Something went wrong during registration.')
             else:
                 messages.error(request, "User already exists.")
         else:
@@ -87,61 +89,67 @@ class Registration(View):
 
         
 class Login(View):
-    model=models.User
+    model = models.User
     template = app + "authtemp/login.html"
 
-    def get(self,request):
+    def get(self, request):
         form = LoginForm()
         return render(request, self.template, {'form': form})
     
-    def post(self,request):
+    def post(self, request):
         form = LoginForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data.get('email')
+            identifier = form.cleaned_data.get('identifier')
             password = form.cleaned_data.get('password')
-            
-            user=auth.authenticate(username=email, password=password)
-            print(user)
-            if user is not None:      
-                print(user.is_superuser)   
-                if user.is_superuser == True:
-                    auth.login(request,user)
-                    return redirect('admin_dashboard:admin_dashboard') 
-                else:
-                    auth.login(request,user)
-                    return redirect('user:home')
+
+            # Check if the identifier is an email or phone number
+            if '@' in identifier:
+                # If identifier contains '@', assume it's an email
+                try:
+                    user = self.model.objects.get(email=identifier)
+                except self.model.DoesNotExist:
+                    user = None
             else:
-                messages.error(request, "Login Failed")
-        print("hhhh")
-        return redirect('user:login')
+                # Otherwise, assume it's a phone number
+                try:
+                    user = self.model.objects.get(contact=identifier)
+                except self.model.DoesNotExist:
+                    user = None
+
+            # Authenticate user
+            if user is not None:
+                authenticated_user = auth.authenticate(username=user.email, password=password)
+                if authenticated_user is not None:
+                    auth.login(request, authenticated_user)
+                    if user.is_superuser:
+                        return redirect('admin_dashboard:admin_dashboard')
+                    else:
+                        return redirect('user:home')
+                else:
+                    messages.error(request, "Incorrect password.")
+            else:
+                messages.error(request, "No user found with that email or phone number.")
+
+        return render(request, self.template, {'form': form})
+
 
 class Logout(View):
-    def get(self, request):
-        logout(request)
-        return redirect('user:home')
- 
-class LogoutConfirmationView(View):
-    template_name = app + 'authtemp/logout_confirmation.html'
-
-    def get(self, request):
-        # Capture the previous page URL
-        previous_page = request.META.get('HTTP_REFERER', '/')
-        return render(request, self.template_name, {'previous_page': previous_page})
-    
-class LogoutActionView(View):
-    def post(self, request):
-        logout(request)
-        return redirect('admin_dashboard')  # Replace 'admin_dashboard' with your desired redirect URL after logout
- 
- 
-class CancelLogoutView(View):
-    def get(self, request):
-   
-        if request.user.is_superuser:
-            return redirect('admin_dashboard:admin_dashboard')
- 
-        return redirect('user:home')
+    def get(self, request, *args, **kwargs):
         
+            if 'confirm' in request.GET:
+                logout(request)
+                return redirect('user:home')  # Redirect to home or appropriate page
+            
+            if 'cancel' in request.GET:
+                if request.user.is_superuser:
+                    return redirect('admin_dashboard:admin_dashboard')  # Redirect to the admin dashboard
+                return redirect(request.META.get('HTTP_REFERER', 'user:home'))
+
+            # Default redirect if neither confirm nor cancel
+            return redirect('user:home')
+        
+       
+    
 class CustomPasswordResetView(FormView):
     template_name = app + "authtemp/password_reset.html"
     template_email = app + "authtemp/password_reset_email.html"

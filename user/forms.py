@@ -17,7 +17,8 @@ class SignUpForm(forms.Form):
     
     email = forms.EmailField(
         max_length=254,
-        help_text='Required. Inform a valid email address.',
+        required=False,  # Email is now optional
+        help_text='Optional. Enter a valid email address.',
         widget=forms.EmailInput(attrs={'class': 'form-control'})
     )
     
@@ -27,47 +28,45 @@ class SignUpForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control'})
     )
     
-    password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
-        label='Password'
+    pin = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),  # PIN is treated as a password input
+        label='PIN',
+        min_length=6,
+        max_length=6,
+        help_text='Enter a 6-digit PIN.',
     )
     
-    confirm_password = forms.CharField(
+    confirm_pin = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
-        label='Confirm Password'
+        label='Confirm PIN',
     )
-    
-    # Resume = forms.FileField(widget=forms.FileInput(attrs={'class': 'form-control'}))
 
-    def clean_password(self):
-        password = self.cleaned_data.get('password')
-        # Password policy validation
-        if not re.search(r'[a-z]', password):
-            raise forms.ValidationError("Password must contain at least one lowercase letter.")
-        if not re.search(r'[A-Z]', password):
-            raise forms.ValidationError("Password must contain at least one uppercase letter.")
-        if not re.search(r'[0-9]', password):
-            raise forms.ValidationError("Password must contain at least one digit.")
-        if not re.search(r'[\W_]', password):
-            raise forms.ValidationError("Password must contain at least one special character.")
-        if len(password) < 8 or len(password) > 14:
-            raise forms.ValidationError("Password must be between 8 and 14 characters long.")
-        if " " in password:
-            raise forms.ValidationError("Password cannot contain spaces.")
-        return password
+    def clean_pin(self):
+        pin = self.cleaned_data.get('pin')
+        # Validate that the PIN is numeric and has exactly 6 digits
+        if not pin.isdigit():
+            raise forms.ValidationError("PIN must contain only numeric digits.")
+        if len(pin) != 6:
+            raise forms.ValidationError("PIN must be exactly 6 digits.")
+        return pin
 
     def clean(self):
         cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        confirm_password = cleaned_data.get("confirm_password")
-        if password and confirm_password and password != confirm_password:
-            raise forms.ValidationError("Passwords do not match.")
+        pin = cleaned_data.get("pin")
+        confirm_pin = cleaned_data.get("confirm_pin")
+        if pin and confirm_pin and pin != confirm_pin:
+            raise forms.ValidationError("PINs doesn't match.")
         return cleaned_data
 
-
 class LoginForm(forms.Form):
-    email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    identifier = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email or Phone Number'}),
+        label="Email or Phone Number"
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
+        label="Password"
+    )
     
 class PasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(label='Old Password',widget=forms.PasswordInput(attrs= {'autofocus':True,'autocomplete':'current-password','class':'form-control'}))

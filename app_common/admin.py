@@ -14,13 +14,12 @@ class categoryAdmin(admin.ModelAdmin):
 
 @admin.register(models.Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('user', 'employer', 'salary', 'period_start', 'period_end')
+    list_display = ('user', 'salary', 'period_start', 'period_end')
     search_fields = ('user__full_name', 'user__email', 'employer__full_name', 'employer__email')
-    list_filter = ('employer',)
     
     fieldsets = (
         (None, {
-            'fields': ('user', 'employer', 'salary', 'period_start', 'period_end')
+            'fields': ('user', 'salary', 'period_start', 'period_end')
         }),
         ('Documents', {
             'fields': ('docs',),

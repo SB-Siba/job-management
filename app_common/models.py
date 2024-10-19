@@ -5,6 +5,8 @@ from django.core.validators import RegexValidator
 from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .manager import MyAccountManager
+from django.db import models
+from django.utils import timezone
 
 # Utility Functions
 def document_path(instance, filename):
@@ -22,6 +24,13 @@ def user_logo_path(instance, filename):
 
 # Models
 class Category(models.Model):
+    title = models.CharField(max_length=255, unique=True, null=True, blank=True)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.title
+    
+class Sector(models.Model):
     title = models.CharField(max_length=255, unique=True, null=True, blank=True)
     description = models.TextField()
 
@@ -86,12 +95,12 @@ class Job(models.Model):
     ]
 
     title = models.CharField(max_length=255, null=True, blank=True)
-    client = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    sector = models.ForeignKey(Sector, on_delete=models.CASCADE, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.CharField(max_length=300, null=True, blank=True)
     location = models.CharField(max_length=100, null=True, blank=True)
     posted_at = models.DateField(default=timezone.now)
-    published_date = models.DateTimeField(default=timezone.now) 
+    published_date = models.DateTimeField(default=timezone.now)
     expiry_date = models.DateTimeField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
     company_name = models.CharField(max_length=255)
@@ -168,18 +177,38 @@ class ContactMessage(models.Model):
     def __str__(self):
         return f"{self.user if self.user else 'Anonymous'} - {self.status}"
 
+
+
 class Employee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    employer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='employer')
     job = models.ForeignKey(Job, on_delete=models.CASCADE, null=True, blank=True)
     application = models.ForeignKey(Application, on_delete=models.CASCADE, related_name='employees', null=True, blank=True)
     salary = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     period_start = models.DateField(null=True, blank=True)
     period_end = models.DateField(null=True, blank=True)
     docs = models.FileField(upload_to='employee_docs/', null=True, blank=True)
-
+    created_at = models.DateTimeField(default=timezone.now)
+    sector = models.ForeignKey(Sector, on_delete=models.CASCADE, null=True, blank=True)
+    
     class Meta:
-        unique_together = ('user', 'job', 'employer')
+        unique_together = ('user', 'job')
+        ordering = ['created_at'] 
+
+    def __str__(self):
+        return f'{self.user.full_name} - {self.job.title if self.job else "No Job Assigned"}'
+
+    @property
+    def employment_duration(self):
+        """Calculate employment duration in days."""
+        if self.period_start and self.period_end:
+            return (self.period_end - self.period_start).days
+        return None
+
+    def is_employment_active(self):
+        """Check if the employee's period is active (based on the current date)."""
+        if self.period_start and self.period_end:
+            return self.period_start <= timezone.now().date() <= self.period_end
+        return False
 
 class CommunicationLog(models.Model):
     candidate = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
@@ -207,3 +236,16 @@ class EmployeeReplacementRequest(models.Model):
 
     def __str__(self):
         return f"Request from {self.client_email} to replace {self.current_employee}"
+    
+class ClientEmployee(models.Model):
+    client = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        limit_choices_to={'is_staff': True , 'is_superuser':False}, 
+        related_name='client_employees'
+    )
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    assigned_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.client.full_name} - {self.employee.full_name}"

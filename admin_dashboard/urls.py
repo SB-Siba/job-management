@@ -1,11 +1,13 @@
 from django.conf import settings
 from django.urls import path, include
+
+from admin_dashboard.manage_product import sector
 from . import views
 from django.contrib import admin
 from .credentials import credential
 from .manage_product import user,catagory,job,client
 from user.views import ApplicationList, DownloadResumeView
-from .manage_product.client import  DeleteClientView
+from .manage_product.client import  ClientEmployeeDeleteView, DeleteClientEmployeeView, DeleteClientView, ProvideEmployeeView, ProvidedEmployeeListView
 from .manage_product.client import ClientUpdateView
 from django.conf.urls.static import static
 
@@ -40,7 +42,12 @@ urlpatterns = [
     # # category api
     path('wati-api/', include('wati_api.urls')),
 
-    
+    #sector
+    path("sector/sector_list", sector.SectorList.as_view(), name="sector_list"),
+    path('sector/sector_add/', sector.SectorAdd.as_view(), name='sector_add'),
+    path("sector/sector_update/<str:sector_id>", sector.SectorUpdate.as_view(), name="sector_update"),
+    path('sector_delete/<int:pk>/', sector.SectorDeleteView.as_view(), name='sector_delete'),
+
     #client list
     path('clients/', client.AdminClientListView.as_view(), name='client_list'),
     path('clients/create/', client.AdminClientCreateView.as_view(), name='client_create'),
@@ -48,6 +55,10 @@ urlpatterns = [
     path('client/<client_id>/', client.ClientDetailView.as_view(), name='client_detail'),
     path('client/edit/<int:uid>/', ClientUpdateView.as_view(), name='edit_client'),
     path('client/delete/<int:client_id>/', DeleteClientView.as_view(), name='delete_client'),
+    path('delete-client-employee/<int:pk>/', DeleteClientEmployeeView.as_view(), name='delete_client_employee'),
+    path('provide_employee/', ProvideEmployeeView.as_view(), name='provide_employee'),
+    path('provided_employee_list/', ProvidedEmployeeListView.as_view(), name='provided_employee_list'),
+    path('client_employee/<int:pk>/delete/', ClientEmployeeDeleteView.as_view(), name='client_employee_delete'),
 
     # #product web
     path("job/job_list/", job.JobList.as_view(), name="job_list"),
@@ -61,7 +72,7 @@ urlpatterns = [
     path('job/edit/<int:job_id>/', job.JobEdit.as_view(), name='job_edit'),
     # path('job/job_update/<int:job_id>/', job.JobUpdate.as_view(), name='job_update'),
     path('job/job_delete/<int:job_uid>/', job.JobDelete.as_view(), name='job_delete'),  
-    path('update-status/', job.ApplicationUpdateView.as_view(), name='update_status'),
+    
     # #product_api
     
 

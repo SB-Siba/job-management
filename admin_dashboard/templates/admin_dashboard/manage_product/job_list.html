@@ -81,10 +81,10 @@
                             <td>{{ job.get_status_display }}</td>
                             <td>
                                 <a href="{% url 'admin_dashboard:job_edit' job.id %}" class="px-2 btn btn-sm btn-square btn-neutral">
-                                    <i class="bi bi-pencil"></i>
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
                                 </a>
                                 <a href="{% url 'admin_dashboard:job_list' %}" onclick="openDeleteModal('{% url 'admin_dashboard:job_delete' job.id %}', '{{ job.title }}'); return false;" class="btn-icon delete px-5">
-                                    <i class="bi bi-trash text-danger"></i>
+                                    <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                 </a>                                
                             </td>
                         </tr>
@@ -148,15 +148,15 @@
 
 <script>
     function openDeleteModal(actionUrl, jobName) {
-    // Set the form's action URL to the one provided
-    document.getElementById('deleteForm').action = actionUrl;
+        // Set the form's action URL to the one provided
+        document.getElementById('deleteForm').action = actionUrl;
 
-    // Set the job name in the modal
-    document.getElementById('jobToDelete').textContent = jobName;
+        // Set the job name in the modal
+        document.getElementById('jobToDelete').textContent = jobName;
 
-    // Get the delete modal instance and show it
-    var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-    deleteModal.show();
+        // Get the delete modal instance and show it
+        var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        deleteModal.show();
     }
 </script>
 

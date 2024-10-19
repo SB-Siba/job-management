@@ -30,13 +30,27 @@ class categoryEntryForm(forms.ModelForm):
     description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
     description.widget.attrs.update({'class': 'form-control','type':'text'})
 
+class sectorEntryForm(forms.ModelForm):
+    class Meta:
+        model = common_models.Sector
+        fields = [
+            'title',
+            'description',
+
+        ]
+    
+    title = forms.CharField(max_length=255)
+    title.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
+    description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
+    description.widget.attrs.update({'class': 'form-control','type':'text'})
+
 class JobForm(forms.ModelForm):
     class Meta:
         model = common_models.Job
-        fields = ['category', 'client', 'title', 'description', 'location', 'company_name', 'company_website', 'company_logo', 'vacancies', 'posted_at', 'expiry_date', 'job_type', 'status']
+        fields = ['category', 'sector', 'title', 'description', 'location', 'company_name', 'company_website', 'company_logo', 'vacancies', 'posted_at', 'expiry_date', 'job_type', 'status']
         widgets = {
             'category': forms.Select(attrs={'class': 'form-control'}),
-            'client': forms.Select(attrs={'class': 'form-control'}),
+            'sector': forms.Select(attrs={'class': 'form-control'}),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'location': forms.TextInput(attrs={'class': 'form-control'}),
@@ -54,21 +68,13 @@ class JobForm(forms.ModelForm):
         self.user = kwargs.pop('user', None)
         super(JobForm, self).__init__(*args, **kwargs)
 
-        self.fields['client'].queryset = common_models.User.objects.filter(is_staff=True,is_superuser=False)
+        self.fields['sector'].queryset = common_models.Sector.objects.all()
 
-        self.fields['company_name'].initial = 'PRAVATI INTERNATIONAL'
+        self.fields['company_name'].initial = 'PRAVATI INTERNATIONAL SERVICE'
         self.fields['company_name'].widget.attrs['readonly'] = True
 
         if self.user and not self.user.is_superuser:
-            self.fields.pop('status')
-            self.fields.pop('client')
-            
-    def clean_contact(self):
-        contact = self.cleaned_data.get('contact')
-        if contact:
-            if len(str(contact)) != 10 or not str(contact).isdigit():
-                raise ValidationError('Contact number must be exactly 10 digits and only contain numbers.')
-        return contact
+            self.fields.pop('status')  # Removing status for non-superuser
 
 def validate_contact(value):
     if len(str(value)) != 10 or not str(value).isdigit():
@@ -165,14 +171,57 @@ class ClientUpdateForm(forms.ModelForm):
             'contact': forms.TextInput(attrs={'class': 'form-control', 'maxlength': '10'}),
         }
 
+class ProvideEmployeeForm(forms.Form):
+    client = forms.ModelChoiceField(
+        queryset=common_models.User.objects.filter(is_staff=True, is_superuser=False),
+        label="Choose Client",
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+    
+    employees = forms.ModelMultipleChoiceField(
+        queryset=common_models.Employee.objects.filter(application__status='Hired').distinct(),
+        label="Choose Employees",
+        widget=forms.CheckboxSelectMultiple()
+    )
+
+    def __init__(self, *args, **kwargs):
+        client_id = kwargs.pop('client_id', None)
+        super(ProvideEmployeeForm, self).__init__(*args, **kwargs)
+
+        # If a client is selected, adjust the employees queryset
+        if client_id:
+            assigned_employees = common_models.ClientEmployee.objects.filter(client_id=client_id).values_list('employee_id', flat=True)
+            self.fields['employees'].queryset = common_models.Employee.objects.filter(
+                application__status='Hired'
+            ).exclude(id__in=assigned_employees).distinct()
+        else:
+            # Ensure it shows all available employees if no client is selected
+            self.fields['employees'].queryset = common_models.Employee.objects.filter(
+                application__status='Hired'
+            ).distinct()
+
 class EmployeeForm(forms.ModelForm):
-    user_full_name = forms.CharField(max_length=255, label='Full Name')
-    user_email = forms.EmailField(label='Email')
-    contact = forms.CharField(max_length=15, label='Phone Number')
+    user_full_name = forms.CharField(max_length=255, label='Full Name', required=False)
+    user_email = forms.EmailField(label='Email', required=False)
+    contact = forms.CharField(max_length=15, label='Phone Number', required=False)
+
+    period_start = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        label='Start Period'
+    )
+    period_end = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        label='End Period'
+    )
 
     class Meta:
         model = common_models.Employee
-        fields = ['user', 'salary', 'period_start', 'period_end', 'docs']  # Include all relevant fields from Employee
+        fields = ['salary', 'period_start', 'period_end', 'docs']  # Exclude user from being editable
+        widgets = {
+            'user': forms.HiddenInput(),  # Hide user field from form
+            'salary': forms.NumberInput(attrs={'class': 'form-control'}),
+            'docs': forms.FileInput(attrs={'class': 'form-control'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super(EmployeeForm, self).__init__(*args, **kwargs)
@@ -185,9 +234,9 @@ class EmployeeForm(forms.ModelForm):
         employee = super(EmployeeForm, self).save(commit=False)
         if commit:
             user = self.instance.user
-            user.full_name = self.cleaned_data['user_full_name']
-            user.email = self.cleaned_data['user_email']
-            user.contact = self.cleaned_data['contact']
+            user.full_name = self.cleaned_data.get('user_full_name', user.full_name)
+            user.email = self.cleaned_data.get('user_email', user.email)
+            user.contact = self.cleaned_data.get('contact', user.contact)
             user.save()
             employee.save()
         return employee

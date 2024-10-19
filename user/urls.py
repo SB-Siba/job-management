@@ -28,11 +28,9 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>/', authenticate.CustomPasswordResetConfirmView.as_view(),name='password_reset_confirm'),
     path('password-reset-complete/',authenticate.CustomPasswordResetCompleteView.as_view(),name='password_reset_complete'),
     path('logout', authenticate.Logout.as_view(), name = "logout"),
-    path('logout-confirmation/', authenticate.LogoutConfirmationView.as_view(), name='logout_confirmation'),
-    path('cancel-logout/', authenticate.CancelLogoutView.as_view(), name='cancel_logout'),
+  
 
     #Page Urls
-    path('',views.HomeView.as_view(),name="home"),
     path('profile/',views.ProfileView.as_view(),name="profile"),
     path('updateprofile/',views.UpdateProfileView.as_view(),name="updateprofile"),    
     path('job/<int:pk>/', views.UserJobDetail.as_view(), name='job_detail'),
@@ -56,7 +54,6 @@ urlpatterns = [
     path('employees/<int:job_id>/', views.EmployeeListView.as_view(), name='employee_list'),
     path('all-employees/', views.EmployeeListOverview.as_view(), name='employee_list_overview'),
     path('employee/<int:pk>/', views.EmployeeDetail.as_view(), name='employee_detail'),
-    
+    path('new-employees/', views.NewEmployeesView.as_view(), name='new_employees'),
     path('replace_employee/<int:application_id>/', views.ReplaceEmployeeView.as_view(), name='replace_employee'),
-    # path('replace_employee/process/', views.replace_employee_process, name='replace_employee_process'),
 ]

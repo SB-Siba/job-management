@@ -168,15 +168,6 @@ class Edit_User(View):
         }
         return render(request, self.template, data)
 
-
-class EmployeeList(View):
-    model = common_model.User
-    template = app + "employee_list.html"
-
-    def get(self, request):
-        employees = self.model.objects.all().order_by("id")
-        return render(request, self.template, {"employees": employees})
-
 class AdminEmployeeAssignView(View):
     template_name = 'admin_employee_assign.html'
 
@@ -211,10 +202,12 @@ class EmployeeList(View):
     
     def get(self, request):
         employees = common_model.Employee.objects.filter(application__status = "Hired")
+        print(employees)
         context = {
             'employees': employees
         }
         return render(request, self.template_name, context)
+    
 @method_decorator(utils.super_admin_only, name='dispatch')
 class EmployeeDetail(View):
     model = common_model.Employee

@@ -67,7 +67,7 @@
 <h2 class="px-4">Application List</h2>
 
 <div class="table">
-    <form method="post" class="base-table">
+    <form method="post" class="base-table" id="applicationForm">
         {% csrf_token %}
         <table>
             <thead>
@@ -103,7 +103,7 @@
                         </td>
                     </tr>
                 {% endfor %}
-            </tbody>            
+            </tbody>           
         </table>
     </form>
 </div>
@@ -131,7 +131,8 @@
                 No resume uploaded
             {% endif %}
         </p>
-            <class="modal-footer">
+      </div>
+      <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
@@ -159,35 +160,23 @@
 
 <script>
     function updateStatus(selectElement, applicationId) {
-        // Get the selected status
-        var selectedStatus = selectElement.value;
+        // Set the application ID in the hidden input
+        const form = document.getElementById('applicationForm');
+        const applicationInput = document.createElement('input');
+        applicationInput.type = 'hidden';
+        applicationInput.name = 'application_id';
+        applicationInput.value = applicationId;
+        form.appendChild(applicationInput);
 
-        // Send the POST request with JSON body
-        fetch('/admin_dashboard/update-status/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token }}'
-            },
-            body: JSON.stringify({
-                'application_id': applicationId,
-                'status': selectedStatus
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                console.error('Failed to update status:', data.message);
-            }
-        })
-        .catch(error => {
-            // Handle network error
-            console.error('Error:', error);
-        });
+        // Set the status in a hidden input
+        const statusInput = document.createElement('input');
+        statusInput.type = 'hidden';
+        statusInput.name = 'status';
+        statusInput.value = selectElement.value;
+        form.appendChild(statusInput);
+
+        // Submit the form
+        form.submit();
     }
-
 </script>
-
 {% endblock content %}

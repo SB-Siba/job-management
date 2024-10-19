@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.conf import settings
 from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
 from django.http import HttpResponseBadRequest, HttpResponse, Http404
@@ -29,6 +29,7 @@ import random
 import string
 # admin_dashboard/manage_product/user.py
 from app_common.models import (
+    ClientEmployee,
     Job,
     Category,
     UserProfile,
@@ -81,7 +82,7 @@ class HomeView(View):
         welcome_message = f"Welcome, {user.full_name}!"
 
         if user.is_staff:
-            jobs = Job.objects.filter(client=user).order_by('-posted_at')
+            jobs = Job.objects.filter().order_by('-posted_at')
             context = {
                 'jobs': jobs,
                 'welcome_message': welcome_message,
@@ -641,7 +642,6 @@ class ApplicationList(View):
                             Employee.objects.create(
                                 user=application.user,
                                 job=application.job,
-                                employer=request.user,
                                 salary=form.cleaned_data['salary'],
                                 period_start=form.cleaned_data['period_start'],
                                 period_end=form.cleaned_data['period_end'],
@@ -695,19 +695,40 @@ class EmployeeListOverview(View):
     template_name = 'user/client/employee_list_overview.html'
 
     def get(self, request):
-        # Filter employees whose related application's status is 'Hired'
-        employees = Employee.objects.filter(application__status='Hired')
-        print(employees, "==========================")
-        # Optional: Print for debugging
-        for employee in employees:
-            print(employee.salary, "==========================")
-            print(employee.user.full_name, "==========================")
+        # Check if the logged-in user is a client
+        if request.user.is_staff:
+            # Get the current client (logged-in user)
+            client = request.user  # Assuming `request.user` is a `Client`
 
+            # Get all employees assigned to this client (current user)
+            assigned_employees = ClientEmployee.objects.filter(client=client).select_related('employee')
+
+            # Define the context with the assigned employees and the client
+            context = {
+                'employees': assigned_employees,
+                'client': client  # Pass the client object
+            }
+
+            # Render the template with the context
+            return render(request, self.template_name, context)
+        else:
+            # If the user is not a client, handle it differently
+            return render(request, self.template_name, {'error': 'You are not authorized to view this page.'})
+      
+class NewEmployeesView(View):
+    template_name = 'user/client/new_employees.html'
+
+    def get(self, request):
+        # Get employees added within the last 24 hours
+        time_threshold = timezone.now() - timedelta(hours=24)
+        new_employees = Employee.objects.filter(created_at__gte=time_threshold)
+        
+        # Pass new employees to the template
         context = {
-            'employees': employees
+            'new_employees': new_employees
         }
         return render(request, self.template_name, context)
-      
+
 
 class EmployeeDetail(View):
     template_name = app + "client/employee_detail.html"
