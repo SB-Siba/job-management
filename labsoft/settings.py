@@ -1,12 +1,20 @@
 from pathlib import Path
 import os
 from django.contrib.messages import constants as messages
+from dotenv import dotenv_values
+env_vars = dotenv_values(".env")
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
-DEBUG = True
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = env_vars['DEBUG']
 
 ALLOWED_HOSTS = ['*']
 
@@ -80,12 +88,14 @@ WSGI_APPLICATION = "labsoft.wsgi.application"
 # }
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'PRAVATI INTERNATIONAL',
-        'USER': 'postgres',
-        'PASSWORD': '12345',
-        'HOST': 'localhost',  
+
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": env_vars["DB_NAME"],
+        "USER": env_vars["DB_USER"],
+        "PASSWORD": env_vars["DB_PASSWORD"],
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
 
@@ -113,13 +123,11 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-PRODUCTION = str(os.getenv('PRODUCTION'))
 
-if PRODUCTION == 'True':
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-else:
-    pass
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
