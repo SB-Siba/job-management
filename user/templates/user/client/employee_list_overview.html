@@ -53,21 +53,29 @@
                         <th>Salary</th>
                         <th>Period Start</th>
                         <th>Period End</th>
-                        <th>Date Assigned to Client</th>  <!-- New date field -->
+                        <th>Date Assigned to Client</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                   {% for assignment in employees %}
                       <tr>
-                          <td>{{ assignment.employee.user.full_name }}</td> <!-- Access employee details -->
+                          <td>{{ assignment.employee.user.full_name }}</td>
                           <td>{{ assignment.employee.salary }}</td>
                           <td>{{ assignment.employee.period_start }}</td>
                           <td>{{ assignment.employee.period_end }}</td>
-                          <td>{{ assignment.assigned_at }}</td> <!-- Use the field that stores the date of assignment -->
+                          <td>{{ assignment.assigned_at }}</td>
                           <td>
-                              <a href="{% url 'user:replace_employee' assignment.id %}" class="btn">Request Replacement</a>
-                          </td>
+                            <!-- Replace Employee Button -->
+                            <form method="post" action="{% url 'user:replace_employee' assignment.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="employee_email" value="{{ assignment.employee.user.email }}">
+                                <button type="submit" class="btn">
+                                    Request Replacement
+                                </button>
+                            </form>
+                        </td>
+                        
                       </tr>
                   {% empty %}
                       <tr>

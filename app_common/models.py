@@ -227,12 +227,12 @@ class EditUser(models.Model):
     def __str__(self):
         return self.user.email
 class EmployeeReplacementRequest(models.Model):
-    client_email = models.EmailField()
+    client_email = models.ForeignKey(User,on_delete=models.CASCADE)
     current_employee = models.EmailField()
     new_employee_name = models.CharField(max_length=255)
     new_employee_email = models.EmailField()
     new_employee_phone = models.CharField(max_length=20)
-    status = models.CharField(max_length=20, default='Pending')  # Status field to track the request status
+    status = models.CharField(max_length=20, default='Pending')
 
     def __str__(self):
         return f"Request from {self.client_email} to replace {self.current_employee}"

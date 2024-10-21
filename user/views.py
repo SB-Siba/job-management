@@ -495,40 +495,44 @@ class ClientJobList(View):
         return render(request, self.template_name, context)
 
 class ReplaceEmployeeView(View):
-    template_name = app +'client/replace_employee.html'
+    template_name = app + 'client/replace_employee.html'
     form_class = ReplaceEmployeeForm
 
     def get_object(self):
-        application_id = self.kwargs.get('application_id')
-        return get_object_or_404(Application, id=application_id)
+        clientemployee_id = self.kwargs.get('clientemployee_id')
+        return get_object_or_404(ClientEmployee, id=clientemployee_id)
 
-    def get(self, request, application_id):
-        application = self.get_object()
-        form = self.form_class(initial={
-            'application_id': application.id,
-            'email': application.user.email,
+    def get(self, request, clientemployee_id):
+        clientemployee = self.get_object()
+        
+        # Pass the employee instance to the form
+        form = self.form_class(employee=clientemployee.employee)
+        
+        return render(request, self.template_name, {
+            'form': form, 
+            'clientemployee': clientemployee
         })
-        return render(request, self.template_name, {'form': form, 'application': application})
 
-    def post(self, request, application_id):
-        application = self.get_object()
+    def post(self, request, clientemployee_id):
+        clientemployee = self.get_object()
         form = self.form_class(request.POST)
+        
         if form.is_valid():
-            # Create a new EmployeeReplacementRequest with form data
+            # Get client email and current employee email
+            client_email = clientemployee.client.email  # Client's email from the client field (User model)
+            current_employee_email = clientemployee.employee.user.email  # Employee's email from the employee's user field
+
+            # Process form and create EmployeeReplacementRequest
             EmployeeReplacementRequest.objects.create(
-                client_email=form.cleaned_data['email'],
-                current_employee=application.user.email,
+                client_email=clientemployee.client,  # Save the client (User instance) associated with this request
+                current_employee=current_employee_email,  # The current employee's email
                 new_employee_name=form.cleaned_data['new_employee_name'],
                 new_employee_email=form.cleaned_data['new_employee_email'],
                 new_employee_phone=form.cleaned_data['new_employee_phone'],
             )
-            return redirect(reverse_lazy('user:home'))  # Redirect after successful submission
-        else:
-            return self.form_invalid(form)
-
-    def form_invalid(self, form):
-        application = self.get_object()
-        return render(self.request, self.template_name, {'form': form, 'application': application})
+            return redirect(reverse_lazy('user:home'))
+        
+        return render(request, self.template_name, {'form': form, 'clientemployee': clientemployee})
     
 class JobDetail(View):
     template_name = 'user/client/job_detail.html'

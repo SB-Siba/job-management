@@ -30,7 +30,7 @@
         <tbody>
             {% for request in requests %}
             <tr>
-                <td>{{ request.client_email }}</td>
+                <td>{{ request.client_email.email }}</td>
                 <td>{{ request.current_employee }}</td>
                 <td>{{ request.new_employee_name }}</td>
                 <td>{{ request.new_employee_email }}</td>

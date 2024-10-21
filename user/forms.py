@@ -160,11 +160,28 @@ class ApplicationStatusForm(forms.ModelForm):
         fields = ['status']
 
 class ReplaceEmployeeForm(forms.Form):
-    application_id = forms.IntegerField(widget=forms.HiddenInput())
-    email = forms.EmailField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    email = forms.EmailField(widget=forms.TextInput)
     new_employee_name = forms.CharField(max_length=100, required=True)
     new_employee_email = forms.EmailField(required=True)
     new_employee_phone = forms.CharField(max_length=10, min_length=10, required=True)
+
+    def __init__(self, *args, **kwargs):
+        # Extract employee information if passed
+        employee = kwargs.pop('employee', None)
+        super(ReplaceEmployeeForm, self).__init__(*args, **kwargs)
+
+        # If employee is provided, pre-fill the email and make it readonly
+        if employee:
+            self.fields['email'].initial = employee.user.email  # Set the employee's email
+            self.fields['email'].widget.attrs['readonly'] = True  # Make the field readonly
+            self.fields['email'].widget.attrs['class'] = 'form-control'  # Add class
+            self.fields['email'].widget.attrs['placeholder'] = 'Employee Email'  # Placeholder
+
+        # Add custom attributes to the other form fields
+        self.fields['email'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Enter current employees email'})
+        self.fields['new_employee_name'].widget.attrs.update({'class': 'form-control', 'placeholder': 'New Employee Name'})
+        self.fields['new_employee_email'].widget.attrs.update({'class': 'form-control', 'placeholder': 'New Employee Email'})
+        self.fields['new_employee_phone'].widget.attrs.update({'class': 'form-control', 'placeholder': 'New Employee Phone Number'})
 
     def clean_new_employee_phone(self):
         phone = self.cleaned_data.get('new_employee_phone')
@@ -173,3 +190,4 @@ class ReplaceEmployeeForm(forms.Form):
         if len(phone) != 10:
             raise forms.ValidationError("Phone number must be exactly 10 digits.")
         return phone
+

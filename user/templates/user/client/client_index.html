@@ -35,22 +35,33 @@
     .employeeCard {
         width: 100%;
         height: auto;
-        background: linear-gradient(to right, rgb(137, 104, 255), rgb(175, 152, 255));
+        background: linear-gradient(to right, rgba(137, 104, 255, 0.9), rgba(175, 152, 255, 0.9));
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center; /* Center items */
         justify-content: center;
-        gap: 20px;
-        padding: 20px;
+        gap: 10px;
+        padding: 30px; /* Increased padding for a spacious feel */
         position: relative;
         overflow: hidden;
         border-radius: 10px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    }
+    .employeeCard:hover {
+        transform: translateY(-5px); /* Slight lift on hover */
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
     }
     .employeeHeading {
         font-size: 1.5em;
         font-weight: 600;
         color: rgb(241, 241, 241);
+    }
+    .employeeCount {
+        font-size: 2em; /* Larger font for the count */
+        font-weight: 700;
+        color: rgb(255, 255, 255); /* White color for better visibility */
+        margin-top: 10px; /* Spacing above count */
     }
     .employeeDescription {
         font-size: 0.9em;
@@ -65,8 +76,9 @@
       <a class="nav-link font-bold" href="{% url 'user:employee_list_overview' %}" role="button" aria-expanded="false" aria-controls="employeeManagement" style="text-decoration: none;">
         <div class="employeeCard">
           <div class="employeeHeading">All Employees</div>
+          <div class="employeeCount">{{ all_employees }}</div> <!-- Display total number of employees -->
           <div class="employeeDescription">
-            <span>{{ all_employees }} <i class="fas fa-users"></i></span>
+            <span><i class="fas fa-users"></i></span>
           </div>
         </div>
       </a>
