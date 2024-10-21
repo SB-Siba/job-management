@@ -13,12 +13,12 @@ def super_admin_only(function):
           return function(request, *args, **kwargs)
       else:
         messages.error(request,"Only For Admin and Superuser !")
-        return redirect('app_common:login')
+        return redirect('user:login')
         
     else:
       #if not login
       messages.error(request,"Login Required !")
-      return redirect('app_common:login')
+      return redirect('user:login')
   return wrap
 
 def admin_only(function):
@@ -31,12 +31,12 @@ def admin_only(function):
           return function(request, *args, **kwargs)
       else:
         messages.error(request,"Only For Admin and Superuser !")
-        return redirect('app_common:login')
+        return redirect('user:login')
         
     else:
       #if not login
       messages.error(request,"Login Required !")
-      return redirect('app_common:login')
+      return redirect('user:login')
   return wrap
 
 def org_admin_only(function):
@@ -50,12 +50,12 @@ def org_admin_only(function):
           return function(request, *args, **kwargs)
       else:
         messages.error(request,"1. Access Denied or 2. Organization is inactive !")
-        return redirect('app_common:login')
+        return redirect('user:login')
         
     else:
       #if not login
       messages.error(request,"Login Required !")
-      return redirect('app_common:login')
+      return redirect('user:login')
   return wrap
 
 '''
@@ -69,6 +69,5 @@ def login_required(function):
       return function(request, *args, **kwargs)
     else:
       messages.error(request,"You are not login !")
-      return redirect('app_common:login')
+      return redirect('user:login')
   return wrap
-

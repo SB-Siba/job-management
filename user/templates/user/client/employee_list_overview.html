@@ -2,87 +2,91 @@
 
 {% block content %}
 
-
-    <style>
-        thead{
-          background-color: rgba(38,137,13,1);  
-          color: white;  
-          border: 1px solid rgb(255, 255, 255);;
-        }
-        .table-bordered {
-          border: 1px solid rgba(38,137,13,1);;
-        }
-        
-        table caption {
-            padding: .5em 0;
-        }
-        .btn {
-          padding: 10px;
-          margin: 10px;
-          border-radius: 10px;
-          box-shadow: 0px 0px 20px hsla(247, 88%, 70%, .3);
-          font-family: merriwether;
-          border-bottom: 1px solid black;
-      }
-      .btn:hover {
-          background-color: black;
-          color: white;
-      }
-        
-        @media screen and (max-width: 767px) {
-          table caption {
-            display: none;
-          }
-        }
-        
-        .p {
-          text-align: center;
-          padding-top: 140px;
-          font-size: 14px;
-        }
-  </style>    
-
+<style>
+    thead {
+        background-color: rgba(38,137,13,1);
+        color: white;
+        border: 1px solid rgb(255, 255, 255);
+    }
+    .table-bordered {
+        border: 1px solid rgba(38,137,13,1);
+    }
     
+    table caption {
+        padding: .5em 0;
+    }
+    .btn {
+        padding: 10px;
+        margin: 10px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px hsla(247, 88%, 70%, .3);
+        font-family: merriwether;
+        border-bottom: 1px solid black;
+    }
+    .btn:hover {
+        background-color: black;
+        color: white;
+    }
+    
+    @media screen and (max-width: 767px) {
+        table caption {
+            display: none;
+        }
+    }
+    
+    .p {
+        text-align: center;
+        padding-top: 140px;
+        font-size: 14px;
+    }
+</style>
 
-    <div class="container">
-        <div class="row">
-          <h1 class="text-center pb-4">All Employes {{ job.title }}</h1>
-          <div class="col-xs-12">
+<div class="container">
+    <div class="row">
+      <h1 class="text-center pb-4">All Employees Assigned to {{ client.full_name }}</h1>
+        <div class="col-xs-12">
             <div class="table-responsive" data-pattern="priority-columns">
-              <table summary="This table shows how to create responsive tables using RWD-Table-Patterns' functionality" class="table table-bordered table-hover">
-                
-                <thead>
+                <table class="table table-bordered table-hover">
+                  <thead>
                     <tr>
                         <th>User Full Name</th>
-                        <th>Employer</th>
                         <th>Salary</th>
                         <th>Period Start</th>
                         <th>Period End</th>
-                        
+                        <th>Date Assigned to Client</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for employee in employees %}
-                        <tr>
-                            <td>{{ employee.user.full_name }}</td>
-                            <td>{{ employee.employer.full_name }}</td>
-                            <td>{{ employee.salary }}</td>
-                            <td>{{ employee.period_start }}</td>
-                            <td>{{ employee.period_end }}</td>
-                           
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td colspan="5">No employees found for this job.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
+                  {% for assignment in employees %}
+                      <tr>
+                          <td>{{ assignment.employee.user.full_name }}</td>
+                          <td>{{ assignment.employee.salary }}</td>
+                          <td>{{ assignment.employee.period_start }}</td>
+                          <td>{{ assignment.employee.period_end }}</td>
+                          <td>{{ assignment.assigned_at }}</td>
+                          <td>
+                            <!-- Replace Employee Button -->
+                            <form method="post" action="{% url 'user:replace_employee' assignment.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="employee_email" value="{{ assignment.employee.user.email }}">
+                                <button type="submit" class="btn">
+                                    Request Replacement
+                                </button>
+                            </form>
+                        </td>
+                        
+                      </tr>
+                  {% empty %}
+                      <tr>
+                          <td colspan="6">No employees found for this client.</td>
+                      </tr>
+                  {% endfor %}
+              </tbody>                            
+                </table>
             </div>
-            <a href="{% url 'user:client_job_list' %}" class="btn">Back to Job List</a>
-          </div>
         </div>
-      </div>
+    </div>
+</div>
 
-    
 {% endblock %}

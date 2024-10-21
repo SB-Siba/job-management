@@ -1,5 +1,5 @@
-{% extends 'user/client/client_stater.html' %} 
-{% load static %} 
+{% extends 'user/client/client_stater.html' %}
+{% load static %}
 {% block content %}
 
 <style>
@@ -9,45 +9,80 @@
         padding: 10px;
         margin-bottom: 10px; /* Adds spacing between boxes */
         border-radius: 15px;
+        transition: transform 0.2s ease; /* For hover effect */
     }
-    .openings:hover
-    {
-        color:rgb(4, 197, 4) ;
+    .openings:hover {
+        transform: scale(1.05); /* Slight zoom effect on hover */
+        color: rgb(4, 197, 4);
     }
 
     .row {
         display: flex;
         flex-wrap: wrap;
         padding: 20px;
+        gap: 20px; /* Added gap between flex items */
     }
-    .text-center
-    {
+
+    .text-center {
         padding-left: 20px;
         padding-right: 20px;
     }
+
+    /* Styling for employee cards */
+    .custom-card-width {
+        width: 31.5%;
+    }
+    .employeeCard {
+        width: 100%;
+        height: auto;
+        background: linear-gradient(to right, rgba(137, 104, 255, 0.9), rgba(175, 152, 255, 0.9));
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center items */
+        justify-content: center;
+        gap: 10px;
+        padding: 30px; /* Increased padding for a spacious feel */
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    }
+    .employeeCard:hover {
+        transform: translateY(-5px); /* Slight lift on hover */
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+    }
+    .employeeHeading {
+        font-size: 1.5em;
+        font-weight: 600;
+        color: rgb(241, 241, 241);
+    }
+    .employeeCount {
+        font-size: 2em; /* Larger font for the count */
+        font-weight: 700;
+        color: rgb(255, 255, 255); /* White color for better visibility */
+        margin-top: 10px; /* Spacing above count */
+    }
+    .employeeDescription {
+        font-size: 0.9em;
+        color: rgb(241, 241, 241);
+    }
 </style>
 
-<div class="">
-  <h1 class="text-center py-4">Job openings</h1>
-  <div class="row">
-    {% for job in jobs %}
-    <div class="col-md-4 text-center">
-      <a href="{% url 'user:application_list' job.id %}">
-        <div class="openings">
-            {% if job.company_logo %}
-                                <img src="{{ job.company_logo.url }}" class="rounded-circle" style="width: 100px; height: 100px;">
-                                {% else %}
-                                No logo available
-                                {% endif %}
-                                <br>
-                                Job title:- {{ job.title }}
-                                <br>
-                                Category :- {{ job.category }}
+<!-- Employee Cards -->
+<div class="row justify-content-center">
+    <!-- All Employees Card -->
+    <div class="col-lg-4 col-md-4 mb-4 custom-card-width">
+      <a class="nav-link font-bold" href="{% url 'user:employee_list_overview' %}" role="button" aria-expanded="false" aria-controls="employeeManagement" style="text-decoration: none;">
+        <div class="employeeCard">
+          <div class="employeeHeading">All Employees</div>
+          <div class="employeeCount">{{ all_employees }}</div> <!-- Display total number of employees -->
+          <div class="employeeDescription">
+            <span><i class="fas fa-users"></i></span>
+          </div>
         </div>
       </a>
     </div>
-    {% endfor %}
-  </div>
 </div>
 
 {% endblock content %}

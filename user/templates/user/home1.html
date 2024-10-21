@@ -329,7 +329,11 @@ thead {
               <div class="px-4 py-3 border-bottom border-dark">
                   <h4 class="card-text"><b>Job Title :</b> {{ job.title }}</h4>
                   <h6 class="text-muted"><small>{{ job.category }}</small></h6>
-                  <p class="card-text"><b>Company Name :</b> {{ job.company_name }}</p>
+                  <p class="card-text">
+                    <b>Company Name :</b> 
+                    <img src="{{ job.company_logo.url }}" alt="Company Logo" style="width: 50px; height: auto; display: inline-block; vertical-align: middle;">
+                    {{ job.company_name }}
+                  </p>                
                   <p class="card-text"><b>Location :</b> {{ job.location }}</p>
                   <p class="card-text"><b>Job Type :</b> {{ job.job_type }}</p>
               </div>

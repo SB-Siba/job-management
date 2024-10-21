@@ -1,0 +1,119 @@
+{% extends 'admin_dashboard/starter.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .create_test {
+        width: 70%;
+        font-family: Merriweather;
+        padding: 40px;
+        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        border-radius: 15px !important;
+        background: transparent;
+    }
+
+    .gap-4 {
+        display: flex;
+        justify-content: center;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    .create_test form {
+        margin-top: 21px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2rem;
+    }
+
+    .submit-btn {
+        margin-top: 20px;
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .submit-btn:hover {
+        background-color: #0056b3;
+    }
+
+    .checkbox-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .checkbox-list li {
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="gap-4 py-5">
+    <div class="create_test">
+        <!-- Form for selecting client and employees -->
+        <form id="provide-employee-form" method="post">
+            {% csrf_token %}
+            {{ form.client.label_tag }} {{ form.client }}<br>
+            {{ form.employees.label_tag }}<br>
+            <ul class="checkbox-list">
+                <!-- Iterate over form.employees to display checkboxes -->
+                {% for checkbox in form.employees %}
+                    <li>{{ checkbox.tag }} {{ checkbox.choice_label }}</li>
+                {% endfor %}
+            </ul>
+            
+            <button type="submit" class="btn btn-primary">Assign Employees</button>
+        </form>
+        <a href="{% url 'admin_dashboard:provided_employee_list' %}">Back to Provided Employee List</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#provide-employee-form').on('submit', function(event) {
+            event.preventDefault();  // Prevent the default form submission
+
+            var form = $(this);
+            var formData = form.serialize();  // Serialize form data
+
+            $.ajax({
+                url: form.attr('action'),  // Submit to the form's action URL
+                type: form.attr('method'), // Get method (POST)
+                data: formData,
+                success: function(response) {
+                    // Remove assigned employees from the list
+                    var assignedEmployeeIds = response.assigned_employee_ids;
+                    $.each(assignedEmployeeIds, function(index, employeeId) {
+                        $('input[value="' + employeeId + '"]').closest('li').remove();  // Remove checkbox
+                    });
+
+                    alert('Employees successfully assigned!');
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors and display messages to the user
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.form_errors) {
+                        alert('Form errors occurred: ' + JSON.stringify(response.form_errors));
+                    } else {
+                        alert('An error occurred: ' + response.error);
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock content %}

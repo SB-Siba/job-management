@@ -1,0 +1,138 @@
+{% extends 'admin_dashboard/starter.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Add this in the head section of your base template -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<!-- Styles -->
+<style>
+    .table thead th {
+        font-size: 16px;
+        text-align: left;
+    }
+
+    .card-header:first-child {
+        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+        background-color: #f8f9fa;
+    }
+
+    tr:hover {
+        background-color: rgb(244, 212, 169);
+    }
+
+    .btn-close:hover {
+        background-color: #f0ad4e;
+    }
+
+    .modal-body h4 {
+        margin-bottom: 0;
+    }
+
+    .btn-square {
+        width: 35px;
+        height: 35px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-square i {
+        font-size: 1.25rem;
+    }
+
+    /* Small devices (landscape phones, less than 768px) */
+    @media (max-width: 767.98px) {
+        .table-responsive {
+            font-size: 14px;
+        }
+    }
+
+    /* Hover effect for action buttons */
+    .btn-square:hover {
+        opacity: 0.8;
+    }
+</style>
+
+<!-- Content -->
+<main class="py-6 bg-surface-secondary">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header border-bottom">
+                <h1 class="h2 ls-tight">Sector List</h1>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-nowrap">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Job Count</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if sector_product_count_zip %}
+                            {% for sector, job_count in sector_product_count_zip %}
+                            <tr id="sector-row-{{ sector.id }}">
+                                <td>
+                                    {{ sector.title }}
+                                </td>
+                                <td>{{ job_count }}</td>
+                                <td>
+                                    <!-- Edit Button -->
+                                    <a href="{% url 'admin_dashboard:sector_update' sector.id %}" class="btn btn-sm btn-square" style="background-color: #17a2b8; color: white;">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <!-- Delete Button -->
+                                    <a href="#" onclick="openDeleteModal('{% url 'admin_dashboard:sector_delete' sector.id %}'); return false;" class="btn btn-sm btn-square" style="background-color: #dc3545; color: white;">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr> 
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="3" class="text-center">No sectors available</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to delete this sector?</h4>
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="post" action="">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Modal -->
+<script>
+    function openDeleteModal(actionUrl) {
+        // Set form action URL dynamically
+        document.getElementById('deleteForm').action = actionUrl;
+        // Show the modal
+        var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        deleteModal.show();
+    }
+</script>
+
+{% endblock content %}

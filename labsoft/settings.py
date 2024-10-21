@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "app_common",
     "admin_dashboard",
     'user',
+    'bootstrap_datepicker_plus',
     "wati_api",
 ]
 
@@ -79,7 +80,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "labsoft.wsgi.application"
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
+
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": env_vars["DB_NAME"],

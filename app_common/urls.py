@@ -6,10 +6,7 @@ from .contact import contact
 app_name = 'app_common'
 
 urlpatterns = [
-    path('', views.Login.as_view(), name = "login"),
-    path('logout', views.Logout.as_view(), name = "logout"),
-    path('delete_account', views.DeleteAccount.as_view(), name='delete_account'),
-    path('privacy_policy', views.PrivacyPolicy.as_view(), name='privacy_policy'),
+   
 
 
     #authentication api

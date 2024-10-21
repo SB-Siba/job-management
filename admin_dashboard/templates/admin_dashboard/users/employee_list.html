@@ -1,11 +1,9 @@
 {% extends 'admin_dashboard/starter.html' %}
 {% load static %}
-
 {% block content %}
 
 <style>
-    .table thead th 
-    {
+    .table thead th {
         font-size: 18px;
         color: black;
     }
@@ -13,26 +11,19 @@
         --x-btn-bg:  #d9d9d9;
         border: none;
     }
-    .btn-info:hover
-    {
-      background-color: black;
-      color: white;
+    .btn-info:hover {
+        background-color: black;
+        color: white;
     }
-.table thead th
-{
-  font-size: 16px;
-}
-.card-header:first-child
-{
-  box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
-}
-tr:hover
-    {
+    .table thead th {
+        font-size: 16px;
+    }
+    .card-header:first-child {
+        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
+    }
+    tr:hover {
         background-color: rgb(244, 212, 169);
     }
-
-    /* Styles for icons */
-    
 </style>
 
 <main class="py-5 bg-surface-secondary">
@@ -47,10 +38,10 @@ tr:hover
                       <tr>
                           <th>ID</th>
                           <th>User</th>
-                          <th>Client</th>
                           <th>Salary</th>
                           <th>Period Start</th>
                           <th>Period End</th>
+                          <th>Sector</th>
                           <th>Actions</th>
                       </tr>
                   </thead>
@@ -59,10 +50,11 @@ tr:hover
                       <tr>
                           <td>{{ employee.id }}</td>
                           <td>{{ employee.user.full_name }}</td>
-                          <td>{{ employee.employer.full_name }}</td>
                           <td>{{ employee.salary }}</td>
                           <td>{{ employee.period_start }}</td>
                           <td>{{ employee.period_end }}</td>
+                          <td>{{ employee.sector }}</td>
+
                           <td>
                               <a href="{% url 'admin_dashboard:employee_detail' employee.id %}" class="btn btn-secondary" title="View Details">
                                   <i class="fa-solid fa-eye"></i>
