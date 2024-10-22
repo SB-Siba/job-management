@@ -31,6 +31,7 @@ class Category(models.Model):
         return self.title
     
 class Sector(models.Model):
+    
     title = models.CharField(max_length=255, unique=True, null=True, blank=True)
     description = models.TextField()
 
