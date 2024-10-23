@@ -27,23 +27,7 @@
                                 <h1 class="h2 ls-tight">Job List</h1>
                             </div>
                             <div class="d-flex flex-column flex-sm-row gap-3">
-                                <div class="hstack gap-2">
-                                    <div class="">
-                                        <form action="{% url 'admin_dashboard:job_list' %}" method="post">
-                                            {% csrf_token %}
-                                            <div class="hstack gap-2">
-                                                <select style="width: 6rem;" name="filter_by" class="form-select" aria-label="Default select example">
-                                                    <option selected value="uid">id</option>
-                                                    <option value="name">category</option>
-                                                </select>
-                                                <input type="text" name="query" placeholder="Search Here" class="form-control" required />
-                                                <button type="submit" class="btn btn-sm btn-neutral">
-                                                    <i class="fa-solid fa-magnifying-glass fa-beat-fade" style="color: #8c00ff;"></i>
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+                                <!-- Removed Search Form -->
                             </div>
                         </div>
                     </div>

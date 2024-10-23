@@ -438,8 +438,10 @@ class InvoiceDetailView(View):
         })
 
     def convert_to_words(self, amount):
-        # Convert numeric amount to words
-        return num2words(amount, to='currency', lang='en')
+        integer_amount = int(amount)
+        
+        return num2words(integer_amount, lang='en_IN').capitalize() + " rupees only"
+
 
 class InvoiceDeleteView(View):
     model = Invoice
