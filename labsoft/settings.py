@@ -44,9 +44,11 @@ INSTALLED_APPS = [
     'quotation',
     "app_common",
     "admin_dashboard",
+    "ckeditor_uploader",
     'user',
     'bootstrap_datepicker_plus',
     "wati_api",
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -131,6 +133,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# CKEditor settings
+CKEDITOR_UPLOAD_PATH = 'uploads/ckeditor/'  # Specify your upload path here
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

@@ -201,16 +201,23 @@
 					</li>
 				</ul>
 			</li>
-	
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link font-bold {% if request.resolver_match.url_name == 'all_contact_message' %}active{% endif %}" style="background:none" href="{% url 'admin_dashboard:all_contact_message' %}" role="button" aria-expanded="false" aria-controls="sidebar-projects">
+						<i class="lni lni-headphone"></i> Contact Message
+					</a>
+				</li>
+			</ul>
+			<ul class="side-menu">
+				<li class="sidebar-item">
+					<a data-bs-toggle="modal" data-bs-target="#logoutModal" class="logout">
+						<i class="lni  lni-exit"></i>
+						<span class="text">Logout</span>
+					</a>
+				</li>
+			</ul>
 		</ul>
-		<ul class="side-menu">
-			<li class="sidebar-item">
-				<a data-bs-toggle="modal" data-bs-target="#logoutModal" class="logout">
-					<i class="lni  lni-exit"></i>
-					<span class="text">Logout</span>
-				</a>
-			</li>
-		</ul>
+		
 	</section>
 	
 		

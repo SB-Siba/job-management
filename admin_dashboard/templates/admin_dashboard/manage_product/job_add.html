@@ -1,8 +1,8 @@
 {% extends 'admin_dashboard/starter.html' %}
 {% load static %}
+
 {% block content %}
 <style>
-  
     p {
         width: 100%;
         margin-top: 20px;
@@ -11,21 +11,23 @@
         padding: 10px;
         border-radius: 15px !important;
         display: flex;
-        
     }
+
     input, button, select, optgroup, textarea {
-       background: transparent;
+        background: transparent;
     }
-   
+
     .custom-card-header {
         background-color: white !important;
         box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
-        color:black !important;
+        color: black !important;
     }
+
     .custom-card-header h2 {
-        color:black  !important;
+        color: black !important;
     }
-    button{
+
+    button {
         margin-top: 10px;
         margin-bottom: 10px;
         box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
@@ -33,18 +35,19 @@
         padding: 13px;
         border-radius: 15px !important;
         font-size: 20px;
-        width: 100%;   
-    }
-    button:hover{
-       background-color: black;
-       color: white;   
-    }
-    .form-control
-    {
         width: 100%;
     }
-    textarea.form-control
-    {
+
+    button:hover {
+        background-color: black;
+        color: white;
+    }
+
+    .form-control {
+        width: 100%;
+    }
+
+    textarea.form-control {
         height: 150px;
     }
 </style>
@@ -58,7 +61,6 @@
                 </div>
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data" class="px-8">
-                        
                         {% csrf_token %}
                         {{ form.as_p }}
                         <button type="submit" class="px-4 btnn">Save</button>
@@ -68,21 +70,5 @@
         </div>
     </div>
 </div>
-{% block js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Check if the success message exists
-        var successMessage = document.getElementById('successMessage');
-        if (successMessage) {
-            // Show the success message
-            successMessage.style.display = 'block';
 
-            // Hide the success message after 2 seconds
-            setTimeout(function() {
-                successMessage.style.display = 'none';
-            }, 2000);
-        }
-    });
-</script>
-{% endblock js %}
 {% endblock content %}
