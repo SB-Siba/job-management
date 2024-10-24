@@ -7,6 +7,8 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .manager import MyAccountManager
 from django.db import models
 from django.utils import timezone
+from ckeditor.fields import RichTextField
+
 
 # Utility Functions
 def document_path(instance, filename):
@@ -98,7 +100,7 @@ class Job(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     sector = models.ForeignKey(Sector, on_delete=models.CASCADE, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    description = models.CharField(max_length=300, null=True, blank=True)
+    description = models.TextField()
     location = models.CharField(max_length=100, null=True, blank=True)
     posted_at = models.DateField(default=timezone.now)
     published_date = models.DateTimeField(default=timezone.now)

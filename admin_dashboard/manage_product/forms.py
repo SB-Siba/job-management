@@ -4,7 +4,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator, FileExt
 from django.forms.utils import ValidationError
 from django.forms.widgets import MultiWidget
 from django.core.validators import RegexValidator
-
+from ckeditor.widgets import CKEditorWidget
 from app_common import models as common_models
 
 class MaxFileSizeValidator:
@@ -43,16 +43,19 @@ class sectorEntryForm(forms.ModelForm):
     title.widget.attrs.update({'class': 'form-control','type':'text',"required":"required"})
     description = forms.CharField(required=False, widget=forms.Textarea(attrs={"class":"form-control","rows":"2"}))
     description.widget.attrs.update({'class': 'form-control','type':'text'})
-
 class JobForm(forms.ModelForm):
     class Meta:
         model = common_models.Job
-        fields = ['category', 'sector', 'title', 'description', 'location', 'company_name', 'company_website', 'company_logo', 'vacancies', 'posted_at', 'expiry_date', 'job_type', 'status']
+        fields = [
+            'category', 'sector', 'title', 'description', 'location',
+            'company_name', 'company_website', 'company_logo',
+            'vacancies', 'posted_at', 'expiry_date', 'job_type', 'status'
+        ]
         widgets = {
             'category': forms.Select(attrs={'class': 'form-control'}),
             'sector': forms.Select(attrs={'class': 'form-control'}),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'description': CKEditorWidget(attrs={'class': 'form-control', 'placeholder': 'Enter description'}),
             'location': forms.TextInput(attrs={'class': 'form-control'}),
             'company_name': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
             'company_website': forms.URLInput(attrs={'class': 'form-control'}),
@@ -74,7 +77,7 @@ class JobForm(forms.ModelForm):
         self.fields['company_name'].widget.attrs['readonly'] = True
 
         if self.user and not self.user.is_superuser:
-            self.fields.pop('status')  # Removing status for non-superuser
+            self.fields.pop('status')
 
 def validate_contact(value):
     if len(str(value)) != 10 or not str(value).isdigit():
