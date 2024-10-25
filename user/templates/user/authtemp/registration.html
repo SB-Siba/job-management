@@ -192,13 +192,6 @@
     <h1 class="ls-tight font-bolder h2 text-center">Register Here</h1>
     <div class="form-group mt-2">
         {% csrf_token %}
-        {% if messages %}
-            <div class="alert">
-                {% for message in messages %}
-                    {{ message }}<br>
-                {% endfor %}
-            </div>
-        {% endif %}
     </div>
     {% for field in form %}
         <div class="form-group">

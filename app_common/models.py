@@ -43,16 +43,21 @@ class Sector(models.Model):
 class User(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(unique=True, null=True, blank=True)
-    password = models.TextField(null=True, blank=True)
-    contact = models.CharField(max_length=10, null=True, blank=True, validators=[RegexValidator(r'^\d{10}$')])
+    password = models.CharField(max_length=128, null=True, blank=True)  # Use CharField for hashed passwords
+    contact = models.CharField(
+        max_length=10,
+        unique=True,
+        null=True,
+        blank=True,
+        validators=[RegexValidator(r'^\d{10}$', message="Contact must be a 10-digit number")]
+    )
     resume = models.FileField(upload_to='user_resume/', null=True, blank=True)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_client = models.BooleanField(default=False)
-
-
+    
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["password"]
 
@@ -63,13 +68,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         return f'+91{self.contact}' if self.contact else 'No contact present'
 
     def get_token(self, *args, **kwargs):
-        self.token = generate_random_string()
+        self.token = generate_random_string()  # Ensure generate_random_string() is defined
         super().save(*args, **kwargs)
         return self.token
 
     def __str__(self):
-        return self.email
-
+        return self.email or "User without email"
+    
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_pic = models.ImageField(upload_to="user_profile_pic/", null=True, blank=True)
