@@ -89,8 +89,8 @@ class Registration(View):
 
         
 class Login(View):
-    model = models.User
-    template = app + "authtemp/login.html"
+    model = models.User  # This should refer to your custom User model
+    template = app + "authtemp/login.html"  # Replace 'app' with the actual app name if not defined
 
     def get(self, request):
         form = LoginForm()
@@ -101,35 +101,23 @@ class Login(View):
         if form.is_valid():
             identifier = form.cleaned_data.get('identifier')
             password = form.cleaned_data.get('password')
+            print(identifier,"____________________________------------")
+            # Authenticate user using custom backend that checks for both email and contact
+            authenticated_user = auth.authenticate(username=identifier, password=password)
+            print(authenticated_user, "+++++++++++++")  # This will log the authenticated user if successful
 
-            # Check if the identifier is an email or phone number
-            if '@' in identifier:
-                # If identifier contains '@', assume it's an email
-                try:
-                    user = self.model.objects.get(email=identifier)
-                except self.model.DoesNotExist:
-                    user = None
-            else:
-                # Otherwise, assume it's a phone number
-                try:
-                    user = self.model.objects.get(contact=identifier)
-                except self.model.DoesNotExist:
-                    user = None
-
-            # Authenticate user
-            if user is not None:
-                authenticated_user = auth.authenticate(username=user.email, password=password)
-                if authenticated_user is not None:
-                    auth.login(request, authenticated_user)
-                    if user.is_superuser:
-                        return redirect('admin_dashboard:admin_dashboard')
-                    else:
-                        return redirect('user:home')
+            if authenticated_user:
+                auth.login(request, authenticated_user)
+                # Redirect based on user's status
+                if authenticated_user.is_superuser:
+                    return redirect('admin_dashboard:admin_dashboard')
                 else:
-                    messages.error(request, "Incorrect password.")
+                    return redirect('user:home')
             else:
-                messages.error(request, "No user found with that email or phone number.")
+                # Error message for failed login attempt
+                messages.error(request, "No user found with that email or phone number, or incorrect password.")
 
+        # Render the form with error message if login fails
         return render(request, self.template, {'form': form})
 
 

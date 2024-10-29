@@ -3,50 +3,61 @@
 {% block content %}
 
 <style>
-    .gap-4 
-    {
+    .gap-4 {
         display: flex;
         align-items: center;
+        justify-content: center; /* Centering content horizontally */
     }
-    .create_test
-    {
-        width: 60%;
+    .create_test {
+        width: 80%; /* Increased width for better layout */
+        max-width: 600px; /* Set a maximum width */
         background-color: white !important;
-        box-shadow: 0 2px 12px hsla(247, 88%, 70%, .3);
-        color:black !important;
-
+        box-shadow: 0 2px 12px hsla(247, 88%, 70%, 0.3);
+        border-radius: 8px; /* Adding rounded corners */
+        padding: 20px; /* Added padding for spacing */
+        color: black !important;
+        margin: auto; /* Center the card */
     }
-    textarea.form-control
-    {
+    textarea.form-control {
         min-height: 150px;
+        resize: none; /* Disable resizing */
     }
-    .btn
-    {
+    .btn {
         color: black;
         background-color: rgb(200, 200, 200);
-        border: 1px solid hsla(247, 88%, 70%, .3);
+        border: 1px solid hsla(247, 88%, 70%, 0.3);
+        border-radius: 5px; /* Adding rounded corners */
+        padding: 10px 20px; /* Added padding for better button size */
+        transition: background-color 0.3s ease; /* Smooth transition */
     }
-    .btn:hover
-    {
+    .btn:hover {
         color: white;
         background-color: black;
+        cursor: pointer; /* Change cursor on hover */
+    }
+    @media (max-width: 768px) {
+        .create_test {
+            width: 90%; /* Adjust width for smaller screens */
+        }
     }
 </style>
 
 <main class="py-5 bg-surface-secondary">
-
     <div class="container-fluid">
         <div class="vstack gap-4">
             <div class="card create_test">
+                <h2 class="text-center mb-4">Update Form</h2> <!-- Added heading -->
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{form.as_p}}
+                    {{ form.as_p }}
                     <br>
-                    <center><button type="submit" class="btn">Update</button></center>
+                    <div class="text-center"> <!-- Centering the button -->
+                        <button type="submit" class="btn">Update</button>
+                    </div>
                 </form>
-
             </div>
         </div>
     </div>
 </main>
+
 {% endblock content %}

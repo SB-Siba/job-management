@@ -76,6 +76,10 @@ class JobForm(forms.ModelForm):
         self.fields['company_name'].initial = 'PRAVATI INTERNATIONAL SERVICE'
         self.fields['company_name'].widget.attrs['readonly'] = True
 
+        # Set all fields to be required
+        for field in self.fields:
+            self.fields[field].required = True
+
         if self.user and not self.user.is_superuser:
             self.fields.pop('status')
 
