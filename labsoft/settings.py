@@ -20,6 +20,7 @@ ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = "app_common.User"
 AUTHENTICATION_BACKENDS = [
+    'app_common.backends.EmailOrContactBackend', 
     "django.contrib.auth.backends.ModelBackend",
 ]
 
@@ -90,14 +91,12 @@ WSGI_APPLICATION = "labsoft.wsgi.application"
 # }
 
 DATABASES = {
-
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env_vars["DB_NAME"],
-        "USER": env_vars["DB_USER"],
-        "PASSWORD": env_vars["DB_PASSWORD"],
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'PRAVATI_INTERNATIONAL',
+        'USER': 'postgres',
+        'PASSWORD': '12345',
+        'HOST': 'localhost',  
     }
 }
 
