@@ -5,7 +5,6 @@ from dotenv import dotenv_values
 env_vars = dotenv_values(".env")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 
@@ -91,12 +90,14 @@ WSGI_APPLICATION = "labsoft.wsgi.application"
 # }
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'PRAVATI_INTERNATIONAL',
-        'USER': 'postgres',
-        'PASSWORD': '12345',
-        'HOST': 'localhost',  
+
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": env_vars["DB_NAME"],
+        "USER": env_vars["DB_USER"],
+        "PASSWORD": env_vars["DB_PASSWORD"],
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
 
