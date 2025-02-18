@@ -55,7 +55,7 @@ class JobForm(forms.ModelForm):
             'category': forms.Select(attrs={'class': 'form-control'}),
             'sector': forms.Select(attrs={'class': 'form-control'}),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': CKEditorWidget(attrs={'class': 'form-control', 'placeholder': 'Enter description'}),
+            'description': forms.CharField(widget=CKEditorWidget(attrs={'class': 'form-control', 'placeholder': 'Enter content'})),
             'location': forms.TextInput(attrs={'class': 'form-control'}),
             'company_name': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
             'company_website': forms.URLInput(attrs={'class': 'form-control'}),

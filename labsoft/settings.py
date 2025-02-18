@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env_vars['DEBUG']
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['*']
 
@@ -90,14 +90,12 @@ WSGI_APPLICATION = "labsoft.wsgi.application"
 # }
 
 DATABASES = {
-
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env_vars["DB_NAME"],
-        "USER": env_vars["DB_USER"],
-        "PASSWORD": env_vars["DB_PASSWORD"],
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'pravati_international',
+        'USER': 'postgres',
+        'PASSWORD': '12345',
+        'HOST': 'localhost',  
     }
 }
 

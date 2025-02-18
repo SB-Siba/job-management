@@ -8,6 +8,7 @@ from .manager import MyAccountManager
 from django.db import models
 from django.utils import timezone
 from ckeditor.fields import RichTextField
+from helpers import utils
 
 
 # Utility Functions
@@ -105,7 +106,7 @@ class Job(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     sector = models.ForeignKey(Sector, on_delete=models.CASCADE, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    description = models.TextField()
+    description = RichTextField()
     location = models.CharField(max_length=100, null=True, blank=True)
     posted_at = models.DateField(default=timezone.now)
     published_date = models.DateTimeField(default=timezone.now)

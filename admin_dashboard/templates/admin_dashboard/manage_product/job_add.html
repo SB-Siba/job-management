@@ -60,9 +60,9 @@
                     <h2 class="text-center">Add Job</h2>
                 </div>
                 <div class="card-body">
-                    <form method="post" enctype="multipart/form-data" class="px-8">
+                    <form method="post" enctype="multipart/form-data" action="{% url 'admin_dashboard:job_add'}">
                         {% csrf_token %}
-                        {{ form.as_p }}
+                            {{ form.as_p }}
                         <button type="submit" class="px-4 btnn">Save</button>
                     </form>
                 </div>
@@ -70,5 +70,15 @@
         </div>
     </div>
 </div>
-
+<script src="https://cdn.ckeditor.com/ckeditor5/32.0.0/classic/ckeditor.js"></script>
+<script>
+    // Ensure CKEditor is initialized after the form is rendered
+    window.addEventListener('load', function () {
+        ClassicEditor
+            .create(document.querySelector('textarea[name="description"]')) 
+            .catch(error => {
+                console.error(error);
+            });
+    });
+</script>
 {% endblock content %}

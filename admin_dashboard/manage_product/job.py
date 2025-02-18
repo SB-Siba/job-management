@@ -327,21 +327,27 @@ class JobAdd(View):
 
     def get(self, request):
         form = forms.JobForm(user=request.user)
+        print("==============================")
         return render(request, self.template, {'form': form})
 
     def post(self, request):
+        print("POST data:", request.POST)
+        print("FILES data:", request.FILES) # Debugging
         form = forms.JobForm(request.POST, request.FILES, user=request.user)
+        
         if form.is_valid():
+            print("Form is valid")
             job = form.save(commit=False)
             if request.user.is_superuser:
                 job.sector = form.cleaned_data['sector']
-            if form.cleaned_data['status'] == 'published':
-                job.status = 'published'
-            else:
-                job.status = 'unpublished'
+            job.status = (
+                'published' if form.cleaned_data['status'] == 'published' else 'unpublished'
+            )
             job.save()
             messages.success(request, 'Job added successfully.')
             return redirect('admin_dashboard:job_list')
+        else:
+            print("Form errors:", form.errors)  # Debugging
         return render(request, self.template, {'form': form})
 
 @method_decorator(utils.super_admin_only, name='dispatch')
